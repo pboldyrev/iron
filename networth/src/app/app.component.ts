@@ -7,7 +7,7 @@ import { SidebarOption } from './shared/interfaces/interfaces';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'networth';
+  title = 'iron';
 
   public sidebarOptions: SidebarOption[] = [
     { icon: 'home', name: 'overview', link: '/' },
