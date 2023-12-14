@@ -1,0 +1,29 @@
+<div 
+    class="add-asset-option-wrapper"
+    [ngClass]="{
+        'add-asset-option-wrapper-primary': view === 'primary',
+        'add-asset-option-wrapper-secondary': view === 'secondary',
+        'add-asset-option-wrapper-disabled': disabled
+    }"
+    [matTooltip]="disabled ? TEXTS.TOOLTIP_DISABLED : TEXTS.TOOLTIP_EMPTY"
+>
+    <div 
+        class="add-asset-option-title"
+        [ngClass]="{
+            'add-asset-option-layout-top-title': layout === 'top',
+            'add-asset-option-layout-bottom-title': layout === 'bottom'
+        }"
+    >
+        <blu-text type="primary">{{ title }}</blu-text>
+    </div>
+    <div 
+        *ngIf="view === 'primary'"
+        class="add-asset-option-icon"
+        [ngClass]="{
+            'add-asset-option-layout-top-icon': layout === 'top',
+            'add-asset-option-layout-bottom-icon': layout === 'bottom'
+        }"
+    >
+        <blu-icon [name]="iconName" size="50"></blu-icon>
+    </div>
+</div>

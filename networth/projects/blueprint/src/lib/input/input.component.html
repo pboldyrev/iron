@@ -1,0 +1,19 @@
+<input
+  class="blu-input"
+  [ngClass]="{
+    'blu-input-fullwidth': fullWidth,
+    'blu-input-feedback-error': !(isValid$ | async) && feedbackType === 'error',
+    'blu-input-feedback-info': !(isValid$ | async) && feedbackType === 'info',
+    'blu-input-feedback-success':
+      !(isValid$ | async) && feedbackType === 'success'
+  }"
+  [type]="type"
+  [placeholder]="placeholder"
+  [disabled]="disabled"
+  (input)="updateValue($event)"
+/>
+<blu-validation-feedback *ngIf="!(isValid$ | async)" [type]="feedbackType">
+  <blu-text size="medium">
+    {{ FEEDBACK_STRINGS[feedbackType][type] }}
+  </blu-text>
+</blu-validation-feedback>

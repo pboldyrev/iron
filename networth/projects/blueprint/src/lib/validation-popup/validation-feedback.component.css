@@ -1,0 +1,31 @@
+.blu-validation-feedback {
+  width: var(--blu-width-full);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font: var(--blu-font-primary);
+  margin: var(--blu-margin-s) 0;
+  background-color: var(--blu-color-error-background);
+  padding: var(--blu-padding-s);
+  border-radius: var(--blu-radius-s);
+  box-sizing: border-box;
+}
+
+.blu-validation-feedback-icon {
+  margin-right: var(--blu-margin-s);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blu-validation-feedback-success {
+  color: var(--blu-color-success);
+}
+
+.blu-validation-feedback-error {
+  color: var(--blu-color-error);
+}
+
+.blu-validation-feedback-info {
+  color: var(--blu-color-info);
+}

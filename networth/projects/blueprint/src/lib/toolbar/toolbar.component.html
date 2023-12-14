@@ -1,0 +1,11 @@
+<div
+  class="blu-toolbar"
+  [ngClass]="{
+    'blu-toolbar-primary': type === 'primary',
+    'blu-toolbar-secondary': type === 'secondary'
+  }"
+>
+  <blu-heading
+    [type]="type === 'primary' ? 'secondary' : 'primary'"
+  ></blu-heading>
+</div>

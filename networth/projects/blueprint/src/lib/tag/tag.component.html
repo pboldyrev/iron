@@ -1,0 +1,12 @@
+<div
+  class="blu-tag"
+  [ngClass]="{
+    'blu-tag-success': type === 'success',
+    'blu-tag-error': type === 'error',
+    'blu-tag-info': type === 'info',
+  }"
+>
+  <ng-container>
+    <ng-content></ng-content>
+  </ng-container>
+</div>

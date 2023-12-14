@@ -1,0 +1,208 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$networth-primary: mat.define-palette(mat.$green-palette);
+$networth-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$networth-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$networth-theme: mat.define-dark-theme((
+  color: (
+    primary: $networth-primary,
+    accent: $networth-accent,
+    warn: $networth-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($networth-theme);
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+::selection {
+  background: var(--blu-background-tertiary);
+  color: var(--blu-color-secondary);
+}
+
+html {
+  background-color: var(--blu-background-primary);
+  font: var(--blu-font-primary);
+}
+
+:root {
+  // SPACE
+  --blu-space-xxs: 4px;
+  --blu-space-xs: 6px;
+  --blu-space-s: 12px;
+  --blu-space-m: 18px;
+  --blu-space-l: 30px;
+  --blu-space-xl: 60px;
+  --blu-space-xxl: 120px;
+  --blu-space-3xl: 240px;
+
+  // PADDING
+  --blu-padding-xxs: 2px;
+  --blu-padding-xs: 4px;
+  --blu-padding-s: 8px;
+  --blu-padding-m: 10px;
+  --blu-padding-l: 12px;
+  --blu-padding-xl: 18px;
+  --blu-padding-xxl: 24px;
+  --blu-padding-3xl: 32px;
+  --blu-padding-4xl: 48px;
+
+  // MARGIN
+  --blu-margin-xxs: 2px;
+  --blu-margin-xs: 4px;
+  --blu-margin-s: 8px;
+  --blu-margin-m: 10px;
+  --blu-margin-l: 12px;
+  --blu-margin-xl: 18px;
+  --blu-margin-xxl: 24px;
+  --blu-margin-3xl: 32px;
+  --blu-margin-4xl: 48px;
+
+  // RADIUS
+  --blu-radius-none: 0px;
+  --blu-radius-xs: 2px;
+  --blu-radius-s: 4px;
+  --blu-radius-m: 8px;
+  --blu-radius-l: 10px;
+  --blu-radius-xl: 14px;
+  --blu-radius-xxl: 24px;
+  --blu-radius-round: 100%;
+
+  // WIDTH
+  --blu-width-none: 0px;
+  --blu-width-full: 100%;
+  --blu-width-xs: 24px;
+  --blu-width-s: 32px;
+  --blu-width-m: 42px;
+  --blu-width-l: 84px;
+  --blu-width-xl: 128px;
+  --blu-width-xxl: 224px;
+  --blu-width-3xl: 384px;
+  --blu-width-4xl: 512px;
+  --blu-width-5xl: 1024px;
+  --blu-width-6xl: 1536px;
+
+  // HEIGHT
+  --blu-height-none: 0px;
+  --blu-height-full: 100%;
+  --blu-height-xs: 24px;
+  --blu-height-s: 32px;
+  --blu-height-m: 42px;
+  --blu-height-l: 64px;
+  --blu-height-xl: 128px;
+  --blu-height-xxl: 224px;
+  --blu-height-3xl: 384px;
+  --blu-height-4xl: 512px;
+  --blu-height-5xl: 1024px;
+  --blu-height-6xl: 1536px;
+
+  // COLOR
+  --blu-color-primary: #eaeaea;
+  --blu-color-secondary: #d2d2d2;
+  --blu-color-tertiary: #aaaaaa;
+
+  --blu-color-brand: #095d3b;
+
+  --blu-color-primary-hover: #222222;
+  --blu-color-secondary-hover: #d4d3d3;
+  --blu-color-tertiary-hover: #fafafa;
+
+  --blu-color-success: #40845e;
+  --blu-color-success-background: #1b3c1b;
+  --blu-color-info: #4676d6;
+  --blu-color-info-background: #1b2a3c;
+  --blu-color-error: #c43528;
+  --blu-color-error-background: #3c1b1b;
+
+  --blu-color-text-primary: var(--blu-color-primary);
+  --blu-color-text-secondary: #747474;
+
+  --blu-background-primary: #131313;
+  --blu-background-secondary: #1E1F20;
+  --blu-background-tertiary: #2e2f31;
+
+  // BORDERS
+  --blu-border-primary: 1px solid var(--blu-background-secondary);
+  --blu-border-secondary: 1px solid var(--blu-background-tertiary);
+  --blu-border-tertiary: 1px solid var(--blu-color-tertiary);
+
+  --blu-border-primary-hover: 1px solid var(--blu-color-primary-hover);
+  --blu-border-secondary-hover: 1px solid var(--blu-color-secondary-hover);
+  --blu-border-tertiary-hover: 1px solid var(--blu-color-tertiary-hover);
+
+  --blu-border-success: 1px solid var(--blu-color-success);
+  --blu-border-error: 1px solid var(--blu-color-error);
+  --blu-border-info: 1px solid var(--blu-color-info);
+
+  // FONT WEIGHT
+  --blu-font-weight-bold: 700;
+  --blu-font-weight-normal: 300;
+
+  // FONT SIZE
+  --blu-font-size-xs: 0.7em;
+  --blu-font-size-s: 0.85em;
+  --blu-font-size-m: 1em;
+  --blu-font-size-l: 1.2em;
+  --blu-font-size-xl: 1.5em;
+
+  --blu-font-size-heading-xs: 1.5em;
+  --blu-font-size-heading-s: 1.8em;
+  --blu-font-size-heading-m: 2em;
+  --blu-font-size-heading-l: 2.2em;
+  --blu-font-size-heading-xl: 2.5em;
+
+  // LINE HEIGHT
+  --blu-line-height-xs: 0.8em;
+  --blu-line-height-s: 1.1em;
+  --blu-line-height-m: 1.3em;
+  --blu-line-height-l: 1.5em;
+  --blu-line-height-xl: 1.8em;
+
+  // FONT
+  --blu-font-primary: normal var(--blu-font-weight-normal)
+      var(--blu-font-size-m) 'Inter',
+    sans-serif;
+  --blu-font-heading: normal var(--blu-font-weight-normal)
+      var(--blu-font-size-heading-m) 'Inter',
+    sans-serif;
+
+  --mat-table-background-color: none;
+
+  .row {
+    --bs-gutter-x: 0px;
+    --bs-gutter-y: 0px;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+      /* display: none; <- Crashes Chrome on hover */
+      -webkit-appearance: none;
+      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+
+  input[type=number] {
+      appearance: textfield; /* Firefox */
+  }
+}

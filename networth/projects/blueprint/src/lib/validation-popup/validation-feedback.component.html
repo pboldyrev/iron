@@ -1,0 +1,18 @@
+<div
+  class="blu-validation-feedback"
+  [ngClass]="{
+    'blu-validation-feedback-success': type === 'success',
+    'blu-validation-feedback-error': type === 'error',
+    'blu-validation-feedback-info': type === 'info'
+  }"
+>
+  <blu-icon
+    [name]="
+      type === 'success' ? 'check' : type === 'error' ? 'xCircle' : 'info'
+    "
+    class="blu-validation-feedback-icon"
+  ></blu-icon>
+  <blu-text [type]="type">
+    <ng-content></ng-content>
+  </blu-text>
+</div>

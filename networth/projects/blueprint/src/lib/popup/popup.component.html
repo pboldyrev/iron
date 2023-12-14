@@ -1,0 +1,32 @@
+<div
+  id="blu-popup"
+  class="blu-popup"
+  [ngClass]="{
+    'blu-popup-show': show | async
+  }"
+>
+  <div
+    class="blu-popup-content"
+    [ngClass]="{
+      'blu-popup-s': size === 'small',
+      'blu-popup-m': size === 'medium',
+      'blu-popup-l': size === 'large',
+      'blu-popup-xl': size === 'x-large',
+    }"
+  >
+    <div class="blu-popup-header">
+      <blu-heading [subheading]="subtitle" size="small" subheadingSize="medium">
+        {{ title }}
+      </blu-heading>
+      <blu-button
+        class="blu-popup-button"
+        type="none"
+        iconName="x"
+        [iconOnly]="true"
+        (click)="onClose()"
+      >
+      </blu-button>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

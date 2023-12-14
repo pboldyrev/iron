@@ -1,0 +1,17 @@
+<span
+  class="blu-text"
+  [ngClass]="{
+    'blu-text-s': size === 'small',
+    'blu-text-m': size === 'medium',
+    'blu-text-l': size === 'large',
+    'blu-text-primary': type === 'primary',
+    'blu-text-secondary': type === 'secondary',
+    'blu-text-error': type === 'error',
+    'blu-text-success': type === 'success',
+    'blu-text-info': type === 'info',
+    'blu-text-number': type === 'number',
+    'blu-text-bold': weight === 'bold'
+  }"
+>
+  <ng-content></ng-content>
+</span>

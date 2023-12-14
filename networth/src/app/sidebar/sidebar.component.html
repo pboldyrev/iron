@@ -1,0 +1,53 @@
+<app-confirmation-popup
+  [show$]="showSignOutModal$"
+  [title]="TEXTS.LOG_OUT_MODAL_TITLE"
+  [subtitle]="TEXTS.LOG_OUT_MODAL_SUBTITLE"
+  [confirmText]="TEXTS.CONFIRM_BTN"
+  size="medium"
+  (confirmed)="onLogOut()"
+></app-confirmation-popup>
+
+<div class="sidebar-content">
+  <div class="sidebar-title-wrapper">
+    <blu-heading size="small">
+      netfin
+    </blu-heading>
+  </div>
+    <ng-container>
+      <ng-container *ngFor="let option of options">
+        <div class="sidebar-option" 
+          [ngClass]="{
+            'sidebar-option-selected': '/' + option.name === router.url,
+            'sidebar-option-disabled': !this.authService.isLoggedIn()
+          }"
+          (click)="this.authService.isLoggedIn() ? onOptionClick(option) : null"
+        >
+          <blu-icon [name]="this.authService.isLoggedIn() ? option.icon : 'lock'"></blu-icon>
+          <span
+            class="sidebar-option-text"
+            >{{ option.name }}</span
+          >
+        </div>
+      </ng-container>
+      <div class="sidebar-option" *ngIf="authService.isLoggedIn()" (click)="onOpenModal()">
+        <blu-icon name="signOut"></blu-icon>
+        <span class="sidebar-option-text">
+          {{ TEXTS.LOG_OUT }}
+        </span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!authService.isLoggedIn()">
+      <div class="sidebar-option"
+      [ngClass]="{
+        'sidebar-option-selected':
+          '/login' === router.url || '/signup' === router.url
+      }" (click)="onLogIn()">
+        <blu-icon name="signIn"></blu-icon>
+        <span
+          class="sidebar-option-text"
+        >
+          {{ TEXTS.LOG_IN }}
+        </span>
+      </div>
+    </ng-container>
+</div>

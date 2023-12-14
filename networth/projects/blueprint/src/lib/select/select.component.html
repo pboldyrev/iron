@@ -1,0 +1,14 @@
+<select class="blu-select"
+    (change)="updateValue($event)"
+    [ngClass]="{
+        'blu-select-small': size === 'small',
+        'blu-select-medium': size === 'medium',
+        'blu-select-large': size === 'large',
+        'blu-select-primary': type === 'primary',
+        'blu-select-secondary': type === 'secondary',
+    }"
+>
+    <ng-container *ngFor="let option of options">
+        <option [value]="option.id" [selected]="option.selected">{{ option.text }}</option>
+    </ng-container>
+</select>

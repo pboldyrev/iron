@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
+        <div class="add-vehicle-wrapper">
+            <div *ngIf="!(showValueHistory$ | async) else valueHistory">
+                <blu-modal title="Vehicle details" subtitle="Fill out the fields below to add your asset.">
+                    <blu-text size="small" type="secondary">VIN</blu-text>
+                    <blu-input [fullWidth]="true" [disabled]="true" matTooltip="Tracking vehicle value by VIN will be added soon!"></blu-input>
+                    <div class="add-vehicle-break">
+                        <blu-text size="medium">
+                        or
+                        </blu-text>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="add-vehicle-input">
+                                <blu-text size="small" type="secondary">Vehicle make *</blu-text>
+                                <blu-select
+                                    [options]="vehicleMakes"
+                                    size="medium"
+                                    type="primary"
+                                    #vehicleMake
+                                ></blu-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="add-vehicle-input">
+                            <blu-text size="small" type="secondary">Model year *</blu-text>
+                                <blu-select
+                                    [options]="modelYears"
+                                    size="medium"
+                                    type="primary"
+                                    #modelYear
+                                ></blu-select>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="add-vehicle-input add-vehicle-input-second">
+                                <blu-text size="small" type="secondary">Model name *</blu-text>
+                                <blu-input 
+                                    [fullWidth]="true"
+                                    [feedbackType]="FeedbackType.ERROR" 
+                                    type="TEXT"
+                                    #modelName
+                                ></blu-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="add-vehicle-input">
+                            <blu-text size="small" type="secondary">Nickname</blu-text>
+                                <blu-input
+                                    [fullWidth]="true"
+                                    #nickname
+                                ></blu-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="add-vehicle-button">
+                                <blu-button [fullWidth]="true" type="secondary" (click)="onBack()">Back</blu-button>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="add-vehicle-button add-vehicle-input-second">
+                                <blu-button [fullWidth]="true" type="primary" (click)="onNext()">Next</blu-button>
+                            </div>
+                        </div>
+                    </div>
+                </blu-modal>
+            </div>
+            <ng-template #valueHistory>
+                <app-value-history></app-value-history>
+            </ng-template>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<blu-popup
+  [show]="showAddAsset$"
+  [title]="TEXTS.ADD_ASSET_TITLE"
+  size="large"
+>
+    <app-add-asset 
+        [userId]="userId"
+    ></app-add-asset>
+</blu-popup>
+<div class="row justify-content-center">
+    <div class="col-12 overview-wrapper">
+        <app-asset-table 
+            [showAddAsset$]="showAddAsset$" 
+        ></app-asset-table>
+    </div>
+</div>

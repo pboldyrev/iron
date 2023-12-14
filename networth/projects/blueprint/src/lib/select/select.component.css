@@ -1,0 +1,46 @@
+.blu-select {
+  background-color: var(--blu-background-primary);
+  color: var(--blu-color-primary);
+  font: var(--blu-font-primary);
+  font-size: var(--blu-font-size-xs);
+  border-radius: var(--blu-radius-none);
+  outline: none;
+  appearance: none;
+  width: fit-content;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  height: 100%;
+}
+
+.blu-select:hover {
+  background-color: var(--blu-background-secondary);
+  transition: 0.3s;
+}
+
+.blu-select-small {
+  font-size: var(--blu-font-size-xs);
+  padding: var(--blu-padding-s) var(--blu-padding-l);
+}
+
+.blu-select-medium {
+  font-size: var(--blu-font-size-m);
+  padding: var(--blu-padding-l);
+}
+
+.blu-select-large {
+  font-size: var(--blu-font-size-l);
+  padding: var(--blu-padding-l);
+}
+
+.blu-select-primary {
+  border: var(--blu-border-secondary);
+}
+
+.blu-select-secondary {
+  border: var(--blu-border-primary);
+}
+
+.blu-select::after {
+  outline: none;
+}

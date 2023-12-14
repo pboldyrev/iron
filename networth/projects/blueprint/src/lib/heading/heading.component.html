@@ -1,0 +1,23 @@
+<div class="blu-heading-wrapper">
+  <span
+    class="blu-heading"
+    [ngClass]="{
+      'blu-heading-s': size === 'small',
+      'blu-heading-m': size === 'medium',
+      'blu-heading-l': size === 'large'
+    }"
+  >
+    <ng-content></ng-content>
+  </span>
+  <blu-text
+    *ngIf="subheading"
+    class="blu-heading-sub" 
+    [ngClass]="{
+      'blu-heading-space-s': size === 'small',
+      'blu-heading-space-m': size === 'medium',
+      'blu-heading-space-l': size === 'large'
+    }"
+    [size]="subheadingSize">
+    {{ subheading }}
+  </blu-text>
+</div>

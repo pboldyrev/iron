@@ -1,0 +1,56 @@
+.add-asset-option-wrapper {
+    padding: var(--blu-padding-xl);
+    display: flex;
+    margin: var(--blu-margin-s);
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-asset-option-wrapper:hover {
+    transition: 0.3s;
+}
+
+.add-asset-option-wrapper-primary {
+    background-color: var(--blu-background-secondary);
+    border: var(--blu-border-secondary);
+    height: var(--blu-height-xl);
+}
+
+.add-asset-option-wrapper-primary:hover {
+    box-shadow: inset 0 -8em 0 0 var(--blu-color-brand);
+}
+
+.add-asset-option-wrapper-secondary {
+    background-color: var(--blu-background-primary);
+    border: var(--blu-border-primary);
+    height: var(--blu-height-l);
+}
+
+.add-asset-option-wrapper-secondary:hover {
+    background-color: var(--blu-background-secondary);
+}
+
+.add-asset-option-icon {
+    color: var(--blu-color-secondary);
+}
+
+.add-asset-option-layout-top-title {
+    align-self: flex-end;
+}
+
+.add-asset-option-layout-top-icon {
+    align-self: flex-start;
+}
+
+.add-asset-option-layout-bottom-title {
+    align-self: flex-start;
+}
+
+.add-asset-option-layout-bottom-icon {
+    align-self: flex-end;
+}
+
+.add-asset-option-wrapper-disabled {
+    cursor: not-allowed;
+}

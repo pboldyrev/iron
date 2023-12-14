@@ -1,0 +1,21 @@
+.blu-tag {
+  padding: 0 var(--blu-padding-s);
+  border-radius: var(--blu-radius-s);
+  display: flex;
+  align-items: center;
+}
+
+.blu-tag-success {
+  background-color: var(--blu-color-success-background);
+  color: var(--blu-color-success);
+}
+
+.blu-tag-error {
+  background-color: var(--blu-color-error-background);
+  color: var(--blu-color-error);
+}
+
+.blu-tag-info {
+  background-color: var(--blu-color-info-background);
+  color: var(--blu-color-info);
+}

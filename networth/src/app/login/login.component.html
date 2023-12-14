@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+<div class="col-md-8">
+<div class="login-wrapper">
+  <blu-modal
+    [title]="TEXTS.TITLE"
+    [subtitle]="TEXTS.SUBTITLE"
+  >
+  <div class="login-modal-content">
+    <blu-input
+      placeholder="Email *"
+      [fullWidth]="true"
+      [feedbackType]="FeedbackType.ERROR"
+      type="EMAIL"
+      (keydown.enter)='onSignIn()'
+      (click)="clearErrors()"
+      #emailInput
+    ></blu-input>
+    <blu-input
+      placeholder="Password *"
+      [fullWidth]="true"
+      [feedbackType]="FeedbackType.ERROR"
+      type="PASSWORD"
+      (keydown.enter)='onSignIn()'
+      (click)="clearErrors()"
+      #passwordInput
+    ></blu-input>
+    <blu-button type="primary" [fullWidth]="true" (click)="onSignIn()" (keydown.enter)='onSignIn()'>
+      <blu-spinner *ngIf="isSignInSubmitting$ | async"></blu-spinner>
+      {{ BTN_TEXTS.LOGIN }}
+    </blu-button>
+    <blu-validation-feedback
+    *ngIf="invalidLogin$ | async"
+    [type]="FeedbackType.ERROR"
+  >
+    {{ TEXTS.INVALID_CREDENTIALS }}
+  </blu-validation-feedback>
+  <blu-validation-feedback
+    *ngIf="unknownLoginError$ | async"
+    [type]="FeedbackType.ERROR"
+  >
+    {{ TEXTS.UNKNWON_LOGIN_ERROR }}
+  </blu-validation-feedback>
+    <div class="login-break">
+      <blu-text size="medium">
+        {{ TEXTS.OR }}
+      </blu-text>
+    </div>
+    <blu-button type="secondary" [fullWidth]="true" (click)="onSignUp()">
+      {{ BTN_TEXTS.SIGNUP }}
+    </blu-button>
+    <blu-text size="small" type="secondary" class="login-footer-text">{{
+      TEXTS.REQUIRED_FIELDS_NOTE
+    }}</blu-text>
+    </div>
+  </blu-modal>
+</div>
+</div>
+</div>

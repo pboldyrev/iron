@@ -1,0 +1,46 @@
+.blu-text {
+  font: var(--blu-font-primary);
+}
+
+.blu-text-bold {
+  font-weight: var(--blu-font-weight-bold);
+}
+
+.blu-text-s {
+  font-size: var(--blu-font-size-s);
+  line-height: var(--blu-line-height-s);
+}
+
+.blu-text-m {
+  font-size: var(--blu-font-size-m);
+  line-height: var(--blu-line-height-m);
+}
+
+.blu-text-l {
+  font-size: var(--blu-font-size-l);
+  line-height: var(--blu-line-height-l);
+}
+
+.blu-text-primary {
+  color: var(--blu-color-text-primary);
+}
+
+.blu-text-secondary {
+  color: var(--blu-color-text-secondary);
+}
+
+.blu-text-error {
+  color: var(--blu-color-error);
+}
+
+.blu-text-success {
+  color: var(--blu-color-success);
+}
+
+.blu-text-info {
+  color: var(--blu-color-info);
+}
+
+.blu-text-number {
+  font-family: "Roboto Mono";
+}

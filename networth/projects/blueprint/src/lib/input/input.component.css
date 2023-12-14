@@ -1,0 +1,38 @@
+.blu-input {
+  height: fit-content;
+  padding: var(--blu-padding-l);
+  font: var(--blu-font-primary);
+  border: var(--blu-border-secondary);
+  border-radius: var(--blu-radius-none);
+  transition: 0.3s;
+  box-sizing: border-box;
+  background-color: var(--blu-background-primary);
+  color: var(--blu-color-primary);
+}
+
+.blu-input:focus {
+  border: var(--blu-border-primary);
+  outline: none;
+  transition: 0.3s;
+}
+
+.blu-input:disabled {
+  cursor: not-allowed;
+  background-color: var(--blu-background-secondary);
+}
+
+.blu-input-feedback-success {
+  border: var(--blu-border-success);
+}
+
+.blu-input-feedback-error {
+  border: var(--blu-border-error);
+}
+
+.blu-input-feedback-info {
+  border: var(--blu-border-info);
+}
+
+.blu-input-fullwidth {
+  width: 100%;
+}

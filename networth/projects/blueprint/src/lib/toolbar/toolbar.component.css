@@ -1,0 +1,12 @@
+.blu-toolbar {
+  width: var(--blu-width-full);
+  background-color: var(--blu-background-dark);
+}
+
+.blu-toolbar-primary {
+  background-color: var(--blu-background-primary);
+}
+
+.blu-toolbar-inverse {
+  background-color: var(--blu-background-inverse);
+}

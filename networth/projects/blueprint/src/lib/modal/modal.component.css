@@ -1,0 +1,11 @@
+.modal-content {
+  padding: var(--blu-padding-4xl);
+  height: fit-content;
+  border: var(--blu-border-secondary);
+  border-radius: var(--blu-radius-none);
+}
+
+.modal-heading {
+  text-align: start;
+  margin-bottom: var(--blu-space-l);
+}

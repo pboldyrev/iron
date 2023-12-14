@@ -1,0 +1,36 @@
+.blu-toast {
+  visibility: visible;
+  min-width: 250px;
+  margin-left: -125px;
+  text-align: center;
+  position: fixed;
+  z-index: 999;
+  left: 50%;
+  bottom: 30px;
+  height: fit-content;
+  border: none;
+  border-radius: var(--blu-radius-s);
+  padding: var(--blu-padding-l) var(--blu-padding-xl);
+  font: var(--blu-font-primary);
+  display: flex;
+  align-items: center;
+}
+
+.blu-toast-icon {
+  margin-right: var(--blu-margin-xl);
+}
+
+.blu-toast-success {
+  color: var(--blu-color-success);
+  background-color: var(--blu-color-success-background);
+}
+
+.blu-toast-info {
+  color: var(--blu-color-info);
+  background-color: var(--blu-color-info-background);
+}
+
+.blu-toast-error {
+  color: var(--blu-color-error);
+  background-color: var(--blu-color-error-background);
+}
