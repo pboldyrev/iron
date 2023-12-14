@@ -11,4 +11,6 @@ export const TEXTS = {
     ARCHIVE_POPUP_TITLE_2: "?",
     ARCHIVE_POPUP_SUBTITLE: "This historical value of this asset will be preserved until it is permanently deleted from the settings page.",
     ARCHIVE_POPUP_CTA: "Yes, archive",
+    ENTRY_BUTTON_DETAILS: "Details",
+    ENTRY_BUTTON_ARCHIVE: "Archive",
 }

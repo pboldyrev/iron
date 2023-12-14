@@ -10,6 +10,7 @@
   [type]="type"
   [placeholder]="placeholder"
   [disabled]="disabled"
+  [value]="value$ | async"
   (input)="updateValue($event)"
 />
 <blu-validation-feedback *ngIf="!(isValid$ | async)" [type]="feedbackType">

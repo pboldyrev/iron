@@ -112,10 +112,6 @@
     margin-left: var(--blu-margin-xs);
 }
 
-mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
-    padding-left: 0px;
-}
-
 .mat-mdc-header-row {
     text-transform: uppercase;
     font: var(--blu-font-primary);

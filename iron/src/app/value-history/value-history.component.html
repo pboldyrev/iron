@@ -1,1 +1,71 @@
-<p>value-history works!</p>
+<blu-modal
+    [title]="TEXTS.MODAL_TITLE"
+    [subtitle]="TEXTS.MODAL_SUBTITLE"
+>
+    <div *ngIf="((entries$ | async) ?? []).length === 0 else entries">
+        <div class="value-history-no-entries">
+            <blu-text type="secondary" weight="bold">
+                {{ TEXTS.NO_ENTRIES }}
+            </blu-text>
+        </div>
+    </div>
+    <ng-template #entries>
+        <div *ngFor="let entry of (entries$ | async)">
+            <div class="row value-history-entry-wrapper">
+                <div class="col-6">
+                    <div class="value-history-entry value-history-row-input-left">
+                        <blu-text type="primary">{{ entry.date }}</blu-text>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="value-history-entry value-history-row-input-right">
+                        <blu-text type="primary">$ {{ entry.value }}</blu-text>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <div class="row">
+        <div class="col-6">
+            <div class="value-history-row-input-left">
+                <blu-input 
+                    [fullWidth]="true"
+                    [feedbackType]="FeedbackType.ERROR"
+                    placeholder="Date (mm/yy)" 
+                    type="TEXT"
+                    #date
+                    (keydown.enter)="onAddEntry()"
+                ></blu-input>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="value-history-row-input-right">
+                <blu-input 
+                    [fullWidth]="true" 
+                    [feedbackType]="FeedbackType.ERROR"
+                    placeholder="Value" 
+                    type="NUMBER"
+                    #value
+                    (keydown.enter)="onAddEntry()"
+                ></blu-input>
+            </div>
+        </div>
+    </div>
+    <div class="row value-history-row-wrapper">
+        <div class="col-12">
+            <blu-button type="secondary" [fullWidth]="true" iconName="plus" (click)="onAddEntry()">
+                {{ TEXTS.BUTTON_ADD_ROW }}
+            </blu-button>
+        </div>
+    </div>
+    <div class="row value-history-row-wrapper">
+        <div class="col-12">
+            <blu-button type="primary" [fullWidth]="true" (click)="onSaveAsset()">
+                {{ TEXTS.BUTTON_ADD_ASSET }}
+            </blu-button>
+            <blu-validation-feedback *ngIf="showAddOneError$ | async" [type]="FeedbackType.ERROR">
+                {{ TEXTS.FEEDBACK_NEED_ONE_VALUE }}
+            </blu-validation-feedback>
+        </div>
+    </div>
+</blu-modal>

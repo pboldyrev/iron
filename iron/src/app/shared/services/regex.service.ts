@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InputType } from '../interfaces/interfaces';
 import { REGEX } from '../constants/constants';
-import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 
 @Injectable({
   providedIn: 'root',

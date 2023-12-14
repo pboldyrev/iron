@@ -2,7 +2,7 @@ export const REGEX = {
   EMAIL: new RegExp(/^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+)+$/),
   PASSWORD: new RegExp('^.{8,}$'),
   TEXT: new RegExp('^.+$'),
-  NUMBER: new RegExp('^([0-9]*)$'),
+  NUMBER: new RegExp('^[0-9]+$'),
   NOT_REQUIRED: new RegExp(''),
 };
 

@@ -13,6 +13,8 @@ import { BehaviorSubject, combineLatest, take } from 'rxjs';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { VEHICLE_MAKES } from './add-vehicle.constants';
 import { ValueHistoryComponent } from '../value-history/value-history.component';
+import { TEXTS } from './add-vehicle.strings';
+import { ValueHistoryEntry } from '../value-history/value-history.constants';
 
 @Component({
   selector: 'app-add-vehicle',
@@ -25,13 +27,17 @@ export class AddVehicleComponent {
   @ViewChild('vehicleMake') vehicleMakeInput!: BluSelect;
   @ViewChild('modelYear') modelYearInput!: BluSelect;
   @ViewChild('modelName') modelNameInput!: BluInput;
+  @ViewChild('mileage') mileageInput!: BluInput;
   @ViewChild('nickname') nicknameInput!: BluInput;
   
+  public TEXTS = TEXTS;
   public FeedbackType = FeedbackType;
   public userId: string = this.authService.getCurrentUserId();
   public showValueHistory$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public modelYears: BluSelectOption[] = this.getModelYears();
   public vehicleMakes: BluSelectOption[] = this.getVehicleMakes();
+
+  private finalAssetName: string = "";
 
   constructor(
     private router: Router,
@@ -40,36 +46,43 @@ export class AddVehicleComponent {
     private authService: AuthService,
   ) {}
 
-  public onBack(): void {
+  public onClose(): void {
     this.location.back();
     this.showValueHistory$.next(false);
   }
 
   public onNext(): void {
     this.modelNameInput.validate();
+    this.mileageInput.validate();
 
     combineLatest([
       this.vehicleMakeInput.value$,
       this.modelYearInput.value$,
       this.modelNameInput.value$,
       this.modelNameInput.isValid$,
+      this.mileageInput.value$,
+      this.mileageInput.isValid$,
       this.nicknameInput.value$,
     ]).pipe(take(1)).subscribe(([
       make,
       modelYear,
       modelName,
       isModelNameValid,
+      mileage,
+      isMileageValid,
       nickname
     ]:[
       string,
       string,
       string,
       boolean,
+      string,
+      boolean,
       string
     ]) => {
       let finalName: string;
 
-      if(!isModelNameValid) {
+      if(!isModelNameValid || !isMileageValid) {
         return;
       }
 
@@ -79,13 +92,24 @@ export class AddVehicleComponent {
         finalName += ' (' + nickname + ')';
       }
 
-      this.dataService.addAsset$(this.userId, {
-        assetName: finalName,
-        numUnits: 1,
-        lastUpdated: 0,
-      }).subscribe();
+      this.finalAssetName = finalName;
+
       this.showValueHistory$.next(true);
     });
+  }
+
+  public onSaved(entries: ValueHistoryEntry[]) {
+    const currentValue = entries[0]?.value ?? 0;
+    const initValue = entries[entries.length -1]?.value ?? 0;
+
+    this.dataService.addAsset$(this.userId, {
+      assetName: this.finalAssetName,
+      curValue: currentValue,
+      initValue: initValue,
+      numUnits: 1,
+      lastUpdated: 0,
+    }).subscribe();
+    this.onClose();
   }
 
   private getModelYears(): BluSelectOption[] {
