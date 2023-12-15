@@ -2,14 +2,10 @@
     [title]="TEXTS.MODAL_TITLE"
     [subtitle]="TEXTS.MODAL_SUBTITLE"
 >
-    <div *ngIf="((entries$ | async) ?? []).length === 0 else entries">
-        <div class="value-history-no-entries">
-            <blu-text type="secondary" weight="bold">
-                {{ TEXTS.NO_ENTRIES }}
-            </blu-text>
-        </div>
+    <div *ngIf="isLoading else tableRows" class="value-history-loading">
+        <blu-spinner size="50"></blu-spinner>
     </div>
-    <ng-template #entries>
+    <ng-template #tableRows>
         <div *ngFor="let entry of (entries$ | async)">
             <div class="row value-history-entry-wrapper">
                 <div class="col-6">
@@ -24,15 +20,29 @@
                 </div>
             </div>
         </div>
-    </ng-template>
+        <div *ngFor="let entry of (newEntries$ | async)">
+            <div class="row value-history-entry-wrapper">
+                <div class="col-6">
+                    <div class="value-history-entry value-history-row-input-left">
+                        <blu-text type="primary">{{ entry.date }}</blu-text>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="value-history-entry value-history-row-input-right">
+                        <blu-text type="primary">$ {{ entry.value }}</blu-text>
+                    </div>
+                </div>
+            </div>
+        </div>
     <div class="row">
         <div class="col-6">
             <div class="value-history-row-input-left">
                 <blu-input 
                     [fullWidth]="true"
+                    appearance="cell"
                     [feedbackType]="FeedbackType.ERROR"
-                    placeholder="Date (mm/yy)" 
-                    type="TEXT"
+                    placeholder="Date (mm/yyyy)" 
+                    type="DATE"
                     #date
                     (keydown.enter)="onAddEntry()"
                 ></blu-input>
@@ -42,6 +52,7 @@
             <div class="value-history-row-input-right">
                 <blu-input 
                     [fullWidth]="true" 
+                    appearance="cell"
                     [feedbackType]="FeedbackType.ERROR"
                     placeholder="Value" 
                     type="NUMBER"
@@ -51,6 +62,7 @@
             </div>
         </div>
     </div>
+    </ng-template>
     <div class="row value-history-row-wrapper">
         <div class="col-12">
             <blu-button type="secondary" [fullWidth]="true" iconName="plus" (click)="onAddEntry()">
@@ -61,6 +73,9 @@
     <div class="row value-history-row-wrapper">
         <div class="col-12">
             <blu-button type="primary" [fullWidth]="true" (click)="onSaveAsset()">
+                <span *ngIf="isSaving" class="value-history-spinner-wrapper">
+                    <blu-spinner></blu-spinner>
+                </span>
                 {{ TEXTS.BUTTON_ADD_ASSET }}
             </blu-button>
             <blu-validation-feedback *ngIf="showAddOneError$ | async" [type]="FeedbackType.ERROR">

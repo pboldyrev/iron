@@ -30,6 +30,7 @@ export type BluIconName =
   | 'rocket'
   | 'banknote'
   | 'clock'
+  | 'spinner'
   | 'plus';
 
 export const BluToIconMap = {
@@ -51,5 +52,6 @@ export const BluToIconMap = {
   rocket: 'heroRocketLaunch',
   bank: 'heroBuildingLibrary',
   banknote: 'heroBanknotes',
+  spinner: 'octSync',
   clock: 'heroClock',
 };

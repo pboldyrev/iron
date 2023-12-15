@@ -34,7 +34,9 @@
       #passwordInput
     ></blu-input>
     <blu-button type="primary" [fullWidth]="true" (click)="onSignUp()" (keydown.enter)='onSignUp()'>
-      <blu-spinner *ngIf="isSignUpSubmitting$ | async"></blu-spinner>
+      <div class="signup-spinner-wrapper">
+        <blu-spinner *ngIf="isSignUpSubmitting$ | async"></blu-spinner>
+      </div>
       {{ BTN_TEXTS.SIGNUP }}
     </blu-button>
     <div class="signup-break">

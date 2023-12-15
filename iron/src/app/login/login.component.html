@@ -27,7 +27,9 @@
       #passwordInput
     ></blu-input>
     <blu-button type="primary" [fullWidth]="true" (click)="onSignIn()" (keydown.enter)='onSignIn()'>
-      <blu-spinner *ngIf="isSignInSubmitting$ | async"></blu-spinner>
+      <div class="login-spinner-wrapper">
+        <blu-spinner *ngIf="isSignInSubmitting$ | async"></blu-spinner>
+      </div>
       {{ BTN_TEXTS.LOGIN }}
     </blu-button>
     <blu-validation-feedback

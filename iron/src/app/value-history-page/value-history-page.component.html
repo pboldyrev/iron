@@ -1,0 +1,11 @@
+<div class="row justify-content-center">
+    <div class="col-sm-10 col-md-10 col-lg-8 col-xl-5">
+        <div class="value-history-page-wrapper justify-content-center">
+            <app-value-history
+                [userId]="userId"
+                [assetId]="assetId"
+                (savedData)="onSaved($event)"
+            ></app-value-history>
+        </div>
+    </div>
+</div>

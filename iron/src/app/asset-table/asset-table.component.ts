@@ -13,6 +13,7 @@ import { TEXTS } from './asset-table.strings';
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { TimeRangeSelectorComponent } from '../time-range-selector/time-range-selector.component';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asset-table',
@@ -49,6 +50,7 @@ export class AssetTableComponent {
 
   constructor(
     private dataService: DataService,
+    private router: Router,
   ){}
 
   ngOnInit() {
@@ -72,6 +74,10 @@ export class AssetTableComponent {
   public onArchiveAsset(asset: Asset): void {
     this.showArchivePopup$.next(true);
     this.assetToArchive = asset;
+  }
+
+  public onDetailsAsset(asset: Asset): void {
+    this.router.navigate(['/asset/' + asset.id + '/value-history']);
   }
 
   public onArchiveAssetConfirmed() {

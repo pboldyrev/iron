@@ -1,7 +1,7 @@
 <blu-label
   for="blu-input"
   [label]="label"
-  [required]="required"
+  [required]="required && appearance !== 'cell'"
 ></blu-label>
 <input
   id="blu-input"
@@ -11,7 +11,8 @@
     'blu-input-feedback-error': !(isValid$ | async) && feedbackType === 'error',
     'blu-input-feedback-info': !(isValid$ | async) && feedbackType === 'info',
     'blu-input-feedback-success':
-      !(isValid$ | async) && feedbackType === 'success'
+      !(isValid$ | async) && feedbackType === 'success',
+    'blu-input-cell': appearance === 'cell',
   }"
   [type]="(type === 'NUMBER' || type === 'INTEGER') ? 'TEXT' : type"
   [placeholder]="placeholder"

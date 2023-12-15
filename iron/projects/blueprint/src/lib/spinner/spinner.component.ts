@@ -1,17 +1,14 @@
-import { Component } from '@angular/core';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { octSync } from '@ng-icons/octicons';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { BluIcon } from '../icon/icon.component';
 
 @Component({
   selector: 'blu-spinner',
-  imports: [NgIconComponent],
+  imports: [CommonModule, BluIcon],
   standalone: true,
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.css'],
-  viewProviders: [
-    provideIcons({
-      octSync,
-    }),
-  ],
 })
-export class BluSpinner {}
+export class BluSpinner {
+  @Input() size: string = "16";
+}

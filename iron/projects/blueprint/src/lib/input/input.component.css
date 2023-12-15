@@ -36,3 +36,7 @@
 .blu-input-fullwidth {
   width: 100%;
 }
+
+.blu-input-cell {
+  background-color: var(--blu-background-tertiary);
+}

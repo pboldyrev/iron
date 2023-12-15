@@ -18,6 +18,7 @@ import {
   octLock,
   octGlobe,
   octRocket,
+  octSync,
 } from '@ng-icons/octicons';
 import {
   heroBuildingLibrary, 
@@ -60,7 +61,8 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroChevronUp,
       heroChevronDown,
       heroBanknotes,
-      heroClock
+      heroClock,
+      octSync,
     }),
   ],
 })

@@ -1,5 +1,6 @@
 .add-vehicle-wrapper {
-    margin: var(--blu-margin-4xl) 0;
+    margin: var(--blu-margin-4xl) auto;
+    max-width: var(--blu-width-5xl);
 }
 
 .add-vehicle-break {
@@ -11,6 +12,10 @@
 
 .add-vehicle-input {
     margin-bottom: var(--blu-margin-l);
+}
+
+.add-vehicle-spinner-wrapper {
+    margin-right: var(--blu-margin-s);
 }
 
 .add-vehicle-wrapper {

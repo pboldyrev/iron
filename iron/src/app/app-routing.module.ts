@@ -14,6 +14,7 @@ import { AddHysaComponent } from './add-hysa/add-hysa.component';
 import { AddCustomComponent } from './add-custom/add-custom.component';
 import { ValueHistoryComponent } from './value-history/value-history.component';
 import { hasAssetGuard } from './guards/has-asset.guard';
+import { ValueHistoryPageComponent } from './value-history-page/value-history-page.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'asset/:id/value-history',
-    component: ValueHistoryComponent,
+    component: ValueHistoryPageComponent,
     canActivate: [authenticatedGuard, hasAssetGuard],
   },
   {
