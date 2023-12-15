@@ -22,24 +22,19 @@ export class DataService {
     }
   }
 
-  public addAsset$(userId: string, asset: Asset): Observable<boolean> {
+  public addAsset$(userId: string, asset: Asset): Observable<string | undefined> {
     asset.id = uuid();
 
     if(!asset.accountName) {
       asset.accountName = "Other";
     }
 
-    return this.getUserAssets$(userId)
-    .pipe(
+    return this.getUserAssets$(userId).pipe(
       map((assets: Asset[]) => {
         assets.push(asset);
-        try {
-          localStorage.setItem("userAssets", JSON.stringify(assets));
-          this.dataChanged$.next(true);
-          return true;
-        } catch (error: any) {
-          return false;
-        }
+        localStorage.setItem("userAssets", JSON.stringify(assets));
+        this.dataChanged$.next(true);
+        return asset.id;
       })
     );
   }

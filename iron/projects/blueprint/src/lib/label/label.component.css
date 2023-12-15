@@ -1,0 +1,5 @@
+.blu-label {
+    font: var(--blu-font-primary);
+    color: var(--blu-color-text-secondary);
+    font-size: var(--blu-font-size-s);
+}

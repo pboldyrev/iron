@@ -1,4 +1,10 @@
+<blu-label
+  for="blu-input"
+  [label]="label"
+  [required]="required"
+></blu-label>
 <input
+  id="blu-input"
   class="blu-input"
   [ngClass]="{
     'blu-input-fullwidth': fullWidth,
@@ -7,7 +13,7 @@
     'blu-input-feedback-success':
       !(isValid$ | async) && feedbackType === 'success'
   }"
-  [type]="type"
+  [type]="(type === 'NUMBER' || type === 'INTEGER') ? 'TEXT' : type"
   [placeholder]="placeholder"
   [disabled]="disabled"
   [value]="value$ | async"

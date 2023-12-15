@@ -7,7 +7,8 @@
   >
   <div class="signup-modal-content">
     <blu-input
-      placeholder="First name *"
+      label="First name"
+      [required]="true"
       [fullWidth]="true"
       [feedbackType]="FeedbackType.ERROR"
       type="TEXT"
@@ -15,7 +16,8 @@
       #nameInput
     ></blu-input>
     <blu-input
-      placeholder="Email *"
+      label="Email"
+      [required]="true"
       [fullWidth]="true"
       [feedbackType]="FeedbackType.ERROR"
       type="EMAIL"
@@ -23,7 +25,8 @@
       #emailInput
     ></blu-input>
     <blu-input
-      placeholder="Password *"
+      label="Password"
+      [required]="true"
       [fullWidth]="true"
       [feedbackType]="FeedbackType.ERROR"
       type="PASSWORD"
@@ -44,9 +47,6 @@
         {{ BTN_TEXTS.LOGIN }}
       </span>
     </blu-button>
-      <blu-text size="small" type="secondary" class="signup-footer-text">{{
-        TEXTS.REQUIRED_FIELDS_NOTE
-      }}</blu-text>
     </div>
   </blu-modal>
 </div>

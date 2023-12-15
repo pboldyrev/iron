@@ -7,11 +7,12 @@ import { RegexService } from 'src/app/shared/services/regex.service';
 import { FeedbackType } from '../common/constants';
 import { BluText } from '../text/text.component';
 import { FEEDBACK_STRINGS } from 'src/app/shared/constants/strings';
+import { BluLabel } from '../label/label.component';
 
 @Component({
   selector: 'blu-input',
   standalone: true,
-  imports: [CommonModule, BluValidationFeedback, BluText],
+  imports: [CommonModule, BluValidationFeedback, BluText, BluLabel],
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.css'],
 })
@@ -20,8 +21,11 @@ export class BluInput {
   @Input() feedbackType!: FeedbackType;
 
   @Input() placeholder: string = '';
+  @Input() label: string = '';
   @Input() fullWidth: boolean = false;
   @Input() disabled: boolean = false;
+  @Input() currency: boolean = false;
+  @Input() required: boolean = true;
 
   public value$ = new BehaviorSubject<string>('');
   public isValid$ = new BehaviorSubject<boolean>(true);
@@ -35,6 +39,10 @@ export class BluInput {
 
   public validate(): void {
     this.value$.subscribe((value) => {
+      if(!this.required && (value === "" || !value)) {
+        this.isValid$.next(true);
+        return;
+      }
       this.isValid$.next(this.regexService.isValidString(value, this.type));
     });
   }

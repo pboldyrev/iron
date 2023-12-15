@@ -9,35 +9,39 @@ import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
 import { AuthService } from '../shared/services/auth.service';
-import { BehaviorSubject, combineLatest, take } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, filter, map, mergeMap, of, switchMap, take, tap } from 'rxjs';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { VEHICLE_MAKES } from './add-vehicle.constants';
 import { ValueHistoryComponent } from '../value-history/value-history.component';
 import { TEXTS } from './add-vehicle.strings';
-import { ValueHistoryEntry } from '../value-history/value-history.constants';
+import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
+
+export type VehicleAssetData = {
+  assetName: string
+} | null
 
 @Component({
   selector: 'app-add-vehicle',
   standalone: true,
-  imports: [CommonModule, BluModal, BluInput, BluText, MatTooltipModule, BluButton, BluSelect, ValueHistoryComponent],
+  imports: [CommonModule, BluModal, BluInput, BluText, MatTooltipModule, BluButton, BluSelect, ValueHistoryComponent, BluSpinner],
   templateUrl: './add-vehicle.component.html',
   styleUrl: './add-vehicle.component.scss'
 })
+
 export class AddVehicleComponent {
   @ViewChild('vehicleMake') vehicleMakeInput!: BluSelect;
   @ViewChild('modelYear') modelYearInput!: BluSelect;
   @ViewChild('modelName') modelNameInput!: BluInput;
-  @ViewChild('mileage') mileageInput!: BluInput;
+  @ViewChild('mileage') mileageInput!: BluSelect;
   @ViewChild('nickname') nicknameInput!: BluInput;
   
   public TEXTS = TEXTS;
   public FeedbackType = FeedbackType;
   public userId: string = this.authService.getCurrentUserId();
-  public showValueHistory$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public modelYears: BluSelectOption[] = this.getModelYears();
   public vehicleMakes: BluSelectOption[] = this.getVehicleMakes();
-
-  private finalAssetName: string = "";
+  public vehicleMileage: BluSelectOption[] = this.getVehicleMileages();
+  public isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -46,70 +50,82 @@ export class AddVehicleComponent {
     private authService: AuthService,
   ) {}
 
+  ngOnInit() {
+    
+  }
+
   public onClose(): void {
     this.location.back();
-    this.showValueHistory$.next(false);
   }
 
   public onNext(): void {
-    this.modelNameInput.validate();
+    this.isLoading = true;
+
+    this.vehicleMakeInput.validate();
+    this.modelYearInput.validate();
     this.mileageInput.validate();
+    this.modelNameInput.validate();
 
     combineLatest([
+      this.vehicleMakeInput.isValid$,
+      this.modelYearInput.isValid$,
+      this.mileageInput.isValid$,
+      this.modelNameInput.isValid$,
       this.vehicleMakeInput.value$,
       this.modelYearInput.value$,
-      this.modelNameInput.value$,
-      this.modelNameInput.isValid$,
       this.mileageInput.value$,
-      this.mileageInput.isValid$,
+      this.modelNameInput.value$,
       this.nicknameInput.value$,
-    ]).pipe(take(1)).subscribe(([
-      make,
-      modelYear,
-      modelName,
-      isModelNameValid,
-      mileage,
-      isMileageValid,
-      nickname
-    ]:[
-      string,
-      string,
-      string,
-      boolean,
-      string,
-      boolean,
-      string
-    ]) => {
-      let finalName: string;
+    ]).pipe(
+      take(1),
+      mergeMap(([
+        vehicleMakeInputValid, 
+        modelYearInputValid, 
+        mileageInputValid, 
+        modelNameInputValid, 
+        vehicleMakeInputValue, 
+        modelYearInputValue, 
+        mileageInputValue, 
+        modelNameInputValue, 
+        nicknameInputValue, 
+      ]) => {
+        if(
+          !vehicleMakeInputValid || 
+          !modelYearInputValid || 
+          !mileageInputValid || 
+          !modelNameInputValid
+        ) {
+          this.isLoading = false;
+          return "";
+        }
 
-      if(!isModelNameValid || !isMileageValid) {
-        return;
-      }
+        let finalName = this.getFinalName(modelNameInputValue, modelYearInputValue ?? "", vehicleMakeInputValue ?? "", nicknameInputValue);
 
-      finalName = modelYear + ' ' + make + ' ' + modelName;
-
-      if(nickname !== "") {
-        finalName += ' (' + nickname + ')';
-      }
-
-      this.finalAssetName = finalName;
-
-      this.showValueHistory$.next(true);
+        return this.dataService.addAsset$(this.userId, {
+          assetName: finalName,
+          numUnits: 1,
+          lastUpdated: 0,
+        });
+      }),
+      filter(assetId => assetId !== "")
+    ).subscribe((assetId: string | undefined) => {
+      this.router.navigate(['asset/' + assetId + '/value-history']);
     });
   }
 
-  public onSaved(entries: ValueHistoryEntry[]) {
-    const currentValue = entries[0]?.value ?? 0;
-    const initValue = entries[entries.length -1]?.value ?? 0;
+  private getFinalName(
+    modelName: string, 
+    modelYear: string,
+    make: string,
+    nickname: string
+  ): string {
+    let finalName = modelYear + ' ' + make + ' ' + modelName;
 
-    this.dataService.addAsset$(this.userId, {
-      assetName: this.finalAssetName,
-      curValue: currentValue,
-      initValue: initValue,
-      numUnits: 1,
-      lastUpdated: 0,
-    }).subscribe();
-    this.onClose();
+    if(nickname !== "") {
+      finalName += ' (' + nickname + ')';
+    }
+
+    return finalName;
   }
 
   private getModelYears(): BluSelectOption[] {
@@ -135,7 +151,26 @@ export class AddVehicleComponent {
         text: make,
       })
     });
-    listOfMakes[0].selected = true;
     return listOfMakes;
+  }
+
+  private getVehicleMileages(): BluSelectOption[] {
+    let listOfMileages: BluSelectOption[] = [];
+    listOfMileages.push({
+      id: "0",
+      text: "< 10,000 miles",
+    });
+    for(let i = 10000; i < 240000; i+=10000){
+      const mileage = i.toLocaleString();
+      listOfMileages.push({
+        id: mileage,
+        text: mileage + " miles",
+      })
+    }
+    listOfMileages.push({
+      id: "250000",
+      text: "> 250,000 miles"
+    });
+    return listOfMileages;
   }
 }
