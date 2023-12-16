@@ -32,6 +32,7 @@ export type BluIconName =
   | 'clock'
   | 'spinner'
   | 'trash'
+  | 'backArrow'
   | 'plus';
 
 export const BluToIconMap = {
@@ -56,4 +57,5 @@ export const BluToIconMap = {
   spinner: 'heroArrowPath',
   clock: 'heroClock',
   trash: 'heroTrash',
+  backArrow: 'heroArrowLeft',
 };

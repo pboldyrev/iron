@@ -29,6 +29,8 @@ export class ValueHistoryComponent {
   @Input() userId!: string;
   @Input() assetId!: string;
 
+  @Input() outline: boolean = false;
+
   @Output() savedData: Subject<AssetValue[]> = new Subject<AssetValue[]>();
 
   public FeedbackType = FeedbackType;

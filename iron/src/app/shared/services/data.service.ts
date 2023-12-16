@@ -18,7 +18,7 @@ export class DataService {
     if(assets){
       return of(JSON.parse(assets)).pipe(delay(500));
     } else {
-      return of([]);
+      return of([]).pipe(delay(500));
     }
   }
 
@@ -33,7 +33,8 @@ export class DataService {
           }
         });
         return matchedAsset;
-      })
+      }),
+      delay(500)
     );
   }
 
@@ -50,7 +51,8 @@ export class DataService {
         localStorage.setItem("userAssets", JSON.stringify(assets));
         this.dataChanged$.next(true);
         return asset.id;
-      })
+      }),
+      delay(500)
     );
   }
 
@@ -66,7 +68,8 @@ export class DataService {
         } catch (error: any) {
           return false;
         }
-      })
+      }),
+      delay(500)
     );
   }
 
@@ -85,7 +88,8 @@ export class DataService {
         });
         localStorage.setItem("userAssets", JSON.stringify(assets));
         this.dataChanged$.next(true);
-      })
+      }),
+      delay(500)
     )
   }
 
@@ -101,7 +105,8 @@ export class DataService {
         });
         localStorage.setItem("userAssets", JSON.stringify(assets));
         this.dataChanged$.next(true);
-      })
+      }),
+      delay(500)
     )
   }
 

@@ -1,6 +1,7 @@
 <blu-modal
     [title]="TEXTS.MODAL_TITLE"
     [subtitle]="TEXTS.MODAL_SUBTITLE"
+    [outline]="outline"
 >
     <div *ngIf="isLoading else tableRows" class="value-history-loading">
         <mat-progress-bar mode="query"></mat-progress-bar>

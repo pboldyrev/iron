@@ -77,7 +77,7 @@ export class AssetTableComponent {
   }
 
   public onDetailsAsset(asset: Asset): void {
-    this.router.navigate(['/asset/' + asset.id + '/value-history']);
+    this.router.navigate(['/asset/' + asset.id]);
   }
 
   public onArchiveAssetConfirmed() {

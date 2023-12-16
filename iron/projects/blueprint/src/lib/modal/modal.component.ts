@@ -12,4 +12,6 @@ import { BluHeading } from '../heading/heading.component';
 export class BluModal {
   @Input() title: string = '';
   @Input() subtitle: string = '';
+  @Input() boldTitle: boolean = false;
+  @Input() outline: boolean = true;
 }

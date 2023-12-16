@@ -1,7 +1,11 @@
-<div class="modal-content">
+<div class="modal-content" [ngClass]="{
+  'modal-outline': outline,
+}">
   <blu-heading
+    *ngIf="title != ''"
     class="modal-heading"
     [subheading]="subtitle"
+    [bold]="boldTitle"
     size="medium"
     subheadingSize="medium"
   >

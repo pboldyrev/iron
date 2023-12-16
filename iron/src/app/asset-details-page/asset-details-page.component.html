@@ -1,0 +1,29 @@
+<div class="row justify-content-center">
+    <div class="col-sm-10 col-xl-8">
+        <div class="asset-details-page-wrapper justify-content-center">
+            <blu-modal
+                [subtitle]="(assetName | async) ?? ''"
+                [title]="((assetValue | async) ?? '')"
+                [boldTitle]="true"
+            >
+                <div *ngIf="isLoadingTitle" class="asset-details-spinner align-self-start">
+                    <blu-spinner size="40"></blu-spinner>
+                </div>
+                <div class="asset-details-page-button-back">
+                    <blu-button type="primary" iconName="backArrow" (click)="onBack()">Overview</blu-button>
+                </div>
+                <mat-tab-group>
+                    <mat-tab label="Basic Information">
+                        Not implemented yet
+                    </mat-tab>
+                    <mat-tab label="Value History">
+                        <app-value-history
+                            [userId]="userId"
+                            [assetId]="assetId"
+                        ></app-value-history>
+                    </mat-tab>
+                </mat-tab-group>
+            </blu-modal>
+        </div>
+    </div>
+</div>

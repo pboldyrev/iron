@@ -15,6 +15,7 @@ import { AddCustomComponent } from './add-custom/add-custom.component';
 import { ValueHistoryComponent } from './value-history/value-history.component';
 import { hasAssetGuard } from './guards/has-asset.guard';
 import { ValueHistoryPageComponent } from './value-history-page/value-history-page.component';
+import { AssetDetailsPageComponent } from './asset-details-page/asset-details-page.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,11 @@ const routes: Routes = [
   {
     path: 'asset/:id/value-history',
     component: ValueHistoryPageComponent,
+    canActivate: [authenticatedGuard, hasAssetGuard],
+  },
+  {
+    path: 'asset/:id',
+    component: AssetDetailsPageComponent,
     canActivate: [authenticatedGuard, hasAssetGuard],
   },
   {
