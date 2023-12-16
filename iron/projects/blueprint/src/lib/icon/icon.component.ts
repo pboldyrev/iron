@@ -27,6 +27,7 @@ import {
   heroBanknotes,
   heroClock,
   heroArrowPath,
+  heroTrash,
 } from '@ng-icons/heroicons/outline';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -62,7 +63,8 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroChevronDown,
       heroBanknotes,
       heroClock,
-      heroArrowPath
+      heroArrowPath,
+      heroTrash
     }),
   ],
 })

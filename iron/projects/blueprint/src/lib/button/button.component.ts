@@ -15,6 +15,7 @@ export class BluButton {
   @Input() iconName!: BluIconName;
 
   @Input() iconOnly: boolean = false;
+  @Input() iconSize: string = "16";
   @Input() fullWidth: boolean = false;
   @Input() size: 'small' | 'normal' = 'normal';
 }

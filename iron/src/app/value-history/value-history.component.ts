@@ -5,7 +5,7 @@ import { TEXTS } from './value-history.strings';
 import { MatTableModule } from '@angular/material/table';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
-import { BehaviorSubject, Subject, combineLatest, filter, mergeMap, take } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, filter, mergeMap, take, tap } from 'rxjs';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
@@ -13,11 +13,12 @@ import { Asset, AssetValue } from '../shared/constants/constants';
 import { DataService } from '../shared/services/data.service';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-value-history',
   standalone: true,
-  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule],
+  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule],
   templateUrl: './value-history.component.html',
   styleUrl: './value-history.component.scss'
 })
@@ -54,19 +55,32 @@ export class ValueHistoryComponent {
     });
   }
 
-  public onSaveAsset() {
+  public onSaveAsset(): void {
     this.isSaving = true;
-    this.newEntries$.pipe(take(1)).subscribe((entries: AssetValue[]) => {
-      if(entries.length === 0) {
-        this.showAddOneError$.next(true);
+    combineLatest([
+      this.entries$,
+      this.newEntries$
+    ]).pipe(
+      take(1)
+    ).subscribe(([existingEntries, newEntries]) => {
+      if(newEntries.length !== 0) {
+        this.savedData.next(newEntries);
+        this.reset();
         return;
       }
-      this.savedData.next(entries);
+
+      if(existingEntries.length === 0) {
+        this.showAddOneError$.next(true);
+        this.isSaving = false;
+        return;
+      }
+
+      this.savedData.next(newEntries);
       this.reset();
     });
   }
 
-  public onAddEntry() {
+  public onAddEntry(): void {
     this.valueInput.validate();
     this.dateInput.validate();
 
@@ -94,6 +108,22 @@ export class ValueHistoryComponent {
       this.dateInput.clearValueAndValidators();
       this.valueInput.clearValueAndValidators();
     });
+  }
+
+  public onDeleteEntry(entryToDelete: AssetValue): void {
+    combineLatest([
+      this.entries$,
+      this.newEntries$
+    ]).pipe(
+      take(1),
+      tap(([existingEntries, newEntries]: [AssetValue[], AssetValue[]]) => {
+        this.newEntries$.next(newEntries.filter((entry) => entry.date !== entryToDelete.date));
+        this.entries$.next(existingEntries.filter((entry) => entry.date !== entryToDelete.date));
+      }),
+      mergeMap(() => {
+        return this.dataService.deleteAssetHistoryEntry$(this.userId, this.assetId, entryToDelete);
+      }),
+    ).subscribe();
   }
 
   private pushEntry(date: string, value: number) {

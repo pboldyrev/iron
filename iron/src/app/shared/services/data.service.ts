@@ -89,6 +89,22 @@ export class DataService {
     )
   }
 
+  public deleteAssetHistoryEntry$(userId: string, assetId: string,  entryToDelete: AssetValue) {
+    return this.getUserAssets$(userId)
+    .pipe(
+      map((assets: Asset[]) => {
+        assets.forEach((asset) => {
+          if(asset.id === assetId) {
+            asset.historicalValues = asset.historicalValues?.filter((asset) => asset.date !== entryToDelete.date);
+            this.setAssetInitAndCurValues(asset);
+          }
+        });
+        localStorage.setItem("userAssets", JSON.stringify(assets));
+        this.dataChanged$.next(true);
+      })
+    )
+  }
+
   private setAssetInitAndCurValues(asset: Asset): void {
     if(!asset.historicalValues || asset.historicalValues.length === 0) {
       return;

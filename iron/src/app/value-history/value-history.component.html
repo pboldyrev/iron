@@ -8,34 +8,60 @@
     <ng-template #tableRows>
         <div *ngFor="let entry of (entries$ | async)">
             <div class="row value-history-entry-wrapper">
-                <div class="col-6">
+                <div class="col-5">
                     <div class="value-history-entry value-history-row-input-left">
                         <blu-text type="primary">{{ entry.date }}</blu-text>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                     <div class="value-history-entry value-history-row-input-right">
                         <blu-text type="primary">$ {{ entry.value }}</blu-text>
+                    </div>
+                </div>
+                <div class="col-2 align-self-center">
+                    <div class="value-history-entry-delete value-history-row-input-right">
+                        <blu-button 
+                            [iconOnly]="true" 
+                            feedback="error" 
+                            iconSize="20"
+                            iconName="trash"
+                            type="tertiary" 
+                            [fullWidth]="true"
+                            (click)="onDeleteEntry(entry)"
+                        ></blu-button>
                     </div>
                 </div>
             </div>
         </div>
         <div *ngFor="let entry of (newEntries$ | async)">
             <div class="row value-history-entry-wrapper">
-                <div class="col-6">
+                <div class="col-5">
                     <div class="value-history-entry value-history-row-input-left">
                         <blu-text type="primary">{{ entry.date }}</blu-text>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                     <div class="value-history-entry value-history-row-input-right">
                         <blu-text type="primary">$ {{ entry.value }}</blu-text>
+                    </div>
+                </div>
+                <div class="col-2 align-self-center">
+                    <div class="value-history-entry-delete value-history-row-input-right">
+                        <blu-button 
+                            [iconOnly]="true" 
+                            iconSize="20"
+                            feedback="error" 
+                            iconName="trash"
+                            type="tertiary" 
+                            [fullWidth]="true"
+                            (click)="onDeleteEntry(entry)"
+                        ></blu-button>
                     </div>
                 </div>
             </div>
         </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-5">
             <div class="value-history-row-input-left">
                 <blu-input 
                     [fullWidth]="true"
@@ -48,7 +74,7 @@
                 ></blu-input>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-5">
             <div class="value-history-row-input-right">
                 <blu-input 
                     [fullWidth]="true" 
@@ -61,15 +87,20 @@
                 ></blu-input>
             </div>
         </div>
-    </div>
-    </ng-template>
-    <div class="row value-history-row-wrapper">
-        <div class="col-12">
-            <blu-button type="secondary" [fullWidth]="true" iconName="plus" (click)="onAddEntry()">
-                {{ TEXTS.BUTTON_ADD_ROW }}
-            </blu-button>
+        <div class="col-2 align-self-center">
+            <div class="value-history-entry-delete value-history-row-input-right">
+                <blu-button 
+                    [iconOnly]="true" 
+                    iconSize="20"
+                    iconName="plus" 
+                    type="tertiary"
+                    [fullWidth]="true"
+                    (click)="onAddEntry()"
+                ></blu-button>
+            </div>
         </div>
     </div>
+    </ng-template>
     <div class="row value-history-row-wrapper">
         <div class="col-12">
             <blu-button type="primary" [fullWidth]="true" (click)="onSaveAsset()">
