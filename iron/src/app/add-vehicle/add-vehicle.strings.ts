@@ -1,4 +1,4 @@
 export const TEXTS = {
-    MODAL_TITLE: "Vehicle details",
-    MODAL_SUBTITLE: "Fill out the fields below to add your asset.",
+    MODAL_TITLE: "Asset details",
+    MODAL_SUBTITLE: "Fill out the fields below to add your vehicle.",
 }

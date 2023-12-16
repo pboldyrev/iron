@@ -91,8 +91,8 @@
                                 type="primary" 
                                 (click)="isLoading ? null : onNext()"
                             >
-                                <span class="add-vehicle-spinner-wrapper">
-                                    <blu-spinner *ngIf="isLoading"></blu-spinner>
+                                <span *ngIf="isLoading" class="add-vehicle-spinner-wrapper">
+                                    <blu-spinner></blu-spinner>
                                 </span>
                                 Next
                             </blu-button>

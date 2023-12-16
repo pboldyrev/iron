@@ -6,7 +6,7 @@ import { Asset } from '../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
@@ -55,9 +55,9 @@ export class AssetTableComponent {
 
   ngOnInit() {
     this.fetchAssets();
-    this.dataService.dataChanged$.subscribe(() => {
+    this.dataService.dataChanged$.pipe(tap(() => {
       this.fetchAssets();
-    });
+    })).subscribe();
   }
 
   public getPercentChange(init: number, cur: number): number {

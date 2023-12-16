@@ -6,9 +6,12 @@
     <app-add-asset 
         [userId]="userId"
     ></app-add-asset>
-</blu-popup>
+</blu-popup>    
 <div class="row justify-content-center">
     <div class="col-12 overview-wrapper">
+        <app-networth
+            [userId]="userId"
+        ></app-networth>
         <app-asset-table 
             [showAddAsset$]="showAddAsset$" 
         ></app-asset-table>

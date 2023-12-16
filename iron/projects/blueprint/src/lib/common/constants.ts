@@ -52,6 +52,6 @@ export const BluToIconMap = {
   rocket: 'heroRocketLaunch',
   bank: 'heroBuildingLibrary',
   banknote: 'heroBanknotes',
-  spinner: 'octSync',
+  spinner: 'heroArrowPath',
   clock: 'heroClock',
 };

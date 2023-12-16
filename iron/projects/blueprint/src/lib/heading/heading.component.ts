@@ -14,4 +14,5 @@ export class BluHeading {
   @Input() subheadingSize!: 'large' | 'medium' | 'small';
 
   @Input() subheading: string = '';
+  @Input() bold: boolean = false;
 }

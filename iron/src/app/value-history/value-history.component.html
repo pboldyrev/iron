@@ -3,7 +3,7 @@
     [subtitle]="TEXTS.MODAL_SUBTITLE"
 >
     <div *ngIf="isLoading else tableRows" class="value-history-loading">
-        <blu-spinner size="50"></blu-spinner>
+        <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
     <ng-template #tableRows>
         <div *ngFor="let entry of (entries$ | async)">

@@ -12,11 +12,12 @@ import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-pop
 import { Asset, AssetValue } from '../shared/constants/constants';
 import { DataService } from '../shared/services/data.service';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-value-history',
   standalone: true,
-  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluText, BluValidationFeedback, BluSpinner],
+  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule],
   templateUrl: './value-history.component.html',
   styleUrl: './value-history.component.scss'
 })
