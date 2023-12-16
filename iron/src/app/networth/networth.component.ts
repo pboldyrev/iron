@@ -4,6 +4,7 @@ import { Asset } from '../shared/constants/constants';
 import { CommonModule } from '@angular/common';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-networth',
@@ -24,14 +25,21 @@ export class NetworthComponent {
 
   ngOnInit() {
     this.isLoading = true;
-    this.dataService.getUserAssets$(this.userId).subscribe((assets: Asset[]) => {
-      let networth = 0;
+    combineLatest([
+      this.dataService.dataChanged$,
+      this.dataService.getUserAssets$(this.userId)
+    ]).subscribe(([valueChanged, assets]) => {
+      this.computeNetworth(assets);
+      this.isLoading = false;
+    });
+  }
+
+  private computeNetworth(assets: Asset[]): void {
+    let networth = 0;
       assets.forEach((asset) => {
         networth += asset.curValue ?? 0;
       });
       this.curNetworth = networth.toLocaleString();
-      this.isLoading = false;
-    });
   }
 
   public getNow(): string {

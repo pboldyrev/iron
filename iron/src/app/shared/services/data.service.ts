@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Asset, AssetValue } from '../constants/constants';
-import { Observable, Subject, delay, map, max, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, delay, map, max, of } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  public dataChanged$: Subject<boolean> = new Subject<boolean>();
+  public dataChanged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
   ) {
