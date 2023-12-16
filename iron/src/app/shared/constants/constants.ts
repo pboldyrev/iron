@@ -16,9 +16,9 @@ export type AssetValue = {
 export type Asset = {
   assetName: string,
   lastUpdated: number,
+  type: string,
   accountName?: string,
   id?: string,
-  type?: string,
   numUnits?: number,
   curValue?: number,
   initValue?: number,
@@ -26,9 +26,9 @@ export type Asset = {
 }
 
 export enum AssetType {
-  Stock = 'stock',
-  Vehicle = 'vehicle',
-  CD = 'cd',
-  HYSA = 'hysa',
-  Custom = 'custom',
+  Stock = 'Stock',
+  Vehicle = 'Vehicle',
+  CD = 'CD',
+  HYSA = 'HYSA',
+  Custom = 'Custom',
 }

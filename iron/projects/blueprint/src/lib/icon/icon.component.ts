@@ -18,6 +18,7 @@ import {
   octLock,
   octGlobe,
   octRocket,
+  octQuestion,
 } from '@ng-icons/octicons';
 import {
   heroBuildingLibrary, 
@@ -29,6 +30,7 @@ import {
   heroArrowPath,
   heroTrash,
   heroArrowLeft,
+  heroQuestionMarkCircle,
 } from '@ng-icons/heroicons/outline';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -58,6 +60,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       octLock,
       octGlobe,
       octRocket,
+      octQuestion,
       heroBuildingLibrary,
       heroRocketLaunch,
       heroChevronUp,

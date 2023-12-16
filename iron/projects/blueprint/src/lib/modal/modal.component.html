@@ -9,7 +9,9 @@
     size="medium"
     subheadingSize="medium"
   >
-    {{ title }}
+  <div class="modal-tooltip">
+    {{ title }}<blu-icon *ngIf="titleTooltip" [matTooltip]="titleTooltip" name="question"></blu-icon>
+  </div>
   </blu-heading>
   <ng-content></ng-content>
 </div>

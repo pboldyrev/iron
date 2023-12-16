@@ -5,6 +5,7 @@
                 [subtitle]="(assetName | async) ?? ''"
                 [title]="((assetValue | async) ?? '')"
                 [boldTitle]="true"
+                [titleTooltip]="((assetValue | async) ?? '') === '$0' ? 'You can add value to this asset in the Value History tab.' : ''"
             >
                 <div *ngIf="isLoadingTitle" class="asset-details-spinner align-self-start">
                     <blu-spinner size="40"></blu-spinner>
@@ -13,10 +14,10 @@
                     <blu-button type="primary" iconName="backArrow" (click)="onBack()">Overview</blu-button>
                 </div>
                 <mat-tab-group>
-                    <mat-tab label="Basic Information">
+                    <mat-tab label="Summary">
                         Not implemented yet
                     </mat-tab>
-                    <mat-tab label="Value History">
+                    <mat-tab label="Value history">
                         <app-value-history
                             [userId]="userId"
                             [assetId]="assetId"

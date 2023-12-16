@@ -1,12 +1,3 @@
-.value-history-no-entries {
-    width: var(--blu-width-full);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: var(--blu-margin-xl);
-    padding: var(--blu-padding-l) 0;
-}
-
 .value-history-entry {
     display: flex;
     align-items: center;
@@ -19,11 +10,7 @@
 }
 
 .value-history-entry-wrapper {
-    margin-bottom: var(--blu-margin-m);
-}
-
-.value-history-row-input-right {
-    margin-left: var(--blu-margin-xs);
+    margin-bottom: var(--blu-margin-xs);
 }
 
 .value-history-row-input-left {

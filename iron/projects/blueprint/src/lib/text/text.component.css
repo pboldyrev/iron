@@ -1,5 +1,6 @@
 .blu-text {
   font: var(--blu-font-primary);
+  word-break: break-all;
 }
 
 .blu-text-bold {

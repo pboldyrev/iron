@@ -37,7 +37,7 @@ export class AssetDetailsPageComponent {
   ngOnInit() {
     this.isLoadingTitle = true;
     this.dataService.getAssetById$(this.userId, this.assetId).subscribe((asset: Asset | null) => {
-      this.assetName.next(asset?.assetName ?? "");
+      this.assetName.next(this.getDisplayName(asset));
       this.assetValue.next('$' + (asset?.curValue ?? 0).toLocaleString());
       this.isLoadingTitle = false;
     });
@@ -45,5 +45,17 @@ export class AssetDetailsPageComponent {
 
   public onBack() {
     this.router.navigate(['/overview']);
+  }
+
+  private getDisplayName(asset: Asset | null): string {
+    if(!asset) {
+      return '';
+    }
+    
+    if(asset.type) {
+      return asset.type + ' - ' + asset.assetName;
+    }
+
+    return asset.assetName
   }
 }

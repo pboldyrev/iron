@@ -12,3 +12,13 @@
   text-align: start;
   margin-bottom: var(--blu-space-l);
 }
+
+.modal-tooltip {
+  display: flex;
+
+  blu-icon {
+    margin-left: var(--blu-margin-xs);
+    margin-top: var(--blu-margin-xs);
+    color: var(--blu-color-tertiary);
+  }
+}

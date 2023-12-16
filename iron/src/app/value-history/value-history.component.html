@@ -15,12 +15,12 @@
                     </div>
                 </div>
                 <div class="col-5">
-                    <div class="value-history-entry value-history-row-input-right">
-                        <blu-text type="primary">$ {{ entry.value }}</blu-text>
+                    <div class="value-history-entry">
+                        <blu-text type="primary">$ {{ entry.value.toLocaleString() }}</blu-text>
                     </div>
                 </div>
                 <div class="col-2 align-self-center">
-                    <div class="value-history-entry-delete value-history-row-input-right">
+                    <div class="value-history-entry-delete">
                         <blu-button 
                             [iconOnly]="true" 
                             feedback="error" 
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-5">
                     <div class="value-history-entry value-history-row-input-right">
-                        <blu-text type="primary">$ {{ entry.value }}</blu-text>
+                        <blu-text type="primary">$ {{ entry.value.toLocaleString() }}</blu-text>
                     </div>
                 </div>
                 <div class="col-2 align-self-center">
@@ -102,17 +102,4 @@
         </div>
     </div>
     </ng-template>
-    <div class="row value-history-row-wrapper">
-        <div class="col-12">
-            <blu-button type="primary" [fullWidth]="true" (click)="onSaveAsset()">
-                <span *ngIf="isSaving" class="value-history-spinner-wrapper">
-                    <blu-spinner></blu-spinner>
-                </span>
-                {{ TEXTS.BUTTON_ADD_ASSET }}
-            </blu-button>
-            <blu-validation-feedback *ngIf="showAddOneError$ | async" [type]="FeedbackType.ERROR">
-                {{ TEXTS.FEEDBACK_NEED_ONE_VALUE }}
-            </blu-validation-feedback>
-        </div>
-    </div>
 </blu-modal>

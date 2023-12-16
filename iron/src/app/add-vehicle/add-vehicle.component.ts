@@ -15,6 +15,7 @@ import { VEHICLE_MAKES } from './add-vehicle.constants';
 import { ValueHistoryComponent } from '../value-history/value-history.component';
 import { TEXTS } from './add-vehicle.strings';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
+import { AssetType } from '../shared/constants/constants';
 
 export type VehicleAssetData = {
   assetName: string
@@ -105,11 +106,12 @@ export class AddVehicleComponent {
           assetName: finalName,
           numUnits: 1,
           lastUpdated: 0,
+          type: AssetType.Vehicle,
         });
       }),
       filter(assetId => assetId !== "")
     ).subscribe((assetId: string | undefined) => {
-      this.router.navigate(['asset/' + assetId + '/value-history']);
+      this.router.navigate(['asset/' + assetId]);
     });
   }
 

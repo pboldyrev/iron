@@ -1,6 +1,7 @@
 .blu-heading-wrapper {
   display: flex;
   flex-direction: column;
+  word-break: break-all;
 }
 
 .blu-heading {
