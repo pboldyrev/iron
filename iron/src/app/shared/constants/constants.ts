@@ -10,20 +10,21 @@ export const REGEX = {
 };
 
 export type AssetValue = {
-  date?: string,
-  value?: number,
+  timestamp?: string,
+  value?: string,
 }
 
 export type Asset = {
+  assetId?: string,
+  userId?: string,
   assetName?: string,
-  lastUpdated?: number,
-  type?: string,
-  accountName?: string,
-  id?: string,
-  numUnits?: number,
-  curValue?: number,
-  initValue?: number,
-  historicalValues?: AssetValue[],
+  assetType?: string,
+  timeCreated?: number,
+  account?: string,
+  units?: number,
+  totalValues?: AssetValue[],
+  curValue?: string,
+  isArchived?: boolean,
 }
 
 export enum AssetType {

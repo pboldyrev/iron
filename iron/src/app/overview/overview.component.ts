@@ -19,7 +19,6 @@ import { NetworthComponent } from '../networth/networth.component';
 })
 export class OverviewComponent {
   public TEXTS = TEXTS;
-  public userId: string = this.authService.getCurrentUserId();
   public showAddAsset$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private authService: AuthService) {}

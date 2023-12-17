@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Asset, AssetValue } from '../constants/constants';
-import { BehaviorSubject, Observable, Subject, delay, map, max, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, delay, map, max, mergeMap, of, tap } from 'rxjs';
 import { v4 as uuid } from 'uuid';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,26 +11,48 @@ import { v4 as uuid } from 'uuid';
 export class DataService {
   public dataChanged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  private userAssets$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
   constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService,
   ) {
+    this.httpClient.post(
+      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAssetsByUser",
+      {
+        sessionToken: this.authService.getSessionToken(),
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    ).subscribe((data: any) => {
+      this.userAssets$.next(data?.assets ?? []);
+    });
   }
 
-  public getUserAssets$(userId: string): Observable<Asset[]> {
-    const assets = localStorage.getItem("userAssets");
-    if(assets){
-      return of(JSON.parse(assets)).pipe(delay(500));
-    } else {
-      return of([]).pipe(delay(500));
-    }
+  public getUserAssets$(): Observable<Asset[]> {
+    return this.userAssets$.pipe(
+      map((assets: Asset[]) => {
+        return assets.filter((asset: Asset) => !asset.isArchived);
+      })
+    );
   }
 
-  public getAssetById$(userId: string, assetId: string): Observable<Asset> {
-    return this.getUserAssets$(userId)
+  public getAllUserAssets$(): Observable<Asset[]> {
+    return this.userAssets$.pipe(
+      map((assets: Asset[]) => {
+        return assets.filter((asset: Asset) => !asset.isArchived);
+      })
+    );
+  }
+
+  public getAssetById$(assetId: string): Observable<Asset> {
+    return this.getUserAssets$()
     .pipe(
       map((assets: Asset[]) => {
         let matchedAsset: Asset = {};
         assets.forEach((asset: Asset) => {
-          if(asset.id === assetId) {
+          if(asset.assetId === assetId) {
             matchedAsset = asset;
           }
         });
@@ -38,52 +62,56 @@ export class DataService {
     );
   }
 
-  public addAsset$(userId: string, asset: Asset): Observable<string | undefined> {
-    asset.id = uuid();
+  public addAsset$(asset: Asset): Observable<string | undefined> {
+    asset.assetId = uuid();
 
-    if(!asset.accountName) {
-      asset.accountName = "Other";
+    if(!asset.account) {
+      asset.account = "Other";
     }
 
-    return this.getUserAssets$(userId).pipe(
+    return this.getUserAssets$().pipe(
       map((assets: Asset[]) => {
         assets.push(asset);
         localStorage.setItem("userAssets", JSON.stringify(assets));
         this.dataChanged$.next(true);
-        return asset.id;
+        return asset.assetId;
       }),
       delay(500)
     );
   }
 
-  public archiveAsset$(userId: string, assetToArchive: Asset): Observable<boolean> {
-    return this.getUserAssets$(userId)
-    .pipe(
-      map((assets: Asset[]) => {
-        const updatedAssets = assets.filter(asset => asset.id !== assetToArchive.id);
-        try {
-          localStorage.setItem("userAssets", JSON.stringify(updatedAssets));
-          this.dataChanged$.next(true);
-          return true;
-        } catch (error: any) {
-          return false;
-        }
-      }),
-      delay(500)
+  public archiveAsset$(assetId: string): Observable<Asset> {
+    return this.httpClient.post(
+      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/archiveAsset",
+      {
+        sessionToken: this.authService.getSessionToken(),
+        assetId: assetId,
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
     );
   }
 
-  public appendAssetHistory$(userId: string, assetId: string,  assetValue: AssetValue) {
-    return this.getUserAssets$(userId)
+  public appendAssetHistory$(assetId: string,  assetValue: AssetValue) {
+    return this.httpClient.post(
+      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAssetsByUser",
+      {
+        sessionToken: this.authService.getSessionToken(),
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    )
+  }
+
+  public deleteAssetHistoryEntry$(assetId: string,  entryToDelete: AssetValue) {
+    return this.getUserAssets$()
     .pipe(
       map((assets: Asset[]) => {
         assets.forEach((asset) => {
-          if(asset.id === assetId) {
-            asset.historicalValues = [
-              ...asset.historicalValues ?? [],
-              assetValue
-            ];
-            this.setAssetInitAndCurValues(asset);
+          if(asset.assetId === assetId) {
+            asset.totalValues = asset.totalValues?.filter((asset: AssetValue) => asset.timestamp !== entryToDelete.timestamp);
           }
         });
         localStorage.setItem("userAssets", JSON.stringify(assets));
@@ -91,46 +119,5 @@ export class DataService {
       }),
       delay(500)
     )
-  }
-
-  public deleteAssetHistoryEntry$(userId: string, assetId: string,  entryToDelete: AssetValue) {
-    return this.getUserAssets$(userId)
-    .pipe(
-      map((assets: Asset[]) => {
-        assets.forEach((asset) => {
-          if(asset.id === assetId) {
-            asset.historicalValues = asset.historicalValues?.filter((asset) => asset.date !== entryToDelete.date);
-            this.setAssetInitAndCurValues(asset);
-          }
-        });
-        localStorage.setItem("userAssets", JSON.stringify(assets));
-        this.dataChanged$.next(true);
-      }),
-      delay(500)
-    )
-  }
-
-  private setAssetInitAndCurValues(asset: Asset): void {
-    if(!asset.historicalValues || asset.historicalValues.length === 0) {
-      asset.curValue = 0;
-      asset.initValue = 0;
-      return;
-    }
-
-    let minDate = new Date(asset?.historicalValues[0]?.date ?? 0);
-    let maxDate = new Date(asset.historicalValues[0].date ?? 0);
-    asset.historicalValues?.forEach((value: AssetValue) => {
-      const date = new Date(value.date ?? 0);
-
-      if(date <= minDate) {
-        minDate = date;
-        asset.initValue = value.value;
-      }
-
-      if(date >= maxDate) {
-        maxDate = date;
-        asset.curValue = value.value;
-      }
-    });
   }
 }

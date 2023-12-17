@@ -6,7 +6,7 @@ import { Asset } from '../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
-import { BehaviorSubject, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, merge, mergeMap, of, take, tap } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
@@ -35,12 +35,11 @@ import { Router } from '@angular/router';
 })
 
 export class AssetTableComponent {
-  @Input() userId!: string;
   @Input() showAddAsset$!: BehaviorSubject<boolean>;
 
   public displayedColumns = ['account', 'asset', 'units', 'initValue', 'curValue', 'change', 'edit'];
   public displayedFooterColumns = ['blankAccount', 'blankAsset', 'blankUnits', 'initValueTotal', 'curValueTotal', 'changeTotal', 'blankEdit'];
-  public isLoading$ = new BehaviorSubject<boolean>(false);
+  public isLoading = false;
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject([] as Asset[]);
   public curTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
   public initTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -54,10 +53,7 @@ export class AssetTableComponent {
   ){}
 
   ngOnInit() {
-    this.fetchAssets();
-    this.dataService.dataChanged$.pipe(tap(() => {
-      this.fetchAssets();
-    })).subscribe();
+    this.fetchAssets$().subscribe();
   }
 
   public getPercentChange(init: number, cur: number): number {
@@ -77,41 +73,45 @@ export class AssetTableComponent {
   }
 
   public onDetailsAsset(asset: Asset): void {
-    this.router.navigate(['/asset/' + asset.id]);
+    this.router.navigate(['/asset/' + asset.assetId]);
   }
 
   public onArchiveAssetConfirmed() {
-    if(this.assetToArchive) {
-      this.dataService.archiveAsset$(this.userId, this.assetToArchive)
-      .subscribe((archiveSuccess: boolean) => {
-        if(archiveSuccess) {
-          this.assetToArchive = undefined;
-        } else {
-          console.log("ERROR: COULDN'T ARCHIVE");
-        }
-      });
+    if(!this.assetToArchive || !this.assetToArchive.assetId) {
+      console.error("Tried archiving non existent asset.");
+      return;
     }
+
+    this.isLoading = true;
+
+    this.dataService.archiveAsset$(this.assetToArchive.assetId).subscribe({
+      next: () => {
+        this.assetToArchive = undefined;
+      },
+      error: () => {
+        console.log("ERROR: COULDN'T ARCHIVE");
+      },
+      complete: () => {
+        this.isLoading = false;
+        this.dataService.dataChanged$.next(true);
+      }
+    });
   }
 
-  private fetchAssets(): void {
-    this.isLoading$.next(true);
-    this.dataService.getUserAssets$(this.userId)
-    .subscribe((userAssets: Asset[]) => {
-      this.assets$.next(userAssets);
-      this.isLoading$.next(false);
-    });
-
-    this.assets$.subscribe((userAssets: Asset[]) => {
-      let assetInitTotal = 0;
-      let assetCurTotal = 0;
-
-      userAssets.forEach((asset: Asset) => {
-        assetInitTotal += asset.initValue ?? 0;
-        assetCurTotal += asset.curValue ?? 0;
-      });
-
-      this.initTotal$.next(assetInitTotal);
-      this.curTotal$.next(assetCurTotal);
-    });
+  private fetchAssets$(): Observable<void> {
+    this.isLoading = true;
+    return this.dataService.getUserAssets$().pipe(
+      tap((userAssets: Asset[]) => {
+        let curTotal = 0;
+        userAssets.forEach((asset: Asset) => {
+          curTotal += parseInt(asset.curValue ?? '0');
+        });
+        this.curTotal$.next(curTotal);
+      }),
+      map((userAssets: Asset[]) => {
+        this.assets$.next(userAssets);
+        this.isLoading = false;
+      })
+    );
   }
 }

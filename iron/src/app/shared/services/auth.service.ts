@@ -1,13 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { User } from '../interfaces/interfaces';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { FirebaseError } from 'firebase/app';
+import { Observable, map, } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -15,61 +9,77 @@ import { FirebaseError } from 'firebase/app';
 export class AuthService {
   userData: any;
   constructor(
-    public afs: AngularFirestore,
-    public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
+    private httpClient: HttpClient,
   ) {
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-      } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
-      }
-    });
   }
 
-  public signIn(
+  public submitPhoneNumber$(
     phoneNumber: number,
-  ): Observable<boolean> {
-    const formattedNumber = '+1' + phoneNumber.toString()
-    console.log(formattedNumber);
-    this.setUserData({uid: "123"});
-    return of(true);
+  ): Observable<string> {
+    const formattedNumber = '+1' + phoneNumber.toString();
+    return this.httpClient.post(
+      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/sendPhoneCode",
+      {
+        phoneNumber: formattedNumber
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    ).pipe(
+      map((data: any) => {
+        return data.method_id;
+      })
+    )
   }
 
-  public signOut() {
-    return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
+  public checkPhoneCode$(
+    methodId: string,
+    phoneNumber: number,
+    code: number,
+  ): Observable<boolean> {
+    const formattedNumber = '+1' + phoneNumber.toString();
+
+    return this.httpClient.post(
+      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/checkPhoneCode",
+      {
+        phoneNumber: formattedNumber,
+        method_id: methodId,
+        otp: code.toString()
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    ).pipe(
+      map((data: any) => {
+        localStorage.setItem('sessionToken', data.sessionToken);
+        return true;
+      })
+    )
+  }
+
+  public signOut(): void {
+    try {
+      localStorage.removeItem('sessionToken')
       this.router.navigate(['/login']);
-    });
+    } catch (error) {
+      console.error("Already signed out.");
+    }
   }
 
   public isLoggedIn(): boolean {
-    const user: User = JSON.parse(localStorage.getItem('user')!);
-    return !!user;
+    return !!localStorage.getItem('sessionToken');
   }
 
-  public getCurrentUserId(): string {
+  public getSessionToken(): string {
     if(this.isLoggedIn()) {
-      return JSON.parse(localStorage.getItem('user')!).uid;
+      const token = localStorage.getItem('sessionToken');
+      if(token) {
+        return token;
+      }
+      return ''
     }
-    
-    return "";
-  }
-
-  private setUserData(user: any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `users/${user.uid}`,
-    );
-    const userData = {
-      uid: user.uid,
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
+    return '';
   }
 }

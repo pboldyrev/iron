@@ -10,7 +10,6 @@ import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component
 import { FEEDBACK_STRINGS } from '../shared/constants/strings';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
-import { ERRORS } from './login.constants';
 import { Router } from '@angular/router';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
@@ -35,31 +34,82 @@ import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-pop
 })
 export class LoginComponent {
   @ViewChild('phoneInput') phoneInput!: BluInput;
+  @ViewChild('codeInput') codeInput!: BluInput;
 
   public TEXTS = TEXTS;
   public BTN_TEXTS = BTN_TEXTS;
   public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
   public FeedbackType = FeedbackType;
 
-  public isSignInSubmitting$ = new BehaviorSubject<boolean>(false);
+  public isSendCodeSubmitting = false;
+  public isCheckTokenSubmitting = false;
   public invalidLogin$ = new BehaviorSubject<boolean>(false);
   public unknownLoginError$ = new BehaviorSubject<boolean>(false);
+  public incorrectCodeError$ = new BehaviorSubject<boolean>(false);
+  public showOTPDialog$ = new BehaviorSubject<boolean>(false);
+
+  private methodId: string = '';
+  private phoneNumber: number = 0;
 
   constructor(
     public authService: AuthService,
     private router: Router,
   ) {}
 
-  public onSignIn(): void {
+  public onBack(): void {
+    this.showOTPDialog$.next(false);
     this.clearErrors();
-    this.areFieldsValid$().subscribe((phoneNumber: number) => {
-      if (phoneNumber) {
-        this.authService.signIn(
-          phoneNumber
-        ).subscribe((isSuccess: boolean) => {
-          this.router.navigate(['overview']);
-        })
+    this.clearAuth();
+  }
+
+  public onSendCode(): void {
+    this.clearAuth();
+    this.clearErrors();
+    this.isSendCodeSubmitting = true;
+    this.isPhoneFieldValid$().subscribe((phoneNumber: number) => {
+      if (!phoneNumber) {
+        return;
       }
+
+      this.authService.submitPhoneNumber$(
+        phoneNumber
+      ).subscribe({
+        next: (methodId: string) => {
+          this.methodId = methodId;
+          this.phoneNumber = phoneNumber;
+          this.showOTPDialog$.next(true);
+        },
+        error: () => {
+          this.unknownLoginError$.next(true);
+        },
+        complete: () => {
+          this.isSendCodeSubmitting = false;
+        }
+      });
+    });
+  }
+
+  public onConfirmCode(): void {
+    this.clearErrors();
+    this.isCheckTokenSubmitting = true;
+    this.isCodeValid$().subscribe((code: number) => {
+      if(!code){
+        return;
+      }
+
+      this.authService.checkPhoneCode$(
+        this.methodId, this.phoneNumber, code
+      ).subscribe({
+        next: (success: boolean) => {
+          this.router.navigate(['/overview']);
+        },
+        error: () => {
+          this.incorrectCodeError$.next(true);
+        },
+        complete: () => {
+          this.isCheckTokenSubmitting = false;
+        }
+      });
     });
   }
 
@@ -72,8 +122,8 @@ export class LoginComponent {
     this.unknownLoginError$.next(false);
   }
 
-  private areFieldsValid$(): Observable<number> {
-    this.validateFields();
+  private isPhoneFieldValid$(): Observable<number> {
+    this.phoneInput.validate();
 
     return combineLatest([
       this.phoneInput.isValid$,
@@ -94,7 +144,30 @@ export class LoginComponent {
     );
   }
 
-  private validateFields(): void {
-    this.phoneInput.validate();
+  private isCodeValid$(): Observable<number> {
+    this.codeInput.validate();
+
+    return combineLatest([
+      this.codeInput.isValid$,
+      this.codeInput.value$,
+    ]).pipe(
+      take(1),
+      map(
+        ([codeValid, codeValue]: [
+          boolean,
+          string,
+        ]) => {
+          if (codeValid) {
+            return parseInt(codeValue);
+          }
+          return 0;
+        },
+      ),
+    );
+  }
+
+  private clearAuth(): void {
+    this.phoneNumber = 0;
+    this.methodId = '';
   }
 }

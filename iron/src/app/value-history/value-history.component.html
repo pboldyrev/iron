@@ -21,7 +21,7 @@
             <mat-progress-bar mode="query"></mat-progress-bar>
         </div>
         <ng-template #valueHistoryTable>
-            <mat-table #table [dataSource]="(asset$ | async)?.historicalValues ?? []">
+            <mat-table #table [dataSource]="(asset$ | async)?.totalValues ?? []">
                 <ng-container matColumnDef="date">
                     <mat-header-cell *matHeaderCellDef>
                         Date

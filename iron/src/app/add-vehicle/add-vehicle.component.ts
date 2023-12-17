@@ -38,7 +38,6 @@ export class AddVehicleComponent {
   
   public TEXTS = TEXTS;
   public FeedbackType = FeedbackType;
-  public userId: string = this.authService.getCurrentUserId();
   public modelYears: BluSelectOption[] = this.getModelYears();
   public vehicleMakes: BluSelectOption[] = this.getVehicleMakes();
   public vehicleMileage: BluSelectOption[] = this.getVehicleMileages();
@@ -102,11 +101,11 @@ export class AddVehicleComponent {
 
         let finalName = this.getFinalName(modelNameInputValue, modelYearInputValue ?? "", vehicleMakeInputValue ?? "", nicknameInputValue);
 
-        return this.dataService.addAsset$(this.userId, {
+        return this.dataService.addAsset$({
           assetName: finalName,
-          numUnits: 1,
-          lastUpdated: 0,
-          type: AssetType.Vehicle,
+          units: 1,
+          timeCreated: 0,
+          assetType: AssetType.Vehicle,
         });
       }),
       filter(assetId => assetId !== "")

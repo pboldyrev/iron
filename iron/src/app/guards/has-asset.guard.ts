@@ -9,15 +9,14 @@ export const hasAssetGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const dataService = inject(DataService);
   const router = inject(Router);
-  const userId = authService.getCurrentUserId();
   const assetId = route.params['id'] ?? "";
 
-  return dataService.getUserAssets$(userId)
+  return dataService.getUserAssets$()
   .pipe(
     map((assets: Asset[]) => {
       let assetExists: boolean = false;
       assets.forEach((asset) => {
-        if(asset.id === assetId) {
+        if(asset.assetId === assetId) {
           assetExists = true;
         }
       });

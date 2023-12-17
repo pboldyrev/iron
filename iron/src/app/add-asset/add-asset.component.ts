@@ -17,7 +17,6 @@ import { Router } from '@angular/router';
 })
 export class AddAssetComponent {
   @Input() reset$!: Observable<boolean>;
-  @Input() userId!: string;
 
   public AssetType = AssetType;
 

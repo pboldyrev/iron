@@ -20,16 +20,16 @@
             </blu-button>
         </div>
     </div>
-    <div *ngIf="isLoading$ | async" class="asset-table-progress-bar">
+    <div *ngIf="isLoading" class="asset-table-progress-bar">
         <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
-    <mat-table *ngIf="!(isLoading$ | async)" #table [dataSource]="assets$">
+    <mat-table *ngIf="!isLoading" #table [dataSource]="assets$">
         <ng-container matColumnDef="account">
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.ACCOUNT_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset">
-                <blu-text type="primary">{{asset.accountName}}</blu-text>
+                <blu-text type="primary">{{asset.account}}</blu-text>
             </mat-cell>
         </ng-container>
 
@@ -47,7 +47,7 @@
                 {{ TEXTS.UNITS_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset">
-                <blu-text type="number">{{ asset.numUnits }}</blu-text>
+                <blu-text type="number">{{ asset.units }}</blu-text>
             </mat-cell>
         </ng-container>
 
@@ -56,7 +56,7 @@
                 {{ TEXTS.COST_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset">
-                <blu-text type="number">${{(asset.initValue ?? 0).toLocaleString("en-US")}}</blu-text>
+                <blu-text type="number">${{(asset.initValue ?? 0).toLocaleString()}}</blu-text>
             </mat-cell>
         </ng-container>
 
@@ -65,7 +65,7 @@
                 {{ TEXTS.VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
-                <blu-text type="number">${{(asset.curValue ?? 0).toLocaleString("en-US")}}</blu-text>
+                <blu-text type="number">${{(asset.curValue ?? 0).toLocaleString()}}</blu-text>
             </mat-cell>
         </ng-container>
 
@@ -96,13 +96,13 @@
 
         <ng-container matColumnDef="initValueTotal">
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ ((initTotal$ | async) ?? 0).toLocaleString("en-US") }}</blu-text>
+                <blu-text weight="bold" type="number">${{ ((initTotal$ | async) ?? 0).toLocaleString() }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="curValueTotal">
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ ((curTotal$ | async) ?? 0).toLocaleString("en-US") }}</blu-text>
+                <blu-text weight="bold" type="number">${{ ((curTotal$ | async) ?? 0).toLocaleString() }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 

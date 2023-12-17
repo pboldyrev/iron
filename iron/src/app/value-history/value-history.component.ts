@@ -29,7 +29,6 @@ export class ValueHistoryComponent {
   @ViewChild('value') valueInput!: BluInput;
   @ViewChild('date') dateInput!: BluInput;
 
-  @Input() userId!: string;
   @Input() assetId!: string;
 
   @Input() asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
@@ -54,7 +53,7 @@ export class ValueHistoryComponent {
     this.isLoading = true;
 
     this.asset$.pipe(
-      filter((asset : Asset) => !!asset.id),
+      filter((asset : Asset) => !!asset.assetId),
       tap(() => this.isLoading = false),
     ).subscribe();
 
@@ -74,9 +73,9 @@ export class ValueHistoryComponent {
       this.asset$
     ]).pipe(
       take(1),
-      filter(([newEntry, asset]: [AssetValue, Asset]) => !!asset.id),
+      filter(([newEntry, asset]: [AssetValue, Asset]) => !!asset.assetId),
       mergeMap(([newEntry, asset]: [AssetValue, Asset]) => {
-        return this.dataService.appendAssetHistory$(this.userId, asset.id ?? '', newEntry)
+        return this.dataService.appendAssetHistory$(asset.assetId ?? '', newEntry)
       })).subscribe(() => {
       this.isSaving = false;
     })
@@ -142,13 +141,13 @@ export class ValueHistoryComponent {
         boolean,
         string
       ]) => {
-        const newValue: AssetValue = {date: date, value: parseInt(value)};
-        asset.historicalValues = [
-          ...asset.historicalValues ?? [],
+        const newValue: AssetValue = {timestamp: date, value: value};
+        asset.totalValues = [
+          ...asset.totalValues ?? [],
           newValue,
         ];
         this.asset$.next(asset);
-        return this.dataService.appendAssetHistory$(this.userId, asset.id ?? '', newValue);
+        return this.dataService.appendAssetHistory$(asset.assetId ?? '', newValue);
       })
     ).subscribe();
   }
@@ -159,45 +158,33 @@ export class ValueHistoryComponent {
       mergeMap((
         asset: Asset,
       ) => {
-        asset.historicalValues = asset.historicalValues?.filter((asset) => asset.date !== entryToDelete.date);
+        asset.totalValues = asset.totalValues?.filter((asset: AssetValue) => asset.timestamp !== entryToDelete.timestamp);
         this.asset$.next(asset);
 
-        return this.dataService.deleteAssetHistoryEntry$(this.userId, asset.id ?? '', entryToDelete);
+        return this.dataService.deleteAssetHistoryEntry$(asset.assetId ?? '', entryToDelete);
       })
     ).subscribe();
   }
 
   public getValueChange$(): Observable<number> {
-    return this.dataService.getAssetById$(this.userId, this.assetId).pipe(
-      filter((asset: Asset) => !!asset.id),
+    return this.dataService.getAssetById$(this.assetId).pipe(
+      filter((asset: Asset) => !!asset.assetId),
       map((asset: Asset) => {
-        const curValue = asset?.curValue ?? 0;
-        const initValue = asset?.initValue ?? 0;
-        return curValue - initValue;
+        const curValue = parseInt(asset?.curValue ?? '0');
+        return curValue;
       }),
     )
   }
 
   public getValueChangeString$(): Observable<string> {
-    return this.dataService.getAssetById$(this.userId, this.assetId).pipe(
-      filter((asset: Asset) => !!asset.id),
+    return this.dataService.getAssetById$(this.assetId).pipe(
+      filter((asset: Asset) => !!asset.assetId),
       map((asset: Asset) => {
-        const curValue = asset?.curValue ?? 0;
-        const initValue = asset?.initValue ?? 0;
+        const curValue = parseInt(asset?.curValue ?? '0');
         let percentChange = 0;
         let changeSymbol;
 
-        if(initValue !== 0) {
-          percentChange = Math.round(Math.abs((curValue-initValue)/initValue) * 100);
-        }
-
-        if(curValue - initValue >= 0) {
-          changeSymbol = "+";
-        } else {
-          changeSymbol = "-"
-        }
-
-        return changeSymbol + '$' + Math.abs((curValue - initValue)).toLocaleString() + ' (' + percentChange + '%)';
+        return changeSymbol + '$' + Math.abs((curValue)).toLocaleString() + ' (' + percentChange + '%)';
       }),
     )
   }

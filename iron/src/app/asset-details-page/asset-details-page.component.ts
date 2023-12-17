@@ -19,7 +19,6 @@ import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component
   styleUrl: './asset-details-page.component.scss'
 })
 export class AssetDetailsPageComponent {
-  public userId: string = this.authService.getCurrentUserId();
   public assetId: string = this.route.snapshot.paramMap.get('id') ?? "";
 
   public displayAssetName$: BehaviorSubject<string> = new BehaviorSubject<string>("");
@@ -37,9 +36,9 @@ export class AssetDetailsPageComponent {
 
   ngOnInit() {
     this.isLoadingTitle = true;
-    this.dataService.getAssetById$(this.userId, this.assetId)
+    this.dataService.getAssetById$(this.assetId)
     .pipe(
-      filter((asset: Asset) => !!asset.id),
+      filter((asset: Asset) => !!asset.assetId),
       map((asset: Asset) => {
         this.asset$.next(asset);
         this.displayAssetName$.next(this.getDisplayName(asset));
@@ -58,8 +57,8 @@ export class AssetDetailsPageComponent {
       return '';
     }
     
-    if(asset.type) {
-      return asset.type + ' - ' + asset.assetName ?? '';
+    if(asset.assetType) {
+      return asset.assetType + ' - ' + asset.assetName ?? '';
     }
 
     return asset.assetName ?? ''

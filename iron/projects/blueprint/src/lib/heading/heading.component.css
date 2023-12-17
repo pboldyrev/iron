@@ -9,6 +9,10 @@
   color: var(--blu-color-text-primary);
 }
 
+.blu-heading::first-letter {
+  text-transform: capitalize;
+}
+
 .blu-heading-bold {
   font-weight: var(--blu-font-weight-bold);
 }
@@ -16,6 +20,11 @@
 .blu-heading-sub {
   color: var(--blu-color-text-secondary);
 }
+
+.blu-heading-sub::first-letter {
+  text-transform: capitalize;
+}
+
 
 .blu-heading-xs {
   font-size: var(--blu-font-size-heading-xs);

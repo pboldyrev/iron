@@ -14,8 +14,6 @@ import { combineLatest } from 'rxjs';
   styleUrl: './networth.component.scss'
 })
 export class NetworthComponent {
-  @Input() userId!: string;
-
   public curNetworth: string = "";
   public isLoading: boolean = false;
 
@@ -27,7 +25,7 @@ export class NetworthComponent {
     this.isLoading = true;
     combineLatest([
       this.dataService.dataChanged$,
-      this.dataService.getUserAssets$(this.userId)
+      this.dataService.getUserAssets$()
     ]).subscribe(([valueChanged, assets]) => {
       this.computeNetworth(assets);
       this.isLoading = false;
@@ -37,7 +35,7 @@ export class NetworthComponent {
   private computeNetworth(assets: Asset[]): void {
     let networth = 0;
       assets.forEach((asset) => {
-        networth += asset.curValue ?? 0;
+        networth += parseInt(asset.curValue ?? '0');
       });
       this.curNetworth = networth.toLocaleString();
   }
