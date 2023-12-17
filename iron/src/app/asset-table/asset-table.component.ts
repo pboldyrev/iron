@@ -93,7 +93,6 @@ export class AssetTableComponent {
       },
       complete: () => {
         this.isLoading = false;
-        this.dataService.dataChanged$.next(true);
       }
     });
   }

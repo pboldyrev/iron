@@ -98,6 +98,7 @@ export class DataService {
       }
     ).pipe(
       mergeMap((asset: Asset) => {
+        // TODO: DONT NEST SUBSCRIBES OMFG
         this.fetchUserAssets$().subscribe((data: any) => {
           this.userAssets$.next(data?.assets ?? []);
         });
