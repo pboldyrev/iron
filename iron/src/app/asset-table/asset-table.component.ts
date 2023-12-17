@@ -14,6 +14,8 @@ import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { TimeRangeSelectorComponent } from '../time-range-selector/time-range-selector.component';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 import { Router } from '@angular/router';
+import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
+import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 
 @Component({
   selector: 'app-asset-table',
@@ -29,6 +31,7 @@ import { Router } from '@angular/router';
     TimeRangeSelectorComponent,
     MatMenuModule,
     ConfirmationPopupComponent,
+    BluValidationFeedback,
   ],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.scss'
@@ -46,6 +49,9 @@ export class AssetTableComponent {
   public showArchivePopup$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public assetToArchive: Asset | undefined;
   public TEXTS = TEXTS;
+  public FeedbackType = FeedbackType;
+
+  public showUnknownError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private dataChanged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -61,7 +67,14 @@ export class AssetTableComponent {
       mergeMap(() => {
         return this.fetchAssets$()
       })
-    ).subscribe();
+    ).subscribe({
+      next: () => {},
+      error: (error) => {
+        console.log(error);
+        this.isLoading$.next(false);
+        this.showUnknownError$.next(true);
+      }
+    });
   }
 
   public getPercentChange(init: number, cur: number): number {

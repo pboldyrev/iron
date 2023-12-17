@@ -14,7 +14,17 @@ export type AssetValue = {
   value?: string,
 }
 
-export type Asset = {
+export type VehicleCustomAttributes = {
+  nickName?: string,
+  vehicleVin?: string,
+  vehicleMake?: string,
+  vehicleModel?: string,
+  vehicleYear?: number,
+  mileage?: number,
+  appreciationRate?: number,
+}
+
+export type BaseAsset = {
   assetId?: string,
   userId?: string,
   assetName?: string,
@@ -27,6 +37,8 @@ export type Asset = {
   isArchived?: boolean,
 }
 
+export type Asset = BaseAsset & VehicleCustomAttributes;
+
 export type GetAssetsResponse = {
   assets: Asset[]
 }
@@ -36,9 +48,9 @@ export type ArchiveAssetResponse = {
 }
 
 export enum AssetType {
-  Stock = 'Stock',
-  Vehicle = 'Vehicle',
-  CD = 'CD',
-  HYSA = 'HYSA',
-  Custom = 'Custom',
+  Stock = 'stock',
+  Vehicle = 'vehicle',
+  CD = 'cd',
+  HYSA = 'hysa',
+  Custom = 'custom',
 }

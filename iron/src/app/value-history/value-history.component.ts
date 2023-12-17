@@ -36,10 +36,10 @@ export class ValueHistoryComponent {
 
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
-  public showAddError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public showSomethingWentWrongError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public showIncompleteFieldsError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public newEntry$: BehaviorSubject<AssetValue> = new BehaviorSubject<AssetValue>({});
-  public isLoading = false;
-  public isSaving = false;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public displayedColumns = ['date', 'value', 'action'];
   public displayedFooterColumns = ['addDate', 'addValue', 'addAction'];
   public valueChange$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -49,40 +49,27 @@ export class ValueHistoryComponent {
     private dataService: DataService,
   ) {}
 
-  ngOnInit() {
-    this.isLoading = true;
-
-    this.asset$.pipe(
-      filter((asset : Asset) => !!asset.assetId),
-      tap(() => this.isLoading = false),
-    ).subscribe();
-
-    combineLatest([
-      this.getValueChange$(),
-      this.getValueChangeString$(),
-    ]).subscribe(([valueChange, valueChangeString]) => {
-      this.valueChange$.next(valueChange);
-      this.valueChangeString$.next(valueChangeString);
-    });
+  private fetchAsset$(): Observable<void> {
+    return this.dataService.getAssetById$(this.assetId, this.isLoading$).pipe(
+      map((asset: Asset) => {
+        this.asset$.next(asset);
+        this.valueChange$.next(123);
+        this.valueChangeString$.next("123");
+      })
+    )
   }
 
-  public onSaveAsset(): void {
-    this.isSaving = true;
-    combineLatest([
-      this.newEntry$,
-      this.asset$
-    ]).pipe(
-      take(1),
-      filter(([newEntry, asset]: [AssetValue, Asset]) => !!asset.assetId),
-      mergeMap(([newEntry, asset]: [AssetValue, Asset]) => {
-        return this.dataService.appendAssetHistory$(asset.assetId ?? '', newEntry)
-      })).subscribe(() => {
-      this.isSaving = false;
-    })
+  ngOnInit() {
+    this.fetchAsset$().subscribe()
+    this.dataService.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.fetchAsset$();
+      })
+    ).subscribe();
   }
 
   public onAddEntry(): void {
-    this.showAddError$.next(false);
+    this.showIncompleteFieldsError$.next(false);
 
     this.valueInput.validate();
     this.dateInput.validate();
@@ -109,10 +96,7 @@ export class ValueHistoryComponent {
         string
       ]) => {
         if (!isValueValid || !isDateValid) {
-          this.showAddError$.next(true);
-        } else {
-          this.dateInput.clearValueAndValidators();
-          this.valueInput.clearValueAndValidators();
+          this.showIncompleteFieldsError$.next(true);
         }
       }),
       filter(([
@@ -141,15 +125,27 @@ export class ValueHistoryComponent {
         boolean,
         string
       ]) => {
-        const newValue: AssetValue = {timestamp: date, value: value};
-        asset.totalValues = [
+        const clonedAsset = structuredClone(asset);
+        const newValue: AssetValue = {
+          timestamp: new Date(date).valueOf().toString(),
+          value: value
+        };
+        this.newEntry$.next(newValue);
+        clonedAsset.totalValues = [
           ...asset.totalValues ?? [],
-          newValue,
-        ];
-        this.asset$.next(asset);
-        return this.dataService.appendAssetHistory$(asset.assetId ?? '', newValue);
+          newValue
+        ]
+        return this.dataService.putAsset$(clonedAsset, this.isLoading$);
       })
-    ).subscribe();
+    ).subscribe({
+      next: () => {
+      },
+      error: (error) => {
+        this.isLoading$.next(false);
+        this.showSomethingWentWrongError$.next(true);
+        console.log(error);
+      }
+    })
   }
 
   public onDeleteEntry(entryToDelete: AssetValue): void {
@@ -158,12 +154,20 @@ export class ValueHistoryComponent {
       mergeMap((
         asset: Asset,
       ) => {
-        asset.totalValues = asset.totalValues?.filter((asset: AssetValue) => asset.timestamp !== entryToDelete.timestamp);
-        this.asset$.next(asset);
+        const clonedAsset = structuredClone(asset);
+        clonedAsset.totalValues = clonedAsset.totalValues?.filter((asset: AssetValue) => asset.timestamp !== entryToDelete.timestamp);
 
-        return this.dataService.deleteAssetHistoryEntry$(asset.assetId ?? '', entryToDelete);
+        return this.dataService.putAsset$(clonedAsset, this.isLoading$);
       })
-    ).subscribe();
+    ).subscribe({
+      next: () => {
+      },
+      error: (error) => {
+        this.isLoading$.next(false);
+        this.showSomethingWentWrongError$.next(true);
+        console.log(error);
+      }
+    });
   }
 
   public getValueChange$(): Observable<number> {
@@ -187,5 +191,9 @@ export class ValueHistoryComponent {
         return changeSymbol + '$' + Math.abs((curValue)).toLocaleString() + ' (' + percentChange + '%)';
       }),
     )
+  }
+
+  public getDateString(ms: string) {
+    return (new Date(ms)).toLocaleDateString();
   }
 }

@@ -64,7 +64,7 @@ export class AuthService {
       localStorage.removeItem('sessionToken')
       this.router.navigate(['/login']);
     } catch (error) {
-      console.error("Already signed out.");
+      console.log(error);
     }
   }
 

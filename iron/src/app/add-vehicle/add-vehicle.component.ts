@@ -15,7 +15,8 @@ import { VEHICLE_MAKES } from './add-vehicle.constants';
 import { ValueHistoryComponent } from '../value-history/value-history.component';
 import { TEXTS } from './add-vehicle.strings';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { AssetType } from '../shared/constants/constants';
+import { Asset, AssetType, VehicleCustomAttributes } from '../shared/constants/constants';
+import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 
 export type VehicleAssetData = {
   assetName: string
@@ -24,7 +25,7 @@ export type VehicleAssetData = {
 @Component({
   selector: 'app-add-vehicle',
   standalone: true,
-  imports: [CommonModule, BluModal, BluInput, BluText, MatTooltipModule, BluButton, BluSelect, ValueHistoryComponent, BluSpinner],
+  imports: [CommonModule, BluModal, BluInput, BluText, MatTooltipModule, BluButton, BluSelect, ValueHistoryComponent, BluSpinner, BluValidationFeedback],
   templateUrl: './add-vehicle.component.html',
   styleUrl: './add-vehicle.component.scss'
 })
@@ -41,13 +42,13 @@ export class AddVehicleComponent {
   public modelYears: BluSelectOption[] = this.getModelYears();
   public vehicleMakes: BluSelectOption[] = this.getVehicleMakes();
   public vehicleMileage: BluSelectOption[] = this.getVehicleMileages();
-  public isLoading: boolean = false;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public errorMessage$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(
     private router: Router,
     private location: Location,
     private dataService: DataService,
-    private authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -59,7 +60,7 @@ export class AddVehicleComponent {
   }
 
   public onNext(): void {
-    this.isLoading = true;
+    this.isLoading$.next(true);
 
     this.vehicleMakeInput.validate();
     this.modelYearInput.validate();
@@ -71,9 +72,9 @@ export class AddVehicleComponent {
       this.modelYearInput.isValid$,
       this.mileageInput.isValid$,
       this.modelNameInput.isValid$,
-      this.vehicleMakeInput.value$,
-      this.modelYearInput.value$,
-      this.mileageInput.value$,
+      this.vehicleMakeInput.text$,
+      this.modelYearInput.id$,
+      this.mileageInput.id$,
       this.modelNameInput.value$,
       this.nicknameInput.value$,
     ]).pipe(
@@ -88,6 +89,16 @@ export class AddVehicleComponent {
         mileageInputValue, 
         modelNameInputValue, 
         nicknameInputValue, 
+      ]: [
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        string,
+        string,
+        string,
+        string,
+        string
       ]) => {
         if(
           !vehicleMakeInputValid || 
@@ -95,22 +106,36 @@ export class AddVehicleComponent {
           !mileageInputValid || 
           !modelNameInputValid
         ) {
-          this.isLoading = false;
+          this.isLoading$.next(false);
           return "";
         }
 
-        let finalName = this.getFinalName(modelNameInputValue, modelYearInputValue ?? "", vehicleMakeInputValue ?? "", nicknameInputValue);
+        let finalName = this.getFinalName(modelNameInputValue, modelYearInputValue ?? '', vehicleMakeInputValue ?? "", nicknameInputValue);
 
-        return this.dataService.addAsset$({
+        const vehicleCustomAttributes: VehicleCustomAttributes = {
+          vehicleMake: vehicleMakeInputValue,
+          vehicleModel: modelNameInputValue,
+          vehicleYear: parseInt(modelYearInputValue),
+          mileage: parseInt(mileageInputValue),
+        }
+
+        return this.dataService.putAsset$({
           assetName: finalName,
           units: 1,
           timeCreated: 0,
           assetType: AssetType.Vehicle,
-        });
+          ...vehicleCustomAttributes,
+        }, this.isLoading$);
       }),
-      filter(assetId => assetId !== "")
-    ).subscribe((assetId: string | undefined) => {
-      this.router.navigate(['asset/' + assetId]);
+    ).subscribe({
+      next: (asset: any) => {
+        this.router.navigate(['asset/' + asset.assetId]);
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading$.next(false);
+        this.errorMessage$.next(TEXTS.UNKNOWN_ERROR);
+      }
     });
   }
 

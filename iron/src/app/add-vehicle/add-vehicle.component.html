@@ -79,25 +79,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 order-md-1 order-sm-2">
                         <div class="add-vehicle-button">
                             <blu-button [fullWidth]="true" type="secondary" (click)="onClose()">Back</blu-button>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 order-md-2 order-sm-1">
                         <div class="add-vehicle-button add-vehicle-input-second">
                             <blu-button
                                 [fullWidth]="true" 
                                 type="primary" 
-                                (click)="isLoading ? null : onNext()"
+                                (click)="onNext()"
                             >
-                                <span *ngIf="isLoading" class="add-vehicle-spinner-wrapper">
+                                <span *ngIf="(isLoading$ | async)" class="add-vehicle-spinner-wrapper">
                                     <blu-spinner></blu-spinner>
                                 </span>
                                 Next
                             </blu-button>
                         </div>
                     </div>
+                    <blu-validation-feedback *ngIf="errorMessage$ | async" [type]="FeedbackType.ERROR">
+                        {{ errorMessage$ | async }}
+                    </blu-validation-feedback>
                 </div>
             </blu-modal>
         </div>

@@ -19,7 +19,8 @@ export class BluSelect {
   @Input() required: boolean = false;
   @Input() label: string | null = null;
 
-  public value$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public id$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public text$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public isValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   ngOnInit() {
@@ -27,22 +28,25 @@ export class BluSelect {
 
     this.options.forEach((option: BluSelectOption) => {
       if(option.selected) {
-        this.value$.next(option.text);
+        this.id$.next(option.id);
+        this.text$.next(option.text);
         hasSelected = true;
       }
     });
 
     if(!hasSelected&& this.options.length > 0) {
-      this.value$.next(this.options[0].text);
+      this.id$.next(this.options[0].id);
+      this.text$.next(this.options[0].text);
     }
   }
 
   public updateValue(event: any): void {
-    this.value$.next(event.target.value);
+    this.id$.next(event.target.id);
+    this.text$.next(event.target.text);
   }
 
   public validate(): void {
-    this.value$.subscribe((value: string) => {
+    this.text$.subscribe((value: string) => {
       if(value != "") {
         this.isValid$.next(true);
       }

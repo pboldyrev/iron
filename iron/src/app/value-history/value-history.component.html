@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12 value-history-totals">
             <blu-heading
-                *ngIf="!isLoading"
+                *ngIf="!(isLoading$ | async)"
                 size="x-small"
                 subheading="ALL TIME"
                 subheadingSize="x-small"
@@ -17,7 +17,7 @@
         [noPadding]="true"
         [outline]="outline"
     >
-        <div *ngIf="isLoading else valueHistoryTable" class="value-history-loading">
+        <div *ngIf="(isLoading$ | async) else valueHistoryTable" class="value-history-loading">
             <mat-progress-bar mode="query"></mat-progress-bar>
         </div>
         <ng-template #valueHistoryTable>
@@ -27,7 +27,7 @@
                         Date
                     </mat-header-cell>
                     <mat-cell *matCellDef="let entry">
-                        <blu-text type="primary">{{entry?.date?.toLocaleString() ?? 0}}</blu-text>
+                        <blu-text type="primary">{{getDateString(entry?.timestamp ?? 0)}}</blu-text>
                     </mat-cell>
                 </ng-container>
 
@@ -90,7 +90,8 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 <mat-footer-row *matFooterRowDef="displayedFooterColumns"></mat-footer-row>
             </mat-table>
-            <blu-validation-feedback *ngIf="showAddError$ | async" [type]="FeedbackType.ERROR">Please complete the fields</blu-validation-feedback>
+            <blu-validation-feedback *ngIf="showSomethingWentWrongError$ | async" [type]="FeedbackType.ERROR">Something went wrong. Please try again!</blu-validation-feedback>
+            <blu-validation-feedback *ngIf="showIncompleteFieldsError$ | async" [type]="FeedbackType.ERROR">Please fill in the date and value.</blu-validation-feedback>
         </ng-template>
     </blu-modal>
 </div>

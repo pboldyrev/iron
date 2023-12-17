@@ -14,7 +14,6 @@
             </blu-text>
         </div>
         <div class="col-6 asset-table-button-group">
-            <app-time-range-selector></app-time-range-selector>
             <blu-button type="secondary" size="small" iconName="plus" (click)="onAddAsset()">
                 {{ TEXTS.ACTION_CTA }}
             </blu-button>
@@ -23,7 +22,7 @@
     <div *ngIf="isLoading$ | async" class="asset-table-progress-bar">
         <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
-    <mat-table *ngIf="!(isLoading$ | async)" #table [dataSource]="assets$">
+    <mat-table *ngIf="!(isLoading$ | async) && !(showUnknownError$ | async)" #table [dataSource]="assets$">
         <ng-container matColumnDef="account">
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.ACCOUNT_TITLE }}
@@ -143,4 +142,5 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         <mat-footer-row *matFooterRowDef="displayedFooterColumns"></mat-footer-row>
     </mat-table>
+    <blu-validation-feedback *ngIf="showUnknownError$ | async" [type]="FeedbackType.ERROR">Unknown error occured.</blu-validation-feedback>
 </div>
