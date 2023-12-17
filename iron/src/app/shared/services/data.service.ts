@@ -17,7 +17,11 @@ export class DataService {
     private httpClient: HttpClient,
     private authService: AuthService,
   ) {
-    this.httpClient.post(
+    this.fetchUserAssets$().subscribe();
+  }
+
+  private fetchUserAssets$(): Observable<any> {
+    return this.httpClient.post(
       "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAssetsByUser",
       {
         sessionToken: this.authService.getSessionToken(),
@@ -25,9 +29,11 @@ export class DataService {
       {
         headers: {'Content-Type': 'application/json'},
       }
-    ).subscribe((data: any) => {
-      this.userAssets$.next(data?.assets ?? []);
-    });
+    ).pipe(
+      tap((data: any) => {
+        this.userAssets$.next(data?.assets ?? []);
+      }),
+    )
   }
 
   public getUserAssets$(): Observable<Asset[]> {
@@ -90,7 +96,14 @@ export class DataService {
       {
         headers: {'Content-Type': 'application/json'},
       }
-    );
+    ).pipe(
+      mergeMap((asset: Asset) => {
+        this.fetchUserAssets$().subscribe((data: any) => {
+          this.userAssets$.next(data?.assets ?? []);
+        });
+        return of(asset);
+      }),
+    )
   }
 
   public appendAssetHistory$(assetId: string,  assetValue: AssetValue) {

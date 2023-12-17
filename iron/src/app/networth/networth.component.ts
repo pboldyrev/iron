@@ -4,7 +4,7 @@ import { Asset } from '../shared/constants/constants';
 import { CommonModule } from '@angular/common';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { combineLatest } from 'rxjs';
+import { combineLatest, tap } from 'rxjs';
 
 @Component({
   selector: 'app-networth',
@@ -23,10 +23,7 @@ export class NetworthComponent {
 
   ngOnInit() {
     this.isLoading = true;
-    combineLatest([
-      this.dataService.dataChanged$,
-      this.dataService.getUserAssets$()
-    ]).subscribe(([valueChanged, assets]) => {
+    this.dataService.getUserAssets$().subscribe((assets: Asset[]) => {
       this.computeNetworth(assets);
       this.isLoading = false;
     });
