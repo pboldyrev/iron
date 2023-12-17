@@ -17,6 +17,11 @@
   color: var(--blu-color-text-secondary);
 }
 
+.blu-heading-xs {
+  font-size: var(--blu-font-size-heading-xs);
+  line-height: var(--blu-line-height-s);
+}
+
 .blu-heading-s {
   font-size: var(--blu-font-size-heading-s);
   line-height: var(--blu-line-height-m);
@@ -30,4 +35,12 @@
 .blu-heading-l {
   font-size: var(--blu-font-size-heading-l);
   line-height: var(--blu-line-height-l);
+}
+
+.blu-heading-success {
+  color: var(--blu-color-success);
+}
+
+.blu-heading-error {
+  color: var(--blu-color-error);
 }

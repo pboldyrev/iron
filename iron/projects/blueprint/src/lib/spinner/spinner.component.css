@@ -39,3 +39,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.blu-spinner-wrapper {
+  color: var(--blu-color-primary);
+}

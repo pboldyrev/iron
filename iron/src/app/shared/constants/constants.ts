@@ -9,14 +9,14 @@ export const REGEX = {
 };
 
 export type AssetValue = {
-  date: string,
-  value: number,
+  date?: string,
+  value?: number,
 }
 
 export type Asset = {
-  assetName: string,
-  lastUpdated: number,
-  type: string,
+  assetName?: string,
+  lastUpdated?: number,
+  type?: string,
   accountName?: string,
   id?: string,
   numUnits?: number,

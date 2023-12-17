@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter, map } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
 import { Asset } from '../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
@@ -22,8 +22,9 @@ export class AssetDetailsPageComponent {
   public userId: string = this.authService.getCurrentUserId();
   public assetId: string = this.route.snapshot.paramMap.get('id') ?? "";
 
-  public assetName: BehaviorSubject<string> = new BehaviorSubject<string>("");
-  public assetValue: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  public displayAssetName$: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  public displayAssetValue$: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
 
   public isLoadingTitle = false;
 
@@ -36,26 +37,31 @@ export class AssetDetailsPageComponent {
 
   ngOnInit() {
     this.isLoadingTitle = true;
-    this.dataService.getAssetById$(this.userId, this.assetId).subscribe((asset: Asset | null) => {
-      this.assetName.next(this.getDisplayName(asset));
-      this.assetValue.next('$' + (asset?.curValue ?? 0).toLocaleString());
-      this.isLoadingTitle = false;
-    });
+    this.dataService.getAssetById$(this.userId, this.assetId)
+    .pipe(
+      filter((asset: Asset) => !!asset.id),
+      map((asset: Asset) => {
+        this.asset$.next(asset);
+        this.displayAssetName$.next(this.getDisplayName(asset));
+        this.displayAssetValue$.next('$' + (asset?.curValue ?? 0).toLocaleString());
+        this.isLoadingTitle = false;
+      })
+    ).subscribe();
   }
 
   public onBack() {
     this.router.navigate(['/overview']);
   }
 
-  private getDisplayName(asset: Asset | null): string {
+  private getDisplayName(asset: Asset): string {
     if(!asset) {
       return '';
     }
     
     if(asset.type) {
-      return asset.type + ' - ' + asset.assetName;
+      return asset.type + ' - ' + asset.assetName ?? '';
     }
 
-    return asset.assetName
+    return asset.assetName ?? ''
   }
 }

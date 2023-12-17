@@ -1,105 +1,96 @@
-<blu-modal
-    [title]="TEXTS.MODAL_TITLE"
-    [subtitle]="TEXTS.MODAL_SUBTITLE"
-    [outline]="outline"
->
-    <div *ngIf="isLoading else tableRows" class="value-history-loading">
-        <mat-progress-bar mode="query"></mat-progress-bar>
-    </div>
-    <ng-template #tableRows>
-        <div *ngFor="let entry of (entries$ | async)">
-            <div class="row value-history-entry-wrapper">
-                <div class="col-5">
-                    <div class="value-history-entry value-history-row-input-left">
-                        <blu-text type="primary">{{ entry.date }}</blu-text>
-                    </div>
-                </div>
-                <div class="col-5">
-                    <div class="value-history-entry">
-                        <blu-text type="primary">$ {{ entry.value.toLocaleString() }}</blu-text>
-                    </div>
-                </div>
-                <div class="col-2 align-self-center">
-                    <div class="value-history-entry-delete">
-                        <blu-button 
-                            [iconOnly]="true" 
-                            feedback="error" 
-                            iconSize="20"
-                            iconName="trash"
-                            type="tertiary" 
-                            [fullWidth]="true"
-                            (click)="onDeleteEntry(entry)"
-                        ></blu-button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div *ngFor="let entry of (newEntries$ | async)">
-            <div class="row value-history-entry-wrapper">
-                <div class="col-5">
-                    <div class="value-history-entry value-history-row-input-left">
-                        <blu-text type="primary">{{ entry.date }}</blu-text>
-                    </div>
-                </div>
-                <div class="col-5">
-                    <div class="value-history-entry value-history-row-input-right">
-                        <blu-text type="primary">$ {{ entry.value.toLocaleString() }}</blu-text>
-                    </div>
-                </div>
-                <div class="col-2 align-self-center">
-                    <div class="value-history-entry-delete value-history-row-input-right">
-                        <blu-button 
-                            [iconOnly]="true" 
-                            iconSize="20"
-                            feedback="error" 
-                            iconName="trash"
-                            type="tertiary" 
-                            [fullWidth]="true"
-                            (click)="onDeleteEntry(entry)"
-                        ></blu-button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="value-history-wrapper">
     <div class="row">
-        <div class="col-5">
-            <div class="value-history-row-input-left">
-                <blu-input 
-                    [fullWidth]="true"
-                    appearance="cell"
-                    [feedbackType]="FeedbackType.ERROR"
-                    placeholder="Date (mm/yyyy)" 
-                    type="DATE"
-                    #date
-                    (keydown.enter)="onAddEntry()"
-                ></blu-input>
-            </div>
-        </div>
-        <div class="col-5">
-            <div class="value-history-row-input-right">
-                <blu-input 
-                    [fullWidth]="true" 
-                    appearance="cell"
-                    [feedbackType]="FeedbackType.ERROR"
-                    placeholder="Value" 
-                    type="NUMBER"
-                    #value
-                    (keydown.enter)="onAddEntry()"
-                ></blu-input>
-            </div>
-        </div>
-        <div class="col-2 align-self-center">
-            <div class="value-history-entry-delete value-history-row-input-right">
-                <blu-button 
-                    [iconOnly]="true" 
-                    iconSize="20"
-                    iconName="plus" 
-                    type="tertiary"
-                    [fullWidth]="true"
-                    (click)="onAddEntry()"
-                ></blu-button>
-            </div>
+        <div class="col-12 value-history-totals">
+            <blu-heading
+                *ngIf="!isLoading"
+                size="x-small"
+                subheading="ALL TIME"
+                subheadingSize="x-small"
+                [feedback]="((valueChange$ | async) ?? 0) >= 0 ? 'success' : 'error'"
+                [bold]="true"
+            >
+                {{ valueChangeString$ | async }}
+            </blu-heading>
         </div>
     </div>
-    </ng-template>
-</blu-modal>
+    <blu-modal
+        [noPadding]="true"
+        [outline]="outline"
+    >
+        <div *ngIf="isLoading else valueHistoryTable" class="value-history-loading">
+            <mat-progress-bar mode="query"></mat-progress-bar>
+        </div>
+        <ng-template #valueHistoryTable>
+            <mat-table #table [dataSource]="(asset$ | async)?.historicalValues ?? []">
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef>
+                        Date
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <blu-text type="primary">{{entry?.date?.toLocaleString() ?? 0}}</blu-text>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                    <mat-header-cell *matHeaderCellDef>
+                        Value
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <blu-text type="primary">${{entry?.value?.toLocaleString() ?? 0}}</blu-text>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" [matMenuTriggerFor]="appMenu"></blu-button>
+                        <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
+                            <div mat-menu-item (click)="onDeleteEntry(entry)"><blu-text type="error" size="small">Delete</blu-text></div>
+                        </mat-menu>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="addDate">
+                    <mat-footer-cell *matFooterCellDef>
+                        <blu-input 
+                            [fullWidth]="true"
+                            appearance="cell"
+                            [feedbackType]="FeedbackType.ERROR"
+                            placeholder="Date (mm/yyyy)" 
+                            type="DATE"
+                            #date
+                            (keydown.enter)="onAddEntry()"
+                        ></blu-input>
+                    </mat-footer-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="addValue">
+                    <mat-footer-cell *matFooterCellDef>
+                        <blu-input 
+                            [fullWidth]="true" 
+                            appearance="cell"
+                            [feedbackType]="FeedbackType.ERROR"
+                            placeholder="Asset value" 
+                            type="NUMBER"
+                            direction="rtl"
+                            #value
+                            (keydown.enter)="onAddEntry()"
+                        ></blu-input>
+                    </mat-footer-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="addAction">
+                    <mat-footer-cell *matFooterCellDef>
+                        <blu-button [iconOnly]="true" iconName="plus" type="tertiary" (click)="onAddEntry()"></blu-button>
+                    </mat-footer-cell>
+                </ng-container>
+        
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                <mat-footer-row *matFooterRowDef="displayedFooterColumns"></mat-footer-row>
+            </mat-table>
+            <blu-validation-feedback *ngIf="showAddError$ | async" [type]="FeedbackType.ERROR">Please complete the fields</blu-validation-feedback>
+        </ng-template>
+    </blu-modal>
+</div>

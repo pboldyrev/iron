@@ -8,6 +8,11 @@
 }
 
 .blu-text-s {
+  font-size: var(--blu-font-size-xs);
+  line-height: var(--blu-line-height-xs);
+}
+
+.blu-text-s {
   font-size: var(--blu-font-size-s);
   line-height: var(--blu-line-height-s);
 }

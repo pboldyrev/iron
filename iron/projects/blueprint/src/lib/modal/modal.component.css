@@ -22,3 +22,7 @@
     color: var(--blu-color-tertiary);
   }
 }
+
+.modal-no-padding {
+  padding: 0;
+}

@@ -13,6 +13,7 @@
     'blu-input-feedback-success':
       !(isValid$ | async) && feedbackType === 'success',
     'blu-input-cell': appearance === 'cell',
+    'blu-input-rtl': direction === 'rtl',
   }"
   [type]="(type === 'NUMBER' || type === 'INTEGER') ? 'TEXT' : type"
   [placeholder]="placeholder"
@@ -20,7 +21,7 @@
   [value]="value$ | async"
   (input)="updateValue($event)"
 />
-<blu-validation-feedback *ngIf="!(isValid$ | async)" [type]="feedbackType">
+<blu-validation-feedback *ngIf="!(isValid$ | async) && appearance !== 'cell'" [type]="feedbackType">
   <blu-text size="medium">
     {{ FEEDBACK_STRINGS[feedbackType][type] }}
   </blu-text>

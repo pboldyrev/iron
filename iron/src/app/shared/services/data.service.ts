@@ -22,12 +22,12 @@ export class DataService {
     }
   }
 
-  public getAssetById$(userId: string, assetId: string): Observable<Asset | null> {
+  public getAssetById$(userId: string, assetId: string): Observable<Asset> {
     return this.getUserAssets$(userId)
     .pipe(
       map((assets: Asset[]) => {
-        let matchedAsset = null;
-        assets.forEach((asset) => {
+        let matchedAsset: Asset = {};
+        assets.forEach((asset: Asset) => {
           if(asset.id === assetId) {
             matchedAsset = asset;
           }
@@ -73,7 +73,7 @@ export class DataService {
     );
   }
 
-  public appendAssetHistory$(userId: string, assetId: string,  valueHistory: AssetValue[]) {
+  public appendAssetHistory$(userId: string, assetId: string,  assetValue: AssetValue) {
     return this.getUserAssets$(userId)
     .pipe(
       map((assets: Asset[]) => {
@@ -81,7 +81,7 @@ export class DataService {
           if(asset.id === assetId) {
             asset.historicalValues = [
               ...asset.historicalValues ?? [],
-              ...valueHistory
+              assetValue
             ];
             this.setAssetInitAndCurValues(asset);
           }
@@ -112,13 +112,15 @@ export class DataService {
 
   private setAssetInitAndCurValues(asset: Asset): void {
     if(!asset.historicalValues || asset.historicalValues.length === 0) {
+      asset.curValue = 0;
+      asset.initValue = 0;
       return;
     }
 
-    let minDate = new Date(asset.historicalValues[0].date);
-    let maxDate = new Date(asset.historicalValues[0].date);
+    let minDate = new Date(asset?.historicalValues[0]?.date ?? 0);
+    let maxDate = new Date(asset.historicalValues[0].date ?? 0);
     asset.historicalValues?.forEach((value: AssetValue) => {
-      const date = new Date(value.date);
+      const date = new Date(value.date ?? 0);
 
       if(date <= minDate) {
         minDate = date;

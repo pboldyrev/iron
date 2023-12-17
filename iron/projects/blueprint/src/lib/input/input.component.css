@@ -38,5 +38,17 @@
 }
 
 .blu-input-cell {
-  background-color: var(--blu-background-tertiary);
+  background-color: var(--blu-background-primary);
+  color: white;
+  border: none;
+  padding: 0;
+}
+
+.blu-input-cell:focus {
+  background-color: var(--blu-background-primary);
+  border: none;
+}
+
+.blu-input-rtl {
+  text-align: right;
 }

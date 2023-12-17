@@ -27,6 +27,7 @@ export class BluInput {
   @Input() currency: boolean = false;
   @Input() required: boolean = true;
   @Input() appearance: string = '';
+  @Input() direction: string = 'ltr';
 
   public value$ = new BehaviorSubject<string>('');
   public isValid$ = new BehaviorSubject<boolean>(true);
