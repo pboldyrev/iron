@@ -20,10 +20,10 @@
             </blu-button>
         </div>
     </div>
-    <div *ngIf="isLoading" class="asset-table-progress-bar">
+    <div *ngIf="isLoading$ | async" class="asset-table-progress-bar">
         <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
-    <mat-table *ngIf="!isLoading" #table [dataSource]="assets$">
+    <mat-table *ngIf="!(isLoading$ | async)" #table [dataSource]="assets$">
         <ng-container matColumnDef="account">
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.ACCOUNT_TITLE }}

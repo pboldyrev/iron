@@ -6,7 +6,7 @@ import { Asset } from '../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
-import { BehaviorSubject, Observable, map, merge, mergeMap, of, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, merge, mergeMap, of, take, tap } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
@@ -39,13 +39,15 @@ export class AssetTableComponent {
 
   public displayedColumns = ['account', 'asset', 'units', 'initValue', 'curValue', 'change', 'edit'];
   public displayedFooterColumns = ['blankAccount', 'blankAsset', 'blankUnits', 'initValueTotal', 'curValueTotal', 'changeTotal', 'blankEdit'];
-  public isLoading = false;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject([] as Asset[]);
   public curTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
   public initTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
   public showArchivePopup$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public assetToArchive: Asset | undefined;
   public TEXTS = TEXTS;
+
+  private dataChanged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private dataService: DataService,
@@ -54,6 +56,12 @@ export class AssetTableComponent {
 
   ngOnInit() {
     this.fetchAssets$().subscribe();
+
+    this.dataService.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.fetchAssets$()
+      })
+    ).subscribe();
   }
 
   public getPercentChange(init: number, cur: number): number {
@@ -82,24 +90,19 @@ export class AssetTableComponent {
       return;
     }
 
-    this.isLoading = true;
-
-    this.dataService.archiveAsset$(this.assetToArchive.assetId).subscribe({
+    this.dataService.archiveAsset$(this.assetToArchive.assetId, this.isLoading$).subscribe({
       next: () => {
         this.assetToArchive = undefined;
+        this.dataChanged$.next(true);
       },
       error: () => {
         console.log("ERROR: COULDN'T ARCHIVE");
-      },
-      complete: () => {
-        this.isLoading = false;
       }
     });
   }
 
   private fetchAssets$(): Observable<void> {
-    this.isLoading = true;
-    return this.dataService.getUserAssets$().pipe(
+    return this.dataService.getActiveAssets(this.isLoading$).pipe(
       tap((userAssets: Asset[]) => {
         let curTotal = 0;
         userAssets.forEach((asset: Asset) => {
@@ -109,7 +112,6 @@ export class AssetTableComponent {
       }),
       map((userAssets: Asset[]) => {
         this.assets$.next(userAssets);
-        this.isLoading = false;
       })
     );
   }

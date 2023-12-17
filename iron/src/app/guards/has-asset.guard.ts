@@ -11,7 +11,7 @@ export const hasAssetGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const assetId = route.params['id'] ?? "";
 
-  return dataService.getUserAssets$()
+  return dataService.getActiveAssets()
   .pipe(
     map((assets: Asset[]) => {
       let assetExists: boolean = false;

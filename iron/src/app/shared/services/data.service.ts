@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetValue } from '../constants/constants';
-import { BehaviorSubject, Observable, Subject, delay, map, max, mergeMap, of, tap } from 'rxjs';
+import { ArchiveAssetResponse, Asset, AssetValue } from '../constants/constants';
+import { BehaviorSubject, Observable, delay, map, mergeMap, of, tap } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -10,50 +10,55 @@ import { AuthService } from './auth.service';
 })
 export class DataService {
   public dataChanged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  private userAssets$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService,
-  ) {
-    this.fetchUserAssets$().subscribe();
-  }
+  ) {}
 
-  private fetchUserAssets$(): Observable<any> {
-    return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAssetsByUser",
-      {
-        sessionToken: this.authService.getSessionToken(),
-      },
-      {
-        headers: {'Content-Type': 'application/json'},
-      }
-    ).pipe(
-      tap((data: any) => {
-        this.userAssets$.next(data?.assets ?? []);
-      }),
-    )
-  }
-
-  public getUserAssets$(): Observable<Asset[]> {
-    return this.userAssets$.pipe(
+  public getActiveAssets(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+    if (loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+    return this.fetchUserAssets$().pipe(
       map((assets: Asset[]) => {
+        if (loadingIndicator) {
+          loadingIndicator.next(false);
+        }
         return assets.filter((asset: Asset) => !asset.isArchived);
       })
     );
   }
 
-  public getAllUserAssets$(): Observable<Asset[]> {
-    return this.userAssets$.pipe(
+  public getInactiveAssets(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+    if (loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+    return this.fetchUserAssets$().pipe(
       map((assets: Asset[]) => {
+        if (loadingIndicator) {
+          loadingIndicator.next(false);
+        }
         return assets.filter((asset: Asset) => !asset.isArchived);
       })
     );
   }
 
-  public getAssetById$(assetId: string): Observable<Asset> {
-    return this.getUserAssets$()
+  public getAllAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+    if (loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+    return this.fetchUserAssets$().pipe(
+      map((assets: Asset[]) => {
+        if (loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return assets;
+      })
+    );
+  }
+
+  public getAssetById$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+    return this.getActiveAssets(loadingIndicator)
     .pipe(
       map((assets: Asset[]) => {
         let matchedAsset: Asset = {};
@@ -63,8 +68,7 @@ export class DataService {
           }
         });
         return matchedAsset;
-      }),
-      delay(500)
+      })
     );
   }
 
@@ -75,18 +79,21 @@ export class DataService {
       asset.account = "Other";
     }
 
-    return this.getUserAssets$().pipe(
+    return this.getActiveAssets().pipe(
       map((assets: Asset[]) => {
         assets.push(asset);
         localStorage.setItem("userAssets", JSON.stringify(assets));
-        this.dataChanged$.next(true);
         return asset.assetId;
       }),
       delay(500)
     );
   }
 
-  public archiveAsset$(assetId: string): Observable<Asset> {
+  public archiveAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
     return this.httpClient.post(
       "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/archiveAsset",
       {
@@ -97,13 +104,13 @@ export class DataService {
         headers: {'Content-Type': 'application/json'},
       }
     ).pipe(
-      mergeMap((asset: Asset) => {
-        // TODO: DONT NEST SUBSCRIBES OMFG
-        this.fetchUserAssets$().subscribe((data: any) => {
-          this.userAssets$.next(data?.assets ?? []);
-        });
-        return of(asset);
-      }),
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        this.dataChanged$.next(true);
+        return data?.asset ?? {} as Asset;
+      })
     )
   }
 
@@ -120,7 +127,7 @@ export class DataService {
   }
 
   public deleteAssetHistoryEntry$(assetId: string,  entryToDelete: AssetValue) {
-    return this.getUserAssets$()
+    return this.getActiveAssets()
     .pipe(
       map((assets: Asset[]) => {
         assets.forEach((asset) => {
@@ -129,9 +136,30 @@ export class DataService {
           }
         });
         localStorage.setItem("userAssets", JSON.stringify(assets));
-        this.dataChanged$.next(true);
       }),
       delay(500)
+    )
+  }
+
+  private fetchUserAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+    if (loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+    return this.httpClient.post(
+      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAssetsByUser",
+      {
+        sessionToken: this.authService.getSessionToken(),
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    ).pipe(
+      map((data: any) => {
+        if (loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return data?.assets as Asset[] ?? []
+      }),
     )
   }
 }

@@ -27,6 +27,14 @@ export type Asset = {
   isArchived?: boolean,
 }
 
+export type GetAssetsResponse = {
+  assets: Asset[]
+}
+
+export type ArchiveAssetResponse = {
+  asset: Asset
+}
+
 export enum AssetType {
   Stock = 'Stock',
   Vehicle = 'Vehicle',
