@@ -15,7 +15,7 @@
     'blu-input-cell': appearance === 'cell',
     'blu-input-rtl': direction === 'rtl',
   }"
-  [type]="(type === 'NUMBER' || type === 'INTEGER') ? 'TEXT' : type"
+  [type]="(type === 'NUMBER' || type === 'INTEGER') ? 'TEXT' : (type === 'PHONE') ? 'NUMBER' : type"
   [placeholder]="placeholder"
   [disabled]="disabled"
   [value]="value$ | async"

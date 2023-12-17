@@ -10,7 +10,7 @@ import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component
 import { FEEDBACK_STRINGS } from '../shared/constants/strings';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
-import { ERRORS, LoginType } from './login.constants';
+import { ERRORS } from './login.constants';
 import { Router } from '@angular/router';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
@@ -34,8 +34,7 @@ import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-pop
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  @ViewChild('emailInput') emailInput!: BluInput;
-  @ViewChild('passwordInput') passwordInput!: BluInput;
+  @ViewChild('phoneInput') phoneInput!: BluInput;
 
   public TEXTS = TEXTS;
   public BTN_TEXTS = BTN_TEXTS;
@@ -53,18 +52,12 @@ export class LoginComponent {
 
   public onSignIn(): void {
     this.clearErrors();
-    this.areFieldsValid$().subscribe((loginData: LoginType) => {
-      if (loginData) {
+    this.areFieldsValid$().subscribe((phoneNumber: number) => {
+      if (phoneNumber) {
         this.authService.signIn(
-          loginData.email,
-          loginData.password,
-          this.isSignInSubmitting$,
-        ).catch((err: Error) => {
-          if(err.message === ERRORS.INVALID_LOGIN || err.message === ERRORS.INVALID_LOGIN_2) {
-            this.invalidLogin$.next(true);
-          } else {
-            this.unknownLoginError$.next(true);
-          }
+          phoneNumber
+        ).subscribe((isSuccess: boolean) => {
+          this.router.navigate(['overview']);
         })
       }
     });
@@ -79,37 +72,29 @@ export class LoginComponent {
     this.unknownLoginError$.next(false);
   }
 
-  private areFieldsValid$(): Observable<LoginType> {
+  private areFieldsValid$(): Observable<number> {
     this.validateFields();
 
     return combineLatest([
-      this.emailInput.isValid$,
-      this.emailInput.value$,
-      this.passwordInput.isValid$,
-      this.passwordInput.value$,
+      this.phoneInput.isValid$,
+      this.phoneInput.value$,
     ]).pipe(
       take(1),
       map(
-        ([emailValid, emailValue, passwordValid, passwordValue]: [
-          boolean,
-          string,
+        ([phoneValid, phoneValue]: [
           boolean,
           string,
         ]) => {
-          if (emailValid && passwordValid) {
-            return {
-              email: emailValue,
-              password: passwordValue,
-            };
+          if (phoneValid && phoneValid) {
+            return parseInt(phoneValue);
           }
-          return null;
+          return 0;
         },
       ),
     );
   }
 
   private validateFields(): void {
-    this.emailInput.validate();
-    this.passwordInput.validate();
+    this.phoneInput.validate();
   }
 }

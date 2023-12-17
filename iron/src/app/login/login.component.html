@@ -7,24 +7,14 @@
   >
   <div class="login-modal-content">
     <blu-input
-      label="Email"
+      label="Phone number"
       [required]="true"
       [fullWidth]="true"
       [feedbackType]="FeedbackType.ERROR"
-      type="EMAIL"
+      type="PHONE"
       (keydown.enter)='onSignIn()'
       (click)="clearErrors()"
-      #emailInput
-    ></blu-input>
-    <blu-input
-      label="Password"
-      [required]="true"
-      [fullWidth]="true"
-      [feedbackType]="FeedbackType.ERROR"
-      type="PASSWORD"
-      (keydown.enter)='onSignIn()'
-      (click)="clearErrors()"
-      #passwordInput
+      #phoneInput
     ></blu-input>
     <blu-button type="primary" [fullWidth]="true" (click)="onSignIn()" (keydown.enter)='onSignIn()'>
       <div class="login-spinner-wrapper">
@@ -44,14 +34,6 @@
   >
     {{ TEXTS.UNKNWON_LOGIN_ERROR }}
   </blu-validation-feedback>
-    <div class="login-break">
-      <blu-text size="medium">
-        {{ TEXTS.OR }}
-      </blu-text>
-    </div>
-    <blu-button type="secondary" [fullWidth]="true" (click)="onSignUp()">
-      {{ BTN_TEXTS.SIGNUP }}
-    </blu-button>
     </div>
   </blu-modal>
 </div>

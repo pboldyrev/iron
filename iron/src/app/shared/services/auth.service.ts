@@ -6,7 +6,7 @@ import {
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/interfaces';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { FirebaseError } from 'firebase/app';
 
 @Injectable({
@@ -33,57 +33,12 @@ export class AuthService {
   }
 
   public signIn(
-    email: string,
-    password: string,
-    isSubmitting$: BehaviorSubject<boolean>,
-  ) {
-    isSubmitting$.next(true);
-    return this.afAuth
-      .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.setUserData(result.user);
-        this.afAuth.authState.subscribe((user) => {
-          if (user) {
-            this.router.navigate(['overview']);
-          }
-          isSubmitting$.next(false);
-        });
-      })
-      .catch((err: unknown) => {
-        isSubmitting$.next(false);
-
-        if(err instanceof FirebaseError) {
-          throw new Error(err.code);
-        } else {
-          throw new Error("auth/unknown");
-        }
-      });
-  }
-
-  public signUp(
-    name: string,
-    email: string,
-    password: string,
-    isSubmitting$: BehaviorSubject<boolean>,
-  ) {
-    isSubmitting$.next(true);
-    return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then((result: any) => {
-        result.user
-          .updateProfile({
-            displayName: name,
-          })
-          .then(() => {
-            this.setUserData(result.user);
-            this.router.navigate(['/overview']);
-            isSubmitting$.next(false);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-        isSubmitting$.next(false);
-      });
+    phoneNumber: number,
+  ): Observable<boolean> {
+    const formattedNumber = '+1' + phoneNumber.toString()
+    console.log(formattedNumber);
+    this.setUserData({uid: "123"});
+    return of(true);
   }
 
   public signOut() {
@@ -110,12 +65,8 @@ export class AuthService {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`,
     );
-    const userData: User = {
+    const userData = {
       uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
     };
     return userRef.set(userData, {
       merge: true,

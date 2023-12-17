@@ -1,6 +1,6 @@
 export const TEXTS = {
   TITLE: 'Welcome back.',
-  SUBTITLE: 'Enter your credentials below to sign in and track your assets.',
+  SUBTITLE: 'Enter your phone number to authenticate.',
   OR: 'or',
   REQUIRED_FIELDS_NOTE: '* Indicates required fields',
   INVALID_CREDENTIALS: 'Invalid credentials.',
@@ -8,6 +8,5 @@ export const TEXTS = {
 };
 
 export const BTN_TEXTS = {
-  LOGIN: 'Log in',
-  SIGNUP: 'Sign up',
+  LOGIN: 'Get verification code',
 };

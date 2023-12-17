@@ -3,6 +3,7 @@ export const REGEX = {
   PASSWORD: new RegExp('^.{8,}$'),
   TEXT: new RegExp('^.+$'),
   NUMBER: new RegExp('^([0-9]*\.)?[0-9]+$'),
+  PHONE: new RegExp('^[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$'),
   INTEGER: new RegExp('^[1-9]+[0-9]*$'),
   DATE: new RegExp('^[0-9]{4,}-[0-9]{2,}-[0-9]{2,}$'),
   NOT_REQUIRED: new RegExp(''),

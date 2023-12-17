@@ -5,7 +5,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
 import { authenticatedGuard } from './guards/authenticated.guard';
 import { UnknownPageComponent } from './unknown-page/unknown-page.component';
-import { SignupComponent } from './signup/signup.component';
 import { unauthenticatedGuard } from './guards/unauthenticated.guard';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
 import { AddStockComponent } from './add-stock/add-stock.component';
@@ -64,11 +63,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [unauthenticatedGuard],
-  },
-  {
-    path: 'signup',
-    component: SignupComponent,
     canActivate: [unauthenticatedGuard],
   },
   {
