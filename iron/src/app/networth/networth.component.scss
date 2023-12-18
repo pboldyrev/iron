@@ -1,10 +1,23 @@
 .networth-wrapper {
-    margin-bottom: var(--blu-margin-4xl);
-    width: fit-content;
+    min-width: fit-content;
     min-height: var(--blu-height-l);
     height: fit-content;
+    border: var(--blu-border-secondary);
+    border-radius: var(--blu-radius-xl);
+    padding: var(--blu-padding-xxl);
+    background-color: var(--blu-background-secondary);
+}
+
+.networth-pill-row {
+    display: flex;
+    margin-top: var(--blu-margin-xxl);
+    gap: var(--blu-space-s);
+    min-width: fit-content;
 }
 
 .networth-spinner-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
     color: var(--blu-color-primary);
 }

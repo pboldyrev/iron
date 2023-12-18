@@ -3,8 +3,15 @@
         <blu-spinner *ngIf="(isLoading$ | async) else networth" size="40"></blu-spinner>
     </div>
     <ng-template #networth>
-        <blu-heading size="large" [bold]="true" [subheading]="'as of ' + getNow()">
+        <blu-heading size="large" [bold]="true" subheading="Net Worth">
             ${{ curNetworth }}
         </blu-heading>
     </ng-template>
+    <div class="networth-pill-row">
+        <ng-container *ngFor="let option of timeRangeOptions">
+            <blu-pill [selected]="option.selected" (click)="onPillClicked(option)">
+                <blu-text type="primary" size="small" [breakWord]="false">{{ option.value }}</blu-text>
+            </blu-pill>
+        </ng-container>
+    </div>
 </div>

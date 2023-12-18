@@ -5,17 +5,43 @@ import { CommonModule } from '@angular/common';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { BehaviorSubject, combineLatest, mergeMap, tap } from 'rxjs';
+import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
+import { BluPill } from 'projects/blueprint/src/lib/pill/pill.component';
+import { BluText } from 'projects/blueprint/src/lib/text/text.component';
+
+export type TimeRangeOption = {
+  selected: boolean,
+  value: string
+}
 
 @Component({
   selector: 'app-networth',
   standalone: true,
-  imports: [CommonModule, BluHeading, BluSpinner],
+  imports: [CommonModule, BluHeading, BluSpinner, BluButton, BluPill, BluText],
   templateUrl: './networth.component.html',
   styleUrl: './networth.component.scss'
 })
 export class NetworthComponent {
   public curNetworth: string = "";
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public timeRangeOptions: TimeRangeOption[] = [
+    {
+      selected: true,
+      value: "1 Week"
+    },
+    {
+      selected: false,
+      value: "1 Month"
+    },
+    {
+      selected: false,
+      value: "1 Year"
+    },
+    {
+      selected: false,
+      value: "All"
+    }
+  ];
 
   constructor(
     private dataService: DataService,
@@ -55,21 +81,12 @@ export class NetworthComponent {
     this.curNetworth = networth.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2});
   }
 
-  public getNow(): string {
-    const now = new Date();
-    const options: {
-      hour: '2-digit',
-      minute: '2-digit',
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    } = {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit', 
-      minute: '2-digit',
-    };
-    return now.toLocaleString("en-US", options);
+  public onPillClicked(selectedOption: TimeRangeOption) {
+    selectedOption.selected = true;
+    this.timeRangeOptions.forEach((option: TimeRangeOption) => {
+      if(option.value != selectedOption.value){
+        option.selected = false;
+      }
+    });
   }
 }

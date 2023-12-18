@@ -1,0 +1,19 @@
+.blu-pill {
+    background-color: var(--blu-background-tertiary);
+    padding: var(--blu-padding-xs) var(--blu-padding-xxl);
+    border-radius: var(--blu-radius-xxl);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: var(--blu-border-primary);
+    width: fit-content;
+    min-width: fit-content;
+    transition: 0.3s;
+}
+
+.blu-pill:hover, 
+.blu-pill-selected {
+    border: 1px solid var(--blu-color-tertiary);
+    cursor: pointer;
+    transition: 0.3s;
+}

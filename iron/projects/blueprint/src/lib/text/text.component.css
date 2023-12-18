@@ -1,6 +1,13 @@
 .blu-text {
   font: var(--blu-font-primary);
+}
+
+.blu-break-word {
   word-break: break-all;
+}
+
+.blu-break-no-word {
+  word-break: keep-all;
 }
 
 .blu-text-bold {
