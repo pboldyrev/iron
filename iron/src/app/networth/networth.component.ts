@@ -27,15 +27,15 @@ export class NetworthComponent {
   public timeRangeOptions: TimeRangeOption[] = [
     {
       selected: true,
-      value: "1 Week"
+      value: "Week"
     },
     {
       selected: false,
-      value: "1 Month"
+      value: "Month"
     },
     {
       selected: false,
-      value: "1 Year"
+      value: "Year"
     },
     {
       selected: false,

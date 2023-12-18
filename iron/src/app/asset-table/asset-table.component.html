@@ -55,7 +55,7 @@
                 {{ TEXTS.COST_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset">
-                <blu-text type="number">${{ getInitialValue(asset).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text type="number">${{ (asset.initValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
         </ng-container>
 

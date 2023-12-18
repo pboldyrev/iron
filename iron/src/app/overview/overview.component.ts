@@ -9,11 +9,12 @@ import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BehaviorSubject } from 'rxjs';
 import { AddAssetComponent } from '../add-asset/add-asset.component';
 import { NetworthComponent } from '../networth/networth.component';
+import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule, AssetTableComponent, BluHeading, BluModal, BluPopup, AddAssetComponent, NetworthComponent],
+  imports: [CommonModule, AssetTableComponent, BluHeading, BluModal, BluPopup, AddAssetComponent, NetworthComponent, BluButton],
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
 })

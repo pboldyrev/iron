@@ -15,16 +15,20 @@
                 </div>
                 <mat-tab-group>
                     <mat-tab label="Value history">
-                        <app-value-history
-                            [assetId]="assetId"
-                            [asset$]="asset$"
-                        ></app-value-history>
+                        <div *ngIf="(isLoading$ | async) else valueHistory" class="asset-details-history-loading">
+                            <mat-progress-bar mode="query"></mat-progress-bar>
+                        </div>
+                        <ng-template #valueHistory>
+                            <app-value-history-chart></app-value-history-chart>
+                            <app-value-history
+                                *ngIf="(asset$ | async)?.assetType != AssetType.Stock"
+                                [assetId]="assetId"
+                                [asset$]="asset$"
+                            ></app-value-history>
+                        </ng-template>
                     </mat-tab>
                     <mat-tab label="Details">
-                        <app-value-history
-                            [assetId]="assetId"
-                            [asset$]="asset$"
-                        ></app-value-history>
+                        TO BE IMPLEMENTED
                     </mat-tab>
                 </mat-tab-group>
             </blu-modal>

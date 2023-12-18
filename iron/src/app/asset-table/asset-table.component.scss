@@ -59,13 +59,27 @@
     min-width: var(--blu-width-xl);
 }
 
+@media (max-width: 768px) {
+    .mat-column-account,
+    .mat-column-blankAccount,
+    .mat-column-units,
+    .mat-column-blankUnits,
+    .mat-column-initValue,
+    .mat-column-initValueTotal,
+    .mat-column-change,
+    .mat-column-changeTotal {
+        display: none;
+    }
+}
+
 .mat-column-blankAccount {
     width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
 }
 
 .mat-column-asset {
-    min-width: var(--blu-width-xl);
+    width: calc(var(--blu-width-xl) + var(--blu-width-m));
+    min-width: calc(var(--blu-width-xl) + var(--blu-width-m));
 }
 
 .mat-column-blankAsset {

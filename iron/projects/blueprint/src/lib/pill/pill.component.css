@@ -9,6 +9,7 @@
     width: fit-content;
     min-width: fit-content;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .blu-pill:hover, 

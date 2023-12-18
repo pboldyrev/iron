@@ -8,13 +8,15 @@ import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BehaviorSubject, Observable, filter, map, mergeMap } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
-import { Asset } from '../shared/constants/constants';
+import { Asset, AssetType } from '../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
+import { ValueHistoryChartComponent } from '../value-history-chart/value-history-chart.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, ValueHistoryChartComponent, MatProgressBarModule],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss'
 })
@@ -26,6 +28,8 @@ export class AssetDetailsPageComponent {
   public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
 
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  public AssetType = AssetType;
 
   constructor(
     private authService: AuthService,

@@ -54,24 +54,6 @@ export class ValueHistoryComponent {
     private dataService: DataService,
   ) {}
 
-  private fetchAsset$(): Observable<void> {
-    return this.dataService.getAssetById$(this.assetId, this.isLoading$).pipe(
-      map((asset: Asset) => {
-        this.asset$.next(asset);
-        this.setValueChange(asset);
-      })
-    )
-  }
-
-  ngOnInit() {
-    this.fetchAsset$().subscribe()
-    this.dataService.dataChanged$.pipe(
-      mergeMap(() => {
-        return this.fetchAsset$();
-      })
-    ).subscribe();
-  }
-
   public onAddEntry(): void {
     this.error$.next('');
 
@@ -163,39 +145,6 @@ export class ValueHistoryComponent {
         console.log(error);
       }
     });
-  }
-
-  private setValueChange(asset: Asset): void {
-    let initValue;
-    let curValue = asset.curValue ?? 0;
-    let valueHistory = asset.totalValues ?? [];
-
-    if(valueHistory.length > 0) {
-      // Oldest value is the first array element
-      initValue = valueHistory[0].value ?? 0;
-    } else {
-      initValue = curValue;
-    }
-    let valueChange = curValue - initValue;
-    let percentChange;
-    if(initValue === 0) {
-      percentChange = 0;
-    } else {
-      percentChange = Math.round(Math.abs(valueChange/initValue) * 100);
-    }
-    let changeString = '';
-    if(valueChange < 0) {
-      changeString += '-';
-    } else {
-      changeString += '+';
-    }
-    changeString += '$' + Math.abs(valueChange).toString() + ' (' + percentChange.toString() + '%)';
-
-    this.valueChange = {
-      amount: valueChange,
-      percent: percentChange,
-      text: changeString
-    }
   }
 
   public getDateString(ms: string) {

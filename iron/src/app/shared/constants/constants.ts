@@ -34,6 +34,7 @@ export type BaseAsset = {
   units?: number,
   totalValues?: AssetValue[],
   curValue?: number,
+  initValue?: number,
   isArchived?: boolean,
 }
 

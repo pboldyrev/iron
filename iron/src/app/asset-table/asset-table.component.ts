@@ -114,16 +114,6 @@ export class AssetTableComponent {
     });
   }
 
-  public getInitialValue(asset: Asset): number {
-    const valueHistory = asset.totalValues ?? [];
-
-    if(valueHistory.length > 0) {
-      return (valueHistory[0].value ?? 0);
-    }
-    
-    return 0;
-  }
-
   public getCurrentValueSum$(): Observable<number> {
     return this.assets$.pipe(
       map((assets: Asset[]) => {
@@ -141,7 +131,7 @@ export class AssetTableComponent {
       map((assets: Asset[]) => {
         let total = 0;
         assets.forEach((asset: Asset) => {
-          total += this.getInitialValue(asset);
+          total += asset.initValue ?? 0;
         });
         return total;
       }),

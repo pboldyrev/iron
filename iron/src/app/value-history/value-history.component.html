@@ -1,18 +1,4 @@
 <div class="value-history-wrapper">
-    <div class="row">
-        <div class="col-12 value-history-totals">
-            <blu-heading
-                *ngIf="!(isLoading$ | async)"
-                size="x-small"
-                subheading="ALL TIME"
-                subheadingSize="x-small"
-                [feedback]="(this.valueChange.amount ?? 0) >= 0 ? 'success' : 'error'"
-                [bold]="true"
-            >
-                {{ this.valueChange.text ?? '' }}
-            </blu-heading>
-        </div>
-    </div>
     <blu-modal
         [noPadding]="true"
         [outline]="outline"
