@@ -10,7 +10,7 @@
     <div class="networth-pill-row">
         <ng-container *ngFor="let option of timeRangeOptions">
             <blu-pill [selected]="option.selected" (click)="onPillClicked(option)">
-                <blu-text type="primary" size="small" [breakWord]="false">{{ option.value }}</blu-text>
+                <blu-text type="primary" size="small">{{ option.value }}</blu-text>
             </blu-pill>
         </ng-container>
     </div>
