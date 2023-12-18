@@ -105,7 +105,7 @@ export class ValueHistoryComponent {
         if (new Date(date).valueOf() > Date.now().valueOf()) {
           this.error$.next("Date can not be in the future.");
         }
-        return isDateValid && isValueValid && parseInt(date) > Date.now().valueOf()
+        return isDateValid && isValueValid && parseInt(date) <= Date.now().valueOf()
       }),
       mergeMap(([
         asset,
