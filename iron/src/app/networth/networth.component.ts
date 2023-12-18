@@ -52,7 +52,7 @@ export class NetworthComponent {
     assets.forEach((asset) => {
       networth += asset.curValue ?? 0;
     });
-    this.curNetworth = networth.toLocaleString();
+    this.curNetworth = networth.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2});
   }
 
   public getNow(): string {

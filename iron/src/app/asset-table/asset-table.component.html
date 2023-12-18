@@ -55,7 +55,7 @@
                 {{ TEXTS.COST_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset">
-                <blu-text type="number">${{(asset.initValue ?? 0).toLocaleString()}}</blu-text>
+                <blu-text type="number">${{ getInitialValue(asset).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
         </ng-container>
 
@@ -64,7 +64,7 @@
                 {{ TEXTS.VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
-                <blu-text type="number">${{(asset.curValue ?? 0).toLocaleString()}}</blu-text>
+                <blu-text type="number">${{(asset.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
         </ng-container>
 
@@ -95,24 +95,24 @@
 
         <ng-container matColumnDef="initValueTotal">
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ ((initTotal$ | async) ?? 0).toLocaleString() }}</blu-text>
+                <blu-text weight="bold" type="number">${{ ((getInitialValueSum$() | async) ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="curValueTotal">
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ ((curTotal$ | async) ?? 0).toLocaleString() }}</blu-text>
+                <blu-text weight="bold" type="number">${{ ((getCurrentValueSum$() | async) ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="changeTotal">
             <mat-footer-cell *matFooterCellDef>
                 <blu-tag 
-                    *ngIf="getPercentChange(((initTotal$ | async) ?? 0), ((curTotal$ | async) ?? 0)) !== 0"
-                    [type]="((curTotal$ | async) || 0) >= ((initTotal$ | async) || 0) ? 'success' : 'error'">
-                    <blu-icon [name]="((curTotal$ | async) || 0) >= ((initTotal$ | async) || 0) ? 'chevronUp' : 'chevronDown'"></blu-icon>
+                    *ngIf="(getSumPercentChange$() | async) !== 0"
+                    [type]="((getCurrentValueSum$() | async) || 0) >= ((getInitialValueSum$() | async) || 0) ? 'success' : 'error'">
+                    <blu-icon [name]="((getCurrentValueSum$() | async) || 0) >= ((getInitialValueSum$() | async) || 0) ? 'chevronUp' : 'chevronDown'"></blu-icon>
                     <div class="asset-table-tag-text">
-                        <blu-text size="small" type="number">{{ getPercentChange(((initTotal$ | async) ?? 0), ((curTotal$ | async) ?? 0)) }}%</blu-text>
+                        <blu-text size="small" type="number">{{ getSumPercentChange$() | async }}%</blu-text>
                     </div>
                 </blu-tag>
             </mat-footer-cell>

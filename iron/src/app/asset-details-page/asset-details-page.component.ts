@@ -39,7 +39,7 @@ export class AssetDetailsPageComponent {
       map((asset: Asset) => {
         this.asset$.next(asset);
         this.displayAssetName$.next(this.getDisplayName(asset));
-        this.displayAssetValue$.next('$' + (asset?.curValue ?? 0).toLocaleString());
+        this.displayAssetValue$.next('$' + (asset?.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}));
       })
     )
   }

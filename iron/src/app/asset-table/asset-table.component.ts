@@ -6,7 +6,7 @@ import { Asset } from '../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
-import { BehaviorSubject, Observable, filter, map, merge, mergeMap, of, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map, merge, mergeMap, of, take, tap } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
@@ -112,6 +112,54 @@ export class AssetTableComponent {
         console.log("ERROR: COULDN'T ARCHIVE");
       }
     });
+  }
+
+  public getInitialValue(asset: Asset): number {
+    const valueHistory = asset.totalValues ?? [];
+
+    if(valueHistory.length > 0) {
+      return (valueHistory[0].value ?? 0);
+    }
+    
+    return 0;
+  }
+
+  public getCurrentValueSum$(): Observable<number> {
+    return this.assets$.pipe(
+      map((assets: Asset[]) => {
+        let total = 0;
+        assets.forEach((asset: Asset) => {
+          total += asset.curValue ?? 0;
+        });
+        return total;
+      }),
+    )
+  }
+
+  public getInitialValueSum$(): Observable<number> {
+    return this.assets$.pipe(
+      map((assets: Asset[]) => {
+        let total = 0;
+        assets.forEach((asset: Asset) => {
+          total += this.getInitialValue(asset);
+        });
+        return total;
+      }),
+    )
+  }
+
+  public getSumPercentChange$(): Observable<number> {
+    return combineLatest([
+      this.getCurrentValueSum$(),
+      this.getInitialValueSum$(),
+    ]).pipe(
+      map(([currentSum, initialSum]) => {
+        if(initialSum === 0) {
+          return 0;
+        }
+        return Math.round((currentSum-initialSum)/initialSum * 100);
+      })
+    )
   }
 
   private fetchAssets$(): Observable<void> {
