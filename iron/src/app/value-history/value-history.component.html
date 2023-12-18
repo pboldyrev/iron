@@ -6,10 +6,10 @@
                 size="x-small"
                 subheading="ALL TIME"
                 subheadingSize="x-small"
-                [feedback]="((valueChange$ | async) ?? 0) >= 0 ? 'success' : 'error'"
+                [feedback]="(this.valueChange.amount ?? 0) >= 0 ? 'success' : 'error'"
                 [bold]="true"
             >
-                {{ valueChangeString$ | async }}
+                {{ this.valueChange.text ?? '' }}
             </blu-heading>
         </div>
     </div>
@@ -90,8 +90,7 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 <mat-footer-row *matFooterRowDef="displayedFooterColumns"></mat-footer-row>
             </mat-table>
-            <blu-validation-feedback *ngIf="showSomethingWentWrongError$ | async" [type]="FeedbackType.ERROR">Something went wrong. Please try again!</blu-validation-feedback>
-            <blu-validation-feedback *ngIf="showIncompleteFieldsError$ | async" [type]="FeedbackType.ERROR">Please fill in the date and value.</blu-validation-feedback>
+            <blu-validation-feedback *ngIf="error$ | async" [type]="FeedbackType.ERROR">{{ error$ | async }}</blu-validation-feedback>
         </ng-template>
     </blu-modal>
 </div>

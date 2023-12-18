@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
-import { BehaviorSubject, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, mergeMap } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
 import { Asset } from '../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
@@ -25,7 +25,7 @@ export class AssetDetailsPageComponent {
   public displayAssetValue$: BehaviorSubject<string> = new BehaviorSubject<string>("");
   public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
 
-  public isLoadingTitle = false;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private authService: AuthService,
@@ -34,16 +34,21 @@ export class AssetDetailsPageComponent {
     private dataService: DataService,
   ){}
 
-  ngOnInit() {
-    this.isLoadingTitle = true;
-    this.dataService.getAssetById$(this.assetId)
-    .pipe(
-      filter((asset: Asset) => !!asset.assetId),
+  private fetchAsset$(): Observable<void> {
+    return this.dataService.getAssetById$(this.assetId, this.isLoading$).pipe(
       map((asset: Asset) => {
         this.asset$.next(asset);
         this.displayAssetName$.next(this.getDisplayName(asset));
         this.displayAssetValue$.next('$' + (asset?.curValue ?? 0).toLocaleString());
-        this.isLoadingTitle = false;
+      })
+    )
+  }
+
+  ngOnInit() {
+    this.fetchAsset$().subscribe()
+    this.dataService.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.fetchAsset$();
       })
     ).subscribe();
   }

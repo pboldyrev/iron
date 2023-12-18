@@ -2,12 +2,12 @@
     <div class="col-sm-10 col-xl-8">
         <div class="asset-details-page-wrapper justify-content-center">
             <blu-modal
-                [subtitle]="(displayAssetName$ | async) ?? ''"
-                [title]="((displayAssetValue$ | async) ?? '')"
+                [subtitle]="(isLoading$ | async) ? '' : (displayAssetName$ | async) ?? ''"
+                [title]="(isLoading$ | async) ? '' : ((displayAssetValue$ | async) ?? '')"
                 [boldTitle]="true"
                 [titleTooltip]="((displayAssetValue$ | async) ?? '') === '$0' ? 'You can add value to this asset in the Value History tab.' : ''"
             >
-                <div *ngIf="isLoadingTitle" class="asset-details-spinner align-self-start">
+                <div *ngIf="isLoading$ | async" class="asset-details-spinner align-self-start">
                     <blu-spinner size="40"></blu-spinner>
                 </div>
                 <div class="asset-details-page-button-back">

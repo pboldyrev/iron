@@ -18,6 +18,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 
+export type ValueChange = {
+  amount?: number,
+  percent?: number,
+  text?: string,
+}
+
 @Component({
   selector: 'app-value-history',
   standalone: true,
@@ -36,14 +42,13 @@ export class ValueHistoryComponent {
 
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
-  public showSomethingWentWrongError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public showIncompleteFieldsError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public error$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public newEntry$: BehaviorSubject<AssetValue> = new BehaviorSubject<AssetValue>({});
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public displayedColumns = ['date', 'value', 'action'];
   public displayedFooterColumns = ['addDate', 'addValue', 'addAction'];
-  public valueChange$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public valueChangeString$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public valueChange: ValueChange = {};
+  public valueChangeString: string = '';
 
   constructor(
     private dataService: DataService,
@@ -53,8 +58,7 @@ export class ValueHistoryComponent {
     return this.dataService.getAssetById$(this.assetId, this.isLoading$).pipe(
       map((asset: Asset) => {
         this.asset$.next(asset);
-        this.valueChange$.next(123);
-        this.valueChangeString$.next("123");
+        this.setValueChange(asset);
       })
     )
   }
@@ -69,7 +73,7 @@ export class ValueHistoryComponent {
   }
 
   public onAddEntry(): void {
-    this.showIncompleteFieldsError$.next(false);
+    this.error$.next('');
 
     this.valueInput.validate();
     this.dateInput.validate();
@@ -82,7 +86,7 @@ export class ValueHistoryComponent {
       this.dateInput.value$,
     ]).pipe(
       take(1),
-      tap(([
+      filter(([
         asset,
         isValueValid,
         value,
@@ -96,22 +100,13 @@ export class ValueHistoryComponent {
         string
       ]) => {
         if (!isValueValid || !isDateValid) {
-          this.showIncompleteFieldsError$.next(true);
+          this.error$.next("Please fill in the date and value fields.");
         }
+        if (new Date(date).valueOf() > Date.now().valueOf()) {
+          this.error$.next("Date can not be in the future.");
+        }
+        return isDateValid && isValueValid && parseInt(date) > Date.now().valueOf()
       }),
-      filter(([
-        asset,
-        isValueValid,
-        value,
-        isDateValid,
-        date,
-      ]: [
-        Asset,
-        boolean,
-        string,
-        boolean,
-        string
-      ]) => isDateValid && isValueValid),
       mergeMap(([
         asset,
         isValueValid,
@@ -127,8 +122,8 @@ export class ValueHistoryComponent {
       ]) => {
         const clonedAsset = structuredClone(asset);
         const newValue: AssetValue = {
-          timestamp: new Date(date).valueOf().toString(),
-          value: value
+          timestamp: new Date(date).valueOf(),
+          value: parseFloat(value)
         };
         this.newEntry$.next(newValue);
         clonedAsset.totalValues = [
@@ -142,7 +137,7 @@ export class ValueHistoryComponent {
       },
       error: (error) => {
         this.isLoading$.next(false);
-        this.showSomethingWentWrongError$.next(true);
+        this.error$.next('Something went wrong.');
         console.log(error);
       }
     })
@@ -164,33 +159,43 @@ export class ValueHistoryComponent {
       },
       error: (error) => {
         this.isLoading$.next(false);
-        this.showSomethingWentWrongError$.next(true);
+        this.error$.next('Something went wrong.');
         console.log(error);
       }
     });
   }
 
-  public getValueChange$(): Observable<number> {
-    return this.dataService.getAssetById$(this.assetId).pipe(
-      filter((asset: Asset) => !!asset.assetId),
-      map((asset: Asset) => {
-        const curValue = parseInt(asset?.curValue ?? '0');
-        return curValue;
-      }),
-    )
-  }
+  private setValueChange(asset: Asset): void {
+    let initValue;
+    let curValue = asset.curValue ?? 0;
+    let valueHistory = asset.totalValues ?? [];
 
-  public getValueChangeString$(): Observable<string> {
-    return this.dataService.getAssetById$(this.assetId).pipe(
-      filter((asset: Asset) => !!asset.assetId),
-      map((asset: Asset) => {
-        const curValue = parseInt(asset?.curValue ?? '0');
-        let percentChange = 0;
-        let changeSymbol;
+    if(valueHistory.length > 0) {
+      // Oldest value is the first array element
+      initValue = valueHistory[0].value ?? 0;
+    } else {
+      initValue = curValue;
+    }
+    let valueChange = curValue - initValue;
+    let percentChange;
+    if(initValue === 0) {
+      percentChange = 0;
+    } else {
+      percentChange = Math.round(Math.abs(valueChange/initValue) * 100);
+    }
+    let changeString = '';
+    if(valueChange < 0) {
+      changeString += '-';
+    } else {
+      changeString += '+';
+    }
+    changeString += '$' + Math.abs(valueChange).toString() + ' (' + percentChange.toString() + '%)';
 
-        return changeSymbol + '$' + Math.abs((curValue)).toLocaleString() + ' (' + percentChange + '%)';
-      }),
-    )
+    this.valueChange = {
+      amount: valueChange,
+      percent: percentChange,
+      text: changeString
+    }
   }
 
   public getDateString(ms: string) {

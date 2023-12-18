@@ -122,7 +122,6 @@ export class AddVehicleComponent {
         return this.dataService.putAsset$({
           assetName: finalName,
           units: 1,
-          timeCreated: 0,
           assetType: AssetType.Vehicle,
           ...vehicleCustomAttributes,
         }, this.isLoading$);

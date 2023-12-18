@@ -10,8 +10,8 @@ export const REGEX = {
 };
 
 export type AssetValue = {
-  timestamp?: string,
-  value?: string,
+  timestamp?: number,
+  value?: number,
 }
 
 export type VehicleCustomAttributes = {
@@ -33,7 +33,7 @@ export type BaseAsset = {
   account?: string,
   units?: number,
   totalValues?: AssetValue[],
-  curValue?: string,
+  curValue?: number,
   isArchived?: boolean,
 }
 

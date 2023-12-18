@@ -17,3 +17,6 @@
         <option [value]="option.id" [selected]="option.selected">{{ option.text }}</option>
     </ng-container>
 </select>
+<blu-validation-feedback *ngIf="!(isValid$ | async)" [type]="FeedbackType.ERROR">
+    {{ FEEDBACK_STRINGS["error"]["TEXT"] }}
+</blu-validation-feedback>

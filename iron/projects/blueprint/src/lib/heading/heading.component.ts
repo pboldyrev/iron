@@ -15,5 +15,5 @@ export class BluHeading {
 
   @Input() subheading: string = '';
   @Input() bold: boolean = false;
-  @Input() feedback: string = '';
+  @Input() feedback: 'success' | 'error' | null = null;
 }

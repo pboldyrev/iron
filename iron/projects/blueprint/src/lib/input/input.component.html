@@ -22,7 +22,5 @@
   (input)="updateValue($event)"
 />
 <blu-validation-feedback *ngIf="!(isValid$ | async) && appearance !== 'cell'" [type]="feedbackType">
-  <blu-text size="medium">
     {{ FEEDBACK_STRINGS[feedbackType][type] }}
-  </blu-text>
 </blu-validation-feedback>

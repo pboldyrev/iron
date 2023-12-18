@@ -50,7 +50,7 @@ export class NetworthComponent {
   private computeNetworth(assets: Asset[]): void {
     let networth = 0;
     assets.forEach((asset) => {
-      networth += parseInt(asset.curValue ?? '0');
+      networth += asset.curValue ?? 0;
     });
     this.curNetworth = networth.toLocaleString();
   }

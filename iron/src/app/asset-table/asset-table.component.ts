@@ -119,7 +119,7 @@ export class AssetTableComponent {
       tap((userAssets: Asset[]) => {
         let curTotal = 0;
         userAssets.forEach((asset: Asset) => {
-          curTotal += parseInt(asset.curValue ?? '0');
+          curTotal += asset.curValue ?? 0;
         });
         this.curTotal$.next(curTotal);
       }),
