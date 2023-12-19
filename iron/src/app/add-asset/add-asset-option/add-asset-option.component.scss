@@ -19,7 +19,7 @@
 }
 
 .add-asset-option-wrapper-primary {
-    background-color: var(--blu-background-secondary);
+    background-color: var(--blu-background-primary);
     height: var(--blu-height-xl);
 }
 
@@ -27,10 +27,6 @@
     background-color: var(--blu-background-primary);
     border: var(--blu-border-secondary);
     height: var(--blu-height-l);
-}
-
-.add-asset-option-wrapper-secondary:hover {
-    background-color: var(--blu-background-secondary);
 }
 
 .add-asset-option-icon {

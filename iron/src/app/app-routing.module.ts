@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OverviewComponent } from './overview/overview.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
 import { authenticatedGuard } from './guards/authenticated.guard';
@@ -18,13 +17,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'overview',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
-  },
-  {
-    path: 'overview',
-    component: OverviewComponent,
-    canActivate: [authenticatedGuard],
   },
   {
     path: 'dashboard',
