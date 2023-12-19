@@ -1,3 +1,22 @@
+.asset-table {
+    background-color: var(--blu-background-secondary);
+    border: var(--blu-border-secondary);
+    border-radius: var(--blu-radius-m);
+    padding: var(--blu-padding-xxl);
+    overflow-x: auto;
+    transition: 0.2s;
+}
+
+.asset-table:hover {
+    scale: 1.05;
+    transition: 0.2s;
+}
+
+.asset-table:active {
+    scale: 0.9;
+    transition: 0.5s;
+}
+
 .mat-column-initValue {
     max-width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
@@ -76,14 +95,6 @@
 
 .mat-column-blankEdit {
     max-width: var(--blu-width-xs);
-}
-
-.asset-table {
-    background-color: var(--blu-background-secondary);
-    border: var(--blu-border-secondary);
-    border-radius: var(--blu-radius-m);
-    padding: var(--blu-padding-xxl);
-    overflow-x: auto;
 }
 
 .asset-table-progress-bar {
