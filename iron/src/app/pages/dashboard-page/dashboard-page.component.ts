@@ -9,7 +9,7 @@ import { AssetTypeCardComponent } from './asset-type-card/asset-type-card.compon
 import { ValueChangeComponent } from './value-change/value-change.component';
 import { AddAssetComponent } from '../../add-asset/add-asset.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
-import { ChartComponent } from '../../chart/chart.component';
+import { ChartComponent } from '../../chart/networth-chart.component';
 import { AssetTableComponent } from '../../asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';

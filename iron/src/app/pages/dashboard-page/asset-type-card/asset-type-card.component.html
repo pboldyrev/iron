@@ -5,7 +5,7 @@
             subheadingPosition="top"
             size="small"
         >
-            {{ totalValueString$ | async }}
+            {{ assetTotal }}
         </blu-heading>
         <div class="asset-summary-value-change-wrapper">
             <app-value-change [timeframes]="asset.valueChange"></app-value-change>

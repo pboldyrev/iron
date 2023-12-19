@@ -3,9 +3,10 @@ import { AssetType, TypeToDisplayName, ValueChange } from '../../../shared/const
 import { CommonModule } from '@angular/common';
 import { ValueChangeComponent } from '../value-change/value-change.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, mergeMap } from 'rxjs';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-asset-summary',
@@ -20,6 +21,29 @@ export class AssetTypeCardComponent {
     valueChange: ValueChange[],
   };
   public TypeToDisplayName = TypeToDisplayName;
+  public assetTotal: string | null = null;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  public totalValueString$: BehaviorSubject<string> = new BehaviorSubject<string>("$10,000.34");
+  constructor(
+    private dataService: DataService,
+  ) {}
+
+  ngOnInit() {
+    this.dataService.getCurrentNetWorth$(null, this.isLoading$).subscribe();
+
+    this.dataService.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.dataService.getCurrentNetWorth$(this.asset.type, this.isLoading$)
+      })
+    ).subscribe({
+      next: (assetTotalWorth: number) => {
+        this.assetTotal = '$' + assetTotalWorth.toLocaleString();
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading$.next(false);
+        this.assetTotal = "ERR";
+      }
+    });
+  }
 }

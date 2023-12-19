@@ -24,70 +24,28 @@ export type TimeRangeOption = {
 export class NetworthComponent {
   @Input() subheading: string = "Net Worth";
 
-  public curNetworth: string = "";
+  public curNetworth: string | null = null;
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public timeRangeOptions: TimeRangeOption[] = [
-    {
-      selected: true,
-      value: "Week"
-    },
-    {
-      selected: false,
-      value: "Month"
-    },
-    {
-      selected: false,
-      value: "Year"
-    },
-    {
-      selected: false,
-      value: "All"
-    }
-  ];
 
   constructor(
     private dataService: DataService,
   ){}
 
   ngOnInit() {
-    this.fetchData$().subscribe();
+    this.dataService.getCurrentNetWorth$(null, this.isLoading$).subscribe();
 
     this.dataService.dataChanged$.pipe(
       mergeMap(() => {
-        return this.fetchData$()
+        return this.dataService.getCurrentNetWorth$(null, this.isLoading$)
       })
     ).subscribe({
-      next: () => {},
+      next: (networth: number) => {
+        this.curNetworth = networth.toLocaleString();
+      },
       error: (error) => {
         console.log(error);
         this.isLoading$.next(false);
         this.curNetworth = "ERR";
-      }
-    });
-  }
-
-  private fetchData$() {
-    return this.dataService.getActiveAssets(this.isLoading$)
-    .pipe(
-      tap((assets: Asset[]) => {
-        this.computeNetworth(assets);
-      }),
-    )
-  }
-
-  private computeNetworth(assets: Asset[]): void {
-    let networth = 0;
-    assets.forEach((asset) => {
-      networth += asset.curValue ?? 0;
-    });
-    this.curNetworth = networth.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2});
-  }
-
-  public onPillClicked(selectedOption: TimeRangeOption) {
-    selectedOption.selected = true;
-    this.timeRangeOptions.forEach((option: TimeRangeOption) => {
-      if(option.value != selectedOption.value){
-        option.selected = false;
       }
     });
   }

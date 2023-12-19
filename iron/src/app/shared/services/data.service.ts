@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetValue } from '../constants/constants';
+import { Asset, AssetType, AssetValue } from '../constants/constants';
 import { BehaviorSubject, Observable, delay, map, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -70,6 +70,37 @@ export class DataService {
         return data?.asset ?? {} as Asset;
       })
     )
+  }
+
+  public getHistoricalNetWorth$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.httpPost("getHistoricalNetWorth", assetType ? { assetType: assetType } : {}).pipe(
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        console.log(data);
+        return data?.user?.netWorths ?? [] as AssetValue[];
+      })
+    );
+  }
+
+  public getCurrentNetWorth$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<number> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.httpPost("getHistoricalNetWorth", assetType ? { assetType: assetType } : {}).pipe(
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return data?.user?.curNetWorth ?? 0;
+      })
+    );
   }
 
   public putAsset$(asset: Asset, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
@@ -160,7 +191,7 @@ export class DataService {
       tap(({
         next: () => {},
         error: (err: HttpErrorResponse) => {
-          if(err.error?.error.includes("No user found")) {
+          if(err.error?.error?.includes("No user found")) {
             this.authService.signOut();
           }
         }
