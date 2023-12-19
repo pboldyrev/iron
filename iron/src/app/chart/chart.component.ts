@@ -30,9 +30,9 @@ export class ChartComponent {
           }
         ]
       },
-
       options: {
         responsive: true,
+        maintainAspectRatio: false,
       }
     });
   }

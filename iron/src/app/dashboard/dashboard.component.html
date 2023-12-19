@@ -7,8 +7,8 @@
     ></app-add-asset>
 </blu-popup>
 <div class="row dashboard-wrapper">
-    <div class="col-lg-5 col-sm-6">
-        <div class="dashboard-networth-wrapper">
+    <div class="col-lg-5 col-sm-12">
+        <div class="dashboard-side-wrapper">
             <app-networth></app-networth>
             <div class="dashboard-networth-change-wrapper">
                 <app-value-change
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-7 col-sm-6 dashboard-content-wrapper">
+    <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
         <div class="row">
             <div class="col-12 dashboard-actions-wrapper">
                 <blu-button type="primary" iconName="plus" (click)="onAddAsset()">
@@ -33,7 +33,7 @@
         </div>
         <div class="row">
             <ng-container *ngFor="let asset of assetSummaries">
-                <div class="col-lg-6 dashboard-asset-summary">
+                <div class="col-lg-12 col-xl-6 dashboard-asset-summary">
                     <app-asset-summary
                         [asset]="asset"
                     ></app-asset-summary>

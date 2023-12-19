@@ -79,11 +79,11 @@
 }
 
 .asset-table {
-    min-width: fit-content;
     background-color: var(--blu-background-secondary);
     border: var(--blu-border-secondary);
     border-radius: var(--blu-radius-m);
     padding: var(--blu-padding-xxl);
+    overflow-x: auto;
 }
 
 .asset-table-progress-bar {

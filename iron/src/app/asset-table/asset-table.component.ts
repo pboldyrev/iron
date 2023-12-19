@@ -42,8 +42,8 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 export class AssetTableComponent {
   @Input() showAddAsset$!: BehaviorSubject<boolean>;
 
-  public displayedColumns = ['account', 'asset', 'units', 'initValue', 'curValue', 'change', 'edit'];
-  public displayedFooterColumns = ['blankAccount', 'blankAsset', 'blankUnits', 'initValueTotal', 'curValueTotal', 'changeTotal', 'blankEdit'];
+  public displayedColumns = ['asset', 'units', 'curValue', 'edit'];
+  public displayedFooterColumns = ['blankAsset', 'blankUnits', 'curValueTotal', 'blankEdit'];
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject([] as Asset[]);
   public curTotal$: BehaviorSubject<number> = new BehaviorSubject(0);

@@ -51,7 +51,7 @@
 }
 
 .blu-button-tertiary {
-  background-color: var(--blu-background-primary);
+  background-color: rgba(0, 0, 0, 0);
   color: var(--blu-color-primary);
 }
 

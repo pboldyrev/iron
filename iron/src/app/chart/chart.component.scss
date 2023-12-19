@@ -1,9 +1,5 @@
 .chart-wrapper {
     width: var(--blu-width-full);
     height: var(--blu-height-full);
-}
-
-.chart-canvas {
-    width: var(--blu-width-full);
-    height: var(--blu-height-full);
+    position: relative;
 }
