@@ -5,7 +5,7 @@
                 [subtitle]="(isLoading$ | async) ? '' : (displayAssetName$ | async) ?? ''"
                 [title]="(isLoading$ | async) ? '' : ((displayAssetValue$ | async) ?? '')"
                 [boldTitle]="true"
-                [titleTooltip]="((displayAssetValue$ | async) ?? '') === '$0' ? 'You can add value to this asset in the Value History tab.' : ''"
+                [titleTooltip]="((displayAssetValue$ | async) ?? '') === '$0.00' ? 'You can add value to this asset in the Value history tab.' : ''"
             >
                 <div *ngIf="isLoading$ | async" class="asset-details-spinner align-self-start">
                     <blu-spinner size="40"></blu-spinner>
@@ -19,7 +19,9 @@
                             <mat-progress-bar mode="query"></mat-progress-bar>
                         </div>
                         <ng-template #valueHistory>
-                            <app-value-history-chart></app-value-history-chart>
+                            <div class="asset-details-value-history-chart-wrapper">
+                                <app-value-history-chart></app-value-history-chart>
+                            </div>
                             <app-value-history
                                 *ngIf="(asset$ | async)?.assetType != AssetType.Stock"
                                 [assetId]="assetId"

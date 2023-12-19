@@ -68,7 +68,8 @@
 }
 
 .mat-mdc-table {
-    border: var(--blu-border-primary);
+    border: var(--blu-border-tertiary);
+    border-radius: var(--blu-radius-m);
 }
 
 .mat-column-value,
