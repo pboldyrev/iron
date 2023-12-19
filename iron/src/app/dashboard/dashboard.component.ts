@@ -11,11 +11,12 @@ import { AddAssetComponent } from '../add-asset/add-asset.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
+import { AssetTableComponent } from '../asset-table/asset-table.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetSummaryComponent, ValueChangeComponent, AddAssetComponent, BluPopup, ChartComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetSummaryComponent, ValueChangeComponent, AddAssetComponent, BluPopup, ChartComponent, AssetTableComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

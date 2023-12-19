@@ -22,6 +22,8 @@ export type TimeRangeOption = {
   styleUrl: './networth.component.scss'
 })
 export class NetworthComponent {
+  @Input() subheading: string = "Net Worth";
+
   public curNetworth: string = "";
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public timeRangeOptions: TimeRangeOption[] = [

@@ -3,7 +3,7 @@
         <blu-text type="secondary">
             <div class="value-change-content">
                 {{ timeframe.type + ':' }}
-                <blu-text weight="bold" [type]="timeframe.value < 0 ? 'error' : 'success'">
+                <blu-text [type]="timeframe.value < 0 ? 'error' : 'success'">
                     {{ getDisplayString(timeframe) }}
                 </blu-text>
                 <blu-icon 

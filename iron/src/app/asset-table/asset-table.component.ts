@@ -16,6 +16,7 @@ import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-p
 import { Router } from '@angular/router';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 
 @Component({
   selector: 'app-asset-table',
@@ -32,6 +33,7 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
     MatMenuModule,
     ConfirmationPopupComponent,
     BluValidationFeedback,
+    BluLink,
   ],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.scss'
@@ -165,5 +167,9 @@ export class AssetTableComponent {
         this.assets$.next(userAssets);
       })
     );
+  }
+
+  public onPageReload() {
+    location.reload();
   }
 }

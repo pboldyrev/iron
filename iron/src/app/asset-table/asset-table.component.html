@@ -7,18 +7,6 @@
   (confirmed)="onArchiveAssetConfirmed()"
 ></app-confirmation-popup>
 <div class="asset-table">
-    <div class="asset-table-title row">
-        <div class="col-6">
-            <blu-text size="medium" type="primary">
-                {{ TEXTS.TABLE_TITLE }}
-            </blu-text>
-        </div>
-        <div class="col-6 asset-table-button-group">
-            <blu-button type="secondary" size="small" iconName="plus" (click)="onAddAsset()">
-                {{ TEXTS.ACTION_CTA }}
-            </blu-button>
-        </div>
-    </div>
     <div *ngIf="isLoading$ | async" class="asset-table-progress-bar">
         <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
@@ -142,5 +130,5 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         <mat-footer-row *matFooterRowDef="displayedFooterColumns"></mat-footer-row>
     </mat-table>
-    <blu-validation-feedback *ngIf="showUnknownError$ | async" [type]="FeedbackType.ERROR">Unknown error occured.</blu-validation-feedback>
+    <blu-validation-feedback *ngIf="showUnknownError$ | async" [type]="FeedbackType.ERROR">Unknown error occured. <blu-link (click)="onPageReload()">Reload?</blu-link></blu-validation-feedback>
 </div>

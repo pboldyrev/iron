@@ -10,6 +10,8 @@
 
 .dashboard-content-wrapper {
     padding: var(--blu-padding-4xl);
+    height: 100%;
+    overflow-y: auto;
 }
 
 .dashboard-actions-wrapper {
@@ -25,4 +27,8 @@
 
 .dashboard-networth-change-wrapper {
     margin-top: var(--blu-margin-xxl);
+}
+
+.dashboard-asset-table-wrapper {
+    padding: var(--blu-padding-xl);
 }

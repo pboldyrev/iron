@@ -3,17 +3,17 @@
   padding: var(--blu-padding-l);
   font: var(--blu-font-primary);
   border: var(--blu-border-secondary);
-  border-radius: var(--blu-radius-none);
-  transition: 0.3s;
+  transition: 0.2s;
   box-sizing: border-box;
   background-color: var(--blu-background-primary);
   color: var(--blu-color-primary);
+  border-radius: var(--blu-radius-m);
 }
 
 .blu-input:focus {
-  border: var(--blu-border-primary);
   outline: none;
-  transition: 0.3s;
+  border: var(--blu-border-primary);
+  transition: 0.2s;
 }
 
 .blu-input:disabled {

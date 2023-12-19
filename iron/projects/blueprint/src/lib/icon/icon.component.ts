@@ -31,6 +31,8 @@ import {
   heroTrash,
   heroArrowLeft,
   heroQuestionMarkCircle,
+  heroArrowTrendingUp,
+  heroArrowTrendingDown,
 } from '@ng-icons/heroicons/outline';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -63,13 +65,13 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       octQuestion,
       heroBuildingLibrary,
       heroRocketLaunch,
-      heroChevronUp,
-      heroChevronDown,
       heroBanknotes,
       heroClock,
       heroArrowPath,
       heroTrash,
       heroArrowLeft,
+      heroArrowTrendingUp,
+      heroArrowTrendingDown,
     }),
   ],
 })
