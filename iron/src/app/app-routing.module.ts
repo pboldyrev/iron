@@ -13,6 +13,7 @@ import { AddHysaComponent } from './add-hysa/add-hysa.component';
 import { AddCustomComponent } from './add-custom/add-custom.component';
 import { hasAssetGuard } from './guards/has-asset.guard';
 import { AssetDetailsPageComponent } from './asset-details-page/asset-details-page.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,11 @@ const routes: Routes = [
   {
     path: 'overview',
     component: OverviewComponent,
+    canActivate: [authenticatedGuard],
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
     canActivate: [authenticatedGuard],
   },
   {

@@ -1,0 +1,28 @@
+.dashboard-wrapper {
+    height: var(--blu-height-full);
+}
+
+.dashboard-networth-wrapper {
+    background-color: var(--blu-background-secondary);
+    height: var(--blu-height-full);
+    padding: var(--blu-padding-4xl);
+}
+
+.dashboard-content-wrapper {
+    padding: var(--blu-padding-4xl);
+}
+
+.dashboard-actions-wrapper {
+    padding: 0 var(--blu-padding-xl);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--blu-space-m);
+}
+
+.dashboard-asset-summary {
+    padding: var(--blu-padding-xl);
+}
+
+.dashboard-networth-change-wrapper {
+    margin-top: var(--blu-margin-xxl);
+}

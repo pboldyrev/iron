@@ -21,7 +21,7 @@ export class AddAssetOptionComponent {
   @Input() disabled: boolean = false;
 
   public title: string = '';
-  public iconName: BluIconName = 'bank';
+  public iconName: BluIconName = AssetType.Stock;
   public layout: string = 'top';
   public TEXTS = TEXTS;
 
@@ -29,27 +29,27 @@ export class AddAssetOptionComponent {
     switch (this.type) {
       case AssetType.Stock:
         this.title = TEXTS.STOCK_TITLE;
-        this.iconName = 'bank';
+        this.iconName = AssetType.Stock;
         this.layout = 'top';
         break;
       case AssetType.Vehicle:
         this.title = TEXTS.VEHICLE_TITLE
-        this.iconName = 'rocket';
+        this.iconName = AssetType.Vehicle;
         this.layout = 'top';
         break;
       case AssetType.CD:
         this.title = TEXTS.CD_TITLE
-        this.iconName = 'clock';
+        this.iconName = AssetType.CD;
         this.layout = 'bottom';
         break;
       case AssetType.HYSA:
         this.title = TEXTS.HYSA_TITLE
-        this.iconName = 'banknote';
+        this.iconName = AssetType.HYSA;
         this.layout = 'top';
         break;
       case AssetType.Custom:
         this.title = TEXTS.CUSTOM_TITLE
-        this.iconName = 'banknote';
+        this.iconName = AssetType.Custom;
         this.layout = 'top';
         break;
     }

@@ -1,0 +1,10 @@
+.value-change-wrapper {
+    text-transform: capitalize;
+}
+
+.value-change-content {
+    display: flex;
+    gap: var(--blu-space-xs);
+    align-items: center;
+    margin-bottom: var(--blu-margin-xs);
+}

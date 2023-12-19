@@ -1,5 +1,7 @@
 <div [ngClass]="{
     'rotate-90': name === 'kebab',
+    'blu-icon-success': type === 'success',
+    'blu-icon-error': type === 'error',
 }">
     <ng-icon class="blu-icon" 
         [name]="bluToIconMap[name]"

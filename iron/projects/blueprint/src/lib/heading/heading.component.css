@@ -18,13 +18,12 @@
 }
 
 .blu-heading-sub {
-  color: var(--blu-color-text-secondary);
+  color: var(--blu-color-text-tertiary);
 }
 
 .blu-heading-sub::first-letter {
   text-transform: capitalize;
 }
-
 
 .blu-heading-xs {
   font-size: var(--blu-font-size-heading-xs);

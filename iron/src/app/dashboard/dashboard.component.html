@@ -1,0 +1,40 @@
+<blu-popup
+  [show]="showAddAsset$"
+  [title]="TEXTS.ADD_ASSET_TITLE"
+  size="large"
+>
+    <app-add-asset 
+    ></app-add-asset>
+</blu-popup>
+<div class="row dashboard-wrapper">
+    <div class="col-lg-5 col-sm-6 dashboard-networth-wrapper">
+        <app-networth></app-networth>
+        <div class="dashboard-networth-change-wrapper">
+            <app-value-change
+                [timeframes]="networthChangeTimeframes"
+            ></app-value-change>
+        </div>
+        <app-chart></app-chart>
+    </div>
+    <div class="col-lg-7 col-sm-6 dashboard-content-wrapper">
+        <div class="row">
+            <div class="col-12 dashboard-actions-wrapper">
+                <blu-button type="primary" iconName="plus" (click)="onAddAsset()">
+                    {{ TEXTS.BTN_PRIMARY_CTA }}
+                </blu-button>
+                <blu-button type="secondary">
+                    {{ TEXTS.BTN_SECONDARY_CTA }}
+                </blu-button>
+            </div>
+        </div>
+        <div class="row">
+            <ng-container *ngFor="let asset of assetSummaries">
+                <div class="col-lg-6 dashboard-asset-summary">
+                    <app-asset-summary
+                        [asset]="asset"
+                    ></app-asset-summary>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

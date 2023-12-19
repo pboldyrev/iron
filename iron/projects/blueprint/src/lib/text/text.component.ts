@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
 })
 export class BluText {
   @Input() size!: 'large' | 'medium' | 'small' | 'x-small';
-  @Input() type!: 'primary' | 'secondary' | 'error' | 'success' | 'info' | 'number';
+  @Input() type!: 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'info' | 'number';
   
   @Input() weight: 'normal' | 'bold' = 'normal';
 }

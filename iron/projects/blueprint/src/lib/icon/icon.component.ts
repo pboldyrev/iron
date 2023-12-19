@@ -77,6 +77,7 @@ export class BluIcon {
   @Input() name!: BluIconName;
 
   @Input() size: string = '16';
+  @Input() type: 'success' | 'error' | null = null;
 
   public bluToIconMap = BluToIconMap;
 }

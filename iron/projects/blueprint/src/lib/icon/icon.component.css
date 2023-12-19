@@ -9,3 +9,11 @@
 .rotate-90 {
   rotate: 90deg;
 }
+
+.blu-icon-success {
+  color: var(--blu-color-success);
+}
+
+.blu-icon-error {
+  color: var(--blu-color-error);
+}

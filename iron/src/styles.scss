@@ -85,7 +85,7 @@ html {
   --blu-radius-none: 0px;
   --blu-radius-xs: 2px;
   --blu-radius-s: 4px;
-  --blu-radius-m: 8px;
+  --blu-radius-m: 6px;
   --blu-radius-l: 10px;
   --blu-radius-xl: 14px;
   --blu-radius-xxl: 24px;
@@ -122,7 +122,7 @@ html {
   // COLOR
   --blu-color-primary: #eaeaea;
   --blu-color-secondary: #d2d2d2;
-  --blu-color-tertiary: #aaaaaa;
+  --blu-color-tertiary: #707070;
 
   --blu-color-brand: #095d3b;
 
@@ -138,10 +138,11 @@ html {
   --blu-color-error-background: #3c1b1b;
 
   --blu-color-text-primary: var(--blu-color-primary);
-  --blu-color-text-secondary: #747474;
+  --blu-color-text-secondary: var(--blu-color-secondary);
+  --blu-color-text-tertiary: var(--blu-color-tertiary);
 
   --blu-background-primary: #131313;
-  --blu-background-secondary: #1a1a1a;
+  --blu-background-secondary: #1d1d1d;
   --blu-background-tertiary: #363636;
 
   // BORDERS
@@ -171,7 +172,7 @@ html {
   --blu-font-size-heading-xs: 1.2em;
   --blu-font-size-heading-s: 1.8em;
   --blu-font-size-heading-m: 2em;
-  --blu-font-size-heading-l: 2.2em;
+  --blu-font-size-heading-l: max(min(3vw, 4em), 1.3em);
   --blu-font-size-heading-xl: 2.5em;
 
   // LINE HEIGHT

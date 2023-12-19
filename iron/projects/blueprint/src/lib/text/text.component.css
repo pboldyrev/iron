@@ -34,6 +34,10 @@
   color: var(--blu-color-text-secondary);
 }
 
+.blu-text-tertiary {
+  color: var(--blu-color-text-tertiary);
+}
+
 .blu-text-error {
   color: var(--blu-color-error);
 }
