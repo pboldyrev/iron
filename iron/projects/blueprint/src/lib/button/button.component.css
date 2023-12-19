@@ -12,6 +12,8 @@
   font: var(--blu-font-primary);
   font-size: var(--blu-font-size-s);
   width: fit-content;
+  border: var(--blu-border-secondary);
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .blu-button-icon-only {
@@ -48,6 +50,10 @@
 .blu-button-secondary {
   background-color: var(--blu-background-secondary);
   color: var(--blu-color-primary);
+}
+
+.blu-button-secondary:hover {
+  border: var(--blu-border-tertiary);
 }
 
 .blu-button-tertiary {

@@ -142,7 +142,7 @@ html {
   --blu-color-text-tertiary: var(--blu-color-tertiary);
 
   --blu-background-primary: #131313;
-  --blu-background-secondary: #1d1d1d;
+  --blu-background-secondary: #181818;
   --blu-background-tertiary: #363636;
 
   // BORDERS
@@ -214,7 +214,9 @@ html {
   }
 
   /* Track */
-  ::-webkit-scrollbar-track {
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-track-piece,
+  ::-webkit-scrollbar-corner {
     background: var(--blu-background-primary);
   }
 

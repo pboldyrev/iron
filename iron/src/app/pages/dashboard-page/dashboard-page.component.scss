@@ -2,6 +2,7 @@
     width: 100vw;
     min-height: var(--blu-height-full);
     height: 100vh;
+    overflow-x: hidden;
 }
 
 .dashboard-side-wrapper {
@@ -12,16 +13,18 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    border-right: var(--blu-border-tertiary);
 }
 
 .dashboard-content-wrapper {
     padding: var(--blu-padding-4xl);
     height: var(--blu-height-full);
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .dashboard-actions-wrapper {
-    padding: 0 var(--blu-padding-xl) var(--blu-padding-xl);
+    padding: 0 var(--blu-padding-m) var(--blu-padding-4xl);
     display: flex;
     justify-content: flex-end;
     gap: var(--blu-space-m);

@@ -6,11 +6,17 @@
     cursor: pointer;
     transition: 0.2s;
     border-radius: var(--blu-radius-m);
+    border: var(--blu-border-tertiary);
 }
 
 .add-asset-option-wrapper:hover {
     transition: 0.2s;
     scale: 1.05;
+    background-color: var(--blu-color-brand);
+
+    .add-asset-option-icon {
+        color: var(--blu-color-primary);
+    }
 }
 
 .add-asset-option-wrapper:active {
@@ -19,13 +25,10 @@
 }
 
 .add-asset-option-wrapper-primary {
-    background-color: var(--blu-background-primary);
     height: var(--blu-height-xl);
 }
 
 .add-asset-option-wrapper-secondary {
-    background-color: var(--blu-background-primary);
-    border: var(--blu-border-secondary);
     height: var(--blu-height-l);
 }
 
