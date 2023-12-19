@@ -7,6 +7,7 @@
             <mat-progress-bar mode="query"></mat-progress-bar>
         </div>
         <ng-template #valueHistoryTable>
+            <blu-validation-feedback *ngIf="error$ | async" [type]="FeedbackType.ERROR">{{ error$ | async }}</blu-validation-feedback>
             <mat-table #table [dataSource]="(asset$ | async)?.totalValues ?? []">
                 <ng-container matColumnDef="date">
                     <mat-header-cell *matHeaderCellDef>
@@ -38,7 +39,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="addDate">
-                    <mat-footer-cell *matFooterCellDef>
+                    <mat-header-cell *matHeaderCellDef>
                         <blu-input 
                             [fullWidth]="true"
                             appearance="cell"
@@ -48,11 +49,11 @@
                             #date
                             (keydown.enter)="onAddEntry()"
                         ></blu-input>
-                    </mat-footer-cell>
+                    </mat-header-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="addValue">
-                    <mat-footer-cell *matFooterCellDef>
+                    <mat-header-cell *matHeaderCellDef>
                         <blu-input 
                             [fullWidth]="true" 
                             appearance="cell"
@@ -63,20 +64,19 @@
                             #value
                             (keydown.enter)="onAddEntry()"
                         ></blu-input>
-                    </mat-footer-cell>
+                    </mat-header-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="addAction">
-                    <mat-footer-cell *matFooterCellDef>
+                    <mat-header-cell *matHeaderCellDef>
                         <blu-button [iconOnly]="true" iconName="plus" type="tertiary" (click)="onAddEntry()"></blu-button>
-                    </mat-footer-cell>
+                    </mat-header-cell>
                 </ng-container>
         
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                <mat-footer-row *matFooterRowDef="displayedFooterColumns"></mat-footer-row>
+                <mat-footer-row *matHeaderRowDef="displayedHeaderColumns"></mat-footer-row>
             </mat-table>
-            <blu-validation-feedback *ngIf="error$ | async" [type]="FeedbackType.ERROR">{{ error$ | async }}</blu-validation-feedback>
         </ng-template>
     </blu-modal>
 </div>

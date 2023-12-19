@@ -36,6 +36,7 @@ export class ValueHistoryComponent {
   @ViewChild('date') dateInput!: BluInput;
 
   @Input() assetId!: string;
+  @Input() isLoading$!: BehaviorSubject<boolean>;
 
   @Input() asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
   @Input() outline: boolean = false;
@@ -44,9 +45,8 @@ export class ValueHistoryComponent {
   public TEXTS = TEXTS;
   public error$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public newEntry$: BehaviorSubject<AssetValue> = new BehaviorSubject<AssetValue>({});
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public displayedColumns = ['date', 'value', 'action'];
-  public displayedFooterColumns = ['addDate', 'addValue', 'addAction'];
+  public displayedHeaderColumns = ['addDate', 'addValue', 'addAction'];
   public valueChange: ValueChange = {};
   public valueChangeString: string = '';
 
@@ -84,10 +84,16 @@ export class ValueHistoryComponent {
         if (!isValueValid || !isDateValid) {
           this.error$.next("Please fill in the date and value fields.");
         }
-        if (new Date(date).valueOf() > Date.now().valueOf()) {
+        const curDate = Date.now().valueOf();
+        const selectedDate = new Date(date).valueOf();
+        const minDate = new Date("1900-1-1").valueOf();
+        if (selectedDate > curDate) {
           this.error$.next("Date can not be in the future.");
         }
-        return isDateValid && isValueValid && parseInt(date) <= Date.now().valueOf()
+        if (selectedDate < minDate) {
+          this.error$.next("Asset can not be older than 1900.");
+        }
+        return isDateValid && isValueValid && selectedDate <= curDate && selectedDate > minDate;
       }),
       mergeMap(([
         asset,

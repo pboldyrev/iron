@@ -27,6 +27,7 @@
                                 *ngIf="(asset$ | async)?.assetType != AssetType.Stock"
                                 [assetId]="assetId"
                                 [asset$]="asset$"
+                                [isLoading$]="isLoading$"
                             ></app-value-history>
                         </ng-template>
                     </mat-tab>
