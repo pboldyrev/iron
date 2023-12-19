@@ -13,16 +13,17 @@ import { ChartComponent } from '../../chart/chart.component';
 import { AssetTableComponent } from '../../asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { AddAssetPopupComponent } from 'src/app/add-asset-popup/add-asset-popup.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, AddAssetComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
 export class DashboardPageComponent {
-  @ViewChild('addAssetPopup') addAssetPopup!: BluPopup;
+  @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
   
   public TEXTS = TEXTS;
 

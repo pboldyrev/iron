@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
+import { AddAssetPopupComponent } from '../add-asset-popup/add-asset-popup.component';
 
 @Component({
   selector: 'app-asset-table',
@@ -32,6 +33,7 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
     ConfirmationPopupComponent,
     BluValidationFeedback,
     BluLink,
+    AddAssetPopupComponent,
   ],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.scss'
@@ -39,6 +41,7 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 
 export class AssetTableComponent {
   @ViewChild('archiveConfirmPopup') archiveConfirmPopup!: ConfirmationPopupComponent;
+  @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
   public displayedColumns = ['asset', 'units', 'curValue', 'edit'];
   public displayedFooterColumns = ['blankAsset', 'blankUnits', 'curValueTotal', 'blankEdit'];
@@ -160,6 +163,10 @@ export class AssetTableComponent {
         this.assets$.next(userAssets);
       })
     );
+  }
+
+  public onAddAsset(): void {
+    this.addAssetPopup.show();
   }
 
   public onPageReload() {

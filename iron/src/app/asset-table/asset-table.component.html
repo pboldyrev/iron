@@ -1,3 +1,6 @@
+<app-add-asset-popup
+    #addAssetPopup
+></app-add-asset-popup>
 <app-confirmation-popup
   [title]="TEXTS.ARCHIVE_POPUP_TITLE_1 + assetToArchive?.assetName + TEXTS.ARCHIVE_POPUP_TITLE_2"
   [subtitle]="TEXTS.ARCHIVE_POPUP_SUBTITLE"
@@ -10,7 +13,10 @@
     <div *ngIf="isLoading$ | async" class="asset-table-progress-bar">
         <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
-    <mat-table *ngIf="!(isLoading$ | async) && !(showUnknownError$ | async)" #table [dataSource]="assets$">
+    <div *ngIf="!(isLoading$ | async) && ((assets$ | async) ?? []).length === 0">
+        <blu-text type="secondary">No assets added yet... <blu-link (click)="onAddAsset()">Add one?</blu-link></blu-text>
+    </div>
+    <mat-table *ngIf="!(isLoading$ | async) && !(showUnknownError$ | async) && ((assets$ | async) ?? []).length > 0" #table [dataSource]="assets$">
         <ng-container matColumnDef="account">
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.ACCOUNT_TITLE }}
