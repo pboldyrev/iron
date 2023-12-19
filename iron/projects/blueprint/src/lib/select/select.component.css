@@ -3,7 +3,6 @@
   color: var(--blu-color-primary);
   font: var(--blu-font-primary);
   font-size: var(--blu-font-size-xs);
-  border-radius: var(--blu-radius-none);
   outline: none;
   appearance: none;
   width: fit-content;
@@ -35,11 +34,11 @@
 }
 
 .blu-select-primary {
-  border: var(--blu-border-secondary);
+  border: var(--blu-border-tertiary);
 }
 
 .blu-select-secondary {
-  border: var(--blu-border-primary);
+  border: var(--blu-border-secondary);
 }
 
 .blu-select::after {

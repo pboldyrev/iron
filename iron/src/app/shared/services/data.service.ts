@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ArchiveAssetResponse, Asset, AssetValue } from '../constants/constants';
-import { BehaviorSubject, Observable, delay, map, mergeMap, of, tap } from 'rxjs';
-import { v4 as uuid } from 'uuid';
-import { HttpClient } from '@angular/common/http';
+import { Asset, AssetValue } from '../constants/constants';
+import { BehaviorSubject, Observable, delay, map, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -63,16 +62,7 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAsset",
-      {
-        sessionToken: this.authService.getSessionToken(),
-        assetId: assetId,
-      },
-      {
-        headers: {'Content-Type': 'application/json'},
-      }
-    ).pipe(
+    return this.httpPost("getAsset", {assetId: assetId}).pipe(
       map((data: any) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
@@ -87,16 +77,7 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/putAsset",
-      {
-        sessionToken: this.authService.getSessionToken(),
-        asset: asset,
-      },
-      {
-        headers: {'Content-Type': 'application/json'},
-      }
-    ).pipe(
+    return this.httpPost("putAsset", {asset: asset}).pipe(
       map((data: any) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
@@ -112,16 +93,7 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/archiveAsset",
-      {
-        sessionToken: this.authService.getSessionToken(),
-        assetId: assetId,
-      },
-      {
-        headers: {'Content-Type': 'application/json'},
-      }
-    ).pipe(
+    return this.httpPost("archiveAsset", {assetId: assetId}).pipe(
       map((data: any) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
@@ -163,21 +135,36 @@ export class DataService {
     if (loadingIndicator) {
       loadingIndicator.next(true);
     }
-    return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAssetsByUser",
-      {
-        sessionToken: this.authService.getSessionToken(),
-      },
-      {
-        headers: {'Content-Type': 'application/json'},
-      }
-    ).pipe(
+    return this.httpPost('getAssetsByUser')
+    .pipe(
       map((data: any) => {
         if (loadingIndicator) {
           loadingIndicator.next(false);
         }
         return data?.assets as Asset[] ?? []
       }),
+    )
+  }
+
+  private httpPost(endpoint: string, params: any = {}): Observable<any> {
+    return this.httpClient.post(
+      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/" + endpoint,
+      {
+        sessionToken: this.authService.getSessionToken(),
+        ...params
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    ).pipe(
+      tap(({
+        next: () => {},
+        error: (err: HttpErrorResponse) => {
+          if(err.error?.error.includes("No user found")) {
+            this.authService.signOut();
+          }
+        }
+      }))
     )
   }
 }
