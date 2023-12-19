@@ -46,7 +46,6 @@ export class ChartComponent {
             tension: 0.5,
             borderWidth: 5,
             borderJoinStyle: "round",
-            borderCapStyle: "round",
             pointRadius: 0,
             pointHitRadius: 15,
             pointHoverRadius: 5,
