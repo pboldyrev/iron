@@ -1,8 +1,8 @@
 <blu-popup
-  [show]="show$"
   [title]="title"
   [subtitle]="subtitle"
   [size]="size"
+  #popup
 >
     <blu-button [fullWidth]="true" type="primary" (click)="onConfirm()">
       {{ confirmText }}

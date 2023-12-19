@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NetworthComponent } from '../networth/networth.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
@@ -12,18 +12,24 @@ import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { AssetTableComponent } from '../asset-table/asset-table.component';
+import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetSummaryComponent, ValueChangeComponent, AddAssetComponent, BluPopup, ChartComponent, AssetTableComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetSummaryComponent, ValueChangeComponent, AddAssetComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-  public showAddAsset$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+  @ViewChild('addAssetPopup') addAssetPopup!: BluPopup;
+  
   public TEXTS = TEXTS;
+
+  constructor(
+    private authService: AuthService
+  ) {}
 
   public networthChangeTimeframes: ValueChange[] = [
     {
@@ -53,7 +59,11 @@ export class DashboardComponent {
     }
   ];
 
-  public onAddAsset() {
-    this.showAddAsset$.next(true);
+  public onAddAsset(): void {
+    this.addAssetPopup.show();
+  }
+
+  public onLogOut(): void {
+    this.authService.signOut();
   }
 }

@@ -1,10 +1,10 @@
 <app-confirmation-popup
-  [show$]="showArchivePopup$"
   [title]="TEXTS.ARCHIVE_POPUP_TITLE_1 + assetToArchive?.assetName + TEXTS.ARCHIVE_POPUP_TITLE_2"
   [subtitle]="TEXTS.ARCHIVE_POPUP_SUBTITLE"
   [confirmText]="TEXTS.ARCHIVE_POPUP_CTA"
   size="large"
   (confirmed)="onArchiveAssetConfirmed()"
+  #archiveConfirmPopup
 ></app-confirmation-popup>
 <div class="asset-table">
     <div *ngIf="isLoading$ | async" class="asset-table-progress-bar">

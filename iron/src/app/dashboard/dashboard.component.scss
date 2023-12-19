@@ -1,4 +1,5 @@
 .dashboard-wrapper {
+    width: 100vw;
     min-height: var(--blu-height-full);
     height: 100vh;
 }
@@ -7,7 +8,8 @@
     background-color: var(--blu-background-secondary);
     padding: var(--blu-padding-4xl);
     width: var(--blu-width-full);
-    height: 100vh;
+    height: var(--blu-height-full);
+    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -15,7 +17,7 @@
 .dashboard-content-wrapper {
     padding: var(--blu-padding-4xl);
     height: var(--blu-height-full);
-    overflow: scroll;
+    overflow: auto;
 }
 
 .dashboard-actions-wrapper {
@@ -38,22 +40,14 @@
 }
 
 .dashboard-networth-chart-wrapper {
-    flex: auto;
     width: var(--blu-width-full);
     margin-top: var(--blu-margin-4xl);
+    height: 50vh;
 }
 
 @media screen and (max-width: 991px) {
-    .dashboard-side-wrapper {
-        height: fit-content;
-        display: flex;
-        flex-direction: column;
-    }
     .dashboard-wrapper {
         height: fit-content;
-    }
-    .dashboard-content-wrapper {
-        overflow: visible;
     }
     .dashboard-networth-chart-wrapper {
         height: 40vh;

@@ -14,15 +14,20 @@ import { BluIcon } from '../icon/icon.component';
 })
 export class BluPopup {
   @Input() size!: 'large' | 'medium' | 'small' | 'x-large';
-  @Input() show!: BehaviorSubject<boolean>;
 
   @Input() title: string = '';
   @Input() subtitle: string = '';
 
   @Output() closed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  onClose() {
-    this.show.next(false);
+  public show$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  public hide(): void {
+    this.show$.next(false);
     this.closed$.next(true);
+  }
+
+  public show(): void {
+    this.show$.next(true);
   }
 }

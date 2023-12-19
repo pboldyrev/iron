@@ -1,19 +1,20 @@
 <blu-popup
-  [show]="showAddAsset$"
   [title]="TEXTS.ADD_ASSET_TITLE"
   size="large"
+  #addAssetPopup
 >
-    <app-add-asset 
-    ></app-add-asset>
+    <app-add-asset></app-add-asset>
 </blu-popup>
 <div class="row dashboard-wrapper">
     <div class="col-lg-5 col-sm-12">
         <div class="dashboard-side-wrapper">
-            <app-networth></app-networth>
-            <div class="dashboard-networth-change-wrapper">
-                <app-value-change
-                    [timeframes]="networthChangeTimeframes"
-                ></app-value-change>
+            <div class="dashboard-networth-wrapper">
+                <app-networth></app-networth>
+                <div class="dashboard-networth-change-wrapper">
+                    <app-value-change
+                        [timeframes]="networthChangeTimeframes"
+                    ></app-value-change>
+                </div>
             </div>
             <div class="dashboard-networth-chart-wrapper">
                 <app-chart></app-chart>
@@ -26,7 +27,7 @@
                 <blu-button type="primary" iconName="plus" (click)="onAddAsset()">
                     {{ TEXTS.BTN_PRIMARY_CTA }}
                 </blu-button>
-                <blu-button type="secondary">
+                <blu-button type="secondary" (click)="onLogOut()">
                     {{ TEXTS.BTN_SECONDARY_CTA }}
                 </blu-button>
             </div>

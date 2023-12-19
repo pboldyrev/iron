@@ -2,7 +2,7 @@
   id="blu-popup"
   class="blu-popup"
   [ngClass]="{
-    'blu-popup-show': show | async
+    'blu-popup-show': show$ | async
   }"
 >
   <div
@@ -23,7 +23,7 @@
         type="none"
         iconName="x"
         [iconOnly]="true"
-        (click)="onClose()"
+        (click)="hide()"
       >
       </blu-button>
     </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,7 +12,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrl: './confirmation-popup.component.scss'
 })
 export class ConfirmationPopupComponent {
-  @Input() show$!: BehaviorSubject<boolean>;
+  @ViewChild('popup') popup!: BluPopup;
+
   @Input() title!: string;
 
   @Input() subtitle: string = '';
@@ -23,6 +24,10 @@ export class ConfirmationPopupComponent {
 
   public onConfirm() {
     this.confirmed.emit();
-    this.show$.next(false);
+    this.popup.hide();
+  }
+
+  public show(): void {
+    this.popup.show();
   }
 }

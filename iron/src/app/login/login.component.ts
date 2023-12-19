@@ -38,14 +38,11 @@ export class LoginComponent {
 
   public TEXTS = TEXTS;
   public BTN_TEXTS = BTN_TEXTS;
-  public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
   public FeedbackType = FeedbackType;
 
   public isSendCodeSubmitting = false;
   public isCheckTokenSubmitting = false;
-  public invalidLogin$ = new BehaviorSubject<boolean>(false);
-  public unknownLoginError$ = new BehaviorSubject<boolean>(false);
-  public incorrectCodeError$ = new BehaviorSubject<boolean>(false);
+  public error$ = new BehaviorSubject<string>('');
   public showOTPDialog$ = new BehaviorSubject<boolean>(false);
 
   private methodId: string = '';
@@ -58,16 +55,17 @@ export class LoginComponent {
 
   public onBack(): void {
     this.showOTPDialog$.next(false);
-    this.clearErrors();
+    this.error$.next('');
     this.clearAuth();
   }
 
   public onSendCode(): void {
     this.clearAuth();
-    this.clearErrors();
+    this.error$.next('');
     this.isSendCodeSubmitting = true;
     this.isPhoneFieldValid$().subscribe((phoneNumber: number) => {
       if (!phoneNumber) {
+        this.isSendCodeSubmitting = false;
         return;
       }
 
@@ -78,48 +76,42 @@ export class LoginComponent {
           this.methodId = methodId;
           this.phoneNumber = phoneNumber;
           this.showOTPDialog$.next(true);
+          this.isSendCodeSubmitting = false;
         },
         error: () => {
-          this.unknownLoginError$.next(true);
-        },
-        complete: () => {
+          this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
           this.isSendCodeSubmitting = false;
-        }
+        },
       });
     });
   }
 
   public onConfirmCode(): void {
-    this.clearErrors();
+    this.error$.next('');
     this.isCheckTokenSubmitting = true;
     this.isCodeValid$().subscribe((code: number) => {
       if(!code){
+        this.isCheckTokenSubmitting = false;
         return;
       }
 
       this.authService.checkPhoneCode$(
         this.methodId, this.phoneNumber, code
       ).subscribe({
-        next: (success: boolean) => {
-          this.router.navigate(['/overview']);
+        next: () => {
+          this.router.navigate(['/dashboard']);
+          this.isCheckTokenSubmitting = false;
         },
         error: () => {
-          this.incorrectCodeError$.next(true);
-        },
-        complete: () => {
+          this.error$.next(TEXTS.INCORRECT_CODE);
           this.isCheckTokenSubmitting = false;
-        }
+        },
       });
     });
   }
 
   public onSignUp(): void {
     this.router.navigate(['/signup']);
-  }
-
-  public clearErrors(): void {
-    this.invalidLogin$.next(false);
-    this.unknownLoginError$.next(false);
   }
 
   private isPhoneFieldValid$(): Observable<number> {

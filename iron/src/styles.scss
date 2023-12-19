@@ -43,11 +43,6 @@ $iron-theme: mat.define-dark-theme((
   color: var(--blu-color-secondary);
 }
 
-::selection::first-letter {
-  background: var(--blu-background-tertiary);
-  color: var(--blu-color-secondary);
-}
-
 html {
   background-color: var(--blu-background-primary);
   font: var(--blu-font-primary);

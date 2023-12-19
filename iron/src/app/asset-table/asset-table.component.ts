@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -40,7 +40,7 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 })
 
 export class AssetTableComponent {
-  @Input() showAddAsset$!: BehaviorSubject<boolean>;
+  @ViewChild('archiveConfirmPopup') archiveConfirmPopup!: ConfirmationPopupComponent;
 
   public displayedColumns = ['asset', 'units', 'curValue', 'edit'];
   public displayedFooterColumns = ['blankAsset', 'blankUnits', 'curValueTotal', 'blankEdit'];
@@ -85,13 +85,8 @@ export class AssetTableComponent {
     }
     return Math.abs(Math.round(((cur-init) / init) * 100));
   }
-
-  public onAddAsset(): void {
-    this.showAddAsset$.next(true);
-  }
-
   public onArchiveAsset(asset: Asset): void {
-    this.showArchivePopup$.next(true);
+    this.archiveConfirmPopup.show();
     this.assetToArchive = asset;
   }
 

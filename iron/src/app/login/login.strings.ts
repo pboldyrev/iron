@@ -1,8 +1,6 @@
 export const TEXTS = {
-  TITLE: 'Welcome back.',
-  OTP_TITLE: 'Enter code.',
-  SUBTITLE: 'Enter your phone number to receive a one-time authentication code.',
-  OTP_SUBTITLE: 'Enter the code your received to authenticate.',
+  TITLE: 'Welcome to Finacle',
+  OTP_TITLE: 'Enter code',
   OR: 'or',
   REQUIRED_FIELDS_NOTE: '* Indicates required fields',
   INVALID_CREDENTIALS: 'Invalid credentials.',

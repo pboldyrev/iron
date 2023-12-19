@@ -1,14 +1,24 @@
-.login-wrapper {
-  width: 100%;
-  max-width: var(--blu-width-4xl);
-  padding: var(--blu-padding-4xl) var(--blu-padding-l) 0 var(--blu-padding-l);
-  margin: 0 auto;
+.login-form-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--blu-padding-xl);
+  height: 100vh;
+}
+
+.login-form {
+  width: 400px;
+}
+
+.login-image-wrapper {
+  height: 100vh;
+  overflow: hidden;
 }
 
 .login-modal-content {
   display: flex;
+  gap: var(--blu-space-s);
   flex-direction: column;
-  gap: var(--blu-padding-l);
 }
 
 .login-spinner-wrapper {
