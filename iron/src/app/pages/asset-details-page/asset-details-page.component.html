@@ -20,7 +20,8 @@
                         </div>
                         <ng-template #valueHistory>
                             <div class="asset-details-value-history-chart-wrapper">
-                                <app-value-history-chart></app-value-history-chart>
+                                <app-value-history-chart
+                                ></app-value-history-chart>
                             </div>
                             <app-value-history
                                 *ngIf="(asset$ | async)?.assetType != AssetType.Stock"

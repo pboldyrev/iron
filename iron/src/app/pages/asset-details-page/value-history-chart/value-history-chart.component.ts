@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterViewChecked, Component, Input } from '@angular/core';
 import { Chart } from 'chart.js';
-
 @Component({
   selector: 'app-value-history-chart',
   standalone: true,
@@ -16,9 +15,14 @@ export class ValueHistoryChartComponent {
   }
 
   private createChart(): void {
+    let oldChart = Chart.getChart("valueHistoryChart");
+    if(oldChart){
+      oldChart.clear();
+      oldChart.destroy();
+    }
+    
     this.chart = new Chart("valueHistoryChart", {
       type: 'line',
-
       data: {
         labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13', '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ], 
 	       datasets: [
