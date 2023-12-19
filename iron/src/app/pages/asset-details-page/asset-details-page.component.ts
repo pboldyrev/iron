@@ -58,7 +58,7 @@ export class AssetDetailsPageComponent {
   }
 
   public onBack() {
-    this.router.navigate(['/overview']);
+    this.router.navigate(['/dashboard']);
   }
 
   private getDisplayName(asset: Asset): string {
