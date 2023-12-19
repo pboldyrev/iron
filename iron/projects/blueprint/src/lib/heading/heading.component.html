@@ -7,6 +7,12 @@
     'blu-heading-wrapper-l': size === 'large',
   }"
 >
+  <blu-text
+    *ngIf="subheading && subheadingPosition === 'top'"
+    class="blu-heading-sub"
+    [size]="subheadingSize">
+    {{ subheading }}
+  </blu-text>
   <span
     class="blu-heading"
     [ngClass]="{
@@ -22,7 +28,7 @@
     <ng-content></ng-content>
   </span>
   <blu-text
-    *ngIf="subheading"
+    *ngIf="subheading && subheadingPosition === 'bottom'"
     class="blu-heading-sub"
     [size]="subheadingSize">
     {{ subheading }}

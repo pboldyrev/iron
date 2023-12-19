@@ -1,0 +1,12 @@
+.networth-wrapper {
+    min-width: fit-content;
+    min-height: var(--blu-height-l);
+    height: fit-content;
+}
+
+.networth-spinner-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    color: var(--blu-color-primary);
+}

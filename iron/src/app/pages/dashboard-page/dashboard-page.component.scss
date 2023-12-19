@@ -1,0 +1,58 @@
+.dashboard-wrapper {
+    width: 100vw;
+    min-height: var(--blu-height-full);
+    height: 100vh;
+}
+
+.dashboard-side-wrapper {
+    background-color: var(--blu-background-secondary);
+    padding: var(--blu-padding-4xl);
+    width: var(--blu-width-full);
+    height: var(--blu-height-full);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-content-wrapper {
+    padding: var(--blu-padding-4xl);
+    height: var(--blu-height-full);
+    overflow: auto;
+}
+
+.dashboard-actions-wrapper {
+    padding: 0 var(--blu-padding-xl) var(--blu-padding-xl);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--blu-space-m);
+}
+
+.dashboard-asset-summary {
+    padding: var(--blu-padding-m);
+}
+
+.dashboard-networth-change-wrapper {
+    margin-top: var(--blu-margin-xxl);
+}
+
+.dashboard-asset-table-wrapper {
+    padding: var(--blu-padding-m);
+}
+
+.dashboard-networth-chart-wrapper {
+    width: var(--blu-width-full);
+    margin-top: var(--blu-margin-4xl);
+    height: 50vh;
+}
+
+@media screen and (max-width: 991px) {
+    .dashboard-wrapper {
+        height: fit-content;
+    }
+    .dashboard-networth-chart-wrapper {
+        height: 40vh;
+    }
+    .dashboard-content-wrapper {
+        padding: var(--blu-padding-4xl) var(--blu-padding-xl);
+    }
+}

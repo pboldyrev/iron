@@ -6,11 +6,12 @@
   left: 0;
   width: var(--blu-width-full);
   height: var(--blu-height-full);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: var(--blu-radius-m);
 }
 
 .blu-popup-content {
-  background-color: var(--blu-background-primary);
+  background-color: var(--blu-background-secondary);
   padding: var(--blu-padding-xxl);
   height: fit-content;
   border-radius: var(--blu-radius-s);

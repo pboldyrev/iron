@@ -1,11 +1,11 @@
+.modal-outline {
+  border: var(--blu-border-secondary);
+  border-radius: var(--blu-radius-m);
+}
+
 .modal-content {
   padding: var(--blu-padding-4xl);
   height: fit-content;
-}
-
-.modal-outline {
-  border: var(--blu-border-secondary);
-  border-radius: var(--blu-radius-none);
 }
 
 .modal-heading {

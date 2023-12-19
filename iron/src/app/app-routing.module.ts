@@ -1,33 +1,33 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OverviewComponent } from './overview/overview.component';
-import { SettingsComponent } from './settings/settings.component';
-import { LoginComponent } from './login/login.component';
+import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { authenticatedGuard } from './guards/authenticated.guard';
 import { UnknownPageComponent } from './unknown-page/unknown-page.component';
 import { unauthenticatedGuard } from './guards/unauthenticated.guard';
-import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
-import { AddStockComponent } from './add-stock/add-stock.component';
-import { AddCdComponent } from './add-cd/add-cd.component';
-import { AddHysaComponent } from './add-hysa/add-hysa.component';
-import { AddCustomComponent } from './add-custom/add-custom.component';
+import { AddVehicleComponent } from './add-asset/add-vehicle/add-vehicle.component';
+import { AddStockComponent } from './add-asset/add-stock/add-stock.component';
+import { AddCdComponent } from './add-asset/add-cd/add-cd.component';
+import { AddHysaComponent } from './add-asset/add-hysa/add-hysa.component';
+import { AddCustomComponent } from './add-asset/add-custom/add-custom.component';
 import { hasAssetGuard } from './guards/has-asset.guard';
-import { AssetDetailsPageComponent } from './asset-details-page/asset-details-page.component';
+import { AssetDetailsPageComponent } from './pages/asset-details-page/asset-details-page.component';
+import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'overview',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
   {
-    path: 'overview',
-    component: OverviewComponent,
+    path: 'dashboard',
+    component: DashboardPageComponent,
     canActivate: [authenticatedGuard],
   },
   {
     path: 'settings',
-    component: SettingsComponent,
+    component: SettingsPageComponent,
     canActivate: [authenticatedGuard],
   },
   {
@@ -62,7 +62,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
+    component: LoginPageComponent,
     canActivate: [unauthenticatedGuard],
   },
   {

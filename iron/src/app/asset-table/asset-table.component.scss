@@ -1,3 +1,17 @@
+.asset-table {
+    background-color: var(--blu-background-secondary);
+    border: var(--blu-border-secondary);
+    border-radius: var(--blu-radius-m);
+    padding: var(--blu-padding-xxl);
+    overflow-x: auto;
+    transition: 0.2s;
+}
+
+.asset-table:hover {
+    scale: 1.05;
+    transition: 0.2s;
+}
+
 .mat-column-initValue {
     max-width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
@@ -59,19 +73,6 @@
     min-width: var(--blu-width-xl);
 }
 
-@media (max-width: 768px) {
-    .mat-column-account,
-    .mat-column-blankAccount,
-    .mat-column-units,
-    .mat-column-blankUnits,
-    .mat-column-initValue,
-    .mat-column-initValueTotal,
-    .mat-column-change,
-    .mat-column-changeTotal {
-        display: none;
-    }
-}
-
 .mat-column-blankAccount {
     width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
@@ -89,13 +90,6 @@
 
 .mat-column-blankEdit {
     max-width: var(--blu-width-xs);
-}
-
-.asset-table {
-    min-width: fit-content;
-    border: var(--blu-border-secondary);
-    border-radius: var(--blu-radius-xl);
-    padding: var(--blu-padding-xxl);
 }
 
 .asset-table-progress-bar {

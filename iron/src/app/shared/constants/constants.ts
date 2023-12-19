@@ -55,3 +55,17 @@ export enum AssetType {
   HYSA = 'hysa',
   Custom = 'custom',
 }
+
+export const TypeToDisplayName = {
+  stock: "Stock",
+  vehicle: "Vehicle",
+  cd: "CD",
+  hysa: "HYSA",
+  custom: "Custom",
+}
+
+export type ValueChange = {
+  type: string;
+  value: number;
+  percent: number;
+}

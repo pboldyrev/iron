@@ -1,0 +1,76 @@
+<div class="login-wrapper">
+  <div class="row">
+    <div class="col-lg-6 col-12 d-none d-lg-block">
+      <div class="login-image-wrapper">
+        <img src="../../assets/background/login.jpg" width="100%">
+      </div>
+    </div>
+    <div class="col-lg-6 col-12">
+      <div class="login-form-wrapper">
+        <div class="login-form">
+            <blu-modal
+              [title]="TEXTS.TITLE"
+              *ngIf="!(showOTPDialog$ | async) else OTPDialog"
+            >
+            <div class="login-modal-content">
+              <blu-input
+                label="Phone number"
+                [required]="true"
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR"
+                type="PHONE"
+                (keydown.enter)='onSendCode()'
+                #phoneInput
+              ></blu-input>
+              <blu-button type="primary" [fullWidth]="true" (click)="onSendCode()" (keydown.enter)='onSendCode()'>
+                <div class="login-spinner-wrapper">
+                  <blu-spinner *ngIf="isSendCodeSubmitting"></blu-spinner>
+                </div>
+                {{ BTN_TEXTS.LOGIN }}
+              </blu-button>
+            <blu-validation-feedback
+              *ngIf="error$ | async"
+              [type]="FeedbackType.ERROR"
+            >
+              {{ error$ | async }}
+            </blu-validation-feedback>
+              </div>
+            </blu-modal>
+    
+            <ng-template #OTPDialog>
+              <blu-modal
+                [title]="TEXTS.OTP_TITLE"
+              >
+              <div class="login-modal-content">
+                <blu-input
+                  label="One time code"
+                  [required]="true"
+                  [fullWidth]="true"
+                  [feedbackType]="FeedbackType.ERROR"
+                  type="NUMBER"
+                  (keydown.enter)='onConfirmCode()'
+                  #codeInput
+                ></blu-input>
+                <blu-button type="primary" [fullWidth]="true" (click)="onConfirmCode()" (keydown.enter)='onConfirmCode'>
+                  <div class="login-spinner-wrapper">
+                    <blu-spinner *ngIf="isCheckTokenSubmitting"></blu-spinner>
+                  </div>
+                  {{ BTN_TEXTS.SUBMIT_CODE }}
+                </blu-button>
+                <blu-button type="secondary" [fullWidth]="true" (click)="onBack()">
+                  {{ BTN_TEXTS.BACK }}
+                </blu-button>
+                <blu-validation-feedback
+                  *ngIf="error$ | async"
+                  [type]="FeedbackType.ERROR"
+                >
+                  {{ error$ | async }}
+                </blu-validation-feedback>
+                </div>
+              </blu-modal>
+            </ng-template>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

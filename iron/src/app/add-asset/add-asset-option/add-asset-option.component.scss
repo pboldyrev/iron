@@ -4,31 +4,29 @@
     margin: var(--blu-margin-s);
     justify-content: space-between;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
+    border-radius: var(--blu-radius-m);
 }
 
 .add-asset-option-wrapper:hover {
-    transition: 0.3s;
+    transition: 0.2s;
+    scale: 1.05;
+}
+
+.add-asset-option-wrapper:active {
+    transition: 0.5s;
+    scale: 0.9;
 }
 
 .add-asset-option-wrapper-primary {
-    background-color: var(--blu-background-secondary);
-    border: var(--blu-border-secondary);
+    background-color: var(--blu-background-primary);
     height: var(--blu-height-xl);
-}
-
-.add-asset-option-wrapper-primary:hover {
-    box-shadow: inset 0 -8em 0 0 var(--blu-color-brand);
 }
 
 .add-asset-option-wrapper-secondary {
     background-color: var(--blu-background-primary);
-    border: var(--blu-border-primary);
+    border: var(--blu-border-secondary);
     height: var(--blu-height-l);
-}
-
-.add-asset-option-wrapper-secondary:hover {
-    background-color: var(--blu-background-secondary);
 }
 
 .add-asset-option-icon {

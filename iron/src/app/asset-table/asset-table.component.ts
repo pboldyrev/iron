@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -11,11 +11,11 @@ import { DataService } from '../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
-import { TimeRangeSelectorComponent } from '../time-range-selector/time-range-selector.component';
-import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
+import { ConfirmationPopupComponent } from '../shared/components/confirmation-popup/confirmation-popup.component';
 import { Router } from '@angular/router';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 
 @Component({
   selector: 'app-asset-table',
@@ -28,20 +28,20 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
     BluButton,
     MatProgressBarModule,
     BluTag,
-    TimeRangeSelectorComponent,
     MatMenuModule,
     ConfirmationPopupComponent,
     BluValidationFeedback,
+    BluLink,
   ],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.scss'
 })
 
 export class AssetTableComponent {
-  @Input() showAddAsset$!: BehaviorSubject<boolean>;
+  @ViewChild('archiveConfirmPopup') archiveConfirmPopup!: ConfirmationPopupComponent;
 
-  public displayedColumns = ['account', 'asset', 'units', 'initValue', 'curValue', 'change', 'edit'];
-  public displayedFooterColumns = ['blankAccount', 'blankAsset', 'blankUnits', 'initValueTotal', 'curValueTotal', 'changeTotal', 'blankEdit'];
+  public displayedColumns = ['asset', 'units', 'curValue', 'edit'];
+  public displayedFooterColumns = ['blankAsset', 'blankUnits', 'curValueTotal', 'blankEdit'];
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject([] as Asset[]);
   public curTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -83,13 +83,8 @@ export class AssetTableComponent {
     }
     return Math.abs(Math.round(((cur-init) / init) * 100));
   }
-
-  public onAddAsset(): void {
-    this.showAddAsset$.next(true);
-  }
-
   public onArchiveAsset(asset: Asset): void {
-    this.showArchivePopup$.next(true);
+    this.archiveConfirmPopup.show();
     this.assetToArchive = asset;
   }
 
@@ -165,5 +160,9 @@ export class AssetTableComponent {
         this.assets$.next(userAssets);
       })
     );
+  }
+
+  public onPageReload() {
+    location.reload();
   }
 }

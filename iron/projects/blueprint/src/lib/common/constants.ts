@@ -26,10 +26,11 @@ export type BluIconName =
   | 'chevronDown'
   | 'kebab'
   | 'lock'
-  | 'bank'
-  | 'rocket'
-  | 'banknote'
-  | 'clock'
+  | 'stock'
+  | 'vehicle'
+  | 'hysa'
+  | 'custom'
+  | 'cd'
   | 'spinner'
   | 'trash'
   | 'backArrow'
@@ -48,15 +49,16 @@ export const BluToIconMap = {
   x: 'octX',
   threeBars: 'octThreeBars',
   plus: 'octPlus',
-  chevronUp: 'heroChevronUp',
-  chevronDown: 'heroChevronDown',
+  chevronUp: 'heroArrowTrendingUp',
+  chevronDown: 'heroArrowTrendingDown',
   kebab: 'octKebabHorizontal',
   lock: 'octLock',
-  rocket: 'heroRocketLaunch',
-  bank: 'heroBuildingLibrary',
-  banknote: 'heroBanknotes',
+  vehicle: 'heroRocketLaunch',
+  stock: 'heroBuildingLibrary',
+  hysa: 'heroBanknotes',
+  custom: 'heroBanknotes',
   spinner: 'heroArrowPath',
-  clock: 'heroClock',
+  cd: 'heroClock',
   trash: 'heroTrash',
   backArrow: 'heroArrowLeft',
   question: 'octQuestion'

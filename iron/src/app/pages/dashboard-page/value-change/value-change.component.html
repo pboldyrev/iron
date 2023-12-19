@@ -1,0 +1,12 @@
+<div class="row value-change-wrapper">
+    <ng-container *ngFor="let timeframe of timeframes">
+        <blu-text type="secondary">
+            <div class="value-change-content">
+                <blu-text size="small">{{ timeframe.type }}</blu-text>
+                <blu-text [type]="timeframe.value < 0 ? 'error' : 'success'">
+                    {{ getDisplayString(timeframe) }}
+                </blu-text>
+            </div>
+        </blu-text>
+    </ng-container>
+</div>

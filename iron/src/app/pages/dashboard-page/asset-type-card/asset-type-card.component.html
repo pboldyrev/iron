@@ -1,0 +1,17 @@
+<div class="asset-summary-wrapper">
+    <div class="asset-summary-content">
+        <blu-heading
+            [subheading]="TypeToDisplayName[asset.type]"
+            subheadingPosition="top"
+            size="small"
+        >
+            {{ totalValueString$ | async }}
+        </blu-heading>
+        <div class="asset-summary-value-change-wrapper">
+            <app-value-change [timeframes]="asset.valueChange"></app-value-change>
+        </div>
+    </div>
+    <div class="asset-summary-icon">
+        <blu-icon [name]="asset.type" size="35"></blu-icon>
+    </div>
+</div>
