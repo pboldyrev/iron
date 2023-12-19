@@ -24,7 +24,7 @@ export class ChartComponent {
   ngOnInit(): void {
     this.dataService.getHistoricalNetWorth$().subscribe({
       next: (historicalNetWorth: AssetValue[]) => {
-        let x = historicalNetWorth.map((assetValue) => new Date(assetValue.timestamp ?? 0).getFullYear());
+        let x = historicalNetWorth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString());
         let y = historicalNetWorth.map((assetValue) => assetValue.value ?? 0);
         this.createChart(x, y);
       },
@@ -34,7 +34,7 @@ export class ChartComponent {
     });
   }
 
-  private createChart(x: number[], y: number[]): void {
+  private createChart(x: string[], y: number[]): void {
     this.chart = new Chart("chart", {
       type: 'line',
       data: {
