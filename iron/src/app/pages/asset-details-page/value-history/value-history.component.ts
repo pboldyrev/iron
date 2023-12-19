@@ -9,8 +9,8 @@ import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, merge
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
-import { Asset, AssetValue } from '../shared/constants/constants';
-import { DataService } from '../shared/services/data.service';
+import { Asset, AssetValue } from '../../../shared/constants/constants';
+import { DataService } from '../../../shared/services/data.service';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';

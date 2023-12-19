@@ -11,8 +11,7 @@ import { DataService } from '../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
-import { TimeRangeSelectorComponent } from '../time-range-selector/time-range-selector.component';
-import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
+import { ConfirmationPopupComponent } from '../shared/components/confirmation-popup/confirmation-popup.component';
 import { Router } from '@angular/router';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
@@ -29,7 +28,6 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
     BluButton,
     MatProgressBarModule,
     BluTag,
-    TimeRangeSelectorComponent,
     MatMenuModule,
     ConfirmationPopupComponent,
     BluValidationFeedback,

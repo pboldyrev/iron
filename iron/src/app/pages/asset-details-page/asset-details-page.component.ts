@@ -1,16 +1,16 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { ValueHistoryComponent } from '../value-history/value-history.component';
-import { AuthService } from '../shared/services/auth.service';
+import { ValueHistoryComponent } from './value-history/value-history.component';
+import { AuthService } from '../../shared/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BehaviorSubject, Observable, filter, map, mergeMap } from 'rxjs';
-import { DataService } from '../shared/services/data.service';
-import { Asset, AssetType } from '../shared/constants/constants';
+import { DataService } from '../../shared/services/data.service';
+import { Asset, AssetType } from '../../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { ValueHistoryChartComponent } from '../value-history-chart/value-history-chart.component';
+import { ValueHistoryChartComponent } from './value-history-chart/value-history-chart.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
-import { ValueChange } from '../shared/constants/constants';
+import { ValueChange } from '../../../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 
 @Component({

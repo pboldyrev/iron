@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetSummaryComponent } from './asset-summary.component';
+import { DashboardPageComponent } from './dashboard-page.component';
 
-describe('AssetSummaryComponent', () => {
-  let component: AssetSummaryComponent;
-  let fixture: ComponentFixture<AssetSummaryComponent>;
+describe('DashboardPageComponent', () => {
+  let component: DashboardPageComponent;
+  let fixture: ComponentFixture<DashboardPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AssetSummaryComponent]
+      imports: [DashboardPageComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AssetSummaryComponent);
+    fixture = TestBed.createComponent(DashboardPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

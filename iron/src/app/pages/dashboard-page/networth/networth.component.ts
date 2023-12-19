@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { DataService } from '../shared/services/data.service';
-import { Asset } from '../shared/constants/constants';
+import { DataService } from '../../../shared/services/data.service';
+import { Asset } from '../../../shared/constants/constants';
 import { CommonModule } from '@angular/common';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';

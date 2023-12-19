@@ -1,13 +1,13 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
-import { BTN_TEXTS, TEXTS } from './login.strings';
+import { BTN_TEXTS, TEXTS } from './login-page.strings';
 import { BehaviorSubject, Observable, combineLatest, map, take } from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { FEEDBACK_STRINGS } from '../shared/constants/strings';
+import { FEEDBACK_STRINGS } from '../../shared/constants/strings';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-page',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,10 +29,10 @@ import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-pop
     BluModal,
     BluValidationFeedback,
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss'],
 })
-export class LoginComponent {
+export class LoginPageComponent {
   @ViewChild('phoneInput') phoneInput!: BluInput;
   @ViewChild('codeInput') codeInput!: BluInput;
 

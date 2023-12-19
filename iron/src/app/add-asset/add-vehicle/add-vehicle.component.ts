@@ -7,15 +7,15 @@ import { BluSelectOption, FeedbackType } from 'projects/blueprint/src/lib/common
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { Router } from '@angular/router';
-import { DataService } from '../shared/services/data.service';
-import { AuthService } from '../shared/services/auth.service';
+import { DataService } from '../../shared/services/data.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { BehaviorSubject, Subject, combineLatest, filter, map, mergeMap, of, switchMap, take, tap } from 'rxjs';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { VEHICLE_MAKES } from './add-vehicle.constants';
-import { ValueHistoryComponent } from '../value-history/value-history.component';
+import { ValueHistoryComponent } from '../../pages/asset-details-page/value-history/value-history.component';
 import { TEXTS } from './add-vehicle.strings';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { Asset, AssetType, VehicleCustomAttributes } from '../shared/constants/constants';
+import { Asset, AssetType, VehicleCustomAttributes } from '../../shared/constants/constants';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 
 export type VehicleAssetData = {

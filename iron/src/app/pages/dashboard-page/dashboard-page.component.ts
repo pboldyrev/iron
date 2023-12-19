@@ -1,28 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NetworthComponent } from '../networth/networth.component';
+import { NetworthComponent } from './networth/networth.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
-import { TEXTS } from './dashboard.strings';
-import { AssetType, ValueChange } from '../shared/constants/constants';
-import { AssetSummaryComponent } from '../asset-summary/asset-summary.component';
-import { ValueChangeComponent } from '../value-change/value-change.component';
-import { AddAssetComponent } from '../add-asset/add-asset.component';
+import { TEXTS } from './dashboard-page.strings';
+import { AssetType, ValueChange } from '../../shared/constants/constants';
+import { AssetTypeCardComponent } from './asset-type-card/asset-type-card.component';
+import { ValueChangeComponent } from './value-change/value-change.component';
+import { AddAssetComponent } from '../../add-asset/add-asset.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
-import { BehaviorSubject } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
-import { AssetTableComponent } from '../asset-table/asset-table.component';
-import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
-import { AuthService } from '../shared/services/auth.service';
+import { ChartComponent } from '../../chart/chart.component';
+import { AssetTableComponent } from '../../asset-table/asset-table.component';
+import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetSummaryComponent, ValueChangeComponent, AddAssetComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, AddAssetComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent],
+  templateUrl: './dashboard-page.component.html',
+  styleUrl: './dashboard-page.component.scss'
 })
-export class DashboardComponent {
+export class DashboardPageComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: BluPopup;
   
   public TEXTS = TEXTS;
