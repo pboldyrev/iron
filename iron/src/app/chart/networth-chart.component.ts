@@ -24,9 +24,14 @@ export class ChartComponent {
   ngOnInit(): void {
     this.dataService.getHistoricalNetWorth$().subscribe({
       next: (historicalNetWorth: AssetValue[]) => {
-        let x = historicalNetWorth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString());
-        let y = historicalNetWorth.map((assetValue) => assetValue.value ?? 0);
-        this.createChart(x, y);
+        let xAxis;
+        if(historicalNetWorth.length > 30) {
+          xAxis = historicalNetWorth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}));
+        } else {
+          xAxis = historicalNetWorth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'}));
+        }
+        let yAxis = historicalNetWorth.map((assetValue) => assetValue.value ?? 0);
+        this.createChart(xAxis, yAxis);
       },
       error: () => {
 
@@ -34,14 +39,14 @@ export class ChartComponent {
     });
   }
 
-  private createChart(x: string[], y: number[]): void {
+  private createChart(xAxis: string[], yAxis: number[]): void {
     this.chart = new Chart("chart", {
       type: 'line',
       data: {
-        labels: x, 
+        labels: xAxis, 
 	       datasets: [
           {
-            data: y,
+            data: yAxis,
             spanGaps: true,
             tension: 0.5,
             borderWidth: 5,
@@ -77,6 +82,17 @@ export class ChartComponent {
           legend: {
             display: false,
           },
+          tooltip: {
+            backgroundColor: '#181818',
+            borderColor: '#363636',
+            borderWidth: 1,
+            displayColors: false,
+            callbacks: {
+              label: function(labelContent) {
+                return '$' + labelContent.formattedValue;
+              }
+            }
+          }
         },
         hover: {
           intersect: true,
@@ -84,21 +100,33 @@ export class ChartComponent {
         scales: {
           x: {
             ticks: {
-              display: false,
+              display: true,
               autoSkip: true,
               maxRotation: 0,
+              autoSkipPadding: 20,
             },
             title: {
               display: false,
             },
             grid: {
               display: false,
-            }
+            },
           },
           y: {
             position: "right",
             ticks: {
               display: true,
+              callback: (yValue: string | number) => {
+                const yValueAsNum = parseInt(yValue.toString());
+
+                if(yValueAsNum > 1000 && yValueAsNum < 1000000) {
+                  return '$' + (yValueAsNum / 1000).toLocaleString() + 'K';
+                } else if (yValueAsNum > 1000000) {
+                  return '$' + (yValueAsNum / 1000000).toLocaleString() + 'M';
+                } else {
+                  return '$' + yValue.toLocaleString();
+                }
+              }
             },
             title: {
               display: false,
