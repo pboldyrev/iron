@@ -34,8 +34,7 @@ export type ValueChange = {
 export class ValueHistoryComponent {
   @ViewChild('value') valueInput!: BluInput;
   @ViewChild('date') dateInput!: BluInput;
-
-  @Input() assetId!: string;
+  
   @Input() isLoading$!: BehaviorSubject<boolean>;
 
   @Input() asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});

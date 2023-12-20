@@ -8,7 +8,7 @@ import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BehaviorSubject, Observable, filter, map, mergeMap } from 'rxjs';
 import { DataService } from '../../shared/services/data.service';
-import { Asset, AssetType } from '../../shared/constants/constants';
+import { Asset, AssetType, AssetValue } from '../../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { ValueHistoryChartComponent } from './value-history-chart/value-history-chart.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -26,6 +26,7 @@ export class AssetDetailsPageComponent {
   public displayAssetName$: BehaviorSubject<string> = new BehaviorSubject<string>("");
   public displayAssetValue$: BehaviorSubject<string> = new BehaviorSubject<string>("");
   public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
+  public valueHistory$: Observable<AssetValue[]> = this.asset$.pipe(map((asset: Asset)=>asset.totalValues ?? []));
 
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 

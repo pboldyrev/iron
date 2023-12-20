@@ -116,7 +116,7 @@ export class ChartComponent {
               callback: (yValue: string | number) => {
                 const yValueAsNum = parseInt(yValue.toString());
 
-                if(yValueAsNum > 1000 && yValueAsNum < 1000000) {
+                if(yValueAsNum >= 1000 && yValueAsNum < 1000000) {
                   return '$' + (yValueAsNum / 1000).toLocaleString() + 'K';
                 } else if (yValueAsNum > 1000000) {
                   return '$' + (yValueAsNum / 1000000).toLocaleString() + 'M';
