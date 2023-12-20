@@ -70,10 +70,6 @@ export class DashboardPageComponent {
     });
   }
 
-  public onNavigateToSummary(assetType: string) {
-    this.router.navigate(['/dashboard/' + assetType]);
-  }
-
   public onAddAsset(): void {
     this.addAssetPopup.show();
   }

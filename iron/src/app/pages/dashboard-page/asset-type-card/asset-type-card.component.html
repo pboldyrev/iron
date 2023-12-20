@@ -14,4 +14,9 @@
     <div class="asset-summary-icon">
         <blu-icon [name]="asset.type" size="35"></blu-icon>
     </div>
+    <div class="asset-type-card-view-more">
+        <blu-text type="primary" size="small">
+            <blu-link (click)="onNavigateToSummary()">View details</blu-link>
+        </blu-text>
+    </div>
 </div>

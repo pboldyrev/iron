@@ -11,15 +11,8 @@
 }
 
 .asset-summary-wrapper:hover {
-    cursor: pointer;
     transition: 0.2s;
     scale: 1.02;
-}
-
-.asset-summary-wrapper:active {
-    cursor: pointer;
-    transition: 0.5s;
-    scale: 0.9;
 }
 
 .asset-summary-value-change-wrapper {
@@ -36,4 +29,8 @@
     top: var(--blu-padding-xxl);
     right: var(--blu-padding-xxl);
     z-index: 0;
+}
+
+.asset-type-card-view-more {
+    margin-top: var(--blu-margin-s);
 }

@@ -7,6 +7,9 @@ import { BehaviorSubject, mergeMap } from 'rxjs';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { DataService } from 'src/app/shared/services/data.service';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
+import { BluText } from 'projects/blueprint/src/lib/text/text.component';
+import { Router } from '@angular/router';
 
 export type AssetTypeSummary = {
   type: AssetType,
@@ -14,9 +17,9 @@ export type AssetTypeSummary = {
 };
 
 @Component({
-  selector: 'app-asset-summary',
+  selector: 'app-asset-type-card',
   standalone: true,
-  imports: [CommonModule, ValueChangeComponent, BluHeading, BluIcon, BluButton],
+  imports: [CommonModule, ValueChangeComponent, BluHeading, BluIcon, BluButton, BluLink, BluText],
   templateUrl: './asset-type-card.component.html',
   styleUrl: './asset-type-card.component.scss'
 })
@@ -29,6 +32,7 @@ export class AssetTypeCardComponent {
 
   constructor(
     private dataService: DataService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -48,5 +52,9 @@ export class AssetTypeCardComponent {
         this.assetTotal = "ERR";
       }
     });
+  }
+
+  public onNavigateToSummary(): void {
+    this.router.navigate(['/dashboard/' + this.asset.type]);
   }
 }
