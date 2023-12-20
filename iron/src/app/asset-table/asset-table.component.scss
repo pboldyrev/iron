@@ -13,13 +13,7 @@
     transition: 0.2s;
 }
 
-.mat-column-initValue {
-    max-width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
-    justify-content: right;
-    text-align: right;
-}
-
+.mat-column-initValue,
 .mat-column-initValueTotal {
     max-width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
@@ -27,23 +21,13 @@
     text-align: right;
 }
 
-.mat-column-change {
-    max-width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
-}
-
+.mat-column-change,
 .mat-column-changeTotal {
     max-width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
 }
 
-.mat-column-curValue {
-    max-width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
-    justify-content: right;
-    text-align: right;
-}
-
+.mat-column-curValue,
 .mat-column-curValueTotal {
     max-width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
@@ -51,13 +35,7 @@
     text-align: right;
 }
 
-.mat-column-units {
-    max-width: var(--blu-width-l);
-    min-width: var(--blu-width-l);
-    justify-content: right;
-    text-align: right;
-}
-
+.mat-column-units,
 .mat-column-blankUnits {
     max-width: var(--blu-width-l);
     min-width: var(--blu-width-l);
@@ -65,32 +43,21 @@
     text-align: right;
 }
 
-.mat-column-edit {
+.mat-column-edit,
+.mat-column-blankEdit {
     max-width: var(--blu-width-xs);
 }
 
-.mat-column-account {
-    width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
-}
-
+.mat-column-account,
 .mat-column-blankAccount {
     width: var(--blu-width-xl);
     min-width: var(--blu-width-xl);
 }
 
-.mat-column-asset {
+.mat-column-asset,
+.mat-column-blankAsset {
     width: calc(var(--blu-width-xl) + var(--blu-width-m));
     min-width: calc(var(--blu-width-xl) + var(--blu-width-m));
-}
-
-.mat-column-blankAsset {
-    min-width: var(--blu-width-xl);
-}
-
-
-.mat-column-blankEdit {
-    max-width: var(--blu-width-xs);
 }
 
 .asset-table-progress-bar {

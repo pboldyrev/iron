@@ -43,8 +43,8 @@ export class AssetTableComponent {
   @ViewChild('archiveConfirmPopup') archiveConfirmPopup!: ConfirmationPopupComponent;
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
-  public displayedColumns = ['asset', 'units', 'curValue', 'edit'];
-  public displayedFooterColumns = ['blankAsset', 'blankUnits', 'curValueTotal', 'blankEdit'];
+  public displayedColumns = ['account', 'asset', 'units', 'curValue', 'edit'];
+  public displayedFooterColumns = ['blankAccount', 'blankAsset', 'blankUnits', 'curValueTotal', 'blankEdit'];
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject([] as Asset[]);
   public curTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
