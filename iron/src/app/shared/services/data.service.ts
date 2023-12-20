@@ -82,7 +82,6 @@ export class DataService {
         if(loadingIndicator) {
           loadingIndicator.next(false);
         }
-        console.log(data);
         return data?.user?.netWorths ?? [] as AssetValue[];
       })
     );

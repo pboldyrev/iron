@@ -4,7 +4,7 @@ import { NetworthComponent } from './networth/networth.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { TEXTS } from './dashboard-page.strings';
-import { AssetType, ValueChange } from '../../shared/constants/constants';
+import { AssetType, AssetValue, ValueChange } from '../../shared/constants/constants';
 import { AssetTypeCardComponent } from './asset-type-card/asset-type-card.component';
 import { ValueChangeComponent } from './value-change/value-change.component';
 import { AddAssetComponent } from '../../add-asset/add-asset.component';
@@ -14,6 +14,8 @@ import { AssetTableComponent } from '../../asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/add-asset-popup/add-asset-popup.component';
+import { DataService } from 'src/app/shared/services/data.service';
+import { BehaviorSubject, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -26,36 +28,76 @@ export class DashboardPageComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
   
   public TEXTS = TEXTS;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public totalNetworth$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  public historicalNetworth$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
+  public valueChangeAllTime$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  public networthChangeTimeframes$: BehaviorSubject<ValueChange[]> = new BehaviorSubject<ValueChange[]>([]);
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private dataService: DataService,
   ) {}
 
-  public networthChangeTimeframes: ValueChange[] = [
-    {
-      type: "Day",
-      value: -100.54,
-      percent: 10,
-    },
-    {
-      type: "All time",
-      value: 500.69,
-      percent: 60,
-    }
-  ];
+  ngOnInit() {
+    this.dataService.getHistoricalNetWorth$(null, this.isLoading$)
+    .subscribe({
+      next: (historicalNetworth: AssetValue[]) => {
+        const latest = historicalNetworth[historicalNetworth.length-1].value ?? 0;
+        const oldest = historicalNetworth[0].value ?? 0;
+        this.totalNetworth$.next(historicalNetworth[historicalNetworth.length-1].value ?? 0);
+        this.historicalNetworth$.next(historicalNetworth);
+        this.networthChangeTimeframes$.next([{
+          type: "All time",
+          value: latest-oldest,
+          percent: 60,
+        }]);
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading$.next(false);
+      }
+    });
+
+    this.dataService.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.dataService.getHistoricalNetWorth$(null, this.isLoading$)
+      })
+    ).subscribe({
+      next: (historicalNetworth: AssetValue[]) => {
+        this.totalNetworth$.next(historicalNetworth[historicalNetworth.length-1].value ?? 0);
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading$.next(false);
+      }
+    });
+  }
 
   public assetSummaries = [
     {
       type: AssetType.Stock,
-      valueChange: this.networthChangeTimeframes,
+      valueChange: [{
+        type: "All time",
+        value: 500.69,
+        percent: 60,
+      }],
     },
     {
       type: AssetType.Vehicle,
-      valueChange: this.networthChangeTimeframes,
+      valueChange: [{
+        type: "All time",
+        value: 500.69,
+        percent: 60,
+      }],
     },
     {
       type: AssetType.HYSA,
-      valueChange: this.networthChangeTimeframes,
+      valueChange: [{
+        type: "All time",
+        value: 500.69,
+        percent: 60,
+      }],
     }
   ];
 

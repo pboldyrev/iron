@@ -22,31 +22,6 @@ export type TimeRangeOption = {
   styleUrl: './networth.component.scss'
 })
 export class NetworthComponent {
-  @Input() subheading: string = "Net Worth";
-
-  public curNetworth: string | null = null;
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  constructor(
-    private dataService: DataService,
-  ){}
-
-  ngOnInit() {
-    this.dataService.getCurrentNetWorth$(null, this.isLoading$).subscribe();
-
-    this.dataService.dataChanged$.pipe(
-      mergeMap(() => {
-        return this.dataService.getCurrentNetWorth$(null, this.isLoading$)
-      })
-    ).subscribe({
-      next: (networth: number) => {
-        this.curNetworth = networth.toLocaleString();
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-        this.curNetworth = "ERR";
-      }
-    });
-  }
+  @Input() totalNetworth!: number | null;
+  @Input() isLoading$!: BehaviorSubject<boolean>;
 }

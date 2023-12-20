@@ -3,8 +3,8 @@
         <blu-spinner *ngIf="(isLoading$ | async) else networth" size="40"></blu-spinner>
     </div>
     <ng-template #networth>
-        <blu-heading size="large" [bold]="true" [subheading]="subheading" subheadingPosition="top">
-            ${{ curNetworth }}
+        <blu-heading size="large" [bold]="true" subheading="Net Worth" subheadingPosition="top">
+            ${{ totalNetworth?.toLocaleString() }}
         </blu-heading>
     </ng-template>
 </div>

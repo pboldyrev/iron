@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Chart } from 'chart.js';
 import { AssetValue } from '../shared/constants/constants';
 import { BehaviorSubject } from 'rxjs';
@@ -13,34 +13,31 @@ import { DataService } from '../shared/services/data.service';
   styleUrl: './networth-chart.component.scss'
 })
 export class ChartComponent {
+  @Input() historicalNetworth$!: BehaviorSubject<AssetValue[]>;
+
   public chart: Chart<any> | undefined;
 
-  private xLabels: number[] = [];
-
-  constructor(
-    private dataService: DataService,
-  ) {}
-
   ngOnInit(): void {
-    this.dataService.getHistoricalNetWorth$().subscribe({
-      next: (historicalNetWorth: AssetValue[]) => {
-        let xAxis;
-        if(historicalNetWorth.length > 30) {
-          xAxis = historicalNetWorth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}));
-        } else {
-          xAxis = historicalNetWorth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'}));
-        }
-        let yAxis = historicalNetWorth.map((assetValue) => assetValue.value ?? 0);
-        this.createChart(xAxis, yAxis);
-      },
-      error: () => {
-
+    this.historicalNetworth$.subscribe((historicalNetworth) => {
+      let xAxis;
+      if(historicalNetworth?.length > 30) {
+        xAxis = historicalNetworth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}));
+      } else {
+        xAxis = historicalNetworth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'}));
       }
+      let yAxis = historicalNetworth.map((assetValue) => assetValue.value ?? 0);
+      this.createChart(xAxis, yAxis);
     });
   }
 
   private createChart(xAxis: string[], yAxis: number[]): void {
-    this.chart = new Chart("chart", {
+    let oldChart = Chart.getChart("networthChart");
+    if(oldChart){
+      oldChart.clear();
+      oldChart.destroy();
+    }
+
+    this.chart = new Chart("networthChart", {
       type: 'line',
       data: {
         labels: xAxis, 
@@ -58,11 +55,11 @@ export class ChartComponent {
             pointBackgroundColor: "#095d3b",
             fill: true,
             backgroundColor: function() {
-              const ctx = <HTMLCanvasElement> document.getElementById('chart');
+              const ctx = <HTMLCanvasElement> document.getElementById('networthChart');
 
               if(!ctx || !ctx?.getContext('2d')) {
                 // no gradient
-                return '#131313'
+                return '#181818'
               }
 
               const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 400);
@@ -91,7 +88,7 @@ export class ChartComponent {
               label: function(labelContent) {
                 return '$' + labelContent.formattedValue;
               }
-            }
+            },
           }
         },
         hover: {
