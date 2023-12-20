@@ -15,7 +15,7 @@
                     ></app-value-change>
                 </div>
             </div>
-            <div class="dashboard-networth-chart-wrapper">
+            <div *ngIf="!(isLoading$ | async)" class="dashboard-networth-chart-wrapper">
                 <app-chart
                     [historicalNetworth$]="historicalNetworth$"
                 ></app-chart>

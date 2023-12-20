@@ -39,7 +39,7 @@
 
 .blu-input-cell {
   background-color: var(--blu-background-primary);
-  color: white;
+  color: var(--blu-color-secondary);
   border: none;
   padding: 0;
 }

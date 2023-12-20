@@ -70,6 +70,7 @@
 .mat-mdc-table {
     border: var(--blu-border-tertiary);
     border-radius: var(--blu-radius-m);
+    overflow-x: auto;
 }
 
 .mat-column-value,

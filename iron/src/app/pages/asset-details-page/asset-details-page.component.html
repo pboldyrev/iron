@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-    <div class="col-sm-10 col-xl-8">
+    <div class="col-11 col-sm-10 col-xl-8">
         <div class="asset-details-page-wrapper justify-content-center">
             <blu-modal
                 [subtitle]="(isLoading$ | async) ? '' : (displayAssetName$ | async) ?? ''"
@@ -24,11 +24,13 @@
                                     [valueHistory$]="valueHistory$"
                                 ></app-value-history-chart>
                             </div>
-                            <app-value-history
-                                *ngIf="(asset$ | async)?.assetType != AssetType.Stock"
-                                [asset$]="asset$"
-                                [isLoading$]="isLoading$"
-                            ></app-value-history>
+                            <div class="asset-details-value-history-wrapper">
+                                <app-value-history
+                                    *ngIf="(asset$ | async)?.assetType != AssetType.Stock"
+                                    [asset$]="asset$"
+                                    [isLoading$]="isLoading$"
+                                ></app-value-history>
+                            </div>
                         </ng-template>
                     </mat-tab>
                     <mat-tab label="Details">
