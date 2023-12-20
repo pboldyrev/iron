@@ -37,7 +37,7 @@ export class AuthService {
   public checkPhoneCode$(
     methodId: string,
     phoneNumber: number,
-    code: number,
+    code: string,
   ): Observable<boolean> {
     const formattedNumber = '+1' + phoneNumber.toString();
 

@@ -89,7 +89,7 @@ export class LoginPageComponent {
   public onConfirmCode(): void {
     this.error$.next('');
     this.isCheckTokenSubmitting = true;
-    this.isCodeValid$().subscribe((code: number) => {
+    this.isCodeValid$().subscribe((code: string) => {
       if(!code){
         this.isCheckTokenSubmitting = false;
         return;
@@ -136,7 +136,7 @@ export class LoginPageComponent {
     );
   }
 
-  private isCodeValid$(): Observable<number> {
+  private isCodeValid$(): Observable<string> {
     this.codeInput.validate();
 
     return combineLatest([
@@ -150,9 +150,9 @@ export class LoginPageComponent {
           string,
         ]) => {
           if (codeValid) {
-            return parseInt(codeValue);
+            return codeValue;
           }
-          return 0;
+          return '';
         },
       ),
     );

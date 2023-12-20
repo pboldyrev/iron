@@ -19,7 +19,7 @@
                             <mat-progress-bar mode="query"></mat-progress-bar>
                         </div>
                         <ng-template #valueHistory>
-                            <div class="asset-details-value-history-chart-wrapper">
+                            <div *ngIf="((valueHistory$ | async) ?? []).length > 1" class="asset-details-value-history-chart-wrapper">
                                 <app-value-history-chart
                                     [valueHistory$]="valueHistory$"
                                 ></app-value-history-chart>
