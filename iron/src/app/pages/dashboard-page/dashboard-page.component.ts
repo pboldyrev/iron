@@ -47,11 +47,27 @@ export class DashboardPageComponent {
         const oldest = historicalNetworth[0].value ?? 0;
         this.totalNetworth$.next(historicalNetworth[historicalNetworth.length-1].value ?? 0);
         this.historicalNetworth$.next(historicalNetworth);
-        this.networthChangeTimeframes$.next([{
-          type: "All time",
-          value: latest-oldest,
-          percent: 60,
-        }]);
+
+        let timeframes: ValueChange[] = [
+          {
+            type: "All time",
+            value: latest-oldest,
+            percent: (latest-oldest)/oldest * 100,
+          }
+        ];
+
+        if(historicalNetworth.length > 1) {
+          let secondLatest = historicalNetworth[historicalNetworth.length-2].value ?? 0;
+          let secondLatestDate = new Date(historicalNetworth[historicalNetworth.length-2].timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'});
+          timeframes.push(
+            {
+              type: "Since " + secondLatestDate,
+              value: latest-secondLatest,
+              percent: (latest-secondLatest)/secondLatest * 100,
+            }
+          );
+        }
+        this.networthChangeTimeframes$.next(timeframes);
       },
       error: (error) => {
         console.log(error);

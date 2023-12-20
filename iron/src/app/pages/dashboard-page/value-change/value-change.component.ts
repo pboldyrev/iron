@@ -23,7 +23,7 @@ export class ValueChangeComponent {
       finalString += '+';
     }
 
-    finalString += "$" + Math.abs(valueChange.value).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + ' (' + valueChange.percent + '%)';
+    finalString += "$" + Math.abs(valueChange.value).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + ' (' + valueChange.percent.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + '%)';
 
     return finalString;
   }
