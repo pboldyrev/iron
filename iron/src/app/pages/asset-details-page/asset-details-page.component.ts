@@ -33,10 +33,9 @@ export class AssetDetailsPageComponent {
   public AssetType = AssetType;
 
   constructor(
-    private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router,
     private dataService: DataService,
+    private location: Location,
   ){}
 
   private fetchAsset$(): Observable<void> {
@@ -59,7 +58,7 @@ export class AssetDetailsPageComponent {
   }
 
   public onBack() {
-    this.router.navigate(['/dashboard']);
+    this.location.back();
   }
 
   private getDisplayName(asset: Asset): string {

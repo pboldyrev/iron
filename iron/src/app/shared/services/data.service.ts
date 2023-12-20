@@ -15,7 +15,7 @@ export class DataService {
     private authService: AuthService,
   ) {}
 
-  public getActiveAssets(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+  public getActiveAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
     if (loadingIndicator) {
       loadingIndicator.next(true);
     }
@@ -147,7 +147,7 @@ export class DataService {
   }
 
   public deleteAssetHistoryEntry$(assetId: string,  entryToDelete: AssetValue) {
-    return this.getActiveAssets()
+    return this.getActiveAssets$()
     .pipe(
       map((assets: Asset[]) => {
         assets.forEach((asset) => {

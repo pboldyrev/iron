@@ -1,0 +1,43 @@
+<app-add-asset-popup
+    #addAssetPopup
+></app-add-asset-popup>
+<div class="row asset-type-page-wrapper">
+    <div class="col-lg-5 col-sm-12">
+        <div class="asset-type-page-side-wrapper">
+            <div class="asset-type-page-networth-wrapper">
+                <app-networth
+                    [totalNetworth]="0"
+                    [isLoading$]="isLoading$"
+                ></app-networth>
+                <div class="asset-type-page-networth-change-wrapper">
+                    <app-value-change
+                        [timeframes]="[]"
+                    ></app-value-change>
+                </div>
+            </div>
+            <div *ngIf="!(isLoading$ | async)" class="asset-type-page-networth-chart-wrapper">
+                <!-- <app-chart
+                    [historicalNetworth$]="historicalNetworth$"
+                ></app-chart> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7 col-sm-12 asset-type-page-content-wrapper">
+        <div class="row">
+            <div class="col-12 asset-type-page-actions-wrapper">
+                <blu-button type="primary" iconName="backArrow" (click)="onNavigateToDashboard()">
+                    Overview
+                </blu-button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 asset-type-page-asset-table-wrapper">
+                <app-asset-table
+                    [columns]="assetTableColumns"
+                    [assets$]="assets$"
+                    [isLoading$]="isLoading$"
+                ></app-asset-table>
+            </div>
+        </div>
+    </div>
+</div>

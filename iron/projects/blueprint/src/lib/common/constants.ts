@@ -28,7 +28,7 @@ export type BluIconName =
   | 'lock'
   | 'stock'
   | 'vehicle'
-  | 'hysa'
+  | 'savings'
   | 'custom'
   | 'cd'
   | 'spinner'
@@ -55,7 +55,7 @@ export const BluToIconMap = {
   lock: 'octLock',
   vehicle: 'heroRocketLaunch',
   stock: 'heroBuildingLibrary',
-  hysa: 'heroBanknotes',
+  savings: 'heroBanknotes',
   custom: 'heroBanknotes',
   spinner: 'heroArrowPath',
   cd: 'heroClock',

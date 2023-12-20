@@ -7,6 +7,7 @@ export const TEXTS = {
     COST_TITLE: "Initial Value",
     UNITS_TITLE: "Units",
     VALUE_TITLE: "Current Value",
+    TYPE_TITLE: "Asset Type",
     ARCHIVE_POPUP_TITLE_1: "Archive ",
     ARCHIVE_POPUP_TITLE_2: "?",
     ARCHIVE_POPUP_SUBTITLE: "This historical value of this asset will be preserved until it is permanently deleted from the settings page.",

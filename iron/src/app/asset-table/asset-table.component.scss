@@ -9,55 +9,32 @@
 }
 
 .asset-table:hover {
-    scale: 1.05;
+    scale: 1.02;
     transition: 0.2s;
 }
 
 .mat-column-initValue,
-.mat-column-initValueTotal {
-    max-width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
-    justify-content: right;
-    text-align: right;
-}
-
-.mat-column-change,
-.mat-column-changeTotal {
-    max-width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
-}
-
 .mat-column-curValue,
-.mat-column-curValueTotal {
-    max-width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
+.mat-column-units {
     justify-content: right;
     text-align: right;
 }
 
-.mat-column-units,
-.mat-column-blankUnits {
-    max-width: var(--blu-width-l);
+.mat-column-units {
     min-width: var(--blu-width-l);
-    justify-content: right;
-    text-align: right;
-}
-
-.mat-column-edit,
-.mat-column-blankEdit {
-    max-width: var(--blu-width-xs);
-}
-
-.mat-column-account,
-.mat-column-blankAccount {
-    width: var(--blu-width-xl);
-    min-width: var(--blu-width-xl);
 }
 
 .mat-column-asset,
-.mat-column-blankAsset {
-    width: calc(var(--blu-width-xl) + var(--blu-width-m));
-    min-width: calc(var(--blu-width-xl) + var(--blu-width-m));
+.mat-column-account,
+.mat-column-type,
+.mat-column-curValue,
+.mat-column-initValue {
+    min-width: var(--blu-width-xxl);
+}
+
+.mat-column-edit {
+    max-width: 50px;
+    min-width: 50px;
 }
 
 .asset-table-progress-bar {

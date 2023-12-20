@@ -7,12 +7,10 @@ import { UnknownPageComponent } from './unknown-page/unknown-page.component';
 import { unauthenticatedGuard } from './guards/unauthenticated.guard';
 import { AddVehicleComponent } from './add-asset/add-vehicle/add-vehicle.component';
 import { AddStockComponent } from './add-asset/add-stock/add-stock.component';
-import { AddCdComponent } from './add-asset/add-cd/add-cd.component';
-import { AddHysaComponent } from './add-asset/add-hysa/add-hysa.component';
-import { AddCustomComponent } from './add-asset/add-custom/add-custom.component';
 import { hasAssetGuard } from './guards/has-asset.guard';
 import { AssetDetailsPageComponent } from './pages/asset-details-page/asset-details-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+import { AssetTypePageComponent } from './asset-type-page/asset-type-page.component';
 
 const routes: Routes = [
   {
@@ -23,6 +21,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardPageComponent,
+    canActivate: [authenticatedGuard],
+  },
+  {
+    path: 'dashboard/:assetType',
+    component: AssetTypePageComponent,
     canActivate: [authenticatedGuard],
   },
   {
@@ -43,21 +46,6 @@ const routes: Routes = [
   {
     path: 'add/stock',
     component: AddStockComponent,
-    canActivate: [authenticatedGuard],
-  },
-  {
-    path: 'add/cd',
-    component: AddCdComponent,
-    canActivate: [authenticatedGuard],
-  },
-  {
-    path: 'add/hysa',
-    component: AddHysaComponent,
-    canActivate: [authenticatedGuard],
-  },
-  {
-    path: 'add/custom',
-    component: AddCustomComponent,
     canActivate: [authenticatedGuard],
   },
   {

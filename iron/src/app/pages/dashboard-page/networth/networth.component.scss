@@ -4,6 +4,16 @@
     height: fit-content;
 }
 
+.networth-tooltip-wrapper {
+    display: flex;
+    align-items: start;
+}
+
+.networth-tooltip {
+    margin-top: var(--blu-margin-m);
+    margin-left: var(--blu-margin-xs);
+}
+
 .networth-spinner-wrapper {
     width: 100%;
     display: flex;

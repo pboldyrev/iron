@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddHysaComponent } from './add-hysa.component';
+import { AssetTypePageComponent } from './asset-type-page.component';
 
-describe('AddHysaComponent', () => {
-  let component: AddHysaComponent;
-  let fixture: ComponentFixture<AddHysaComponent>;
+describe('VehiclesPageComponent', () => {
+  let component: AssetTypePageComponent;
+  let fixture: ComponentFixture<AssetTypePageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddHysaComponent]
+      imports: [AssetTypePageComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddHysaComponent);
+    fixture = TestBed.createComponent(AssetTypePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

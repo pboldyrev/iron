@@ -8,6 +8,8 @@ import { BehaviorSubject, combineLatest, mergeMap, tap } from 'rxjs';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluPill } from 'projects/blueprint/src/lib/pill/pill.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
+import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export type TimeRangeOption = {
   selected: boolean,
@@ -17,7 +19,7 @@ export type TimeRangeOption = {
 @Component({
   selector: 'app-networth',
   standalone: true,
-  imports: [CommonModule, BluHeading, BluSpinner, BluButton, BluPill, BluText],
+  imports: [CommonModule, BluHeading, BluSpinner, BluButton, BluPill, BluText, BluIcon, MatTooltipModule],
   templateUrl: './networth.component.html',
   styleUrl: './networth.component.scss'
 })

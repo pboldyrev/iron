@@ -53,3 +53,7 @@
 .blu-text-number {
   font-family: "Roboto Mono";
 }
+
+.blu-text-capitalize {
+  text-transform: capitalize;
+}

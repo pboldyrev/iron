@@ -4,7 +4,7 @@
     </div>
     <ng-template #networth>
         <blu-heading size="large" [bold]="true" subheading="Net Worth" subheadingPosition="top">
-            ${{ totalNetworth?.toLocaleString() }}
+            <div class="networth-tooltip-wrapper">${{ totalNetworth?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }} <span class="networth-tooltip"><blu-icon *ngIf="totalNetworth === 0" matTooltip="You can add assets using the 'Add' button" name="question"></blu-icon></span></div>
         </blu-heading>
     </ng-template>
 </div>

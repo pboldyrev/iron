@@ -15,7 +15,7 @@
                     ></app-value-change>
                 </div>
             </div>
-            <div *ngIf="!(isLoading$ | async)" class="dashboard-networth-chart-wrapper">
+            <div *ngIf="!(isLoading$ | async) && ((historicalNetworth$ | async) ?? []).length > 1" class="dashboard-networth-chart-wrapper">
                 <app-chart
                     [historicalNetworth$]="historicalNetworth$"
                 ></app-chart>
@@ -34,17 +34,22 @@
             </div>
         </div>
         <div class="row">
-            <ng-container *ngFor="let asset of assetSummaries">
+            <ng-container *ngFor="let asset of assetSummaries$ | async">
                 <div class="col-lg-12 col-xl-6 dashboard-asset-summary">
                     <app-asset-summary
                         [asset]="asset"
+                        (click)="onNavigateToSummary(asset.type)"
                     ></app-asset-summary>
                 </div>
             </ng-container>
         </div>
         <div class="row">
             <div class="col-12 dashboard-asset-table-wrapper">
-                <app-asset-table></app-asset-table>
+                <app-asset-table
+                    [columns]="assetTableColumns"
+                    [assets$]="assets$"
+                    [isLoading$]="isLoading$"
+                ></app-asset-table>
             </div>
         </div>
     </div>

@@ -42,9 +42,9 @@ export class AddAssetOptionComponent {
         this.iconName = AssetType.CD;
         this.layout = 'bottom';
         break;
-      case AssetType.HYSA:
+      case AssetType.Savings:
         this.title = TEXTS.HYSA_TITLE
-        this.iconName = AssetType.HYSA;
+        this.iconName = AssetType.Savings;
         this.layout = 'top';
         break;
       case AssetType.Custom:

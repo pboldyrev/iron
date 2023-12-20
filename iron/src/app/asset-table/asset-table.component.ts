@@ -18,6 +18,16 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { AddAssetPopupComponent } from '../add-asset-popup/add-asset-popup.component';
 
+export type AssetTableColumn = 
+  "account" | 
+  "type" | 
+  "asset" | 
+  "units" | 
+  "initValue" | 
+  "curValue" | 
+  "edit" | 
+  "change";
+
 @Component({
   selector: 'app-asset-table',
   standalone: true,
@@ -43,13 +53,14 @@ export class AssetTableComponent {
   @ViewChild('archiveConfirmPopup') archiveConfirmPopup!: ConfirmationPopupComponent;
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
-  public displayedColumns = ['account', 'asset', 'units', 'curValue', 'edit'];
-  public displayedFooterColumns = ['blankAccount', 'blankAsset', 'blankUnits', 'curValueTotal', 'blankEdit'];
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject([] as Asset[]);
+  @Input() columns!: AssetTableColumn[];
+  @Input() assets$!: BehaviorSubject<Asset[]>;
+  @Input() isLoading$!: BehaviorSubject<boolean>;
+
   public curTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
   public initTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
   public showArchivePopup$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   public assetToArchive: Asset | undefined;
   public TEXTS = TEXTS;
   public FeedbackType = FeedbackType;
@@ -62,23 +73,6 @@ export class AssetTableComponent {
     private dataService: DataService,
     private router: Router,
   ){}
-
-  ngOnInit() {
-    this.fetchAssets$().subscribe();
-
-    this.dataService.dataChanged$.pipe(
-      mergeMap(() => {
-        return this.fetchAssets$()
-      })
-    ).subscribe({
-      next: () => {},
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-        this.showUnknownError$.next(true);
-      }
-    });
-  }
 
   public getPercentChange(init: number, cur: number): number {
     if(!init || !cur || init === 0) {
@@ -148,21 +142,6 @@ export class AssetTableComponent {
         return Math.round((currentSum-initialSum)/initialSum * 100);
       })
     )
-  }
-
-  private fetchAssets$(): Observable<void> {
-    return this.dataService.getActiveAssets(this.isLoading$).pipe(
-      tap((userAssets: Asset[]) => {
-        let curTotal = 0;
-        userAssets.forEach((asset: Asset) => {
-          curTotal += asset.curValue ?? 0;
-        });
-        this.curTotal$.next(curTotal);
-      }),
-      map((userAssets: Asset[]) => {
-        this.assets$.next(userAssets);
-      })
-    );
   }
 
   public onAddAsset(): void {

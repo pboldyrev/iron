@@ -13,4 +13,5 @@ export class BluText {
   @Input() type!: 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'info' | 'number';
   
   @Input() weight: 'normal' | 'bold' = 'normal';
+  @Input() capitalize: boolean = false;
 }

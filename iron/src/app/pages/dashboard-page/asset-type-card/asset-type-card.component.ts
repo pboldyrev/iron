@@ -8,6 +8,11 @@ import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { DataService } from 'src/app/shared/services/data.service';
 
+export type AssetTypeSummary = {
+  type: AssetType,
+  valueChange?: ValueChange[],
+};
+
 @Component({
   selector: 'app-asset-summary',
   standalone: true,
@@ -16,10 +21,8 @@ import { DataService } from 'src/app/shared/services/data.service';
   styleUrl: './asset-type-card.component.scss'
 })
 export class AssetTypeCardComponent {
-  @Input() asset!: {
-    type: AssetType,
-    valueChange: ValueChange[],
-  };
+  @Input() asset!: AssetTypeSummary;
+  
   public TypeToDisplayName = TypeToDisplayName;
   public assetTotal: string | null = null;
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);

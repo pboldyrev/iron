@@ -8,7 +8,7 @@
             {{ assetTotal }}
         </blu-heading>
         <div class="asset-summary-value-change-wrapper">
-            <app-value-change [timeframes]="asset.valueChange"></app-value-change>
+            <app-value-change [timeframes]="asset.valueChange ?? []"></app-value-change>
         </div>
     </div>
     <div class="asset-summary-icon">

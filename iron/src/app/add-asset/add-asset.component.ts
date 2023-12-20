@@ -36,8 +36,8 @@ export class AddAssetComponent {
       case AssetType.CD:
         this.router.navigate(['/add/cd']);
         break;
-      case AssetType.HYSA:
-        this.router.navigate(['/add/hysa']);
+      case AssetType.Savings:
+        this.router.navigate(['/add/savings']);
         break;
       case AssetType.Custom:
         this.router.navigate(['/add/custom']);

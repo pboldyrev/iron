@@ -16,7 +16,12 @@
     <div *ngIf="!(isLoading$ | async) && ((assets$ | async) ?? []).length === 0">
         <blu-text type="secondary">No assets added yet... <blu-link (click)="onAddAsset()">Add one?</blu-link></blu-text>
     </div>
-    <mat-table *ngIf="!(isLoading$ | async) && !(showUnknownError$ | async) && ((assets$ | async) ?? []).length > 0" #table [dataSource]="assets$">
+    <mat-table 
+        *ngIf="!(isLoading$ | async) && !(showUnknownError$ | async) && ((assets$ | async) ?? []).length > 0" 
+        #table 
+        [dataSource]="assets$"
+    >
+        
         <ng-container matColumnDef="account">
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.ACCOUNT_TITLE }}
@@ -24,6 +29,19 @@
             <mat-cell *matCellDef="let asset">
                 <blu-text type="primary">{{asset.account}}</blu-text>
             </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+            </mat-footer-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef>
+                {{ TEXTS.TYPE_TITLE }}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let asset">
+                <blu-text type="primary" [capitalize]="true">{{asset.assetType}}</blu-text>
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+            </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="asset">
@@ -33,6 +51,8 @@
             <mat-cell *matCellDef="let asset">
                 <blu-text type="primary">{{asset.assetName}}</blu-text>
             </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+            </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="units">
@@ -42,6 +62,8 @@
             <mat-cell *matCellDef="let asset">
                 <blu-text type="number">{{ asset.units }}</blu-text>
             </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+            </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="initValue">
@@ -51,6 +73,9 @@
             <mat-cell *matCellDef="let asset">
                 <blu-text type="number">${{ (asset.initValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+                <blu-text weight="bold" type="number">${{ ((getInitialValueSum$() | async) ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+            </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="curValue">
@@ -60,6 +85,9 @@
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
                 <blu-text type="number">${{(asset.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+                <blu-text weight="bold" type="number">${{ ((getCurrentValueSum$() | async) ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+            </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="change">
@@ -73,33 +101,6 @@
                     </div>
                 </blu-tag>
             </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="edit">
-            <mat-header-cell *matHeaderCellDef>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
-                <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" class="asset-table-edit-menu" [matMenuTriggerFor]="appMenu"></blu-button>
-                <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
-                    <div mat-menu-item (click)="onDetailsAsset(asset)"><blu-text type="primary" size="small">{{ TEXTS.ENTRY_BUTTON_DETAILS }}</blu-text></div>
-                    <div mat-menu-item (click)="onArchiveAsset(asset)"><blu-text type="error" size="small">{{ TEXTS.ENTRY_BUTTON_ARCHIVE }}</blu-text></div>
-                </mat-menu>
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="initValueTotal">
-            <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ ((getInitialValueSum$() | async) ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
-            </mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="curValueTotal">
-            <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ ((getCurrentValueSum$() | async) ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
-            </mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="changeTotal">
             <mat-footer-cell *matFooterCellDef>
                 <blu-tag 
                     *ngIf="(getSumPercentChange$() | async) !== 0"
@@ -112,29 +113,23 @@
             </mat-footer-cell>
         </ng-container>
 
-        <ng-container matColumnDef="blankAsset">
+        <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
+                <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" class="asset-table-edit-menu" [matMenuTriggerFor]="appMenu"></blu-button>
+                <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
+                    <div mat-menu-item (click)="onDetailsAsset(asset)"><blu-text type="primary" size="small">{{ TEXTS.ENTRY_BUTTON_DETAILS }}</blu-text></div>
+                    <div mat-menu-item (click)="onArchiveAsset(asset)"><blu-text type="error" size="small">{{ TEXTS.ENTRY_BUTTON_ARCHIVE }}</blu-text></div>
+                </mat-menu>
+            </mat-cell>
             <mat-footer-cell *matFooterCellDef>
             </mat-footer-cell>
         </ng-container>
 
-        <ng-container matColumnDef="blankAccount">
-            <mat-footer-cell *matFooterCellDef>
-            </mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="blankUnits">
-            <mat-footer-cell *matFooterCellDef>
-            </mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="blankEdit">
-            <mat-footer-cell *matFooterCellDef>
-            </mat-footer-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        <mat-footer-row *matFooterRowDef="displayedFooterColumns"></mat-footer-row>
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+        <mat-footer-row *matFooterRowDef="columns"></mat-footer-row>
     </mat-table>
     <blu-validation-feedback *ngIf="showUnknownError$ | async" [type]="FeedbackType.ERROR">Unknown error occured. <blu-link (click)="onPageReload()">Reload?</blu-link></blu-validation-feedback>
 </div>
