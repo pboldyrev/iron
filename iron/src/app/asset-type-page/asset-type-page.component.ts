@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AddAssetPopupComponent } from '../add-asset-popup/add-asset-popup.component';
 import { BehaviorSubject, Observable, combineLatest, map, mergeMap } from 'rxjs';
 import { AssetTableColumn, AssetTableComponent } from '../asset-table/asset-table.component';
@@ -18,6 +18,8 @@ import { DataService } from '../shared/services/data.service';
   styleUrl: './asset-type-page.component.scss'
 })
 export class AssetTypePageComponent {
+  @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
+
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public assetTableColumns: AssetTableColumn[] = ['account', 'asset', 'units', 'initValue', 'curValue', 'edit']
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject<Asset[]>([]);
@@ -35,6 +37,10 @@ export class AssetTypePageComponent {
 
   public onNavigateToDashboard(): void {
     this.router.navigate(['/dashboard']);
+  }
+
+  public onAddAsset(): void {
+    this.addAssetPopup.show();
   }
 
   private fetchAssets(): void {
