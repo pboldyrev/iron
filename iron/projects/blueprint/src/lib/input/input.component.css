@@ -52,3 +52,7 @@
 .blu-input-rtl {
   text-align: right;
 }
+
+.blu-feedback-shown {
+  margin-bottom: var(--blu-space-s);
+}

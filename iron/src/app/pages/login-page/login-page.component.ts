@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -90,8 +91,9 @@ export class LoginPageComponent {
     this.error$.next('');
     this.isCheckTokenSubmitting = true;
     this.isCodeValid$().subscribe((code: string) => {
-      if(!code){
+      if(!code || code.length !== 6){
         this.isCheckTokenSubmitting = false;
+        this.error$.next(TEXTS.INCORRECT_CODE);
         return;
       }
 
@@ -102,8 +104,12 @@ export class LoginPageComponent {
           this.router.navigate(['/dashboard']);
           this.isCheckTokenSubmitting = false;
         },
-        error: () => {
-          this.error$.next(TEXTS.INCORRECT_CODE);
+        error: (error: HttpErrorResponse) => {
+          if(error.status === 400) {
+            this.error$.next(TEXTS.INCORRECT_CODE);
+          } else {
+            this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
+          }
           this.isCheckTokenSubmitting = false;
         },
       });

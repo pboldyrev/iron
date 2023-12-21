@@ -28,12 +28,6 @@
                 </div>
                 {{ BTN_TEXTS.LOGIN }}
               </blu-button>
-            <blu-validation-feedback
-              *ngIf="error$ | async"
-              [type]="FeedbackType.ERROR"
-            >
-              {{ error$ | async }}
-            </blu-validation-feedback>
               </div>
             </blu-modal>
     
@@ -49,8 +43,15 @@
                   [feedbackType]="FeedbackType.ERROR"
                   type="NUMBER"
                   (keydown.enter)='onConfirmCode()'
+                  (input)="error$.next('')"
                   #codeInput
                 ></blu-input>
+                <blu-validation-feedback
+                  *ngIf="error$ | async"
+                  [type]="FeedbackType.ERROR"
+                >
+                  {{ error$ | async }}
+                </blu-validation-feedback>
                 <blu-button type="primary" [fullWidth]="true" (click)="onConfirmCode()" (keydown.enter)='onConfirmCode'>
                   <div class="login-spinner-wrapper">
                     <blu-spinner *ngIf="isCheckTokenSubmitting"></blu-spinner>
@@ -60,12 +61,6 @@
                 <blu-button type="secondary" [fullWidth]="true" (click)="onBack()">
                   {{ BTN_TEXTS.BACK }}
                 </blu-button>
-                <blu-validation-feedback
-                  *ngIf="error$ | async"
-                  [type]="FeedbackType.ERROR"
-                >
-                  {{ error$ | async }}
-                </blu-validation-feedback>
                 </div>
               </blu-modal>
             </ng-template>

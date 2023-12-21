@@ -190,7 +190,7 @@ export class DataService {
       tap(({
         next: () => {},
         error: (err: HttpErrorResponse) => {
-          if(err.error?.error?.includes("No user found")) {
+          if(err.error?.error?.includes("No user found with id")) {
             this.authService.signOut();
           }
         }

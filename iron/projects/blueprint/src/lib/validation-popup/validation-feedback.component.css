@@ -4,7 +4,6 @@
   justify-content: flex-start;
   align-items: center;
   font: var(--blu-font-primary);
-  margin: var(--blu-margin-s) 0;
   background-color: var(--blu-color-error-background);
   padding: var(--blu-padding-s);
   border-radius: var(--blu-radius-s);

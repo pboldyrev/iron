@@ -14,6 +14,7 @@
       !(isValid$ | async) && feedbackType === 'success',
     'blu-input-cell': appearance === 'cell',
     'blu-input-rtl': direction === 'rtl',
+    'blu-feedback-shown': !(isValid$ | async) && appearance !== 'cell',
   }"
   [type]="(type === 'NUMBER' || type === 'INTEGER') ? 'TEXT' : (type === 'PHONE') ? 'NUMBER' : type"
   [placeholder]="placeholder"

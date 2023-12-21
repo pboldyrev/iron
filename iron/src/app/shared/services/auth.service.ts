@@ -46,7 +46,7 @@ export class AuthService {
       {
         phoneNumber: formattedNumber,
         method_id: methodId,
-        otp: code.toString()
+        otp: code
       },
       {
         headers: {'Content-Type': 'application/json'},
