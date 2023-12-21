@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetType, AssetValue } from '../constants/constants';
+import { Asset, AssetType, AssetValue, ToastType } from '../constants/constants';
 import { BehaviorSubject, Observable, delay, map, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class DataService {
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService,
+    private toastService: ToastService,
   ) {}
 
   public getActiveAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
@@ -92,12 +94,20 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    return this.httpPost("getHistoricalNetWorth", assetType ? { assetType: assetType } : {}).pipe(
+    const options: any = {
+      limit: 1
+    }
+
+    if(assetType) {
+      options["assetType"] = assetType;
+    }
+
+    return this.httpPost("getUserNetWorths", assetType ? { assetType: assetType, limit: 1  } : {limit: 1 }).pipe(
       map((data: any) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
         }
-        return data?.user?.curNetWorth ?? 0;
+        return data?.netWorth ?? 0;
       })
     );
   }
@@ -190,8 +200,9 @@ export class DataService {
       tap(({
         next: () => {},
         error: (err: HttpErrorResponse) => {
-          if(err.error?.error?.includes("No user found with id")) {
+          if(err.error?.error?.includes("No user found with sessionToken")) {
             this.authService.signOut();
+            this.toastService.showToast("Your session has expired, please log in again", ToastType.Error);
           }
         }
       }))

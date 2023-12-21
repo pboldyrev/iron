@@ -69,3 +69,9 @@ export type ValueChange = {
   value: number;
   percent: number;
 }
+
+export enum ToastType {
+  Error = "error",
+  Success = "success",
+  Info = "info",
+}

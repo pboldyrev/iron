@@ -130,7 +130,7 @@ html {
   --blu-color-secondary-hover: #d4d3d3;
   --blu-color-tertiary-hover: #fafafa;
 
-  --blu-color-success: #40845e;
+  --blu-color-success: #51946e;
   --blu-color-success-background: #1b3c1b;
   --blu-color-info: #4676d6;
   --blu-color-info-background: #1b2a3c;
@@ -181,6 +181,26 @@ html {
   --blu-line-height-m: 1.3em;
   --blu-line-height-l: 1.5em;
   --blu-line-height-xl: 1.8em;
+
+  // TOAST STYLING
+  .blu-toast {
+    font: var(--blu-font-primary);
+  }
+
+  .blu-toast-success {
+    --mdc-snackbar-container-color: var(--blu-color-success-background);
+    --mdc-snackbar-supporting-text-color: var(--blu-color-success);
+  }
+
+  .blu-toast-error {
+    --mdc-snackbar-container-color: var(--blu-color-error-background);
+    --mdc-snackbar-supporting-text-color: var(--blu-color-error);
+  }
+
+  .blu-toast-info {
+    --mdc-snackbar-container-color: var(--blu-color-info-background);
+    --mdc-snackbar-supporting-text-color: var(--blu-color-info);
+  }
 
   // FONT
   --blu-font-primary: normal var(--blu-font-weight-normal)

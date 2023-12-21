@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,6 +15,7 @@ import { NgChartsModule } from 'ng2-charts';
     BrowserAnimationsModule,
     HttpClientModule,
     NgChartsModule,
+    MatSnackBarModule,
   ],
   bootstrap: [AppComponent],
 })

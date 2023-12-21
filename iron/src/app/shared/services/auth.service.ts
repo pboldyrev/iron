@@ -2,6 +2,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map, } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from './toast.service';
+import { ToastType } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,7 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone,
     private httpClient: HttpClient,
+    private toastService: ToastService,
   ) {
   }
 
@@ -63,6 +66,7 @@ export class AuthService {
     try {
       localStorage.removeItem('sessionToken')
       this.router.navigate(['/login']);
+      this.toastService.showToast("You have been logged out", ToastType.Success);
     } catch (error) {
       console.log(error);
     }

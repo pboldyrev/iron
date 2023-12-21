@@ -105,24 +105,10 @@ export class DashboardPageComponent {
   }
 
   private fetchNetWorth(): void {
-    this.dataService.getHistoricalNetWorth$(null, this.isLoading$)
+    this.dataService.getCurrentNetWorth$(null, this.isLoading$)
     .subscribe({
-      next: (historicalNetworth: AssetValue[]) => {
-        this.setHistoricalNetWorth(historicalNetworth);
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-      }
-    });
-
-    this.dataService.dataChanged$.pipe(
-      mergeMap(() => {
-        return this.dataService.getHistoricalNetWorth$(null, this.isLoading$)
-      })
-    ).subscribe({
-      next: (historicalNetworth: AssetValue[]) => {
-        this.setHistoricalNetWorth(historicalNetworth);
+      next: (networth: number) => {
+        this.totalNetworth$.next(networth);
       },
       error: (error) => {
         console.log(error);
