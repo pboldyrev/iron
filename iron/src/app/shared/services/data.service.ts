@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetType, AssetValue } from '../constants/constants';
+import { Asset, AssetType, AssetValue, MIXPANEL } from '../constants/constants';
 import { BehaviorSubject, Observable, delay, map, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
+import { MixpanelService } from './mixpanel.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class DataService {
     private httpClient: HttpClient,
     private authService: AuthService,
     private toastService: ToastService,
+    private mixpanelService: MixpanelService,
   ) {}
 
   public addAssetValue$(assetId: string, newValue: AssetValue, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<string> {
@@ -218,6 +220,13 @@ export class DataService {
             this.authService.signOut();
             this.toastService.showToast("Your session has expired, please log in again", FeedbackType.ERROR);
           }
+          this.mixpanelService.track(
+            MIXPANEL.HTTP_RESPONSE_ERROR,
+            {
+              endpoint: endpoint,
+              error: err
+            }
+          );
         }
       }))
     )

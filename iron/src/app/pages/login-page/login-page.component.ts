@@ -15,6 +15,9 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MixpanelService } from 'src/app/shared/services/mixpanel.service';
+import { MIXPANEL } from 'src/app/shared/constants/constants';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-login-page',
@@ -50,8 +53,10 @@ export class LoginPageComponent {
   private phoneNumber: number = 0;
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
     private router: Router,
+    private mixpanelService: MixpanelService,
+    private toastService: ToastService,
   ) {}
 
   public onBack(): void {
@@ -77,11 +82,13 @@ export class LoginPageComponent {
           this.methodId = methodId;
           this.phoneNumber = phoneNumber;
           this.showOTPDialog$.next(true);
+          this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_PHONE);
           this.isSendCodeSubmitting = false;
         },
         error: () => {
           this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
           this.isSendCodeSubmitting = false;
+          this.mixpanelService.track(MIXPANEL.LOGIN_PHONE_FAILED);
         },
       });
     });
@@ -91,7 +98,7 @@ export class LoginPageComponent {
     this.error$.next('');
     this.isCheckTokenSubmitting = true;
     this.isCodeValid$().subscribe((code: string) => {
-      if(!code || code.length !== 6){
+      if(!code){
         this.isCheckTokenSubmitting = false;
         this.error$.next(TEXTS.INCORRECT_CODE);
         return;
@@ -102,7 +109,9 @@ export class LoginPageComponent {
       ).subscribe({
         next: () => {
           this.router.navigate(['/dashboard']);
+          this.toastService.showToast("Login successful", FeedbackType.SUCCESS);
           this.isCheckTokenSubmitting = false;
+          this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_CODE);
         },
         error: (error: HttpErrorResponse) => {
           if(error.status === 400) {
@@ -111,13 +120,10 @@ export class LoginPageComponent {
             this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
           }
           this.isCheckTokenSubmitting = false;
+          this.mixpanelService.track(MIXPANEL.LOGIN_CODE_FAILED);
         },
       });
     });
-  }
-
-  public onSignUp(): void {
-    this.router.navigate(['/signup']);
   }
 
   private isPhoneFieldValid$(): Observable<number> {
@@ -155,7 +161,7 @@ export class LoginPageComponent {
           boolean,
           string,
         ]) => {
-          if (codeValid) {
+          if (codeValid && codeValue.length === 6) {
             return codeValue;
           }
           return '';

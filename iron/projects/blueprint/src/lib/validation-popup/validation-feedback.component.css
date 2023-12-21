@@ -4,13 +4,13 @@
   justify-content: flex-start;
   align-items: center;
   font: var(--blu-font-primary);
-  padding: var(--blu-padding-s);
+  padding: var(--blu-padding-l);
   border-radius: var(--blu-radius-s);
   box-sizing: border-box;
 }
 
 .blu-validation-feedback-icon {
-  margin-right: var(--blu-margin-s);
+  margin-right: var(--blu-margin-l);
   display: flex;
   justify-content: center;
   align-items: center;

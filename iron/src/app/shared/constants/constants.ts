@@ -69,3 +69,11 @@ export type ValueChange = {
   value: number;
   percent: number;
 }
+
+export const MIXPANEL = {
+  LOGIN_ENTERED_PHONE: "Login|Event|EnteredPhone",
+  LOGIN_ENTERED_CODE: "Login|Event|EnteredCode",
+  LOGIN_PHONE_FAILED: "Login|Error|FailedPhone",
+  LOGIN_CODE_FAILED: "Login|Error|FailedCode",
+  HTTP_RESPONSE_ERROR: "HTTP|Error|ResponseError",
+}
