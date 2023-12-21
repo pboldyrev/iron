@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Observable, map, } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from './toast.service';
-import { ToastType } from '../constants/constants';
+import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -66,7 +66,7 @@ export class AuthService {
     try {
       localStorage.removeItem('sessionToken')
       this.router.navigate(['/login']);
-      this.toastService.showToast("You have been logged out", ToastType.Success);
+      this.toastService.showToast("You have been logged out", FeedbackType.SUCCESS);
     } catch (error) {
       console.log(error);
     }

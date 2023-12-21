@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetType, AssetValue, ToastType } from '../constants/constants';
+import { Asset, AssetType, AssetValue } from '../constants/constants';
 import { BehaviorSubject, Observable, delay, map, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
+import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,27 @@ export class DataService {
     private authService: AuthService,
     private toastService: ToastService,
   ) {}
+
+  public addAssetValue$(assetId: string, newValue: AssetValue, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<string> {
+    if (loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    const options = {
+      assetId: assetId, 
+      timestamp: newValue.timestamp, 
+      value: newValue.value
+    };
+
+    return this.httpPost("putAssetValue", options).pipe(
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return data?.assetId ?? {} as string;
+      })
+    )
+  }
 
   public getActiveAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
     if (loadingIndicator) {
@@ -94,15 +116,7 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    const options: any = {
-      limit: 1
-    }
-
-    if(assetType) {
-      options["assetType"] = assetType;
-    }
-
-    return this.httpPost("getUserNetWorths", assetType ? { assetType: assetType, limit: 1  } : {limit: 1 }).pipe(
+    return this.httpPost("getUserNetWorths", assetType ? { assetType: assetType } : {limit: 1 }).pipe(
       map((data: any) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
@@ -202,7 +216,7 @@ export class DataService {
         error: (err: HttpErrorResponse) => {
           if(err.error?.error?.includes("No user found with sessionToken")) {
             this.authService.signOut();
-            this.toastService.showToast("Your session has expired, please log in again", ToastType.Error);
+            this.toastService.showToast("Your session has expired, please log in again", FeedbackType.ERROR);
           }
         }
       }))

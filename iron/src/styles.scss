@@ -183,23 +183,15 @@ html {
   --blu-line-height-xl: 1.8em;
 
   // TOAST STYLING
-  .blu-toast {
-    font: var(--blu-font-primary);
-  }
 
-  .blu-toast-success {
-    --mdc-snackbar-container-color: var(--blu-color-success-background);
-    --mdc-snackbar-supporting-text-color: var(--blu-color-success);
+  .mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
   }
-
-  .blu-toast-error {
-    --mdc-snackbar-container-color: var(--blu-color-error-background);
-    --mdc-snackbar-supporting-text-color: var(--blu-color-error);
-  }
-
-  .blu-toast-info {
-    --mdc-snackbar-container-color: var(--blu-color-info-background);
-    --mdc-snackbar-supporting-text-color: var(--blu-color-info);
+  
+  .mat-mdc-snack-bar-label,
+  .mdc-snackbar__surface {
+    padding: 0;
   }
 
   // FONT

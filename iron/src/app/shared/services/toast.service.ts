@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ToastType } from '../constants/constants';
+import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
+import { BluToast } from 'projects/blueprint/src/lib/toast/toast.component';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +12,15 @@ export class ToastService {
     private zone: NgZone
   ) {}
 
-  public showToast(message: string, type: ToastType, duration = 5000): void {
+  public showToast(message: string, type: FeedbackType): void {
     this.zone.run(() => {
-      this.snackBar.open(message, undefined, { 
-        duration: duration,
-        panelClass: ['blu-toast', 'blu-toast-' + type],
+      this.snackBar.openFromComponent(BluToast,
+      {
+        duration: 5000,
+        data: {
+          type: type,
+          message: message,
+        }
       });
     });
   }

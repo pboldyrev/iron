@@ -16,10 +16,10 @@ export type AssetValue = {
 
 export type VehicleCustomAttributes = {
   nickName?: string,
-  vehicleVin?: string,
-  vehicleMake?: string,
-  vehicleModel?: string,
-  vehicleYear?: number,
+  vin?: string,
+  make?: string,
+  model?: string,
+  year?: number,
   mileage?: number,
   appreciationRate?: number,
 }
@@ -68,10 +68,4 @@ export type ValueChange = {
   type: string;
   value: number;
   percent: number;
-}
-
-export enum ToastType {
-  Error = "error",
-  Success = "success",
-  Info = "info",
 }

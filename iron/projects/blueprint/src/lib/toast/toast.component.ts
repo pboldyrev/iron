@@ -1,15 +1,23 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FeedbackType } from '../common/constants';
-import { BluIcon } from '../icon/icon.component';
+import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
+
+export type ToastData = {
+  type: FeedbackType,
+  message: string,
+}
 
 @Component({
   selector: 'blu-toast',
   standalone: true,
-  imports: [CommonModule, BluIcon],
+  imports: [CommonModule, BluValidationFeedback],
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.css'],
 })
 export class BluToast {
-  @Input() type!: FeedbackType;
+  constructor(
+    @Inject(MAT_SNACK_BAR_DATA) public data: ToastData
+  ) {}
 }

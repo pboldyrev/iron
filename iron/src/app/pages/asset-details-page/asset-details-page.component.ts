@@ -34,6 +34,7 @@ export class AssetDetailsPageComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private dataService: DataService,
     private location: Location,
   ){}
@@ -58,7 +59,7 @@ export class AssetDetailsPageComponent {
   }
 
   public onBack() {
-    this.location.back();
+    this.router.navigate(['/dashboard']);
   }
 
   private getDisplayName(asset: Asset): string {

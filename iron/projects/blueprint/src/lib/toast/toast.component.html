@@ -1,16 +1,7 @@
-<div
-  class="blu-toast"
-  [ngClass]="{
-    'blu-toast-success': type === 'success',
-    'blu-toast-error': type === 'error',
-    'blu-toast-info': type === 'info'
-  }"
->
-  <blu-icon
-    [name]="
-      type === 'success' ? 'check' : type === 'error' ? 'xCircle' : 'info'
-    "
-    class="blu-toast-icon"
-  ></blu-icon>
-  <ng-content></ng-content>
+<div class="blu-toast">
+  <blu-validation-feedback
+    [type]="data.type"
+  >
+    {{ data.message }}
+  </blu-validation-feedback>
 </div>

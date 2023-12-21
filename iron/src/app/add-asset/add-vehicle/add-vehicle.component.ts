@@ -113,9 +113,9 @@ export class AddVehicleComponent {
         let finalName = this.getFinalName(modelNameInputValue, modelYearInputValue ?? '', vehicleMakeInputValue ?? "", nicknameInputValue);
 
         const vehicleCustomAttributes: VehicleCustomAttributes = {
-          vehicleMake: vehicleMakeInputValue,
-          vehicleModel: modelNameInputValue,
-          vehicleYear: parseInt(modelYearInputValue),
+          make: vehicleMakeInputValue,
+          model: modelNameInputValue,
+          year: parseInt(modelYearInputValue),
           mileage: parseInt(mileageInputValue),
         }
 
