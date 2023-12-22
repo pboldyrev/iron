@@ -124,8 +124,8 @@
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
                 <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" class="asset-table-edit-menu" [matMenuTriggerFor]="appMenu"></blu-button>
                 <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
-                    <div mat-menu-item (click)="onDetailsAsset(asset)"><blu-text type="primary" size="small">{{ TEXTS.ENTRY_BUTTON_DETAILS }}</blu-text></div>
-                    <div mat-menu-item (click)="onArchiveAsset(asset)"><blu-text type="error" size="small">{{ TEXTS.ENTRY_BUTTON_ARCHIVE }}</blu-text></div>
+                    <div mat-menu-item [disableRipple]="true" (click)="onDetailsAsset(asset)"><blu-text type="primary" size="small">{{ TEXTS.ENTRY_BUTTON_DETAILS }}</blu-text></div>
+                    <div mat-menu-item [disableRipple]="true" (click)="onArchiveAsset(asset)"><blu-text type="error" size="small">{{ TEXTS.ENTRY_BUTTON_ARCHIVE }}</blu-text></div>
                 </mat-menu>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
