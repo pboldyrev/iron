@@ -7,7 +7,7 @@
             <div class="asset-type-page-networth-wrapper">
                 <app-networth
                     [totalNetworth]="0"
-                    [isLoading$]="isLoading$"
+                    [isLoading]="(isLoading$ | async) ?? true"
                 ></app-networth>
                 <div class="asset-type-page-networth-change-wrapper">
                     <app-value-change

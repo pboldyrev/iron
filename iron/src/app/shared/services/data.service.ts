@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetType, AssetValue, MIXPANEL } from '../constants/constants';
+import { Asset, AssetType, AssetValue, MIXPANEL, NetWorthValue } from '../constants/constants';
 import { BehaviorSubject, Observable, combineLatest, delay, map, mergeMap, take, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -23,6 +23,52 @@ export class DataService {
   /*
    *  NEED TO BE REFETCHED AFTER DATA CHANGES
    */
+
+  public getNetWorthValues$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<NetWorthValue[]> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    let options: any;
+
+    if(assetType) {
+      options = {
+        assetType: assetType, 
+      };
+    } else {
+      options = {}
+    }
+
+    return this.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.httpPost("getUserNetWorths", options)
+      }),
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return data?.netWorths ?? [];
+      })
+    );
+  }
+
+  public getAssets$(includeArchived: boolean = false, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+    if (loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.fetchUserAssets$()
+      }),
+      map((assets: Asset[]) => {
+        if (loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return assets.filter((asset) => !asset.isArchived || includeArchived);
+      })
+    );
+  }
 
   public getAssetValues$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
     if(loadingIndicator) {
@@ -120,20 +166,6 @@ export class DataService {
     )
   }
 
-  public getAssets$(includeArchived: boolean = false, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
-    if (loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-    return this.fetchUserAssets$().pipe(
-      map((assets: Asset[]) => {
-        if (loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-        return assets.filter((asset) => !asset.isArchived || includeArchived);
-      })
-    );
-  }
-
   public getHistoricalNetWorth$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
     if(loadingIndicator) {
       loadingIndicator.next(true);
@@ -148,21 +180,6 @@ export class DataService {
           loadingIndicator.next(false);
         }
         return data?.user?.netWorths ?? [] as AssetValue[];
-      })
-    );
-  }
-
-  public getCurrentNetWorth$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<number> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
-    return this.httpPost("getUserNetWorths", assetType ? { assetType: assetType } : {}).pipe(
-      map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-        return data?.netWorth ?? 0;
       })
     );
   }

@@ -6,18 +6,18 @@
         <div class="dashboard-side-wrapper">
             <div class="dashboard-networth-wrapper">
                 <app-networth
-                    [totalNetworth]="totalNetworth$ | async"
-                    [isLoading$]="isLoading$"
+                    [totalNetworth]="totalNetworth"
+                    [isLoading]="(isLoading$ | async) ?? true"
                 ></app-networth>
                 <div class="dashboard-networth-change-wrapper">
                     <app-value-change
-                        [timeframes]="(networthChangeTimeframes$ | async) ?? []"
+                        [timeframes]="networthTimeframes"
                     ></app-value-change>
                 </div>
             </div>
-            <div *ngIf="!(isLoading$ | async) && ((historicalNetworth$ | async) ?? []).length > 1" class="dashboard-networth-chart-wrapper">
+            <div *ngIf="!(isLoading$ | async) && networthValues.length > 1" class="dashboard-networth-chart-wrapper">
                 <app-chart
-                    [assetValues]="(historicalNetworth$ | async) ?? []"
+                    [assetValues]="networthValues"
                 ></app-chart>
             </div>
         </div>

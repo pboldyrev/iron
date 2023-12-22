@@ -4,7 +4,7 @@ import { NetworthComponent } from './networth/networth.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { TEXTS } from './dashboard-page.strings';
-import { Asset, AssetType, AssetValue, ValueChange } from '../../shared/constants/constants';
+import { Asset, AssetType, AssetValue, NetWorthValue, ValueChange } from '../../shared/constants/constants';
 import { AssetTypeCardComponent, AssetTypeSummary } from './asset-type-card/asset-type-card.component';
 import { ValueChangeComponent } from './value-change/value-change.component';
 import { AddAssetComponent } from '../../add-asset/add-asset.component';
@@ -15,7 +15,7 @@ import { ConfirmationPopupComponent } from '../../shared/components/confirmation
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
-import { BehaviorSubject, Observable, filter, mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -31,9 +31,9 @@ export class DashboardPageComponent {
   public TEXTS = TEXTS;
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  public totalNetworth$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public historicalNetworth$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
-  public networthChangeTimeframes$: BehaviorSubject<ValueChange[]> = new BehaviorSubject<ValueChange[]>([]);
+  public totalNetworth: number = 0;
+  public networthTimeframes: ValueChange[] = [];
+  public networthValues: AssetValue[] = [];
 
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject<Asset[]>([]);
   public assetSummaries$: BehaviorSubject<AssetTypeSummary[]> = new BehaviorSubject<AssetTypeSummary[]>([]);
@@ -42,32 +42,11 @@ export class DashboardPageComponent {
   constructor(
     private authService: AuthService,
     private dataService: DataService,
-    private router: Router,
   ) {}
 
   ngOnInit() {
     this.fetchNetWorth();
     this.fetchAssets();
-
-    this.assets$.subscribe((assets: Asset[]) => {
-      this.assetSummaries$.next(assets.map((asset: Asset) => {
-        return {
-          type: asset.assetType as AssetType,
-          valueChange: [
-            {
-              type: "All time",
-              value: 500.10,
-              percent: 10,
-            },
-            {
-              type: "Since Dec 18, 2023",
-              value: -100.10,
-              percent: 50,
-            }
-          ]
-        }
-      }));
-    });
   }
 
   public onAddAsset(): void {
@@ -79,84 +58,27 @@ export class DashboardPageComponent {
   }
 
   private fetchAssets(): void {
-    this.dataService.getAssets$(false, this.isLoading$).subscribe({
-      next: (assets: Asset[]) => {
+    this.dataService.getAssets$(false, this.isLoading$).pipe(
+      map((assets: Asset[]) => {
         this.assets$.next(assets);
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-      }
-    });
-
-    this.dataService.dataChanged$.pipe(
-      filter((changed: boolean) => changed),
-      mergeMap(() => {
-        return this.dataService.getAssets$(false, this.isLoading$)
-      })
-    ).subscribe({
-      next: (assets: Asset[]) => {
-        this.assets$.next(assets);
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-      }
-    });
+      }),
+    ).subscribe();
   }
 
   private fetchNetWorth(): void {
-    this.dataService.getCurrentNetWorth$(null, this.isLoading$)
+    this.dataService.getNetWorthValues$(null, this.isLoading$)
     .subscribe({
-      next: (networth: number) => {
-        this.totalNetworth$.next(networth);
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-      }
-    });
-
-    this.dataService.dataChanged$.pipe(
-      filter((changed: boolean) => !changed),
-      mergeMap(() => {
-        return this.dataService.getCurrentNetWorth$(null, this.isLoading$)
-      })).subscribe({
-      next: (networth: number) => {
-        this.totalNetworth$.next(networth);
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-      }
-    });
-  }
-
-  private setHistoricalNetWorth(historicalNetworth: AssetValue[]) {
-    const latest = historicalNetworth[historicalNetworth.length-1].value ?? 0;
-    const oldest = historicalNetworth[0].value ?? 0;
-    this.totalNetworth$.next(historicalNetworth[historicalNetworth.length-1].value ?? 0);
-    this.historicalNetworth$.next(historicalNetworth);
-
-    let timeframes: ValueChange[] = [
-      {
-        type: "All time",
-        value: latest-oldest,
-        percent: oldest > 0 ? (latest-oldest)/oldest * 100 : 0,
-      }
-    ];
-
-    if(historicalNetworth.length > 1) {
-      let secondLatest = historicalNetworth[historicalNetworth.length-2].value ?? 0;
-      let secondLatestDate = new Date(historicalNetworth[historicalNetworth.length-2].timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'});
-      timeframes.push(
-        {
-          type: "Since " + secondLatestDate,
-          value: latest-secondLatest,
-          percent: (latest-secondLatest)/secondLatest * 100,
+      next: (networthValues: NetWorthValue[]) => {
+        if(networthValues.length > 0) {
+          this.totalNetworth = networthValues[0].netWorth ?? 0;
+        } else {
+          this.totalNetworth = 0;
         }
-      );
-    }
-    this.networthChangeTimeframes$.next(timeframes);
+        this.networthValues = networthValues;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 }

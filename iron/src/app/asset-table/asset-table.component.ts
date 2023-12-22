@@ -17,6 +17,7 @@ import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-pop
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { AddAssetPopupComponent } from '../add-asset-popup/add-asset-popup.component';
+import { ToastService } from '../shared/services/toast.service';
 
 export type AssetTableColumn = 
   "account" | 
@@ -57,8 +58,9 @@ export class AssetTableComponent {
   @Input() assets$!: BehaviorSubject<Asset[]>;
   @Input() isLoading$!: BehaviorSubject<boolean>;
 
-  public curTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
-  public initTotal$: BehaviorSubject<number> = new BehaviorSubject(0);
+  public curTotal: number = 0;
+  public initTotal: number = 0;
+
   public showArchivePopup$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   public assetToArchive: Asset | undefined;
@@ -67,19 +69,21 @@ export class AssetTableComponent {
 
   public showUnknownError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private dataChanged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
   constructor(
     private dataService: DataService,
     private router: Router,
+    private toastService: ToastService,
   ){}
 
-  public getPercentChange(init: number, cur: number): number {
-    if(!init || !cur || init === 0) {
-      return 0;
-    }
-    return Math.abs(Math.round(((cur-init) / init) * 100));
+  ngOnInit() {
+    this.assets$.subscribe((assets: Asset[]) => {
+      assets.forEach((asset: Asset) => {
+        this.curTotal += asset.curValue ?? 0;
+        this.initTotal += asset.initValue ?? 0;
+      });
+    })
   }
+
   public onArchiveAsset(asset: Asset): void {
     this.archiveConfirmPopup.show();
     this.assetToArchive = asset;
@@ -91,7 +95,7 @@ export class AssetTableComponent {
 
   public onArchiveAssetConfirmed() {
     if(!this.assetToArchive || !this.assetToArchive.assetId) {
-      console.error("Tried archiving non existent asset.");
+      this.toastService.showToast("This asset does not exist", FeedbackType.ERROR);
       return;
     }
 
@@ -107,42 +111,11 @@ export class AssetTableComponent {
     });
   }
 
-  public getCurrentValueSum$(): Observable<number> {
-    return this.assets$.pipe(
-      map((assets: Asset[]) => {
-        let total = 0;
-        assets.forEach((asset: Asset) => {
-          total += asset.curValue ?? 0;
-        });
-        return total;
-      }),
-    )
-  }
-
-  public getInitialValueSum$(): Observable<number> {
-    return this.assets$.pipe(
-      map((assets: Asset[]) => {
-        let total = 0;
-        assets.forEach((asset: Asset) => {
-          total += asset.initValue ?? 0;
-        });
-        return total;
-      }),
-    )
-  }
-
-  public getSumPercentChange$(): Observable<number> {
-    return combineLatest([
-      this.getCurrentValueSum$(),
-      this.getInitialValueSum$(),
-    ]).pipe(
-      map(([currentSum, initialSum]) => {
-        if(initialSum === 0) {
-          return 0;
-        }
-        return Math.round((currentSum-initialSum)/initialSum * 100);
-      })
-    )
+  public getPercentChange(init: number, cur: number): number {
+    if(!init || !cur || init === 0) {
+      return 0;
+    }
+    return Math.abs(Math.round(((cur-init) / init) * 100));
   }
 
   public onAddAsset(): void {

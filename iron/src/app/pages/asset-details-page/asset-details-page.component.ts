@@ -26,7 +26,8 @@ export class AssetDetailsPageComponent {
   public assetValues: AssetValue[] = [];
   public displayAssetName = "";
   public displayAssetValue = "";
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isNetWorthLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isTableLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private router: Router,
@@ -43,7 +44,7 @@ export class AssetDetailsPageComponent {
   }
 
   private fetchAssetValue(assetId: string): void {
-    this.dataService.getAssetById$(assetId, this.isLoading$).pipe(
+    this.dataService.getAssetById$(assetId, this.isNetWorthLoading$).pipe(
       map((asset: Asset) => {
         this.displayAssetName = this.getDisplayName(asset);
         this.displayAssetValue = this.getDisplayWorth(asset);
@@ -52,7 +53,7 @@ export class AssetDetailsPageComponent {
   }
 
   private fetchValueHistory(assetId: string): void {
-    this.dataService.getAssetValues$(assetId, this.isLoading$).pipe(
+    this.dataService.getAssetValues$(assetId, this.isTableLoading$).pipe(
       map((assetValues: AssetValue[]) => {
         this.assetValues = assetValues;
       })

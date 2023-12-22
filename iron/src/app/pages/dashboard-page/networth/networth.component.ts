@@ -25,5 +25,5 @@ export type TimeRangeOption = {
 })
 export class NetworthComponent {
   @Input() totalNetworth!: number | null;
-  @Input() isLoading$!: BehaviorSubject<boolean>;
+  @Input() isLoading!: boolean;
 }

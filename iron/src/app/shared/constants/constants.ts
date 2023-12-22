@@ -14,6 +14,12 @@ export type AssetValue = {
   value?: number,
 }
 
+export type NetWorthValue = {
+  timestamp?: number,
+  netWorth?: number,
+}
+
+
 export type VehicleCustomAttributes = {
   nickName?: string,
   vin?: string,
