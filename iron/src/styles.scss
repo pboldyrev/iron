@@ -196,6 +196,10 @@ html {
     --mat-tab-header-active-hover-label-text-color: var(--blu-color-brand);
   }
 
+  .mat-mdc-menu-content {
+    font: var(--blu-font-primary);
+  }
+
   .row {
     --bs-gutter-x: 0px;
     --bs-gutter-y: 0px;

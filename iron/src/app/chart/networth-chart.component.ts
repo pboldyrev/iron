@@ -71,7 +71,14 @@ export class ChartComponent {
             displayColors: false,
             callbacks: {
               label: function(labelContent) {
-                return '$' + labelContent.formattedValue;
+                let formattedValue = labelContent.formattedValue;
+                if(formattedValue.startsWith('-')) {
+                  formattedValue = formattedValue.replace('-', '');
+                  formattedValue = '-$' + formattedValue;
+                } else {
+                  formattedValue = '$' + formattedValue;
+                }
+                return formattedValue;
               }
             },
           }
