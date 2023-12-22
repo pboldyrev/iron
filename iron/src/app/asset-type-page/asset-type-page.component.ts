@@ -46,7 +46,7 @@ export class AssetTypePageComponent {
   private fetchAssets(): void {
     combineLatest([
       this.assetType$,
-      this.dataService.getActiveAssets$(this.isLoading$)
+      this.dataService.getAssets$(false, this.isLoading$)
     ]).subscribe({
       next: ([assetType, assets]) => {
         this.assets$.next(assets.filter((asset: Asset) => asset.assetType === assetType));
@@ -61,7 +61,7 @@ export class AssetTypePageComponent {
       mergeMap(() => {
         return combineLatest([
           this.assetType$,
-          this.dataService.getActiveAssets$(this.isLoading$)
+          this.dataService.getAssets$(false, this.isLoading$)
         ])
       })
     ).subscribe({

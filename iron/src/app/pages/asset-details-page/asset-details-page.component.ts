@@ -35,39 +35,28 @@ export class AssetDetailsPageComponent {
   ){}
 
   ngOnInit() {
-    const curId: string = this.route.snapshot.paramMap.get('id') ?? ""
+    const curId: string = this.route.snapshot.paramMap.get('id') ?? "";
+
     this.assetId$.next(curId);
-
-    this.fetchAsset$(curId).subscribe();
-    this.dataService.dataChanged$.pipe(
-      mergeMap(() => {
-        return this.fetchAsset$(curId);
-      })
-    ).subscribe();
-
-    this.fetchValueHistory$(curId).subscribe();
-    this.dataService.dataChanged$.pipe(
-      mergeMap(() => {
-        return this.fetchValueHistory$(curId);
-      })
-    ).subscribe();
+    this.fetchAssetValue(curId);
+    this.fetchValueHistory(curId);
   }
 
-  private fetchAsset$(assetId: string): Observable<void> {
-    return this.dataService.getAssetById$(assetId, this.isLoading$).pipe(
+  private fetchAssetValue(assetId: string): void {
+    this.dataService.getAssetById$(assetId, this.isLoading$).pipe(
       map((asset: Asset) => {
         this.displayAssetName = this.getDisplayName(asset);
         this.displayAssetValue = this.getDisplayWorth(asset);
       })
-    );
+    ).subscribe();
   }
 
-  private fetchValueHistory$(assetId: string): Observable<void> {
-    return this.dataService.getAssetValues$(assetId, this.isLoading$).pipe(
+  private fetchValueHistory(assetId: string): void {
+    this.dataService.getAssetValues$(assetId, this.isLoading$).pipe(
       map((assetValues: AssetValue[]) => {
         this.assetValues = assetValues;
       })
-    );
+    ).subscribe()
   }
 
   public onBack() {
@@ -78,11 +67,9 @@ export class AssetDetailsPageComponent {
     if(!asset) {
       return '';
     }
-    
     if(asset.assetType) {
       return asset.assetType + ' - ' + asset.assetName ?? '';
     }
-
     return asset.assetName ?? ''
   }
 

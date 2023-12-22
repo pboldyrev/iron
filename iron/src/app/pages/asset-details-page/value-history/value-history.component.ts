@@ -66,10 +66,11 @@ export class ValueHistoryComponent {
         return this.verifyNewEntry(input);
       }),
       mergeMap((input: any) => {
-        return this.addEntry(input);
+        return this.addEntry$(input);
       })
     ).subscribe({
-      next: () => {
+      next: (timestamp: string) => {
+        this.toastService.showToast("Successfully added the entry for " + new Date(timestamp ?? 0).toLocaleDateString(), FeedbackType.SUCCESS);
       },
       error: (error) => {
         this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
@@ -95,7 +96,7 @@ export class ValueHistoryComponent {
     return (new Date(ms)).toLocaleDateString();
   }
 
-  private addEntry([
+  private addEntry$([
     isValueValid,
     value,
     isDateValid,
@@ -111,7 +112,7 @@ export class ValueHistoryComponent {
       timestamp: new Date(date).valueOf(),
       value: parseFloat(value)
     };
-    return this.dataService.addAssetValue$(
+    return this.dataService.putAssetValue$(
       this.assetId || '',
       newValue,
       this.isLoading$,

@@ -2,6 +2,11 @@
     margin: var(--blu-margin-4xl) auto;
 }
 
+.asset-details-value-history-chart-wrapper {
+    height: 40vh;
+    margin-top: var(--blu-margin-xxl);
+}
+
 .asset-details-value-history-wrapper {
     overflow-x: auto;
     margin-top: var(--blu-margin-xxl);
@@ -17,10 +22,13 @@
 }
 
 .asset-details-history-loading {
-    margin-top: var(--blu-margin-4xl);
+    display: flex;
+    align-items: center;
+    height: 40vh;
+    padding: var(--blu-padding-4xl);
 }
 
-.asset-details-value-history-chart-wrapper {
-    height: 40vh;
-    margin-top: var(--blu-margin-xl);
+::ng-deep .mat-mdc-menu-content {
+    padding: 0px !important;
+    background-color: var(--blu-background-primary);
 }

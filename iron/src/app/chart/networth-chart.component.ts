@@ -47,7 +47,7 @@ export class ChartComponent {
             borderWidth: 5,
             borderJoinStyle: "round",
             pointRadius: 0,
-            pointHitRadius: 15,
+            pointHitRadius: 20,
             pointHoverRadius: 5,
             pointBorderColor: "#095d3b",
             pointBackgroundColor: "#095d3b",

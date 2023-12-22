@@ -36,22 +36,7 @@ export class AssetTypeCardComponent {
   ) {}
 
   ngOnInit() {
-    this.dataService.getCurrentNetWorth$(null, this.isLoading$).subscribe();
 
-    this.dataService.dataChanged$.pipe(
-      mergeMap(() => {
-        return this.dataService.getCurrentNetWorth$(this.asset.type, this.isLoading$)
-      })
-    ).subscribe({
-      next: (assetTotalWorth: number) => {
-        this.assetTotal = '$' + assetTotalWorth.toLocaleString();
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
-        this.assetTotal = "ERR";
-      }
-    });
   }
 
   public onNavigateToSummary(): void {

@@ -15,7 +15,7 @@ import { ConfirmationPopupComponent } from '../../shared/components/confirmation
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
-import { BehaviorSubject, Observable, mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -79,7 +79,7 @@ export class DashboardPageComponent {
   }
 
   private fetchAssets(): void {
-    this.dataService.getActiveAssets$(this.isLoading$).subscribe({
+    this.dataService.getAssets$(false, this.isLoading$).subscribe({
       next: (assets: Asset[]) => {
         this.assets$.next(assets);
       },
@@ -90,8 +90,9 @@ export class DashboardPageComponent {
     });
 
     this.dataService.dataChanged$.pipe(
+      filter((changed: boolean) => changed),
       mergeMap(() => {
-        return this.dataService.getActiveAssets$(this.isLoading$)
+        return this.dataService.getAssets$(false, this.isLoading$)
       })
     ).subscribe({
       next: (assets: Asset[]) => {
@@ -107,6 +108,20 @@ export class DashboardPageComponent {
   private fetchNetWorth(): void {
     this.dataService.getCurrentNetWorth$(null, this.isLoading$)
     .subscribe({
+      next: (networth: number) => {
+        this.totalNetworth$.next(networth);
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading$.next(false);
+      }
+    });
+
+    this.dataService.dataChanged$.pipe(
+      filter((changed: boolean) => !changed),
+      mergeMap(() => {
+        return this.dataService.getCurrentNetWorth$(null, this.isLoading$)
+      })).subscribe({
       next: (networth: number) => {
         this.totalNetworth$.next(networth);
       },

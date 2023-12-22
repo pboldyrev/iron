@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Asset, AssetType, AssetValue, MIXPANEL } from '../constants/constants';
-import { BehaviorSubject, Observable, delay, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, delay, map, mergeMap, take, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
@@ -20,7 +20,59 @@ export class DataService {
     private mixpanelService: MixpanelService,
   ) {}
 
-  public addAssetValue$(assetId: string, newValue: AssetValue, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<string> {
+  /*
+   *  NEED TO BE REFETCHED AFTER DATA CHANGES
+   */
+
+  public getAssetValues$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    const options = {
+      assetId: assetId, 
+    };
+
+    return this.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.httpPost("getAssetValues", options)
+      }),
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return data?.totalValues ?? [] as AssetValue[];
+      })
+    );
+  }
+
+  public getAssetById$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    const options = {
+      assetId: assetId, 
+    };
+
+    return this.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.httpPost("getAsset", options)
+      }),
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return data?.asset ?? {} as Asset;
+      })
+    );
+  }
+
+  /*
+   *  NEED TO MARK DATA AS STALE WHEN CALLED
+   */
+
+  public putAssetValue$(assetId: string, newValue: AssetValue, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<string> {
     if (loadingIndicator) {
       loadingIndicator.next(true);
     }
@@ -31,7 +83,8 @@ export class DataService {
       value: newValue.value
     };
 
-    return this.httpPost("putAssetValue", options).pipe(
+    return this.httpPost("putAssetValue", options)
+    .pipe(
       map((data: any) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
@@ -39,9 +92,9 @@ export class DataService {
 
         this.dataChanged$.next(true);
 
-        return data?.assetId ?? {} as string;
+        return data?.assetValue?.timestamp ?? {} as string;
       })
-    )
+    );
   }
 
   public deleteAssetValue$(assetId: string, timestamp: number, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<string> {
@@ -67,7 +120,7 @@ export class DataService {
     )
   }
 
-  public getActiveAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+  public getAssets$(includeArchived: boolean = false, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
     if (loadingIndicator) {
       loadingIndicator.next(true);
     }
@@ -76,67 +129,9 @@ export class DataService {
         if (loadingIndicator) {
           loadingIndicator.next(false);
         }
-        return assets.filter((asset: Asset) => !asset.isArchived);
+        return assets.filter((asset) => !asset.isArchived || includeArchived);
       })
     );
-  }
-
-  public getInactiveAssets(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
-    if (loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-    return this.fetchUserAssets$().pipe(
-      map((assets: Asset[]) => {
-        if (loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-        return assets.filter((asset: Asset) => !asset.isArchived);
-      })
-    );
-  }
-
-  public getAllAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
-    if (loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-    return this.fetchUserAssets$().pipe(
-      map((assets: Asset[]) => {
-        if (loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-        return assets;
-      })
-    );
-  }
-
-  public getAssetById$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
-    return this.httpPost("getAsset", {assetId: assetId}).pipe(
-      map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-        return data?.asset ?? {} as Asset;
-      })
-    )
-  }
-
-  public getAssetValues$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
-    return this.httpPost("getAssetValues", {assetId: assetId}).pipe(
-      map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-        return data?.totalValues ?? [] as AssetValue[];
-      })
-    )
   }
 
   public getHistoricalNetWorth$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
@@ -144,8 +139,11 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    return this.httpPost("getHistoricalNetWorth", assetType ? { assetType: assetType } : {}).pipe(
-      map((data: any) => {
+    return combineLatest([
+      this.dataChanged$,
+      this.httpPost("getHistoricalNetWorth", assetType ? { assetType: assetType } : {})
+    ]).pipe(
+      map(([refresh, data]) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
         }
@@ -159,7 +157,7 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    return this.httpPost("getUserNetWorths", assetType ? { assetType: assetType } : {limit: 1 }).pipe(
+    return this.httpPost("getUserNetWorths", assetType ? { assetType: assetType } : {}).pipe(
       map((data: any) => {
         if(loadingIndicator) {
           loadingIndicator.next(false);
