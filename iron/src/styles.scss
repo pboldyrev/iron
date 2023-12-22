@@ -1,17 +1,9 @@
 @use '@angular/material' as mat;
 @include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
 $iron-primary: mat.define-palette(mat.$green-palette);
 $iron-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-
 $iron-warn: mat.define-palette(mat.$red-palette);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $iron-theme: mat.define-dark-theme((
   color: (
     primary: $iron-primary,
@@ -20,9 +12,6 @@ $iron-theme: mat.define-dark-theme((
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include mat.all-component-themes($iron-theme);
 
 * {
@@ -195,6 +184,17 @@ html {
     sans-serif;
 
   --mat-table-background-color: none;
+
+  .mat-mdc-tab-group {
+    --mdc-tab-indicator-active-indicator-color: var(--blu-color-brand);
+    --mat-tab-header-active-focus-indicator-color: var(--blu-color-brand);
+    --mat-tab-header-active-label-text-color: var(--blu-color-brand);
+    --mat-tab-header-active-ripple-color: none;
+    --mat-tab-header-active-hover-indicator-color: var(--blu-color-brand);
+    --mat-tab-header-active-focus-label-text-color: var(--blu-color-brand);
+    --mat-tab-header-inactive-ripple-color: none;
+    --mat-tab-header-active-hover-label-text-color: var(--blu-color-brand);
+  }
 
   .row {
     --bs-gutter-x: 0px;

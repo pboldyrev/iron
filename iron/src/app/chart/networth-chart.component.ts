@@ -43,7 +43,7 @@ export class ChartComponent {
           {
             data: yAxis,
             spanGaps: true,
-            tension: 0.5,
+            tension: 0,
             borderWidth: 5,
             borderJoinStyle: "round",
             pointRadius: 0,
@@ -142,7 +142,7 @@ export class ChartComponent {
       gradientColor = "#095d3b";
     }
 
-    const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 400);
+    const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 250);
     gradient.addColorStop(0, gradientColor);
     gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
