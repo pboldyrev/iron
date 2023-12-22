@@ -18,6 +18,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DISPLAYED_COLUMNS } from './value-history.constants';
 
 export type ValueChange = {
   amount?: number,
@@ -36,18 +38,13 @@ export class ValueHistoryComponent {
   @ViewChild('value') valueInput!: BluInput;
   @ViewChild('date') dateInput!: BluInput;
   
-  @Input() isLoading$!: BehaviorSubject<boolean>;
-
-  @Input() asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
-  @Input() outline: boolean = false;
+  @Input() assetValues: AssetValue[] = [];
+  @Input() assetId: string = "";
+  @Input() isLoading: boolean = false;
 
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
-  public newEntry$: BehaviorSubject<AssetValue> = new BehaviorSubject<AssetValue>({});
-  public displayedColumns = ['date', 'value', 'action'];
-  public displayedHeaderColumns = ['addDate', 'addValue', 'addAction'];
-  public valueChange: ValueChange = {};
-  public valueChangeString: string = '';
+  public DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
 
   constructor(
     private dataService: DataService,
@@ -59,68 +56,22 @@ export class ValueHistoryComponent {
     this.dateInput.validate();
 
     combineLatest([
-      this.asset$,
       this.valueInput.isValid$,
       this.valueInput.value$,
       this.dateInput.isValid$,
       this.dateInput.value$,
     ]).pipe(
       take(1),
-      filter(([
-        asset,
-        isValueValid,
-        value,
-        isDateValid,
-        date,
-      ]: [
-        Asset,
-        boolean,
-        string,
-        boolean,
-        string
-      ]) => {
-        if (!isValueValid || !isDateValid) {
-          this.toastService.showToast("Please fill in the date and value fields", FeedbackType.ERROR);
-        }
-        const curDate = Date.now().valueOf();
-        const selectedDate = new Date(date).valueOf();
-        const minDate = new Date("1900-1-1").valueOf();
-        if (selectedDate > curDate) {
-          this.toastService.showToast("Date can not be in the future", FeedbackType.ERROR);
-        }
-        if (selectedDate < minDate) {
-          this.toastService.showToast("We only support assets with history after Jan 1, 1900", FeedbackType.ERROR);
-        }
-        return isDateValid && isValueValid && selectedDate <= curDate && selectedDate > minDate;
+      filter((input: any) => {
+        return this.verifyNewEntry(input);
       }),
-      mergeMap(([
-        asset,
-        isValueValid,
-        value,
-        isDateValid,
-        date,
-      ]: [
-        Asset,
-        boolean,
-        string,
-        boolean,
-        string
-      ]) => {
-        const newValue: AssetValue = {
-          timestamp: new Date(date).valueOf(),
-          value: parseFloat(value)
-        };
-        return this.dataService.addAssetValue$(
-          asset.assetId || '',
-          newValue,
-          this.isLoading$
-        );
+      mergeMap((input: any) => {
+        return this.addEntry(input);
       })
     ).subscribe({
       next: () => {
       },
       error: (error) => {
-        this.isLoading$.next(false);
         this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
         console.log(error);
       }
@@ -128,9 +79,65 @@ export class ValueHistoryComponent {
   }
 
   public onDeleteEntry(entryToDelete: AssetValue): void {
+    this.dataService.deleteAssetValue$(this.assetId, entryToDelete.timestamp ?? 0).subscribe({
+      next: () => {
+        this.toastService.showToast("Successfully remove the entry for " + new Date(entryToDelete.timestamp ?? 0).toLocaleDateString(), FeedbackType.SUCCESS);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
+        console.log(error);
+      }
+    })
   }
 
   public getDateString(ms: string) {
     return (new Date(ms)).toLocaleDateString();
+  }
+
+  private addEntry([
+    isValueValid,
+    value,
+    isDateValid,
+    date,
+  ]: [
+    boolean,
+    string,
+    boolean,
+    string
+  ]): Observable<string> {
+    const newValue: AssetValue = {
+      timestamp: new Date(date).valueOf(),
+      value: parseFloat(value)
+    };
+    return this.dataService.addAssetValue$(
+      this.assetId || '',
+      newValue,
+    );
+  }
+
+  private verifyNewEntry([
+    isValueValid,
+    value,
+    isDateValid,
+    date,
+  ]: [
+    boolean,
+    string,
+    boolean,
+    string
+  ]): boolean {
+    if (!isValueValid || !isDateValid) {
+      this.toastService.showToast("Please fill in the date and value fields", FeedbackType.ERROR);
+    }
+    const curDate = Date.now().valueOf();
+    const selectedDate = new Date(date).valueOf();
+    const minDate = new Date("1900-1-1").valueOf();
+    if (selectedDate > curDate) {
+      this.toastService.showToast("Date can not be in the future", FeedbackType.ERROR);
+    }
+    if (selectedDate < minDate) {
+      this.toastService.showToast("We only support assets with history after Jan 1, 1900", FeedbackType.ERROR);
+    }
+    return isDateValid && isValueValid && selectedDate <= curDate && selectedDate > minDate;
   }
 }

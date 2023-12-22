@@ -17,7 +17,7 @@
             </div>
             <div *ngIf="!(isLoading$ | async) && ((historicalNetworth$ | async) ?? []).length > 1" class="dashboard-networth-chart-wrapper">
                 <app-chart
-                    [historicalNetworth$]="historicalNetworth$"
+                    [assetValues]="(historicalNetworth$ | async) ?? []"
                 ></app-chart>
             </div>
         </div>

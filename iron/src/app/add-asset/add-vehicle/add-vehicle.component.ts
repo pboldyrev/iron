@@ -17,6 +17,7 @@ import { TEXTS } from './add-vehicle.strings';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { Asset, AssetType, VehicleCustomAttributes } from '../../shared/constants/constants';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 export type VehicleAssetData = {
   assetName: string
@@ -49,6 +50,7 @@ export class AddVehicleComponent {
     private router: Router,
     private location: Location,
     private dataService: DataService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit() {
@@ -79,6 +81,36 @@ export class AddVehicleComponent {
       this.nicknameInput.value$,
     ]).pipe(
       take(1),
+      filter(([
+        vehicleMakeInputValid, 
+        modelYearInputValid, 
+        mileageInputValid, 
+        modelNameInputValid, 
+        vehicleMakeInputValue, 
+        modelYearInputValue, 
+        mileageInputValue, 
+        modelNameInputValue, 
+        nicknameInputValue, 
+      ]: [
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        string,
+        string,
+        string,
+        string,
+        string
+      ]) => {
+        if(!vehicleMakeInputValid || 
+          !modelYearInputValid || 
+          !mileageInputValid || 
+          !modelNameInputValid) {
+            this.isLoading$.next(false);
+            return false;
+          }
+        return true;
+      }),
       mergeMap(([
         vehicleMakeInputValid, 
         modelYearInputValid, 
@@ -100,16 +132,6 @@ export class AddVehicleComponent {
         string,
         string
       ]) => {
-        if(
-          !vehicleMakeInputValid || 
-          !modelYearInputValid || 
-          !mileageInputValid || 
-          !modelNameInputValid
-        ) {
-          this.isLoading$.next(false);
-          return "";
-        }
-
         let finalName = this.getFinalName(modelNameInputValue, modelYearInputValue ?? '', vehicleMakeInputValue ?? "", nicknameInputValue);
 
         const vehicleCustomAttributes: VehicleCustomAttributes = {
@@ -127,8 +149,9 @@ export class AddVehicleComponent {
         }, this.isLoading$);
       }),
     ).subscribe({
-      next: (asset: any) => {
+      next: (asset: Asset) => {
         this.router.navigate(['asset/' + asset.assetId]);
+        this.toastService.showToast("Successfully added a " + asset.assetName, FeedbackType.SUCCESS);
       },
       error: (error) => {
         console.log(error);

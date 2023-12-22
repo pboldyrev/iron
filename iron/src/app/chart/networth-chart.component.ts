@@ -13,21 +13,19 @@ import { DataService } from '../shared/services/data.service';
   styleUrl: './networth-chart.component.scss'
 })
 export class ChartComponent {
-  @Input() historicalNetworth$!: BehaviorSubject<AssetValue[]>;
+  @Input() assetValues!: AssetValue[];
 
   public chart: Chart<any> | undefined;
 
   ngOnInit(): void {
-    this.historicalNetworth$.subscribe((historicalNetworth) => {
-      let xAxis;
-      if(historicalNetworth?.length > 30) {
-        xAxis = historicalNetworth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}));
-      } else {
-        xAxis = historicalNetworth.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'}));
-      }
-      let yAxis = historicalNetworth.map((assetValue) => assetValue.value ?? 0);
-      this.createChart(xAxis, yAxis);
-    });
+    let xAxis;
+    if(this.assetValues?.length > 30) {
+      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}));
+    } else {
+      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'}));
+    }
+    let yAxis = this.assetValues.map((assetValue) => assetValue.value ?? 0);
+    this.createChart(xAxis, yAxis);
   }
 
   private createChart(xAxis: string[], yAxis: number[]): void {

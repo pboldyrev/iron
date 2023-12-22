@@ -36,6 +36,32 @@ export class DataService {
         if(loadingIndicator) {
           loadingIndicator.next(false);
         }
+
+        this.dataChanged$.next(true);
+
+        return data?.assetId ?? {} as string;
+      })
+    )
+  }
+
+  public deleteAssetValue$(assetId: string, timestamp: number, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<string> {
+    if (loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    const options = {
+      assetId: assetId, 
+      timestamp: timestamp, 
+    };
+
+    return this.httpPost("removeAssetValue", options).pipe(
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+
+        this.dataChanged$.next(true);
+
         return data?.assetId ?? {} as string;
       })
     )
@@ -94,6 +120,21 @@ export class DataService {
           loadingIndicator.next(false);
         }
         return data?.asset ?? {} as Asset;
+      })
+    )
+  }
+
+  public getAssetValues$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.httpPost("getAssetValues", {assetId: assetId}).pipe(
+      map((data: any) => {
+        if(loadingIndicator) {
+          loadingIndicator.next(false);
+        }
+        return data?.totalValues ?? [] as AssetValue[];
       })
     )
   }
@@ -157,33 +198,6 @@ export class DataService {
         this.dataChanged$.next(true);
         return data?.asset ?? {} as Asset;
       })
-    )
-  }
-
-  public appendAssetHistory$(assetId: string,  assetValue: AssetValue) {
-    return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/getAssetsByUser",
-      {
-        sessionToken: this.authService.getSessionToken(),
-      },
-      {
-        headers: {'Content-Type': 'application/json'},
-      }
-    )
-  }
-
-  public deleteAssetHistoryEntry$(assetId: string,  entryToDelete: AssetValue) {
-    return this.getActiveAssets$()
-    .pipe(
-      map((assets: Asset[]) => {
-        assets.forEach((asset) => {
-          if(asset.assetId === assetId) {
-            asset.totalValues = asset.totalValues?.filter((asset: AssetValue) => asset.timestamp !== entryToDelete.timestamp);
-          }
-        });
-        localStorage.setItem("userAssets", JSON.stringify(assets));
-      }),
-      delay(500)
     )
   }
 

@@ -1,7 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ValueHistoryComponent } from './value-history/value-history.component';
-import { AuthService } from '../../shared/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
@@ -10,52 +9,65 @@ import { BehaviorSubject, Observable, filter, map, mergeMap } from 'rxjs';
 import { DataService } from '../../shared/services/data.service';
 import { Asset, AssetType, AssetValue } from '../../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { ValueHistoryChartComponent } from './value-history-chart/value-history-chart.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ChartComponent } from 'src/app/chart/networth-chart.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, ValueHistoryChartComponent, MatProgressBarModule],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, ChartComponent],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss'
 })
 export class AssetDetailsPageComponent {
-  public assetId: string = this.route.snapshot.paramMap.get('id') ?? "";
-
-  public displayAssetName$: BehaviorSubject<string> = new BehaviorSubject<string>("");
-  public displayAssetValue$: BehaviorSubject<string> = new BehaviorSubject<string>("");
-  public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
-  public valueHistory$: Observable<AssetValue[]> = this.asset$.pipe(map((asset: Asset)=>asset.totalValues ?? []));
-
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
   public AssetType = AssetType;
 
+  public assetId$: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  public assetValues: AssetValue[] = [];
+  public displayAssetName = "";
+  public displayAssetValue = "";
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
+    private route: ActivatedRoute,
     private dataService: DataService,
-    private location: Location,
   ){}
 
-  private fetchAsset$(): Observable<void> {
-    return this.dataService.getAssetById$(this.assetId, this.isLoading$).pipe(
-      map((asset: Asset) => {
-        this.asset$.next(asset);
-        this.displayAssetName$.next(this.getDisplayName(asset));
-        this.displayAssetValue$.next('$' + (asset?.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}));
-      })
-    )
-  }
-
   ngOnInit() {
-    this.fetchAsset$().subscribe()
+    const curId: string = this.route.snapshot.paramMap.get('id') ?? ""
+    this.assetId$.next(curId);
+
+    this.fetchAsset$(curId).subscribe();
     this.dataService.dataChanged$.pipe(
       mergeMap(() => {
-        return this.fetchAsset$();
+        return this.fetchAsset$(curId);
       })
     ).subscribe();
+
+    this.fetchValueHistory$(curId).subscribe();
+    this.dataService.dataChanged$.pipe(
+      mergeMap(() => {
+        return this.fetchValueHistory$(curId);
+      })
+    ).subscribe();
+  }
+
+  private fetchAsset$(assetId: string): Observable<void> {
+    return this.dataService.getAssetById$(assetId, this.isLoading$).pipe(
+      map((asset: Asset) => {
+        this.displayAssetName = this.getDisplayName(asset);
+        this.displayAssetValue = this.getDisplayWorth(asset);
+      })
+    );
+  }
+
+  private fetchValueHistory$(assetId: string): Observable<void> {
+    return this.dataService.getAssetValues$(assetId, this.isLoading$).pipe(
+      map((assetValues: AssetValue[]) => {
+        this.assetValues = assetValues;
+      })
+    );
   }
 
   public onBack() {
@@ -72,5 +84,9 @@ export class AssetDetailsPageComponent {
     }
 
     return asset.assetName ?? ''
+  }
+
+  private getDisplayWorth(asset: Asset): string {
+    return '$' + (asset?.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2});
   }
 }
