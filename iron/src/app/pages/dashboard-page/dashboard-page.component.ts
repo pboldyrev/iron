@@ -75,7 +75,7 @@ export class DashboardPageComponent {
     this.dataService.getNetWorthValues$(null, this.isNetWorthLoading$)
     .subscribe((networthValues: NetWorthValue[]) => {
         if(networthValues.length > 0) {
-          this.totalNetworth = networthValues[0].netWorth ?? 0;
+          this.totalNetworth = networthValues[networthValues.length-1].netWorth ?? 0;
         } else {
           this.totalNetworth = 0;
         }

@@ -1,5 +1,6 @@
 .asset-details-page-wrapper {
     margin: var(--blu-margin-4xl) auto;
+    background-color: var(--blu-background-secondary);
 }
 
 .asset-details-value-history-chart-wrapper {
@@ -31,4 +32,13 @@
 ::ng-deep .mat-mdc-menu-content {
     padding: 0px !important;
     background-color: var(--blu-background-primary);
+}
+
+::ng-deep .mat-mdc-tab {
+    flex-grow: 0 !important;
+}
+
+::ng-deep .mdc-tab {
+    padding: 0 var(--blu-padding-l)!important;
+    font: var(--blu-font-primary)!important;
 }

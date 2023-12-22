@@ -38,14 +38,13 @@
 }
 
 .blu-input-cell {
-  background-color: var(--blu-background-primary);
+  background-color: var(--blu-background-secondary);
+  padding: var(--blu-padding-l) 0;
   color: var(--blu-color-secondary);
   border: none;
-  padding: 0;
 }
 
 .blu-input-cell:focus {
-  background-color: var(--blu-background-primary);
   border: none;
 }
 
