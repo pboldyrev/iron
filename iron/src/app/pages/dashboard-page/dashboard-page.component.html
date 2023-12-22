@@ -7,7 +7,7 @@
             <div class="dashboard-networth-wrapper">
                 <app-networth
                     [totalNetworth]="totalNetworth"
-                    [isLoading]="(isLoading$ | async) ?? true"
+                    [isLoading]="(isNetWorthLoading$ | async) ?? true"
                 ></app-networth>
                 <div class="dashboard-networth-change-wrapper">
                     <app-value-change
@@ -15,7 +15,7 @@
                     ></app-value-change>
                 </div>
             </div>
-            <div *ngIf="!(isLoading$ | async) && networthValues.length > 1" class="dashboard-networth-chart-wrapper">
+            <div *ngIf="!(isNetWorthLoading$ | async) && networthValues.length > 1" class="dashboard-networth-chart-wrapper">
                 <app-chart
                     [assetValues]="networthValues"
                 ></app-chart>
@@ -47,7 +47,7 @@
                 <app-asset-table
                     [columns]="assetTableColumns"
                     [assets$]="assets$"
-                    [isLoading$]="isLoading$"
+                    [isLoading$]="isTableLoading$"
                 ></app-asset-table>
             </div>
         </div>

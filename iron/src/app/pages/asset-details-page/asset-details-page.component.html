@@ -2,12 +2,12 @@
     <div class="col-11 col-sm-10 col-xl-8">
         <div class="asset-details-page-wrapper justify-content-center">
             <blu-modal
-                [subtitle]="(isNetWorthLoading$ | async) ? '' : displayAssetName"
-                [title]="(isNetWorthLoading$ | async) ? '' : displayAssetValue"
+                [subtitle]="(isLoading$ | async) ? '' : displayAssetName"
+                [title]="(isLoading$ | async) ? '' : displayAssetValue"
                 [boldTitle]="true"
                 [titleTooltip]="displayAssetValue === '$0.00' ? 'You can add value to this asset in the Value history tab.' : ''"
             >
-                <div *ngIf="isNetWorthLoading$ | async" class="asset-details-spinner align-self-start">
+                <div *ngIf="isLoading$ | async" class="asset-details-spinner align-self-start">
                     <blu-spinner size="40"></blu-spinner>
                 </div>
                 <div class="asset-details-page-button-back">
@@ -15,7 +15,7 @@
                 </div>
                 <mat-tab-group>
                     <mat-tab label="Value history">
-                        <div *ngIf="(isTableLoading$ | async) else valueHistory" class="asset-details-history-loading">
+                        <div *ngIf="(isLoading$ | async) else valueHistory" class="asset-details-history-loading">
                             <mat-progress-bar mode="query"></mat-progress-bar>
                         </div>
                         <ng-template #valueHistory>
@@ -28,7 +28,7 @@
                                 <app-value-history
                                     [assetValues]="assetValues"
                                     [assetId]="(assetId$ | async) ?? ''"
-                                    [isLoading$]="isTableLoading$"
+                                    [isLoading$]="isLoading$"
                                 ></app-value-history>
                             </div>
                         </ng-template>

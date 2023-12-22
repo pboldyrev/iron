@@ -29,7 +29,8 @@ export class DashboardPageComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
   
   public TEXTS = TEXTS;
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isNetWorthLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isTableLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   public totalNetworth: number = 0;
   public networthTimeframes: ValueChange[] = [];
@@ -58,7 +59,7 @@ export class DashboardPageComponent {
   }
 
   private fetchAssets(): void {
-    this.dataService.getAssets$(false, this.isLoading$).pipe(
+    this.dataService.getAssets$(false, this.isTableLoading$).pipe(
       map((assets: Asset[]) => {
         this.assets$.next(assets);
       }),
@@ -66,7 +67,7 @@ export class DashboardPageComponent {
   }
 
   private fetchNetWorth(): void {
-    this.dataService.getNetWorthValues$(null, this.isLoading$)
+    this.dataService.getNetWorthValues$(null, this.isNetWorthLoading$)
     .subscribe({
       next: (networthValues: NetWorthValue[]) => {
         if(networthValues.length > 0) {
