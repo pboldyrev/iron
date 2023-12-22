@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { MixpanelService } from './mixpanel.service';
+import { environment } from 'src/environments';
 
 @Injectable({
   providedIn: 'root'
@@ -233,7 +234,7 @@ export class DataService {
 
   private httpPost(endpoint: string, params: any = {}): Observable<any> {
     return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/" + endpoint,
+      environment.berry + endpoint,
       {
         sessionToken: this.authService.getSessionToken(),
         ...params

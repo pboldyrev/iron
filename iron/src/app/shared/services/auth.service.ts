@@ -4,6 +4,7 @@ import { Observable, map, } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
+import { environment } from 'src/environments';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class AuthService {
   ): Observable<string> {
     const formattedNumber = '+1' + phoneNumber.toString();
     return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/sendPhoneCode",
+      environment.berry + "sendPhoneCode",
       {
         phoneNumber: formattedNumber
       },
@@ -45,7 +46,7 @@ export class AuthService {
     const formattedNumber = '+1' + phoneNumber.toString();
 
     return this.httpClient.post(
-      "https://83ulpu3ica.execute-api.us-west-2.amazonaws.com/Stage/checkPhoneCode",
+      environment.berry + "checkPhoneCode",
       {
         phoneNumber: formattedNumber,
         method_id: methodId,
