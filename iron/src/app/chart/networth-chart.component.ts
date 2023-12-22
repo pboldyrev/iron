@@ -49,30 +49,17 @@ export class ChartComponent {
             pointRadius: 0,
             pointHitRadius: 20,
             pointHoverRadius: 5,
-            pointBorderColor: "#095d3b",
-            pointBackgroundColor: "#095d3b",
+            pointBorderColor: this.getBorderColor(yAxis),
+            pointBackgroundColor: this.getBorderColor(yAxis),
             fill: true,
-            backgroundColor: function() {
-              const ctx = <HTMLCanvasElement> document.getElementById('networthChart');
-
-              if(!ctx || !ctx?.getContext('2d')) {
-                // no gradient
-                return '#181818'
-              }
-
-              const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 400);
-              gradient.addColorStop(0, '#095d3b');
-              gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-              return gradient;
-            },
+            backgroundColor: this.getBackgroundColor(yAxis),
           }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        borderColor: "#095d3b",
+        borderColor: this.getBorderColor(yAxis),
         plugins: {
           legend: {
             display: false,
@@ -133,5 +120,44 @@ export class ChartComponent {
         },
       }
     });
+  }
+
+  private getBackgroundColor(yValues: number[]): CanvasGradient | string {
+    const ctx = <HTMLCanvasElement> document.getElementById('networthChart');
+
+    if(!ctx || !ctx?.getContext('2d')) {
+      // no gradient
+      return '#181818'
+    }
+
+    let gradientColor: string;
+
+    if(
+      yValues && 
+      yValues.length > 0 && 
+      yValues[0] >= yValues[yValues.length-1]
+    ) {
+      gradientColor = "#c43528";
+    } else {
+      gradientColor = "#095d3b";
+    }
+
+    const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, gradientColor);
+    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+    return gradient;
+  }
+
+  private getBorderColor(yValues: number[]): string {
+    if(
+      yValues && 
+      yValues.length > 0 && 
+      yValues[0] >= yValues[yValues.length-1]
+    ) {
+      return "#c43528";
+    } else {
+      return "#095d3b";
+    }
   }
 }
