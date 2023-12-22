@@ -28,6 +28,7 @@
                                 <app-value-history
                                     [assetValues]="assetValues"
                                     [assetId]="(assetId$ | async) ?? ''"
+                                    [isLoading$]="isLoading$"
                                 ></app-value-history>
                             </div>
                         </ng-template>
