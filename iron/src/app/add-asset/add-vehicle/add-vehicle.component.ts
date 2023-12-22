@@ -138,7 +138,7 @@ export class AddVehicleComponent {
           make: vehicleMakeInputValue,
           model: modelNameInputValue,
           year: parseInt(modelYearInputValue),
-          mileage: parseInt(mileageInputValue),
+          mileage: parseInt(mileageInputValue.replace(',', '')),
         }
 
         return this.dataService.putAsset$({
