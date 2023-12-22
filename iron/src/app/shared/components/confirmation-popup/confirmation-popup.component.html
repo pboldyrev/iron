@@ -1,10 +1,14 @@
 <blu-popup
   [title]="title"
-  [subtitle]="subtitle"
   [size]="size"
   #popup
 >
-    <blu-button [fullWidth]="true" type="primary" (click)="onConfirm()">
-      {{ confirmText }}
-    </blu-button>
+    <div class="confirmation-popup-wrapper">
+      <blu-text type="secondary">
+        {{subtitle}}
+      </blu-text>
+      <blu-button [fullWidth]="true" type="primary" (click)="onConfirm()">
+        {{ confirmText }}
+      </blu-button>
+    </div>
 </blu-popup>

@@ -28,6 +28,10 @@
   margin-bottom: var(--blu-margin-xl);
 }
 
+.blu-popup-button {
+  margin-left: var(--blu-margin-l);
+}
+
 .blu-popup-show {
   display: flex;
   justify-content: center;

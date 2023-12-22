@@ -82,4 +82,5 @@ export const MIXPANEL = {
   LOGIN_PHONE_FAILED: "Login|Error|FailedPhone",
   LOGIN_CODE_FAILED: "Login|Error|FailedCode",
   HTTP_RESPONSE_ERROR: "HTTP|Error|ResponseError",
+  HTTP_CREATED_ASSET: "HTTP|Event|AssetCreated",
 }

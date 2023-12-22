@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 })
 export class DashboardPageComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
+  @ViewChild('logOutConfirmPopup') logOutConfirmPopup!: ConfirmationPopupComponent;
   
   public TEXTS = TEXTS;
   public isNetWorthLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -55,6 +56,10 @@ export class DashboardPageComponent {
   }
 
   public onLogOut(): void {
+    this.logOutConfirmPopup.show();
+  }
+
+  public onConfirmLogOut(): void {
     this.authService.signOut();
   }
 

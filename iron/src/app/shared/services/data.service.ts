@@ -230,10 +230,16 @@ export class DataService {
         return data?.asset ?? {} as Asset;
       }),
       tap({
-        next: () => {
+        next: (asset: Asset) => {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.mixpanelService.track(
+            MIXPANEL.HTTP_CREATED_ASSET,
+            {
+              asset: asset,
+            }
+          );
         },
         error: () => {
           if (loadingIndicator) {
@@ -310,6 +316,8 @@ export class DataService {
           if(err.error?.error?.includes("No user found with sessionToken")) {
             this.authService.signOut();
             this.toastService.showToast("Your session has expired, please log in again", FeedbackType.ERROR);
+          } else {
+            this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
           }
           this.mixpanelService.track(
             MIXPANEL.HTTP_RESPONSE_ERROR,

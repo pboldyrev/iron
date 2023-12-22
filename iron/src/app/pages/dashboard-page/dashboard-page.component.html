@@ -1,3 +1,11 @@
+<app-confirmation-popup
+  title="Log out?"
+  subtitle="Please confirm you would like to log out."
+  confirmText="Yes, log out"
+  size="medium"
+  (confirmed)="onConfirmLogOut()"
+  #logOutConfirmPopup
+></app-confirmation-popup>
 <app-add-asset-popup
     #addAssetPopup
 ></app-add-asset-popup>
