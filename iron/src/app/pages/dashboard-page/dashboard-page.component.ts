@@ -79,7 +79,12 @@ export class DashboardPageComponent {
         } else {
           this.totalNetworth = 0;
         }
-        this.networthValues = networthValues;
+        this.networthValues = networthValues.map((nw: NetWorthValue) => {
+          return {
+            timestamp: nw.timestamp,
+            value: nw.netWorth
+          }
+        });
       },
     );
   }

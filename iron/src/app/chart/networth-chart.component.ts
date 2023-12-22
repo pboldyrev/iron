@@ -20,9 +20,9 @@ export class ChartComponent {
   ngOnInit(): void {
     let xAxis;
     if(this.assetValues?.length > 30) {
-      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}));
+      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
     } else {
-      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric'}));
+      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
     }
     let yAxis = this.assetValues.map((assetValue) => assetValue.value ?? 0);
     this.createChart(xAxis, yAxis);

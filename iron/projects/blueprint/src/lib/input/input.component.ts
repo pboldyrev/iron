@@ -28,12 +28,20 @@ export class BluInput {
   @Input() required: boolean = true;
   @Input() appearance: string = '';
   @Input() direction: string = 'ltr';
+  @Input() initValue: string = '';
+  @Input() tooltip: string = '';
 
   public value$ = new BehaviorSubject<string>('');
   public isValid$ = new BehaviorSubject<boolean>(true);
   public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
 
   constructor(private regexService: RegexService) {}
+
+  ngOnInit() {
+    if(this.initValue) {
+      this.value$.next(this.initValue);
+    }
+  }
 
   public updateValue(event: any): void {
     this.value$.next(event.target.value);

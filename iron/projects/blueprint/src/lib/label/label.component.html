@@ -1,4 +1,7 @@
-<label [for]="for" class="blu-label">
+<label [for]="for" class="blu-label" [matTooltip]="tooltip">
     <span *ngIf="label">{{label}}</span>
     <span *ngIf="required"> *</span>
+    <div class="blu-label-tooltip">
+        <blu-icon *ngIf="tooltip" name="question" size="14"></blu-icon>
+    </div>
 </label>

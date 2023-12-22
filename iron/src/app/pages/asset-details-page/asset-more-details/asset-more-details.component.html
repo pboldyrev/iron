@@ -1,0 +1,24 @@
+<div class="row asset-more-details-wrapper">
+    <ng-container *ngFor="let attribute of assetAttributes">
+        <div class="col-12">
+            <div class="asset-more-details-attribute">
+                <blu-input
+                    [label]="attribute.key"
+                    [initValue]="attribute.attribute.toString()"
+                    [required]="attribute.required ?? true"
+                    [fullWidth]="true"
+                    [tooltip]="attribute.tooltip ?? ''"
+                    [disabled]="true"
+                ></blu-input>
+            </div>
+        </div>
+    </ng-container>
+    <div class="col-12">
+        <blu-button
+            type="primary"
+            [fullWidth]="true"
+        > 
+            Save changes
+        </blu-button>
+    </div>
+</div>

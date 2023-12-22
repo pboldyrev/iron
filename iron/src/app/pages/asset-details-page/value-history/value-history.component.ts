@@ -70,7 +70,7 @@ export class ValueHistoryComponent {
       })
     ).subscribe({
       next: (timestamp: string) => {
-        this.toastService.showToast("Successfully added the entry for " + new Date(timestamp ?? 0).toLocaleDateString(), FeedbackType.SUCCESS);
+        this.toastService.showToast("Successfully added the entry for " + new Date(timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
       },
       error: (error) => {
         this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
@@ -82,13 +82,13 @@ export class ValueHistoryComponent {
   public onDeleteEntry(entryToDelete: AssetValue): void {
     this.isLoading$.next(true);
     this.dataService.deleteAssetValue$(this.assetId, entryToDelete.timestamp ?? 0).subscribe(() => {
-        this.toastService.showToast("Successfully removed the entry for " + new Date(entryToDelete.timestamp ?? 0).toLocaleDateString(), FeedbackType.SUCCESS);
+        this.toastService.showToast("Successfully removed the entry for " + new Date(entryToDelete.timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
       }
     );
   }
 
   public getDateString(ms: string) {
-    return (new Date(ms)).toLocaleDateString();
+    return (new Date(ms)).toLocaleDateString('en-US', {timeZone: 'UTC'});
   }
 
   private addEntry$([

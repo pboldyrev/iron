@@ -18,7 +18,8 @@
 
 .blu-input:disabled {
   cursor: not-allowed;
-  background-color: var(--blu-background-secondary);
+  color: var(--blu-color-secondary);
+  background-color: var(--blu-background-tertiary);
 }
 
 .blu-input-feedback-success {

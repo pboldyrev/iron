@@ -33,8 +33,10 @@
                             </div>
                         </ng-template>
                     </mat-tab>
-                    <mat-tab label="Details">
-                        TO BE IMPLEMENTED
+                    <mat-tab label="Asset details">
+                        <app-asset-more-details
+                            [asset$]="asset$"
+                        ></app-asset-more-details>
                     </mat-tab>
                 </mat-tab-group>
             </blu-modal>

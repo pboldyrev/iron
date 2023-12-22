@@ -5,23 +5,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
-import { BehaviorSubject, Observable, filter, map, mergeMap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, mergeMap, of } from 'rxjs';
 import { DataService } from '../../shared/services/data.service';
 import { Asset, AssetType, AssetValue } from '../../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChartComponent } from 'src/app/chart/networth-chart.component';
+import { AssetMoreDetailsComponent } from './asset-more-details/asset-more-details.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, ChartComponent],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, ChartComponent, AssetMoreDetailsComponent],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss'
 })
 export class AssetDetailsPageComponent {
   public AssetType = AssetType;
 
+  public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
   public assetId$: BehaviorSubject<string> = new BehaviorSubject<string>("");
   public assetValues: AssetValue[] = [];
   public displayAssetName = "";
@@ -45,6 +47,7 @@ export class AssetDetailsPageComponent {
   private fetchAssetValue(assetId: string): void {
     this.dataService.getAssetById$(assetId, this.isLoading$).pipe(
       map((asset: Asset) => {
+        this.asset$.next(asset);
         this.displayAssetName = this.getDisplayName(asset);
         this.displayAssetValue = this.getDisplayWorth(asset);
       })

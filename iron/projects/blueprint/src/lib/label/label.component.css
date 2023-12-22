@@ -2,4 +2,12 @@
     font: var(--blu-font-primary);
     color: var(--blu-color-text-secondary);
     font-size: var(--blu-font-size-s);
+    display: flex;
+    width: fit-content;
+    align-items: flex-end;
+}
+
+.blu-label-tooltip {
+    margin-left: var(--blu-margin-xs);
+    padding-bottom: var(--blu-padding-xs);
 }
