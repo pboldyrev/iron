@@ -153,9 +153,7 @@ export class AddVehicleComponent {
         this.router.navigate(['asset/' + asset.assetId]);
         this.toastService.showToast("Successfully added a " + asset.assetName, FeedbackType.SUCCESS);
       },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
+      error: () => {
         this.errorMessage$.next(TEXTS.UNKNOWN_ERROR);
       }
     });

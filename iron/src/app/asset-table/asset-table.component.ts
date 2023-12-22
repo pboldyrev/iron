@@ -99,15 +99,8 @@ export class AssetTableComponent {
       return;
     }
 
-    this.dataService.archiveAsset$(this.assetToArchive.assetId, this.isLoading$).subscribe({
-      next: () => {
-        this.assetToArchive = undefined;
-        this.isLoading$.next(false);
-      },
-      error: () => {
-        console.log("ERROR: COULDN'T ARCHIVE");
-        this.isLoading$.next(false);
-      }
+    this.dataService.archiveAsset$(this.assetToArchive.assetId, this.isLoading$).subscribe(() => {
+      this.assetToArchive = undefined
     });
   }
 

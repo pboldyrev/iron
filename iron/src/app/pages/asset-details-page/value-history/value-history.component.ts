@@ -81,15 +81,10 @@ export class ValueHistoryComponent {
 
   public onDeleteEntry(entryToDelete: AssetValue): void {
     this.isLoading$.next(true);
-    this.dataService.deleteAssetValue$(this.assetId, entryToDelete.timestamp ?? 0).subscribe({
-      next: () => {
+    this.dataService.deleteAssetValue$(this.assetId, entryToDelete.timestamp ?? 0).subscribe(() => {
         this.toastService.showToast("Successfully removed the entry for " + new Date(entryToDelete.timestamp ?? 0).toLocaleDateString(), FeedbackType.SUCCESS);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
-        console.log(error);
       }
-    })
+    );
   }
 
   public getDateString(ms: string) {

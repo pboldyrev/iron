@@ -45,10 +45,19 @@ export class DataService {
         return this.httpPost("getUserNetWorths", options)
       }),
       map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
         return data?.netWorths ?? [];
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     );
   }
@@ -63,10 +72,19 @@ export class DataService {
         return this.fetchUserAssets$()
       }),
       map((assets: Asset[]) => {
-        if (loadingIndicator) {
-          loadingIndicator.next(false);
-        }
         return assets.filter((asset) => !asset.isArchived || includeArchived);
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     );
   }
@@ -85,10 +103,19 @@ export class DataService {
         return this.httpPost("getAssetValues", options)
       }),
       map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
         return data?.totalValues ?? [] as AssetValue[];
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     );
   }
@@ -107,10 +134,19 @@ export class DataService {
         return this.httpPost("getAsset", options)
       }),
       map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
         return data?.asset ?? {} as Asset;
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     );
   }
@@ -133,13 +169,21 @@ export class DataService {
     return this.httpPost("putAssetValue", options)
     .pipe(
       map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-
         this.dataChanged$.next(true);
 
         return data?.assetValue?.timestamp ?? {} as string;
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     );
   }
@@ -156,33 +200,23 @@ export class DataService {
 
     return this.httpPost("removeAssetValue", options).pipe(
       map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-
         this.dataChanged$.next(true);
 
         return data?.assetId ?? {} as string;
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     )
-  }
-
-  public getHistoricalNetWorth$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
-    return combineLatest([
-      this.dataChanged$,
-      this.httpPost("getHistoricalNetWorth", assetType ? { assetType: assetType } : {})
-    ]).pipe(
-      map(([refresh, data]) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
-        return data?.user?.netWorths ?? [] as AssetValue[];
-      })
-    );
   }
 
   public putAsset$(asset: Asset, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
@@ -192,11 +226,20 @@ export class DataService {
 
     return this.httpPost("putAsset", {asset: asset}).pipe(
       map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
         this.dataChanged$.next(true);
         return data?.asset ?? {} as Asset;
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     )
   }
@@ -208,11 +251,20 @@ export class DataService {
 
     return this.httpPost("archiveAsset", {assetId: assetId}).pipe(
       map((data: any) => {
-        if(loadingIndicator) {
-          loadingIndicator.next(false);
-        }
         this.dataChanged$.next(true);
         return data?.asset ?? {} as Asset;
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
       })
     )
   }
@@ -224,11 +276,20 @@ export class DataService {
     return this.httpPost('getAssetsByUser')
     .pipe(
       map((data: any) => {
-        if (loadingIndicator) {
-          loadingIndicator.next(false);
-        }
         return data?.assets as Asset[] ?? []
       }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
+      })
     )
   }
 

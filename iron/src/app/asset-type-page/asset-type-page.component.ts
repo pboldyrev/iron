@@ -47,15 +47,10 @@ export class AssetTypePageComponent {
     combineLatest([
       this.assetType$,
       this.dataService.getAssets$(false, this.isLoading$)
-    ]).subscribe({
-      next: ([assetType, assets]) => {
+    ]).subscribe(([assetType, assets]) => {
         this.assets$.next(assets.filter((asset: Asset) => asset.assetType === assetType));
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading$.next(false);
       }
-    });
+    );
 
     this.dataService.dataChanged$.pipe(
       mergeMap(() => {
