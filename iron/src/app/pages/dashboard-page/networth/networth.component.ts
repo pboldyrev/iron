@@ -26,4 +26,15 @@ export type TimeRangeOption = {
 export class NetworthComponent {
   @Input() totalNetworth!: number | null;
   @Input() isLoading!: boolean;
+
+  public getNetworthString(): string {
+    let formattedValue = '$' + (this.totalNetworth?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? '0.00');
+    
+    if(formattedValue.charAt(1) === '-') {
+      formattedValue = formattedValue.replace('-', '');
+      formattedValue = '-' + formattedValue;
+    }
+    
+    return formattedValue;
+  }
 }

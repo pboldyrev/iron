@@ -80,8 +80,7 @@ export class ValueHistoryComponent {
   }
 
   public onDeleteEntry(entryToDelete: AssetValue): void {
-    this.isLoading$.next(true);
-    this.dataService.deleteAssetValue$(this.assetId, entryToDelete.timestamp ?? 0).subscribe(() => {
+    this.dataService.deleteAssetValue$(this.assetId, entryToDelete.timestamp ?? 0, this.isLoading$).subscribe(() => {
         this.toastService.showToast("Successfully removed the entry for " + new Date(entryToDelete.timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
       }
     );
@@ -102,7 +101,6 @@ export class ValueHistoryComponent {
     boolean,
     string
   ]): Observable<string> {
-    this.isLoading$.next(true);
     const newValue: AssetValue = {
       timestamp: new Date(date).valueOf(),
       value: parseFloat(value)

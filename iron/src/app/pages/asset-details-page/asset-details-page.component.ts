@@ -25,7 +25,7 @@ export class AssetDetailsPageComponent {
 
   public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
   public assetId$: BehaviorSubject<string> = new BehaviorSubject<string>("");
-  public assetValues: AssetValue[] = [];
+  public assetValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
   public displayAssetName = "";
   public displayAssetValue = "";
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -57,7 +57,7 @@ export class AssetDetailsPageComponent {
   private fetchValueHistory(assetId: string): void {
     this.dataService.getAssetValues$(assetId, this.isLoading$).pipe(
       map((assetValues: AssetValue[]) => {
-        this.assetValues = assetValues;
+        this.assetValues$.next(assetValues);
       })
     ).subscribe()
   }

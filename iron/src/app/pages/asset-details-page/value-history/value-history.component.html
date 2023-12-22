@@ -46,7 +46,7 @@
             <mat-cell *matCellDef="let entry">
                 <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" [matMenuTriggerFor]="appMenu"></blu-button>
                 <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
-                    <div mat-menu-item (click)="onDeleteEntry(entry)"><blu-text type="error" size="small">Delete</blu-text></div>
+                    <div mat-menu-item [disableRipple]="true" (click)="onDeleteEntry(entry)"><blu-text type="error" size="small">Delete</blu-text></div>
                 </mat-menu>
             </mat-cell>
         </ng-container>

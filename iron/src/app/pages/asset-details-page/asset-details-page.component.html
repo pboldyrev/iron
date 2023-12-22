@@ -19,14 +19,14 @@
                             <mat-progress-bar mode="query"></mat-progress-bar>
                         </div>
                         <ng-template #valueHistory>
-                            <div *ngIf="assetValues.length >= 2" class="asset-details-value-history-chart-wrapper">
+                            <div *ngIf="((assetValues$ | async) ?? []).length >= 2" class="asset-details-value-history-chart-wrapper">
                                 <app-chart
-                                    [assetValues]="assetValues"
+                                    [assetValues$]="assetValues$"
                                 ></app-chart>
                             </div>
                             <div class="asset-details-value-history-wrapper">
                                 <app-value-history
-                                    [assetValues]="assetValues"
+                                    [assetValues]="(assetValues$ | async) ?? []"
                                     [assetId]="(assetId$ | async) ?? ''"
                                     [isLoading$]="isLoading$"
                                 ></app-value-history>

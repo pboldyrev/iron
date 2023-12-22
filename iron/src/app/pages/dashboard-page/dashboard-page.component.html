@@ -23,9 +23,9 @@
                     ></app-value-change>
                 </div>
             </div>
-            <div *ngIf="!(isNetWorthLoading$ | async) && networthValues.length > 1" class="dashboard-networth-chart-wrapper">
+            <div *ngIf="!(isNetWorthLoading$ | async) && ((networthValues$ | async) ?? []).length > 1" class="dashboard-networth-chart-wrapper">
                 <app-chart
-                    [assetValues]="networthValues"
+                    [assetValues$]="networthValues$"
                 ></app-chart>
             </div>
         </div>

@@ -13,19 +13,21 @@ import { DataService } from '../shared/services/data.service';
   styleUrl: './networth-chart.component.scss'
 })
 export class ChartComponent {
-  @Input() assetValues!: AssetValue[];
+  @Input() assetValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
   public chart: Chart<any> | undefined;
 
   ngOnInit(): void {
     let xAxis;
-    if(this.assetValues?.length > 30) {
-      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
-    } else {
-      xAxis = this.assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
-    }
-    let yAxis = this.assetValues.map((assetValue) => assetValue.value ?? 0);
-    this.createChart(xAxis, yAxis);
+    this.assetValues$.subscribe((assetValues: AssetValue[]) => {
+      if(assetValues?.length > 30) {
+        xAxis = assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
+      } else {
+        xAxis = assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
+      }
+      let yAxis = assetValues.map((assetValue) => assetValue.value ?? 0);
+      this.createChart(xAxis, yAxis);
+    });
   }
 
   private createChart(xAxis: string[], yAxis: number[]): void {

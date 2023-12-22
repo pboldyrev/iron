@@ -35,7 +35,7 @@ export class DashboardPageComponent {
 
   public totalNetworth: number = 0;
   public networthTimeframes: ValueChange[] = [];
-  public networthValues: AssetValue[] = [];
+  public networthValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject<Asset[]>([]);
   public assetSummaries$: BehaviorSubject<AssetTypeSummary[]> = new BehaviorSubject<AssetTypeSummary[]>([]);
@@ -79,12 +79,12 @@ export class DashboardPageComponent {
         } else {
           this.totalNetworth = 0;
         }
-        this.networthValues = networthValues.map((nw: NetWorthValue) => {
+        this.networthValues$.next(networthValues.map((nw: NetWorthValue) => {
           return {
             timestamp: nw.timestamp,
             value: nw.netWorth
           }
-        });
+        }));
       },
     );
   }
