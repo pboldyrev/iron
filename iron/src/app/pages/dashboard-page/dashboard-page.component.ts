@@ -17,11 +17,12 @@ import { AddAssetPopupComponent } from 'src/app/add-asset-popup/add-asset-popup.
 import { DataService } from 'src/app/shared/services/data.service';
 import { BehaviorSubject, Observable, filter, map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })

@@ -12,3 +12,7 @@
     margin-left: var(--blu-margin-xs);
     padding-bottom: var(--blu-padding-xs);
 }
+
+.blu-label-required {
+    margin-left: var(--blu-margin-xs);
+}
