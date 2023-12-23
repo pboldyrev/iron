@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { AfterContentInit, Component, Input } from '@angular/core';
 import { Chart } from 'chart.js';
 import { AssetValue } from '../shared/constants/constants';
 import { BehaviorSubject } from 'rxjs';
-import { DataService } from '../shared/services/data.service';
 
 @Component({
   selector: 'app-chart',
@@ -12,12 +11,12 @@ import { DataService } from '../shared/services/data.service';
   templateUrl: './networth-chart.component.html',
   styleUrl: './networth-chart.component.scss'
 })
-export class ChartComponent {
+export class ChartComponent implements AfterContentInit {
   @Input() assetValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
   public chart: Chart<any> | undefined;
 
-  ngOnInit(): void {
+  ngAfterContentInit(): void {
     let xAxis;
     this.assetValues$.subscribe((assetValues: AssetValue[]) => {
       if(assetValues?.length > 30) {
@@ -34,7 +33,7 @@ export class ChartComponent {
   }
 
   private createChart(xAxis: string[], yAxis: number[]): void {
-    let oldChart = Chart.getChart("networthChart");
+    let oldChart = Chart.getChart("networthChart") ?? false;
     if(oldChart){
       oldChart.clear();
       oldChart.destroy();

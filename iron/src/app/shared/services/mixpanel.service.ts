@@ -19,11 +19,19 @@ export class MixpanelService {
       return;
     }
 
-    mixpanel.init(apiKey, {debug: true, track_pageview: true, persistence: 'localStorage'});
-    mixpanel.identify(this.authService.getSessionToken());
+    try {
+      mixpanel.init(apiKey, {debug: true, track_pageview: true, persistence: 'localStorage'});
+      mixpanel.identify(this.authService.getSessionToken());
+    } catch {
+      console.log("ERROR: Failed to initialize mixpanel.");
+    }
   }
 
   public track(eventName: string, properties: any = {}): void {
-    mixpanel.track(eventName, properties);
+    try {
+      mixpanel.track(eventName, properties);
+    } catch {
+      console.log("ERROR: Failed to track an event with Mixpanel.");
+    }
   }
 }
