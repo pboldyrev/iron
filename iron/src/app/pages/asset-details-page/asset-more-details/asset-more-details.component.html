@@ -2,6 +2,7 @@
     <app-add-vehicle-form
         [asset$]="asset$"
         [isLoading$]="isLoading$"
+        (savedAsset$)="onSaved()"
         #addVehicleForm
     ></app-add-vehicle-form>
     <div class="col-12">

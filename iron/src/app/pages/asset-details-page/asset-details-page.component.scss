@@ -1,6 +1,7 @@
 .asset-details-page-wrapper {
     margin: var(--blu-margin-4xl) auto;
     background-color: var(--blu-background-secondary);
+    max-width: var(--blu-width-5xl);
 }
 
 .asset-details-value-history-chart-wrapper {
@@ -38,6 +39,6 @@
 }
 
 ::ng-deep .mdc-tab {
-    padding: 0 var(--blu-padding-l)!important;
+    padding: 0 var(--blu-padding-xxl)!important;
     font: var(--blu-font-primary)!important;
 }

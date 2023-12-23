@@ -33,11 +33,13 @@ export class ChartComponent implements AfterContentInit {
   }
 
   private createChart(xAxis: string[], yAxis: number[]): void {
-    let oldChart = Chart.getChart("networthChart") ?? false;
-    if(oldChart){
-      oldChart.clear();
-      oldChart.destroy();
-    }
+    try {
+      let oldChart = Chart.getChart("networthChart") ?? false;
+      if(oldChart){
+        oldChart.clear();
+        oldChart.destroy();
+      }
+    } catch {}
 
     this.chart = new Chart("networthChart", {
       type: 'line',
