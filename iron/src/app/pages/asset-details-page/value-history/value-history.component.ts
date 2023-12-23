@@ -86,14 +86,10 @@ export class ValueHistoryComponent {
   }
 
   private addEntry$([
-    isValueValid,
     value,
-    isDateValid,
     date,
   ]: [
-    boolean,
     string,
-    boolean,
     string
   ]): Observable<string> {
     const newValue: AssetValue = {

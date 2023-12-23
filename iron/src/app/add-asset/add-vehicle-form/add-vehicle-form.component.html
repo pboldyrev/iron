@@ -25,8 +25,6 @@
                 ></blu-input>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-6">
             <div class="add-vehicle-input">
                 <blu-input 
@@ -53,8 +51,6 @@
                 ></blu-input>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-12">
             <div class="add-vehicle-input">
                 <blu-input 
@@ -75,6 +71,21 @@
                     label="Nickname"
                     [required]="false"
                     #nickname
+                    (keydown.enter)="onSubmit()"
+                ></blu-input>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="add-vehicle-input">
+                <blu-input
+                    [fullWidth]="true"
+                    label="Annual depreciation rate"
+                    [feedbackType]="FeedbackType.ERROR" 
+                    type="NUMBER"
+                    tooltip="The rate at which you expect the value of this vehicle to decrease. Industry average is 0.15."
+                    [required]="false"
+                    initValue="0.15"
+                    #depreciationRate
                     (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>

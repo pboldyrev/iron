@@ -18,38 +18,45 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './add-vehicle-form.component.scss'
 })
 export class AddVehicleFormComponent {
-  @ViewChild('make') vehicleMakeInput!: BluInput;
-  @ViewChild('year') modelYearInput!: BluInput;
-  @ViewChild('model') modelNameInput!: BluInput;
+  @ViewChild('make') makeInput!: BluInput;
+  @ViewChild('year') yearInput!: BluInput;
+  @ViewChild('model') modelInput!: BluInput;
   @ViewChild('mileage') mileageInput!: BluInput;
+  @ViewChild('depreciationRate') depreciationRateInput!: BluInput;
   @ViewChild('nickname') nicknameInput!: BluInput;
 
-  @Input() isLoading$!: BehaviorSubject<boolean>;
   @Input() asset$: Observable<Asset> = of({});
   @Output() savedAsset$: Subject<Asset> = new Subject<Asset>();
   
   public FeedbackType = FeedbackType;
+
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private dataService: DataService,
   ){}
 
   ngOnInit() {
-    this.asset$?.subscribe((asset: Asset) => {
-      if(asset.nickName) {
+    this.asset$.pipe(
+      filter((asset: Asset) => !!asset.assetId)
+    ).subscribe((asset: Asset) => {
+      if(asset.nickName && this.nicknameInput) {
         this.nicknameInput.value$.next(asset.nickName);
       }
-      if(asset.make) {
-        this.vehicleMakeInput.value$.next(asset.make);
+      if(asset.make && this.makeInput) {
+        this.makeInput.value$.next(asset.make);
       }
-      if(asset.model) {
-        this.modelNameInput.value$.next(asset.model);
+      if(asset.model && this.modelInput) {
+        this.modelInput.value$.next(asset.model);
       }
-      if(asset.year) {
-        this.modelYearInput.value$.next(asset.year.toString());
+      if(asset.year && this.yearInput) {
+        this.yearInput.value$.next(asset.year.toString());
       }
-      if(asset.mileage) {
+      if(asset.mileage && this.mileageInput) {
         this.mileageInput.value$.next(asset.mileage.toString());
+      }
+      if(asset.appreciationRate && this.depreciationRateInput) {
+        this.mileageInput.value$.next(asset.appreciationRate.toString());
       }
     });
   }
@@ -59,79 +66,73 @@ export class AddVehicleFormComponent {
 
     combineLatest([
       this.asset$,
-      this.vehicleMakeInput.validate$(),
-      this.modelYearInput.validate$(),
+      this.makeInput.validate$(),
+      this.yearInput.validate$(),
       this.mileageInput.validate$(),
-      this.modelNameInput.validate$(),
+      this.modelInput.validate$(),
+      this.depreciationRateInput.validate$(),
       this.nicknameInput.value$,
     ]).pipe(
       take(1),
       filter(([
         asset,
-        vehicleMakeInputValue, 
-        modelYearInputValue, 
-        mileageInputValue, 
-        modelNameInputValue, 
-        nicknameInputValue, 
+        make, 
+        year, 
+        mileage, 
+        model,
+        depreciationRate,
+        nickname, 
       ]: [
         Asset,
         string,
         string,
         string,
         string,
+        string,
         string
       ]) => {
-        if(!vehicleMakeInputValue || 
-          !modelYearInputValue || 
-          !mileageInputValue || 
-          !modelNameInputValue) {
-            this.isLoading$.next(false);
-            return false;
-          }
-        return true;
+        return this.validateInputs(make, model, year, depreciationRate, mileage);
       }),
       mergeMap(([
         asset,
-        vehicleMakeInputValue, 
-        modelYearInputValue, 
-        mileageInputValue, 
-        modelNameInputValue, 
-        nicknameInputValue, 
+        make, 
+        year, 
+        mileage, 
+        model,
+        depreciationRate,
+        nickname,
       ]: [
         Asset,
         string,
         string,
         string,
         string,
+        string,
         string
       ]) => {
-        let finalName = this.getFinalName(modelNameInputValue, modelYearInputValue ?? '', vehicleMakeInputValue ?? "", nicknameInputValue);
+        let finalName = this.getFinalName(model, year ?? '', make ?? "", nickname);
 
         const vehicleCustomAttributes: VehicleCustomAttributes = {
-          make: vehicleMakeInputValue,
-          model: modelNameInputValue,
-          year: parseInt(modelYearInputValue),
-          mileage: parseInt(mileageInputValue.replace(',', '')),
-          nickName: nicknameInputValue,
+          make: make,
+          model: model,
+          year: parseInt(year),
+          mileage: parseInt(mileage),
+          nickName: nickname,
+          appreciationRate: -parseFloat(depreciationRate),
+        }
+
+        const vehiclePayload: Asset = {
+          ...vehicleCustomAttributes,
+          assetName: finalName,
+          units: 1,
+          assetType: AssetType.Vehicle,
         }
 
         if(asset.assetId) {
-          return this.dataService.updateAsset$({
-            assetId: asset.assetId === "" ? "" : asset.assetId,
-            assetName: finalName,
-            units: 1,
-            assetType: AssetType.Vehicle,
-            ...vehicleCustomAttributes,
-          }, this.isLoading$);
-        } else {
-          return this.dataService.putAsset$({
-            assetId: asset.assetId === "" ? "" : asset.assetId,
-            assetName: finalName,
-            units: 1,
-            assetType: AssetType.Vehicle,
-            ...vehicleCustomAttributes,
-          }, this.isLoading$);
+          return this.dataService.updateAsset$({assetId: asset.assetId, ...vehiclePayload}, this.isLoading$);
         }
+        
+        return this.dataService.putAsset$(vehiclePayload, this.isLoading$);
       }),
     ).subscribe({
       next: (asset: Asset) => {
@@ -139,6 +140,7 @@ export class AddVehicleFormComponent {
       },
       error: () => {
         this.isLoading$.next(false);
+        this.savedAsset$.next({});
       }
     });
   }
@@ -158,49 +160,46 @@ export class AddVehicleFormComponent {
     return finalName;
   }
 
-  public getVehicleMakes(): BluSelectOption[] {
-    let listOfMakes: BluSelectOption[] = [];
-    VEHICLE_MAKES.forEach((make: string) => {
-      listOfMakes.push({
-        id: make,
-        text: make,
-      })
-    });
-    return listOfMakes;
-  }
+  private validateInputs(
+    make: string, 
+    model: string, 
+    year: string, 
+    depreciationRate: string,
+    mileage: string
+  ): boolean {
+    const yearAsInt = parseInt(year);
+        let valid = true;
 
-  public getVehicleMileages(): BluSelectOption[] {
-    let listOfMileages: BluSelectOption[] = [];
-    listOfMileages.push({
-      id: "0",
-      text: "< 10,000 miles",
-    });
-    for(let i = 10000; i < 240000; i+=10000){
-      const mileage = i.toLocaleString();
-      listOfMileages.push({
-        id: mileage,
-        text: mileage + " miles",
-      })
-    }
-    listOfMileages.push({
-      id: "250000",
-      text: "> 250,000 miles"
-    });
-    return listOfMileages;
-  }
+        if(yearAsInt < 1900) {
+          this.isLoading$.next(false);
+          this.yearInput.isValid$.next(false);
+          this.yearInput.customFeedback$.next("We do not support vehicles older than 1900.");
+          valid = false;
+        }
 
-  public getModelYears(): BluSelectOption[] {
-    let listOfYears: BluSelectOption[] = [];
-    const curYear = (new Date).getFullYear();
-    for(let i = 1900; i <= curYear; ++i){
-      const year = i.toString();
-      listOfYears.push(
-      {
-        id: year,
-        text: year
-      });
-    }
-    listOfYears[listOfYears.length-1].selected = true;
-    return listOfYears;
+        if(yearAsInt > (new Date()).getFullYear() + 1) {
+          this.isLoading$.next(false);
+          this.yearInput.isValid$.next(false);
+          this.yearInput.customFeedback$.next("We do not support vehicles from the future.");
+          valid = false;
+        }
+
+        if(Math.abs(parseFloat(depreciationRate)) > 1) {
+          this.isLoading$.next(false);
+          this.depreciationRateInput.isValid$.next(false);
+          this.depreciationRateInput.customFeedback$.next("Depreciation rate must be between -1 and 1.");
+          valid = false;
+        }
+
+        if(!make || !year || !mileage || !model) {
+          this.isLoading$.next(false);
+          valid = false;
+        }
+
+        if(!valid) {
+          this.savedAsset$.next({});
+        }
+
+        return valid;
   }
 }

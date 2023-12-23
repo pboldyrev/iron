@@ -1,17 +1,16 @@
 <div class="row asset-more-details-wrapper">
     <app-add-vehicle-form
-        [isLoading$]="isLoading$"
         [asset$]="asset$"
-        (savedAsset$)="onSaveComplete($event)"
+        (savedAsset$)="onSaveComplete()"
         #addVehicleForm
     ></app-add-vehicle-form>
     <div class="col-12">
         <blu-button
             [fullWidth]="true" 
             type="primary" 
-            (click)="addVehicleForm.onSubmit()"
+            (click)="onSaveInit()"
         >
-            <span *ngIf="(isLoading$ | async)" class="asset-more-details-spinner-wrapper">
+            <span *ngIf="isLoading" class="asset-more-details-spinner-wrapper">
                 <blu-spinner></blu-spinner>
             </span>
             Update details

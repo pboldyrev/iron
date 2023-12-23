@@ -34,6 +34,7 @@ export class BluInput {
   public value$ = new BehaviorSubject<string>('');
   public isValid$ = new BehaviorSubject<boolean>(true);
   public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
+  public customFeedback$ = new BehaviorSubject<string>("");
 
   constructor(private regexService: RegexService) {}
 

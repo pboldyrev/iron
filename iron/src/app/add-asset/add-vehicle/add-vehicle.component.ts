@@ -29,9 +29,10 @@ import { AddVehicleFormComponent } from '../add-vehicle-form/add-vehicle-form.co
 })
 
 export class AddVehicleComponent {  
+  @ViewChild("addVehicleForm") addVehicleForm!: AddVehicleFormComponent;
+
   public FeedbackType = FeedbackType;
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public errorMessage$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public isLoading: boolean = false;
 
   constructor(
     private location: Location,
@@ -39,7 +40,18 @@ export class AddVehicleComponent {
     private toastService: ToastService,
   ) {}
 
+  public onInitSave(): void {
+    this.isLoading = true;
+    this.addVehicleForm.onSubmit();
+  }
+
   public onSaved(asset: Asset): void {
+    this.isLoading = false;
+
+    if(!asset.assetId) {
+      return;
+    }
+
     this.router.navigate(['asset/' + asset.assetId]);
     this.toastService.showToast("Successfully added a " + asset.assetName, FeedbackType.SUCCESS);
   }

@@ -26,15 +26,14 @@ export class AssetMoreDetailsComponent {
   @ViewChild("addVehicleForm") addVehicleForm!: AddVehicleFormComponent;
   @Input() asset$!: BehaviorSubject<Asset>;
 
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isLoading: boolean = false;
 
-  ngOnInit() {
-    this.asset$.subscribe((asset: Asset) => {
-      
-    });
+  public onSaveInit(): void {
+    this.addVehicleForm.onSubmit();
+    this.isLoading = true;
   }
 
-  public onSaveComplete(asset: Asset): void {
-    console.log(asset);
+  public onSaveComplete(): void {
+    this.isLoading = false;
   }
 }
