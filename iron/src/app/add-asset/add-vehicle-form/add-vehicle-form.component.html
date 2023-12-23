@@ -21,6 +21,7 @@
                     label="Vehicle make"
                     [required]="true"
                     #make
+                    [disabled]="(isLoading$ | async) ?? false"
                     (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
@@ -34,6 +35,7 @@
                     label="Model year"
                     [required]="true"
                     #year
+                    [disabled]="(isLoading$ | async) ?? false"
                     (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
@@ -47,6 +49,7 @@
                     label="Mileage"
                     [required]="true"
                     #mileage
+                    [disabled]="(isLoading$ | async) ?? false"
                     (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
@@ -60,6 +63,7 @@
                     label="Model name"
                     [required]="true"
                     #model
+                    [disabled]="(isLoading$ | async) ?? false"
                     (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
@@ -71,6 +75,7 @@
                     label="Nickname"
                     [required]="false"
                     #nickname
+                    [disabled]="(isLoading$ | async) ?? false"
                     (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
@@ -86,6 +91,7 @@
                     [required]="false"
                     initValue="0.15"
                     #depreciationRate
+                    [disabled]="(isLoading$ | async) ?? false"
                     (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>

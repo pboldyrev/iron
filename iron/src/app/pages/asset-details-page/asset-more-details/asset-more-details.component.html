@@ -1,7 +1,7 @@
 <div class="row asset-more-details-wrapper">
     <app-add-vehicle-form
         [asset$]="asset$"
-        (savedAsset$)="onSaveComplete()"
+        [isLoading$]="isLoading$"
         #addVehicleForm
     ></app-add-vehicle-form>
     <div class="col-12">
@@ -10,7 +10,7 @@
             type="primary" 
             (click)="onSaveInit()"
         >
-            <span *ngIf="isLoading" class="asset-more-details-spinner-wrapper">
+            <span *ngIf="isLoading$ | async" class="asset-more-details-spinner-wrapper">
                 <blu-spinner></blu-spinner>
             </span>
             Update details

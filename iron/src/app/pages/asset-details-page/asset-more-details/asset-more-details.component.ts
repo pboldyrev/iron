@@ -26,14 +26,9 @@ export class AssetMoreDetailsComponent {
   @ViewChild("addVehicleForm") addVehicleForm!: AddVehicleFormComponent;
   @Input() asset$!: BehaviorSubject<Asset>;
 
-  public isLoading: boolean = false;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   public onSaveInit(): void {
     this.addVehicleForm.onSubmit();
-    this.isLoading = true;
-  }
-
-  public onSaveComplete(): void {
-    this.isLoading = false;
   }
 }
