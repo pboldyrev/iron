@@ -13,12 +13,12 @@
                 <div class="asset-details-page-button-back">
                     <blu-button type="primary" iconName="backArrow" (click)="onBack()">Overview</blu-button>
                 </div>
+                <div *ngIf="(isLoading$ | async) else assetDetails" class="asset-details-history-loading">
+                    <mat-progress-bar mode="query"></mat-progress-bar>
+                </div>
+                <ng-template #assetDetails>
                 <mat-tab-group>
                     <mat-tab label="Value history">
-                        <div *ngIf="(isLoading$ | async) else valueHistory" class="asset-details-history-loading">
-                            <mat-progress-bar mode="query"></mat-progress-bar>
-                        </div>
-                        <ng-template #valueHistory>
                             <div *ngIf="((assetValues$ | async) ?? []).length >= 2" class="asset-details-value-history-chart-wrapper">
                                 <app-chart
                                     [assetValues$]="assetValues$"
@@ -31,7 +31,6 @@
                                     [isLoading$]="isLoading$"
                                 ></app-value-history>
                             </div>
-                        </ng-template>
                     </mat-tab>
                     <mat-tab label="Asset details">
                         <app-asset-more-details
@@ -39,6 +38,7 @@
                         ></app-asset-more-details>
                     </mat-tab>
                 </mat-tab-group>
+            </ng-template>
             </blu-modal>
         </div>
     </div>

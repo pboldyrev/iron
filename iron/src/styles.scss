@@ -185,6 +185,7 @@ html {
 
   --mat-table-background-color: none;
   --mat-menu-item-hover-state-layer-color: var(--blu-background-secondary);
+  --mat-tab-header-inactive-label-text-color: var(--blu-color-secondary);
 
   .mat-mdc-tab-group {
     --mdc-tab-indicator-active-indicator-color: var(--blu-color-brand);
@@ -199,6 +200,10 @@ html {
 
   .mat-mdc-menu-content {
     font: var(--blu-font-primary);
+  }
+
+  .mat-mdc-header-cell {
+    border: none;
   }
 
   .row {

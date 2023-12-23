@@ -100,6 +100,7 @@ export class AssetTableComponent {
     }
 
     this.dataService.archiveAsset$(this.assetToArchive.assetId, this.isLoading$).subscribe(() => {
+      this.toastService.showToast("Successfully archived " + this.assetToArchive?.assetName, FeedbackType.SUCCESS);
       this.assetToArchive = undefined
     });
   }

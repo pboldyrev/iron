@@ -250,6 +250,37 @@ export class DataService {
     )
   }
 
+  public updateAsset$(asset: Asset, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.httpPost("updateAsset", {asset: asset}).pipe(
+      map((data: any) => {
+        this.dataChanged$.next(true);
+        return data?.asset ?? {} as Asset;
+      }),
+      tap({
+        next: (asset: Asset) => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+          this.mixpanelService.track(
+            MIXPANEL.HTTP_CREATED_ASSET,
+            {
+              asset: asset,
+            }
+          );
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
+      })
+    )
+  }
+
   public archiveAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
     if(loadingIndicator) {
       loadingIndicator.next(true);

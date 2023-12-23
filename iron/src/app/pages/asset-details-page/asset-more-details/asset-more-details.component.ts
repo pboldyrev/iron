@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, Input } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
+import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AddVehicleFormComponent } from 'src/app/add-asset/add-vehicle-form/add-vehicle-form.component';
 import { Asset, AssetType } from 'src/app/shared/constants/constants';
 
 export type Attributes = {
@@ -16,53 +18,23 @@ export type Attributes = {
 @Component({
   selector: 'app-asset-more-details',
   standalone: true,
-  imports: [CommonModule, BluInput, BluButton],
+  imports: [CommonModule, BluInput, BluButton, AddVehicleFormComponent, BluSpinner],
   templateUrl: './asset-more-details.component.html',
   styleUrl: './asset-more-details.component.scss'
 })
 export class AssetMoreDetailsComponent {
+  @ViewChild("addVehicleForm") addVehicleForm!: AddVehicleFormComponent;
   @Input() asset$!: BehaviorSubject<Asset>;
 
-  public assetAttributes: Attributes = [];
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit() {
     this.asset$.subscribe((asset: Asset) => {
-      switch(asset.assetType){
-        case AssetType.Vehicle:
-          this.assetAttributes = [
-            {
-              key: "Vehicle make",
-              attribute: asset.make ?? ""
-            },
-            {
-              key: "Model name",
-              attribute: asset.model ?? ""
-            },
-            {
-              key: "Model year",
-              attribute: asset.year ?? 1900,
-              type: "number"
-            },
-            {
-              key: "Mileage",
-              attribute: asset.mileage ?? 0,
-              type: "number"
-            },
-            {
-              key: "Nickname",
-              attribute: asset.nickName ?? "",
-              required: false,
-            },
-            {
-              key: "Annual depreciation rate",
-              attribute: asset.appreciationRate ?? 0,
-              type: "number",
-              required: false,
-              tooltip: "The rate at which you expect this vehicle to decrease in value. Used for value projections."
-            }
-          ]
-          break;
-      }
+      
     });
+  }
+
+  public onSaveComplete(asset: Asset): void {
+    console.log(asset);
   }
 }

@@ -52,14 +52,9 @@ export class ValueHistoryComponent {
   ) {}
 
   public onAddEntry(): void {
-    this.valueInput.validate();
-    this.dateInput.validate();
-
     combineLatest([
-      this.valueInput.isValid$,
-      this.valueInput.value$,
-      this.dateInput.isValid$,
-      this.dateInput.value$,
+      this.valueInput.validate$(),
+      this.dateInput.validate$(),
     ]).pipe(
       take(1),
       filter((input: any) => {
@@ -113,18 +108,15 @@ export class ValueHistoryComponent {
   }
 
   private verifyNewEntry([
-    isValueValid,
     value,
-    isDateValid,
-    date,
+    date
   ]: [
-    boolean,
     string,
-    boolean,
     string
   ]): boolean {
-    if (!isValueValid || !isDateValid) {
+    if (!value || !date) {
       this.toastService.showToast("Please fill in the date and value fields", FeedbackType.ERROR);
+      return false;
     }
     const curDate = Date.now().valueOf();
     const selectedDate = new Date(date).valueOf();
@@ -135,6 +127,6 @@ export class ValueHistoryComponent {
     if (selectedDate < minDate) {
       this.toastService.showToast("We only support assets with history after Jan 1, 1900", FeedbackType.ERROR);
     }
-    return isDateValid && isValueValid && selectedDate <= curDate && selectedDate > minDate;
+    return selectedDate <= curDate && selectedDate > minDate;
   }
 }

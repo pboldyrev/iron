@@ -4,7 +4,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BTN_TEXTS, TEXTS } from './login-page.strings';
-import { BehaviorSubject, Observable, combineLatest, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, take, tap } from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { FEEDBACK_STRINGS } from '../../shared/constants/strings';
@@ -69,18 +69,19 @@ export class LoginPageComponent {
     this.clearAuth();
     this.error$.next('');
     this.isSendCodeSubmitting = true;
-    this.isPhoneFieldValid$().subscribe((phoneNumber: number) => {
+
+    this.phoneInput.validate$().subscribe((phoneNumber: string) => {
       if (!phoneNumber) {
         this.isSendCodeSubmitting = false;
         return;
       }
 
       this.authService.submitPhoneNumber$(
-        phoneNumber
+        parseInt(phoneNumber)
       ).subscribe({
         next: (methodId: string) => {
           this.methodId = methodId;
-          this.phoneNumber = phoneNumber;
+          this.phoneNumber = parseInt(phoneNumber);
           this.showOTPDialog$.next(true);
           this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_PHONE);
           this.isSendCodeSubmitting = false;
@@ -126,42 +127,12 @@ export class LoginPageComponent {
     });
   }
 
-  private isPhoneFieldValid$(): Observable<number> {
-    this.phoneInput.validate();
-
-    return combineLatest([
-      this.phoneInput.isValid$,
-      this.phoneInput.value$,
-    ]).pipe(
-      take(1),
-      map(
-        ([phoneValid, phoneValue]: [
-          boolean,
-          string,
-        ]) => {
-          if (phoneValid && phoneValid) {
-            return parseInt(phoneValue);
-          }
-          return 0;
-        },
-      ),
-    );
-  }
-
   private isCodeValid$(): Observable<string> {
-    this.codeInput.validate();
-
-    return combineLatest([
-      this.codeInput.isValid$,
-      this.codeInput.value$,
-    ]).pipe(
+    return this.codeInput.validate$().pipe(
       take(1),
       map(
-        ([codeValid, codeValue]: [
-          boolean,
-          string,
-        ]) => {
-          if (codeValid && codeValue.length === 6) {
+        (codeValue: string) => {
+          if (codeValue && codeValue.length === 6) {
             return codeValue;
           }
           return '';

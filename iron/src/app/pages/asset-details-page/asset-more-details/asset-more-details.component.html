@@ -1,24 +1,20 @@
 <div class="row asset-more-details-wrapper">
-    <ng-container *ngFor="let attribute of assetAttributes">
-        <div class="col-12">
-            <div class="asset-more-details-attribute">
-                <blu-input
-                    [label]="attribute.key"
-                    [initValue]="attribute.attribute.toString()"
-                    [required]="attribute.required ?? true"
-                    [fullWidth]="true"
-                    [tooltip]="attribute.tooltip ?? ''"
-                    [disabled]="true"
-                ></blu-input>
-            </div>
-        </div>
-    </ng-container>
+    <app-add-vehicle-form
+        [isLoading$]="isLoading$"
+        [asset$]="asset$"
+        (savedAsset$)="onSaveComplete($event)"
+        #addVehicleForm
+    ></app-add-vehicle-form>
     <div class="col-12">
         <blu-button
-            type="primary"
-            [fullWidth]="true"
-        > 
-            Save changes
+            [fullWidth]="true" 
+            type="primary" 
+            (click)="addVehicleForm.onSubmit()"
+        >
+            <span *ngIf="(isLoading$ | async)" class="asset-more-details-spinner-wrapper">
+                <blu-spinner></blu-spinner>
+            </span>
+            Update details
         </blu-button>
     </div>
 </div>

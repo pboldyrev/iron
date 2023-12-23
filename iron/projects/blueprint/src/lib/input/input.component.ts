@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, map, mergeMap, take, takeUntil } from 'rxjs';
 import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
 import { InputType } from 'src/app/shared/interfaces/interfaces';
 import { RegexService } from 'src/app/shared/services/regex.service';
@@ -45,16 +45,25 @@ export class BluInput {
 
   public updateValue(event: any): void {
     this.value$.next(event.target.value);
+    this.isValid$.next(true);
   }
 
-  public validate(): void {
-    this.value$.subscribe((value) => {
-      if(!this.required && (value === "" || !value)) {
-        this.isValid$.next(true);
-        return;
-      }
-      this.isValid$.next(this.regexService.isValidString(value, this.type));
-    });
+  public validate$(): Observable<string> {
+    return this.value$.pipe(
+      take(1),
+      map((value: string) => {
+        if(!this.required && (value === "" || !value)) {
+          this.isValid$.next(true);
+          return value;
+        }
+        if(this.regexService.isValidString(value, this.type)) {
+          this.isValid$.next(true);
+          return value;
+        }
+        this.isValid$.next(false);
+        return "";
+      })
+    );
   }
 
   public clearValueAndValidators(): void {
