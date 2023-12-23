@@ -29,11 +29,6 @@
     padding: var(--blu-padding-4xl);
 }
 
-::ng-deep .mat-mdc-menu-content {
-    padding: 0px !important;
-    background-color: var(--blu-background-primary);
-}
-
 ::ng-deep .mat-mdc-tab {
     flex-grow: 0 !important;
 }

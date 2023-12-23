@@ -1,6 +1,5 @@
 .asset-table {
     background-color: var(--blu-background-secondary);
-    border: var(--blu-border-secondary);
     border-radius: var(--blu-radius-m);
     padding: var(--blu-padding-xxl);
     overflow-x: auto;
@@ -65,20 +64,6 @@
     margin-left: var(--blu-margin-xs);
 }
 
-.mat-mdc-header-row {
-    text-transform: uppercase;
-    font: var(--blu-font-primary);
-    font-size: var(--blu-font-size-xs);
-}
-
-.mat-mdc-row {
-    color: var(--blu-color-primary);
-}
-
-.mat-mdc-header-cell {
-    color: var(--blu-color-tertiary)!important;
-}
-
 .asset-table-edit-menu {
     display: inline-block;
     position: relative;
@@ -94,17 +79,4 @@
 
 .asset-table-edit-menu:hover .dropdown-content {
     display: block;
-}
-
-::ng-deep .mat-mdc-menu-content {
-    padding: 0px !important;
-    background-color: var(--blu-background-primary);
-}
-
-::ng-deep .mat-mdc-menu-item {
-    transition: 0.3s;
-}
-
-::ng-deep .mat-mdc-menu-item:hover {
-    transition: 0.3s;
 }

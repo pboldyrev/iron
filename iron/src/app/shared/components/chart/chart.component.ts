@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterContentInit, Component, Input } from '@angular/core';
 import { Chart } from 'chart.js';
-import { AssetValue } from '../shared/constants/constants';
+import { AssetValue } from '../../constants/constants';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

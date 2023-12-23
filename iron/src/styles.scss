@@ -163,7 +163,22 @@ html {
   --blu-line-height-l: 1.5em;
   --blu-line-height-xl: 1.8em;
 
-  // TOAST STYLING
+  .mat-mdc-header-row {
+    text-transform: uppercase;
+    font: var(--blu-font-primary);
+    font-size: var(--blu-font-size-xs);
+  }
+
+  .mat-mdc-row {
+    color: var(--blu-color-primary);
+  }
+
+  .mat-mdc-header-cell {
+    font: var(--blu-font-primary);
+    color: var(--blu-color-secondary);
+    font-size: var(--blu-font-size-m);
+    text-transform: uppercase;
+  }
 
   .mat-mdc-snack-bar-container .mdc-snackbar__surface {
     background-color: rgba(0, 0, 0, 0);
@@ -200,10 +215,8 @@ html {
 
   .mat-mdc-menu-content {
     font: var(--blu-font-primary);
-  }
-
-  .mat-mdc-header-cell {
-    border: none;
+    padding: 0px !important;
+    background-color: var(--blu-background-primary);
   }
 
   .row {
