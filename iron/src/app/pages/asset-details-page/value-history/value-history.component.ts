@@ -111,7 +111,12 @@ export class ValueHistoryComponent {
     string
   ]): boolean {
     if (!value || !date) {
-      this.toastService.showToast("Please fill in the date and value fields", FeedbackType.ERROR);
+      this.toastService.showToast("Please fill in the date and value fields with valid values", FeedbackType.ERROR);
+      return false;
+    }
+
+    if(value.charAt(0) === '$') {
+      this.toastService.showToast("Please do not include currency symbols in the value field.", FeedbackType.ERROR);
       return false;
     }
     const curDate = Date.now().valueOf();

@@ -41,8 +41,12 @@
 .blu-input-cell {
   background-color: var(--blu-background-secondary);
   padding: var(--blu-padding-l) 0;
-  color: var(--blu-color-secondary);
+  color: var(--blu-color-primary);
   border: none;
+}
+
+.blu-input-cell::placeholder {
+  color: var(--blu-color-secondary);
 }
 
 .blu-input-cell:focus {
