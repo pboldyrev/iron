@@ -8,6 +8,10 @@
     justify-content: flex-end;
 }
 
+.mat-column-date {
+    min-width: var(--blu-width-xxl);
+}
+
 .mat-column-action,
 .mat-column-addAction {
     min-width: var(--blu-width-l);

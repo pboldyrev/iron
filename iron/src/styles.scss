@@ -28,7 +28,6 @@ $iron-theme: mat.define-dark-theme((
   background-color: var(--blu-color-primary);
   border-radius: var(--blu-radius-s);
   padding: var(--blu-padding-xs);
-  color-scheme: red;
 }
 
 html {
@@ -238,7 +237,7 @@ html {
   }
 
   input[type=number] {
-      appearance: textfield; /* Firefox */
+      appearance: textfield;
   }
 
   /* width */

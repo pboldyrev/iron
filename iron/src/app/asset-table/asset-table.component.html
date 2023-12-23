@@ -45,7 +45,7 @@
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.TYPE_TITLE }}
             </mat-header-cell>
-            <mat-cell *matCellDef="let asset">
+            <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
                 <blu-text type="primary" [capitalize]="true">{{asset.assetType}}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
@@ -56,7 +56,7 @@
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.ASSET_TITLE }}
             </mat-header-cell>
-            <mat-cell *matCellDef="let asset">
+            <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
                 <blu-text type="primary">{{asset.assetName}}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
@@ -67,7 +67,7 @@
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.UNITS_TITLE }}
             </mat-header-cell>
-            <mat-cell *matCellDef="let asset">
+            <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
                 <blu-text type="number">{{ asset.units }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
@@ -78,7 +78,7 @@
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.COST_TITLE }}
             </mat-header-cell>
-            <mat-cell *matCellDef="let asset">
+            <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
                 <blu-text type="number">${{ (asset.initValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
@@ -90,7 +90,7 @@
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.VALUE_TITLE }}
             </mat-header-cell>
-            <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
+            <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
                 <blu-text type="number">${{(asset.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
