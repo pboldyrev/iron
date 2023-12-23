@@ -85,6 +85,7 @@ export class LoginPageComponent {
           this.showOTPDialog$.next(true);
           this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_PHONE);
           this.isSendCodeSubmitting = false;
+          this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);
         },
         error: () => {
           this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
