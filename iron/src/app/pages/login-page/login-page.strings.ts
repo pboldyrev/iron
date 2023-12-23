@@ -1,5 +1,6 @@
 export const TEXTS = {
-  TITLE: 'Welcome to Finacle',
+  TITLE: 'Finacle',
+  SUBTITLE: 'Welcome to',
   OTP_TITLE: 'Enter code',
   OR: 'or',
   REQUIRED_FIELDS_NOTE: '* Indicates required fields',

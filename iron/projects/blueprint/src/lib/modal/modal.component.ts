@@ -18,4 +18,5 @@ export class BluModal {
   @Input() outline: boolean = true;
   @Input() noPadding: boolean = false;
   @Input() titleTooltip: string = '';
+  @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
 }
