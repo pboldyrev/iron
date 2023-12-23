@@ -59,8 +59,8 @@ export class AssetTableComponent {
   @Input() assets$!: BehaviorSubject<Asset[]>;
   @Input() isLoading$!: BehaviorSubject<boolean>;
 
-  public curTotal: number = 0;
-  public initTotal: number = 0;
+  public curTotal$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  public initTotal$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   public showArchivePopup$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -79,10 +79,14 @@ export class AssetTableComponent {
 
   ngOnInit() {
     this.assets$.subscribe((assets: Asset[]) => {
+      let curTotal = 0;
+      let initTotal = 0;
       assets.forEach((asset: Asset) => {
-        this.curTotal += asset.curValue ?? 0;
-        this.initTotal += asset.initValue ?? 0;
+        curTotal += asset.curValue ?? 0;
+        initTotal += asset.initValue ?? 0;
       });
+      this.curTotal$.next(curTotal);
+      this.initTotal$.next(initTotal);
     })
   }
 

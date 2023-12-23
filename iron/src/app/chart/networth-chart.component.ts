@@ -26,7 +26,10 @@ export class ChartComponent {
         xAxis = assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
       }
       let yAxis = assetValues.map((assetValue) => assetValue.value ?? 0);
-      this.createChart(xAxis, yAxis);
+
+      if(assetValues?.length > 1) {
+        this.createChart(xAxis, yAxis);
+      }
     });
   }
 
