@@ -52,6 +52,7 @@ export type AssetTableColumn =
 
 export class AssetTableComponent {
   @ViewChild('archiveConfirmPopup') archiveConfirmPopup!: ConfirmationPopupComponent;
+  @ViewChild('deleteConfirmPopup') deleteConfirmPopup!: ConfirmationPopupComponent;
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
   @Input() columns!: AssetTableColumn[];
@@ -64,6 +65,7 @@ export class AssetTableComponent {
   public showArchivePopup$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   public assetToArchive: Asset | undefined;
+  public assetToDelete: Asset | undefined;
   public TEXTS = TEXTS;
   public FeedbackType = FeedbackType;
 
@@ -89,6 +91,11 @@ export class AssetTableComponent {
     this.assetToArchive = asset;
   }
 
+  public onDeleteAsset(asset: Asset): void {
+    this.deleteConfirmPopup.show();
+    this.assetToDelete = asset;
+  }
+
   public onDetailsAsset(asset: Asset): void {
     this.router.navigate(['/asset/' + asset.assetId]);
   }
@@ -101,6 +108,18 @@ export class AssetTableComponent {
 
     this.dataService.archiveAsset$(this.assetToArchive.assetId, this.isLoading$).subscribe(() => {
       this.toastService.showToast("Successfully archived " + this.assetToArchive?.assetName, FeedbackType.SUCCESS);
+      this.assetToArchive = undefined
+    });
+  }
+
+  public onDeleteAssetConfirmed() {
+    if(!this.assetToDelete || !this.assetToDelete.assetId) {
+      this.toastService.showToast("This asset does not exist", FeedbackType.ERROR);
+      return;
+    }
+
+    this.dataService.deleteAsset$(this.assetToDelete.assetId, this.isLoading$).subscribe(() => {
+      this.toastService.showToast("Successfully deleted " + this.assetToDelete?.assetName, FeedbackType.SUCCESS);
       this.assetToArchive = undefined
     });
   }

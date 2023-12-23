@@ -26,10 +26,6 @@ export class DataService {
    */
 
   public getNetWorthValues$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<NetWorthValue[]> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
     let options: any;
 
     if(assetType) {
@@ -42,6 +38,10 @@ export class DataService {
 
     return this.dataChanged$.pipe(
       mergeMap(() => {
+        if(loadingIndicator) {
+          loadingIndicator.next(true);
+        }
+
         return this.httpPost("getUserNetWorths", options)
       }),
       map((data: any) => {
@@ -63,12 +63,12 @@ export class DataService {
   }
 
   public getAssets$(includeArchived: boolean = false, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
-    if (loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
     return this.dataChanged$.pipe(
       mergeMap(() => {
+        if(loadingIndicator) {
+          loadingIndicator.next(true);
+        }
+
         return this.fetchUserAssets$()
       }),
       map((assets: Asset[]) => {
@@ -90,16 +90,16 @@ export class DataService {
   }
 
   public getAssetValues$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
     const options = {
       assetId: assetId, 
     };
 
     return this.dataChanged$.pipe(
       mergeMap(() => {
+        if(loadingIndicator) {
+          loadingIndicator.next(true);
+        }
+
         return this.httpPost("getAssetValues", options)
       }),
       map((data: any) => {
@@ -121,16 +121,16 @@ export class DataService {
   }
 
   public getAssetById$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
     const options = {
       assetId: assetId, 
     };
 
     return this.dataChanged$.pipe(
       mergeMap(() => {
+        if(loadingIndicator) {
+          loadingIndicator.next(true);
+        }
+
         return this.httpPost("getAsset", options)
       }),
       map((data: any) => {
@@ -287,6 +287,31 @@ export class DataService {
     }
 
     return this.httpPost("archiveAsset", {assetId: assetId}).pipe(
+      map((data: any) => {
+        this.dataChanged$.next(true);
+        return data?.asset ?? {} as Asset;
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
+      })
+    )
+  }
+
+  public deleteAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.httpPost("removeAsset", {assetId: assetId}).pipe(
       map((data: any) => {
         this.dataChanged$.next(true);
         return data?.asset ?? {} as Asset;
