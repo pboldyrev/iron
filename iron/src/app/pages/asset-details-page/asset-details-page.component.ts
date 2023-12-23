@@ -10,7 +10,7 @@ import { DataService } from '../../shared/services/data.service';
 import { Asset, AssetType, AssetValue } from '../../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ChartComponent } from 'src/app/chart/networth-chart.component';
+import { ChartComponent } from 'src/app/chart/chart.component';
 import { AssetMoreDetailsComponent } from './asset-more-details/asset-more-details.component';
 
 @Component({

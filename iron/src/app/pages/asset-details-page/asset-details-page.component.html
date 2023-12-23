@@ -21,7 +21,7 @@
                             <ng-template #history>
                                 <div *ngIf="((assetValues$ | async) ?? []).length >= 2" class="asset-details-value-history-chart-wrapper">
                                     <app-chart
-                                        [assetValues$]="assetValues$"
+                                        [values$]="assetValues$"
                                     ></app-chart>
                                 </div>
                                 <div class="asset-details-value-history-wrapper">

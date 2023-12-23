@@ -1,5 +1,5 @@
 <div class="add-vehicle-form-wrapper">
-    <blu-input 
+    <!-- <blu-input 
         [fullWidth]="true" 
         [disabled]="true" 
         label="VIN"
@@ -10,7 +10,7 @@
         <blu-text size="medium">
             or
         </blu-text>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col-md-12">
             <div class="add-vehicle-input">
@@ -22,11 +22,10 @@
                     [required]="true"
                     #make
                     [disabled]="(isLoading$ | async) ?? false"
-                    (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="add-vehicle-input">
                 <blu-input 
                     [fullWidth]="true"
@@ -36,11 +35,10 @@
                     [required]="true"
                     #year
                     [disabled]="(isLoading$ | async) ?? false"
-                    (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="add-vehicle-input add-vehicle-input-second">
                 <blu-input 
                     [fullWidth]="true"
@@ -50,7 +48,6 @@
                     [required]="true"
                     #mileage
                     [disabled]="(isLoading$ | async) ?? false"
-                    (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
         </div>
@@ -64,7 +61,6 @@
                     [required]="true"
                     #model
                     [disabled]="(isLoading$ | async) ?? false"
-                    (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
         </div>
@@ -76,7 +72,6 @@
                     [required]="false"
                     #nickname
                     [disabled]="(isLoading$ | async) ?? false"
-                    (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
         </div>
@@ -92,7 +87,6 @@
                     initValue="0.15"
                     #depreciationRate
                     [disabled]="(isLoading$ | async) ?? false"
-                    (keydown.enter)="onSubmit()"
                 ></blu-input>
             </div>
         </div>

@@ -25,12 +25,12 @@
             </div>
             <div *ngIf="!(isNetWorthLoading$ | async) && ((networthValues$ | async) ?? []).length > 1" class="dashboard-networth-chart-wrapper">
                 <app-chart
-                    [assetValues$]="networthValues$"
+                    [values$]="networthValues$"
                 ></app-chart>
             </div>
         </div>
     </div>
-    <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
+<div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
         <div class="row">
             <div class="col-12 dashboard-actions-wrapper">
                 <blu-button type="primary" iconName="plus" (click)="onAddAsset()">

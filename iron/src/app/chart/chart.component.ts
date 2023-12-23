@@ -8,17 +8,17 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'app-chart',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './networth-chart.component.html',
-  styleUrl: './networth-chart.component.scss'
+  templateUrl: './chart.component.html',
+  styleUrl: './chart.component.scss'
 })
 export class ChartComponent implements AfterContentInit {
-  @Input() assetValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
+  @Input() values$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
   public chart: Chart<any> | undefined;
 
   ngAfterContentInit(): void {
     let xAxis;
-    this.assetValues$.subscribe((assetValues: AssetValue[]) => {
+    this.values$.subscribe((assetValues: AssetValue[]) => {
       if(assetValues?.length > 30) {
         xAxis = assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
       } else {
