@@ -57,6 +57,15 @@
     align-items: center;
 }
 
+.dashboard-main-loader-wrapper {
+    width: var(--blu-height-full);
+    height: var(--blu-height-full);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 @media screen and (max-width: 991px) {
     .dashboard-wrapper {
         height: fit-content;
