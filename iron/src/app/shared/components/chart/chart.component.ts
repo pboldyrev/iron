@@ -59,6 +59,9 @@ export class ChartComponent implements AfterContentInit {
         labels: xAxis, 
 	       datasets: [
           {
+            animation: {
+              duration: 0,
+            },
             data: yAxis,
             spanGaps: true,
             tension: 0,
