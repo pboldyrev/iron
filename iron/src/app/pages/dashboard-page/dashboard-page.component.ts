@@ -72,10 +72,37 @@ export class DashboardPageComponent {
     ).subscribe();
   }
 
+  private getValueChange(currentValue: number, originalValue: number, type: string): ValueChange {
+    let valueChange = currentValue - originalValue;
+
+    let percentChange: number;
+    if(originalValue === 0) {
+      percentChange = 0;
+    } else {
+      percentChange = (valueChange / originalValue) * 100
+    }
+
+    return {
+      value: valueChange,
+      percent: percentChange,
+      type: type,
+    }
+  }
+
   private fetchNetWorth(): void {
     this.dataService.getNetWorthValues$(null, this.isNetWorthLoading$)
     .subscribe((networthValues: NetWorthValue[]) => {
         if(networthValues.length > 0) {
+          const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].netWorth ?? 0, networthValues[0].netWorth ?? 0, "All time");
+          this.networthTimeframes.push(allTimeChange);
+
+          if(networthValues.length > 1){
+            const sinceLastChange = this.getValueChange(
+              networthValues[networthValues.length-1].netWorth ?? 0, 
+              networthValues[networthValues.length-2].netWorth ?? 0, 
+              "Since " + (new Date(networthValues[networthValues.length-2].timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'})));
+            this.networthTimeframes.push(sinceLastChange);
+          }
           this.totalNetworth = networthValues[networthValues.length-1].netWorth ?? 0;
         } else {
           this.totalNetworth = 0;
