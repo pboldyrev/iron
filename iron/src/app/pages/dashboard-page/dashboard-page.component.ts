@@ -18,11 +18,12 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { BehaviorSubject, Observable, filter, map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
+import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
@@ -93,6 +94,7 @@ export class DashboardPageComponent {
     this.dataService.getNetWorthValues$(null, this.isNetWorthLoading$)
     .subscribe((networthValues: NetWorthValue[]) => {
         if(networthValues.length > 0) {
+          this.networthTimeframes = [];
           const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].netWorth ?? 0, networthValues[0].netWorth ?? 0, "All time");
           this.networthTimeframes.push(allTimeChange);
 

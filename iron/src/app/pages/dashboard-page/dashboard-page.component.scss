@@ -13,6 +13,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     border-right: var(--blu-border-tertiary);
 }
 
@@ -45,7 +46,15 @@
 .dashboard-networth-chart-wrapper {
     width: var(--blu-width-full);
     margin-top: var(--blu-margin-4xl);
-    height: 50vh;
+    height: 60vh;
+}
+
+.dashboard-side-loader-wrapper {
+    width: var(--blu-height-full);
+    height: var(--blu-height-full);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (max-width: 991px) {

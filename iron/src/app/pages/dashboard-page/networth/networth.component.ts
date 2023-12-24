@@ -24,8 +24,7 @@ export type TimeRangeOption = {
   styleUrl: './networth.component.scss'
 })
 export class NetworthComponent {
-  @Input() totalNetworth!: number | null;
-  @Input() isLoading!: boolean;
+  @Input() totalNetworth!: number;
 
   public getNetworthString(): string {
     let formattedValue = '$' + (this.totalNetworth?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? '0.00');

@@ -12,22 +12,24 @@
 <div class="row dashboard-wrapper">
     <div class="col-lg-5 col-sm-12">
         <div class="dashboard-side-wrapper">
-            <div class="dashboard-networth-wrapper">
-                <app-networth
-                    [totalNetworth]="totalNetworth"
-                    [isLoading]="(isNetWorthLoading$ | async) ?? true"
-                ></app-networth>
-                <div class="dashboard-networth-change-wrapper">
+            <div *ngIf="(isNetWorthLoading$ | async) else sideContent" class="dashboard-side-loader-wrapper">
+                <blu-spinner size="50"></blu-spinner>
+            </div>
+            <ng-template #sideContent>
+                <div class="dashboard-networth-wrapper">
+                    <app-networth
+                        [totalNetworth]="totalNetworth"
+                    ></app-networth>
                     <app-value-change
                         [timeframes]="networthTimeframes"
                     ></app-value-change>
                 </div>
-            </div>
-            <div *ngIf="!(isNetWorthLoading$ | async) && ((networthValues$ | async) ?? []).length > 1" class="dashboard-networth-chart-wrapper">
-                <app-chart
-                    [values$]="networthValues$"
-                ></app-chart>
-            </div>
+                <div class="dashboard-networth-chart-wrapper">
+                    <app-chart
+                        [values$]="networthValues$"
+                    ></app-chart>
+                </div>
+            </ng-template>
         </div>
     </div>
 <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">

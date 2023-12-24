@@ -1,19 +1,14 @@
 <div class="networth-wrapper">
-    <div class="networth-spinner-wrapper">
-        <blu-spinner *ngIf="isLoading else networth" size="40"></blu-spinner>
-    </div>
-    <ng-template #networth>
-        <blu-heading size="large" [bold]="true" subheading="Net Worth" subheadingPosition="top">
-            <div class="networth-tooltip-wrapper">
-                {{ getNetworthString() }} 
-                <span class="networth-tooltip">
-                    <blu-icon 
-                        *ngIf="totalNetworth === 0" 
-                        matTooltip="You can add assets using the 'Add' button" 
-                        name="question"
-                    ></blu-icon>
-                </span>
-            </div>
-        </blu-heading>
-    </ng-template>
+    <blu-heading size="large" [bold]="true" subheading="Net Worth" subheadingPosition="top">
+        <div class="networth-tooltip-wrapper">
+            {{ getNetworthString() }} 
+            <span class="networth-tooltip">
+                <blu-icon 
+                    *ngIf="totalNetworth === 0" 
+                    matTooltip="You can add assets using the 'Add' button" 
+                    name="question"
+                ></blu-icon>
+            </span>
+        </div>
+    </blu-heading>
 </div>
