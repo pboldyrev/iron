@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="row">
-            <ng-container *ngFor="let asset of assetSummaries$ | async">
+            <ng-container *ngFor="let asset of assetSummaries">
                 <div class="col-lg-12 col-xl-6 dashboard-asset-summary">
                     <app-asset-type-card
                         [asset]="asset"

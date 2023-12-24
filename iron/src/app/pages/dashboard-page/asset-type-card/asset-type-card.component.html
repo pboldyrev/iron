@@ -3,9 +3,9 @@
         <blu-heading
             [subheading]="TypeToDisplayName[asset.type]"
             subheadingPosition="top"
-            size="small"
+            size="medium"
         >
-            {{ assetTotal }}
+            ${{ asset.total.toLocaleString() }}
         </blu-heading>
         <div class="asset-summary-value-change-wrapper">
             <app-value-change [timeframes]="asset.valueChange ?? []"></app-value-change>

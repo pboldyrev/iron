@@ -15,7 +15,7 @@ import { ConfirmationPopupComponent } from '../../shared/components/confirmation
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
-import { BehaviorSubject, Observable, filter, map, mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
@@ -40,7 +40,7 @@ export class DashboardPageComponent {
   public networthValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
   public assets$: BehaviorSubject<Asset[]> = new BehaviorSubject<Asset[]>([]);
-  public assetSummaries$: BehaviorSubject<AssetTypeSummary[]> = new BehaviorSubject<AssetTypeSummary[]>([]);
+  public assetSummaries: AssetTypeSummary[] = [];
   public assetTableColumns: AssetTableColumn[] = ['type', 'asset', 'curValue', 'edit'];
 
   constructor(
@@ -67,10 +67,33 @@ export class DashboardPageComponent {
 
   private fetchAssets(): void {
     this.dataService.getAssets$(false, this.isTableLoading$).pipe(
+      tap((assets: Asset[]) => {
+        this.updateAssetTypeSummaries$(assets);
+      }),
       map((assets: Asset[]) => {
         this.assets$.next(assets);
       }),
     ).subscribe();
+  }
+
+  private updateAssetTypeSummaries$(assets: Asset[]): Observable<void> {
+    const assetTypes: AssetType[] = [...new Set(assets.map(asset => (asset.assetType ?? "") as AssetType)) ]
+    this.assetSummaries = [];
+
+    assetTypes.forEach((type: AssetType) => {
+      this.assetSummaries.push({
+        type: type,
+        total: 123,
+        valueChange: [
+          {
+            type: "All time",
+            value: 1200,
+            percent: 14,
+          }
+        ]
+      })
+    });
+    return of();
   }
 
   private getValueChange(currentValue: number, originalValue: number, type: string): ValueChange {

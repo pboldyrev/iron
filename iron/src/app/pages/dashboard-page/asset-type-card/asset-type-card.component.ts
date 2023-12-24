@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 
 export type AssetTypeSummary = {
   type: AssetType,
+  total: number,
   valueChange?: ValueChange[],
 };
 
@@ -27,17 +28,11 @@ export class AssetTypeCardComponent {
   @Input() asset!: AssetTypeSummary;
   
   public TypeToDisplayName = TypeToDisplayName;
-  public assetTotal: string | null = null;
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private dataService: DataService,
     private router: Router,
   ) {}
-
-  ngOnInit() {
-
-  }
 
   public onNavigateToSummary(): void {
     this.router.navigate(['/dashboard/' + this.asset.type]);

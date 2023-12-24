@@ -30,7 +30,7 @@ export class DataService {
 
     if(assetType) {
       options = {
-        assetType: assetType, 
+        assetType: assetType,
       };
     } else {
       options = {}
