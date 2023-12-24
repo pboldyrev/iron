@@ -24,24 +24,31 @@ export class ChartComponent implements AfterContentInit {
       } else {
         xAxis = assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
       }
+      
       let yAxis = assetValues.map((assetValue) => assetValue.value ?? 0);
 
-      if(assetValues?.length > 1) {
+      if(!this.chart) {
         this.createChart(xAxis, yAxis);
+      } else {
+        this.updateChart(xAxis, yAxis);
       }
     });
   }
 
+  private updateChart(xAxis: string[], yAxis: number[]): void {
+
+  }
+
   private createChart(xAxis: string[], yAxis: number[]): void {
     try {
-      let oldChart = Chart.getChart("networthChart") ?? false;
+      let oldChart = Chart.getChart("finacleChart") ?? false;
       if(oldChart){
         oldChart.clear();
         oldChart.destroy();
       }
     } catch {}
 
-    this.chart = new Chart("networthChart", {
+    this.chart = new Chart("finacleChart", {
       type: 'line',
       data: {
         labels: xAxis, 
@@ -138,7 +145,7 @@ export class ChartComponent implements AfterContentInit {
   private getBackgroundColor(yValues: number[]): CanvasGradient | string {
     const ctx = <HTMLCanvasElement> document.getElementById('networthChart');
 
-    if(!ctx || !ctx?.getContext('2d')) {
+    if(!ctx || !ctx?.getContext('2d') || !ctx?.getContext('2d')?.createLinearGradient(0, 0, 0, 250)) {
       // no gradient
       return '#181818'
     }

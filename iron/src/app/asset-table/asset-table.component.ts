@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -56,20 +56,16 @@ export class AssetTableComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
   @Input() columns!: AssetTableColumn[];
-  @Input() assets$!: BehaviorSubject<Asset[]>;
-  @Input() isLoading$!: BehaviorSubject<boolean>;
+  @Input() assets!: Asset[];
+  @Input() loadingIndicator$!: BehaviorSubject<boolean>
 
-  public curTotal$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public initTotal$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
-  public showArchivePopup$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public curTotal: number = 0;
+  public initTotal: number = 0;
 
   public assetToArchive: Asset | undefined;
   public assetToDelete: Asset | undefined;
   public TEXTS = TEXTS;
   public FeedbackType = FeedbackType;
-
-  public showUnknownError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private dataService: DataService,
@@ -78,16 +74,14 @@ export class AssetTableComponent {
   ){}
 
   ngOnInit() {
-    this.assets$.subscribe((assets: Asset[]) => {
-      let curTotal = 0;
-      let initTotal = 0;
-      assets.forEach((asset: Asset) => {
-        curTotal += asset.curValue ?? 0;
-        initTotal += asset.initValue ?? 0;
-      });
-      this.curTotal$.next(curTotal);
-      this.initTotal$.next(initTotal);
-    })
+    let curTotal = 0;
+    let initTotal = 0;
+    this.assets.forEach((asset: Asset) => {
+      curTotal += asset.curValue ?? 0;
+      initTotal += asset.initValue ?? 0;
+    });
+    this.curTotal = curTotal;
+    this.initTotal = initTotal;
   }
 
   public onArchiveAsset(asset: Asset): void {
@@ -110,7 +104,7 @@ export class AssetTableComponent {
       return;
     }
 
-    this.dataService.archiveAsset$(this.assetToArchive.assetId, this.isLoading$).subscribe(() => {
+    this.dataService.archiveAsset$(this.assetToArchive.assetId, this.loadingIndicator$).subscribe(() => {
       this.toastService.showToast("Successfully archived " + this.assetToArchive?.assetName, FeedbackType.SUCCESS);
       this.assetToArchive = undefined
     });
@@ -122,7 +116,7 @@ export class AssetTableComponent {
       return;
     }
 
-    this.dataService.deleteAsset$(this.assetToDelete.assetId, this.isLoading$).subscribe(() => {
+    this.dataService.deleteAsset$(this.assetToDelete.assetId, this.loadingIndicator$).subscribe(() => {
       this.toastService.showToast("Successfully deleted " + this.assetToDelete?.assetName, FeedbackType.SUCCESS);
       this.assetToArchive = undefined
     });

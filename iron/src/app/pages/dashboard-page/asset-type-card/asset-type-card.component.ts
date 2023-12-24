@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AssetType, TypeToDisplayName, ValueChange } from '../../../shared/constants/constants';
 import { CommonModule } from '@angular/common';
-import { ValueChangeComponent } from '../value-change/value-change.component';
+import { ValueChangeComponent } from '../../../shared/components/value-change/value-change.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BehaviorSubject, mergeMap } from 'rxjs';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';

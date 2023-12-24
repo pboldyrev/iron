@@ -12,7 +12,7 @@
 <div class="row dashboard-wrapper">
     <div class="col-lg-5 col-sm-12">
         <div class="dashboard-side-wrapper">
-            <div *ngIf="(isNetWorthLoading$ | async) else sideContent" class="dashboard-side-loader-wrapper">
+            <div *ngIf="(isNetworthLoading$ | async) else sideContent" class="dashboard-side-loader-wrapper">
                 <blu-spinner size="50"></blu-spinner>
             </div>
             <ng-template #sideContent>
@@ -33,7 +33,7 @@
         </div>
     </div>
 <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
-        <div *ngIf="(isTableLoading$ | async) else mainContent" class="dashboard-main-loader-wrapper">
+        <div *ngIf="(isAssetsLoading$ | async) else mainContent" class="dashboard-main-loader-wrapper">
             <blu-spinner size="50"></blu-spinner>
         </div>
         <ng-template #mainContent>
@@ -60,7 +60,8 @@
                 <div class="col-12 dashboard-asset-table-wrapper">
                     <app-asset-table
                         [columns]="assetTableColumns"
-                        [assets$]="assets$"
+                        [assets]="assets"
+                        [loadingIndicator$]="isAssetsLoading$"
                     ></app-asset-table>
                 </div>
             </div>
