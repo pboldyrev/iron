@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterContentInit, Component, Input } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Chart, ChartConfiguration } from 'chart.js';
 import { AssetValue } from '../../constants/constants';
 import { BehaviorSubject } from 'rxjs';
 
@@ -36,7 +36,8 @@ export class ChartComponent implements AfterContentInit {
   }
 
   private updateChart(xAxis: string[], yAxis: number[]): void {
-
+    (this.chart as any).options = this.getOptions(xAxis, yAxis);
+    this.chart?.update();
   }
 
   private createChart(xAxis: string[], yAxis: number[]): void {
@@ -48,7 +49,11 @@ export class ChartComponent implements AfterContentInit {
       }
     } catch {}
 
-    this.chart = new Chart("finacleChart", {
+    this.chart = new Chart("finacleChart", this.getOptions(xAxis, yAxis));
+  }
+
+  private getOptions(xAxis: string[], yAxis: number[]): ChartConfiguration  {
+    return {
       type: 'line',
       data: {
         labels: xAxis, 
@@ -139,11 +144,11 @@ export class ChartComponent implements AfterContentInit {
           },
         },
       }
-    });
+    }
   }
 
   private getBackgroundColor(yValues: number[]): CanvasGradient | string {
-    const ctx = <HTMLCanvasElement> document.getElementById('networthChart');
+    const ctx = <HTMLCanvasElement> document.getElementById('finacleChart');
 
     if(!ctx || !ctx?.getContext('2d') || !ctx?.getContext('2d')?.createLinearGradient(0, 0, 0, 250)) {
       // no gradient
