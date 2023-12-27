@@ -1,20 +1,9 @@
 <div class="row asset-more-details-wrapper">
-    <app-add-vehicle-form
+    <app-add-asset-form
+        [assetType]="AssetType.Vehicle"
         [asset$]="asset$"
         [isLoading$]="isLoading$"
         (savedAsset$)="onSaved()"
-        #addVehicleForm
-    ></app-add-vehicle-form>
-    <div class="col-12">
-        <blu-button
-            [fullWidth]="true" 
-            type="primary" 
-            (click)="onSaveInit()"
-        >
-            <span *ngIf="isLoading$ | async" class="asset-more-details-spinner-wrapper">
-                <blu-spinner></blu-spinner>
-            </span>
-            Update details
-        </blu-button>
-    </div>
+        #addAssetForm
+    ></app-add-asset-form>
 </div>

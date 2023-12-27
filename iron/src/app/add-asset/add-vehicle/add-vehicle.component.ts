@@ -11,27 +11,27 @@ import { DataService } from '../../shared/services/data.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { BehaviorSubject, Subject, combineLatest, filter, map, mergeMap, of, switchMap, take, tap } from 'rxjs';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
-import { VEHICLE_MAKES } from '../add-vehicle-form/add-vehicle-form.constants';
+import { VEHICLE_MAKES } from '../../add-asset-form/add-vehicle-form/add-vehicle-form.constants';
 import { ValueHistoryComponent } from '../../pages/asset-details-page/value-history/value-history.component';
-import { TEXTS } from '../add-vehicle-form/add-vehicle.strings';
+import { TEXTS } from '../../add-asset-form/add-vehicle-form/add-vehicle.strings';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { Asset, AssetType, VehicleCustomAttributes } from '../../shared/constants/constants';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { AddVehicleFormComponent } from '../add-vehicle-form/add-vehicle-form.component';
+import { AddVehicleFormComponent } from '../../add-asset-form/add-vehicle-form/add-vehicle-form.component';
+import { AddAssetFormComponent } from 'src/app/add-asset-form/add-asset-form.component';
 
 @Component({
   selector: 'app-add-vehicle',
   standalone: true,
-  imports: [CommonModule, BluModal, BluInput, BluText, MatTooltipModule, BluButton, BluSelect, ValueHistoryComponent, BluSpinner, BluValidationFeedback, AddVehicleFormComponent],
+  imports: [CommonModule, BluModal, BluInput, BluText, MatTooltipModule, BluButton, BluSelect, ValueHistoryComponent, BluSpinner, BluValidationFeedback, AddAssetFormComponent],
   templateUrl: './add-vehicle.component.html',
   styleUrl: './add-vehicle.component.scss'
 })
 
 export class AddVehicleComponent {  
-  @ViewChild("addVehicleForm") addVehicleForm!: AddVehicleFormComponent;
-
   public FeedbackType = FeedbackType;
+  public AssetType = AssetType;
   public isLoading: boolean = false;
 
   constructor(
@@ -39,11 +39,6 @@ export class AddVehicleComponent {
     private router: Router,
     private toastService: ToastService,
   ) {}
-
-  public onInitSave(): void {
-    this.isLoading = true;
-    this.addVehicleForm.onSubmit();
-  }
 
   public onSaved(asset: Asset): void {
     this.isLoading = false;

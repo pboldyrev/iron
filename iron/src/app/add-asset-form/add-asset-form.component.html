@@ -1,0 +1,82 @@
+<div class="add-asset-form-section-wrapper">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="add-asset-input">
+                <blu-input 
+                    [fullWidth]="true"
+                    [feedbackType]="FeedbackType.ERROR" 
+                    type="TEXT"
+                    label="Account"
+                    [required]="true"
+                    #account
+                    initValue="Other"
+                    [disabled]="(isLoading$ | async) ?? false"
+                ></blu-input>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="add-vehicle-input add-asset-input-second">
+                <blu-input 
+                    [fullWidth]="true"
+                    [feedbackType]="FeedbackType.ERROR" 
+                    type="INTEGER"
+                    label="Units"
+                    [required]="true"
+                    #units
+                    [disabled]="(isLoading$ | async) ?? false || assetType === AssetType.Vehicle"
+                    [initValue]="assetType === AssetType.Vehicle ? '1' : ''"
+                    [tooltip]="assetType === AssetType.Vehicle ? 'You may not have multiple of the same vehicle.' : ''"
+                ></blu-input>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="assetType === AssetType.Vehicle">
+    <app-add-vehicle-form
+        [asset$]="asset$"
+        [isLoading$]="isLoading$"
+        #addVehicleForm
+    ></app-add-vehicle-form>
+</ng-container>
+<div class="row">
+    <div class="col-12" *ngIf="isAdd else isUpdate">
+        <div class="row">
+            <div class="col-md-4 order-md-1 order-2">
+                <div class="add-asset-input-first">
+                    <blu-button 
+                        [fullWidth]="true" 
+                        type="secondary" 
+                        (click)="onDashboard()"
+                        iconName="backArrow"
+                    >Dashboard</blu-button>
+                </div>
+            </div>
+            <div class="col-md-8 order-md-2 order-1">
+                <div class="add-asset-input-second">
+                    <blu-button
+                        [fullWidth]="true" 
+                        type="primary" 
+                        (click)="onSubmit()"
+                    >
+                        <span *ngIf="isLoading$ | async" class="add-asset-form-spinner-wrapper">
+                            <blu-spinner></blu-spinner>
+                        </span>
+                        Add asset
+                    </blu-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #isUpdate>
+        <blu-button
+            [fullWidth]="true" 
+            type="primary" 
+            (click)="onSubmit()"
+        >
+            <span *ngIf="isLoading$ | async" class="add-asset-form-spinner-wrapper">
+                <blu-spinner></blu-spinner>
+            </span>
+            Update details
+        </blu-button>
+    </ng-template>
+</div>

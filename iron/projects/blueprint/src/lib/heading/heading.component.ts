@@ -17,4 +17,5 @@ export class BluHeading {
   @Input() bold: boolean = false;
   @Input() feedback: 'success' | 'error' | null = null;
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
+  @Input() type: 'primary' | 'secondary' | 'tertiary' = 'primary';
 }

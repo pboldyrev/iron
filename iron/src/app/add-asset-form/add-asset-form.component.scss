@@ -1,0 +1,26 @@
+.add-asset-form-section-wrapper {
+    margin-bottom: var(--blu-margin-xxl);
+    padding-bottom: var(--blu-margin-xl);
+    border-bottom: var(--blu-border-tertiary);
+}
+
+.add-asset-input {
+    margin-bottom: var(--blu-margin-l);
+}
+
+.add-asset-form-spinner-wrapper {
+    margin-right: var(--blu-margin-s);
+}
+
+.add-asset-input-second {
+    margin-left: var(--blu-margin-l);
+}
+
+@media only screen and (max-width: 767px) {
+    .add-asset-input-second {
+        margin-left: var(--blu-margin-none);
+    }
+    .add-asset-input-first {
+        margin-top: var(--blu-margin-s);
+    }
+}

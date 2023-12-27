@@ -1,32 +1,12 @@
 <div class="row justify-content-center">
-    <div class="col-11 col-sm-9 col-md-7 col-xl-5">
+    <div class="col-11 col-sm-10 col-xl-8">
         <div class="add-vehicle-wrapper">
             <blu-modal subtitle="Tell us about your asset" title="Vehicle details" subheadingPosition="top">
-                <app-add-vehicle-form
-                    #addVehicleForm
+                <app-add-asset-form
+                    [isAdd]="true"
+                    [assetType]="AssetType.Vehicle"
                     (savedAsset$)="onSaved($event)"
-                ></app-add-vehicle-form>
-                <div class="row">
-                    <div class="col-md-4 order-md-1 order-2">
-                        <div class="add-vehicle-button">
-                            <blu-button [fullWidth]="true" type="secondary" (click)="onClose()">Back</blu-button>
-                        </div>
-                    </div>
-                    <div class="col-md-8 order-md-2 order-1">
-                        <div class="add-vehicle-button add-vehicle-input-second">
-                            <blu-button
-                                [fullWidth]="true" 
-                                type="primary" 
-                                (click)="onInitSave()"
-                            >
-                                <span *ngIf="isLoading" class="add-vehicle-spinner-wrapper">
-                                    <blu-spinner></blu-spinner>
-                                </span>
-                                Next
-                            </blu-button>
-                        </div>
-                    </div>
-                </div>
+                ></app-add-asset-form>
             </blu-modal>
         </div>
     </div>

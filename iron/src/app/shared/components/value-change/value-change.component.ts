@@ -18,12 +18,10 @@ export class ValueChangeComponent {
     let finalString = '';
 
     if(valueChange.value < 0) {
-      finalString += '-';
+      finalString += '-$' + Math.abs(valueChange.value).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + ' (-' + Math.abs(valueChange.percent).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + '%)';
     } else {
-      finalString += '+';
+      finalString += '+$' + Math.abs(valueChange.value).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + ' (' + Math.abs(valueChange.percent).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + '%)';
     }
-
-    finalString += "$" + Math.abs(valueChange.value).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + ' (' + valueChange.percent.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) + '%)';
 
     return finalString;
   }

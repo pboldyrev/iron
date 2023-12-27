@@ -5,7 +5,7 @@ import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { VEHICLE_MAKES } from './add-vehicle-form.constants';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, mergeMap, of, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeMap, of, take } from 'rxjs';
 import { Asset, AssetType, VehicleCustomAttributes } from 'src/app/shared/constants/constants';
 import { DataService } from 'src/app/shared/services/data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -27,7 +27,6 @@ export class AddVehicleFormComponent implements AfterContentInit {
 
   @Input() asset$: Observable<Asset> = of({});
   @Input() isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  @Output() savedAsset$: Subject<Asset> = new Subject<Asset>();
   
   public FeedbackType = FeedbackType;
 
@@ -60,11 +59,8 @@ export class AddVehicleFormComponent implements AfterContentInit {
     });
   }
 
-  public onSubmit(): void {
-    this.isLoading$.next(true);
-
-    combineLatest([
-      this.asset$,
+  public onSubmit$(): Observable<VehicleCustomAttributes> {
+    return combineLatest([
       this.makeInput.validate$(),
       this.yearInput.validate$(),
       this.mileageInput.validate$(),
@@ -73,27 +69,7 @@ export class AddVehicleFormComponent implements AfterContentInit {
       this.nicknameInput.value$,
     ]).pipe(
       take(1),
-      filter(([
-        asset,
-        make, 
-        year, 
-        mileage, 
-        model,
-        depreciationRate,
-        nickname, 
-      ]: [
-        Asset,
-        string,
-        string,
-        string,
-        string,
-        string,
-        string
-      ]) => {
-        return this.validateInputs(make, model, year, depreciationRate, mileage);
-      }),
-      mergeMap(([
-        asset,
+      map(([
         make, 
         year, 
         mileage, 
@@ -101,7 +77,6 @@ export class AddVehicleFormComponent implements AfterContentInit {
         depreciationRate,
         nickname,
       ]: [
-        Asset,
         string,
         string,
         string,
@@ -109,7 +84,9 @@ export class AddVehicleFormComponent implements AfterContentInit {
         string,
         string
       ]) => {
-        let finalName = this.getFinalName(model, year ?? '', make ?? "", nickname);
+        if(!this.validateInputs(make, model, year, depreciationRate, mileage)) {
+          return {};
+        }
 
         const vehicleCustomAttributes: VehicleCustomAttributes = {
           make: make,
@@ -120,43 +97,9 @@ export class AddVehicleFormComponent implements AfterContentInit {
           appreciationRate: -parseFloat(depreciationRate),
         }
 
-        const vehiclePayload: Asset = {
-          ...vehicleCustomAttributes,
-          assetName: finalName,
-          units: 1,
-          assetType: AssetType.Vehicle,
-        }
-
-        if(asset.assetId) {
-          return this.dataService.updateAsset$({assetId: asset.assetId, ...vehiclePayload}, this.isLoading$);
-        }
-        
-        return this.dataService.putAsset$(vehiclePayload, this.isLoading$);
+        return vehicleCustomAttributes;
       }),
-    ).subscribe({
-      next: (asset: Asset) => {
-        this.savedAsset$.next(asset);
-      },
-      error: () => {
-        this.isLoading$.next(false);
-        this.savedAsset$.next({});
-      }
-    });
-  }
-
-  private getFinalName(
-    modelName: string, 
-    modelYear: string,
-    make: string,
-    nickname: string
-  ): string {
-    let finalName = modelYear + ' ' + make + ' ' + modelName;
-
-    if(nickname !== "") {
-      finalName += ' (' + nickname + ')';
-    }
-
-    return finalName;
+    );
   }
 
   private validateInputs(
@@ -193,10 +136,6 @@ export class AddVehicleFormComponent implements AfterContentInit {
     if(!make || !year || !mileage || !model) {
       this.isLoading$.next(false);
       valid = false;
-    }
-
-    if(!valid) {
-      this.savedAsset$.next({});
     }
 
     return valid;

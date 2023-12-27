@@ -13,6 +13,18 @@
   text-transform: capitalize;
 }
 
+.blu-heading-primary {
+  color: var(--blu-color-text-primary);
+}
+
+.blu-heading-secondary {
+  color: var(--blu-color-text-secondary);
+}
+
+.blu-heading-tertiary {
+  color: var(--blu-color-text-tertiary);
+}
+
 .blu-heading-bold {
   font-weight: var(--blu-font-weight-bold);
 }
@@ -33,6 +45,7 @@
 .blu-heading-s {
   font-size: var(--blu-font-size-heading-s);
   line-height: var(--blu-line-height-m);
+  margin-bottom: var(--blu-margin-xs);
 }
 
 .blu-heading-m {
