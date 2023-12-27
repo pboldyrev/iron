@@ -1,40 +1,45 @@
 <div class="row justify-content-center">
     <div class="col-11 col-sm-10 col-xl-8">
         <div class="asset-details-page-wrapper justify-content-center">
-            <blu-modal
-                [subtitle]="(isWorthLoading$ | async) ? '' : displayAssetName"
-                [title]="(isWorthLoading$ | async) ? '' : displayAssetValue"
-                [boldTitle]="true"
-                [titleTooltip]="displayAssetValue === '$0.00' ? 'You can add value to this asset in the Value history tab.' : ''"
-            >
-                <div *ngIf="isWorthLoading$ | async" class="asset-details-spinner align-self-start">
-                    <blu-spinner size="40"></blu-spinner>
-                </div>
+            <blu-modal>
                 <div class="asset-details-page-button-back">
-                    <blu-button type="primary" iconName="backArrow" (click)="onBack()">Overview</blu-button>
+                    <blu-button type="primary" iconName="backArrow" (click)="onBack()">Back</blu-button>
                 </div>
-                <mat-tab-group>
+                <blu-heading
+                    size="medium"
+                    [bold]="true"
+                    [subheading]="displayAssetName"
+                    subheadingPosition="top"
+                    class="asset-details-page-heading"
+                    *ngIf="!(isDetailsLoading$ | async)"
+                >
+                    {{ displayAssetValue }}
+                </blu-heading>
+                <div *ngIf="(isDetailsLoading$ | async)" class="asset-details-history-loading">
+                    <blu-spinner size="50"></blu-spinner>
+                </div>
+                <mat-tab-group [ngClass]="{
+                    'asset-details-page-hidden': isDetailsLoading$ | async
+                }">
                     <mat-tab label="Value history">
-                            <div *ngIf="(isHistoryLoading$ | async) else history" class="asset-details-history-loading">
-                                <mat-progress-bar mode="query"></mat-progress-bar>
-                            </div>
-                            <ng-template #history>
-                                <div *ngIf="((assetValues$ | async) ?? []).length >= 2" class="asset-details-value-history-chart-wrapper">
-                                    <app-chart
-                                        [values$]="assetValues$"
-                                    ></app-chart>
-                                </div>
-                                <div class="asset-details-value-history-wrapper">
-                                    <app-value-history
-                                        [assetValues]="(assetValues$ | async) ?? []"
-                                        [assetId]="(assetId$ | async) ?? ''"
-                                        [isLoading$]="isHistoryLoading$"
-                                    ></app-value-history>
-                                </div>
-                            </ng-template>
+                        <div *ngIf="((assetValues$ | async) ?? []).length >= 2" class="asset-details-value-history-chart-wrapper">
+                            <app-chart
+                                [values$]="assetValues$"
+                            ></app-chart>
+                        </div>
+                        <div class="asset-details-value-history-wrapper">
+                            <app-value-history
+                                [assetValues]="(assetValues$ | async) ?? []"
+                                [assetId]="(assetId$ | async) ?? ''"
+                                [isLoading$]="isDetailsLoading$"
+                            ></app-value-history>
+                        </div>
                     </mat-tab>
                     <mat-tab label="Asset details">
                         <app-asset-more-details
+                            [ngClass]="{
+                                'asset-details-page-hidden': isDetailsLoading$ | async
+                            }"
                             [asset$]="asset$"
                         ></app-asset-more-details>
                     </mat-tab>

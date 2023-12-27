@@ -33,20 +33,20 @@
         </div>
     </div>
 <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
+    <div class="row">
+        <div class="col-12 dashboard-actions-wrapper">
+            <blu-button type="primary" iconName="plus" (click)="onAddAsset()">
+                {{ TEXTS.BTN_PRIMARY_CTA }}
+            </blu-button>
+            <blu-button type="secondary" (click)="onLogOut()">
+                {{ TEXTS.BTN_SECONDARY_CTA }}
+            </blu-button>
+        </div>
+    </div>
         <div *ngIf="(isAssetsLoading$ | async) else mainContent" class="dashboard-main-loader-wrapper">
             <blu-spinner size="50"></blu-spinner>
         </div>
         <ng-template #mainContent>
-            <div class="row">
-                <div class="col-12 dashboard-actions-wrapper">
-                    <blu-button type="primary" iconName="plus" (click)="onAddAsset()">
-                        {{ TEXTS.BTN_PRIMARY_CTA }}
-                    </blu-button>
-                    <blu-button type="secondary" (click)="onLogOut()">
-                        {{ TEXTS.BTN_SECONDARY_CTA }}
-                    </blu-button>
-                </div>
-            </div>
             <div class="row">
                 <ng-container *ngFor="let asset of assetSummaries">
                     <div class="col-lg-12 col-xl-6 dashboard-asset-summary">

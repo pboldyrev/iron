@@ -225,6 +225,19 @@ html {
     background-color: var(--blu-background-primary);
   }
 
+  .mat-mdc-tab {
+    flex-grow: 0 !important;
+  }
+
+  .mdc-tab {
+    padding: 0 var(--blu-padding-xxl)!important;
+    font: var(--blu-font-primary)!important;
+  }
+
+  .mat-mdc-tab-header {
+    border-bottom: var(--blu-border-tertiary);
+  }
+
   .row {
     --bs-gutter-x: 0px;
     --bs-gutter-y: 0px;

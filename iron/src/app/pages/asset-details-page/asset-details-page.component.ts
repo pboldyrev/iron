@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ValueHistoryComponent } from './value-history/value-history.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  
@@ -12,24 +12,28 @@ import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChartComponent } from 'src/app/shared/components/chart/chart.component';
 import { AssetMoreDetailsComponent } from './asset-more-details/asset-more-details.component';
+import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
+import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, ChartComponent, AssetMoreDetailsComponent],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, ChartComponent, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText],
   templateUrl: './asset-details-page.component.html',
-  styleUrl: './asset-details-page.component.scss'
+  styleUrl: './asset-details-page.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class AssetDetailsPageComponent {
   public AssetType = AssetType;
 
-  public asset$: BehaviorSubject<Asset> = new BehaviorSubject<Asset>({});
-  public assetId$: BehaviorSubject<string> = new BehaviorSubject<string>("");
-  public assetValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
+  public asset$ = new BehaviorSubject<Asset>({});
+  public assetId$ = new BehaviorSubject<string>("");
+  public assetValues$ = new BehaviorSubject<AssetValue[]>([]);
+
+  public isDetailsLoading$ = new BehaviorSubject<boolean>(false);
+
   public displayAssetName = "";
   public displayAssetValue = "";
-  public isHistoryLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public isWorthLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private router: Router,
@@ -39,14 +43,13 @@ export class AssetDetailsPageComponent {
 
   ngOnInit() {
     const curId: string = this.route.snapshot.paramMap.get('id') ?? "";
-
     this.assetId$.next(curId);
     this.fetchAssetValue(curId);
     this.fetchValueHistory(curId);
   }
 
   private fetchAssetValue(assetId: string): void {
-    this.dataService.getAssetById$(assetId, this.isWorthLoading$).pipe(
+    this.dataService.getAssetById$(assetId, this.isDetailsLoading$).pipe(
       map((asset: Asset) => {
         this.asset$.next(asset);
         this.displayAssetName = this.getDisplayName(asset);
@@ -56,7 +59,7 @@ export class AssetDetailsPageComponent {
   }
 
   private fetchValueHistory(assetId: string): void {
-    this.dataService.getAssetValues$(assetId, this.isHistoryLoading$).pipe(
+    this.dataService.getAssetValues$(assetId, this.isDetailsLoading$).pipe(
       map((assetValues: AssetValue[]) => {
         this.assetValues$.next(assetValues);
       })
@@ -78,6 +81,6 @@ export class AssetDetailsPageComponent {
   }
 
   private getDisplayWorth(asset: Asset): string {
-    return '$' + (asset?.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2});
+    return '$' + (asset?.curValue ?? 0).toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
   }
 }

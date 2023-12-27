@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './chart.component.scss'
 })
 export class ChartComponent implements AfterContentInit {
-  @Input() values$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
+  @Input() values$ = new BehaviorSubject<AssetValue[]>([]);
 
   public chart: Chart<any> | undefined;
 
@@ -27,22 +27,13 @@ export class ChartComponent implements AfterContentInit {
       
       let yAxis = assetValues.map((assetValue) => assetValue.value ?? 0);
 
-      if(!this.chart) {
-        this.createChart(xAxis, yAxis);
-      } else {
-        this.updateChart(xAxis, yAxis);
-      }
+      this.createChart(xAxis, yAxis);
     });
-  }
-
-  private updateChart(xAxis: string[], yAxis: number[]): void {
-    (this.chart as any).options = this.getOptions(xAxis, yAxis);
-    this.chart?.update();
   }
 
   private createChart(xAxis: string[], yAxis: number[]): void {
     try {
-      let oldChart = Chart.getChart("finacleChart") ?? false;
+      let oldChart = Chart.getChart("finacleChart") ?? undefined;
       if(oldChart){
         oldChart.clear();
         oldChart.destroy();
@@ -110,7 +101,7 @@ export class ChartComponent implements AfterContentInit {
         scales: {
           x: {
             ticks: {
-              display: true,
+              display: false,
               autoSkip: true,
               maxRotation: 0,
               autoSkipPadding: 20,
