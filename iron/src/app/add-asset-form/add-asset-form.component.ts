@@ -27,7 +27,7 @@ export class AddAssetFormComponent {
 
   @Input() assetType!: AssetType;
   @Input() isAdd!: boolean;
-  @Input() asset$!: Observable<Asset>;
+  @Input() asset$: Observable<Asset> = of({});
   @Input() isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   @Output() savedAsset$: Subject<Asset> = new Subject<Asset>();
@@ -77,7 +77,6 @@ export class AddAssetFormComponent {
 
         const vehiclePayload: Asset = {
           ...vehicleCustomAttributes,
-          assetName: this.getFinalName(vehicleCustomAttributes),
           units: parseInt(units),
           account: account,
           assetType: this.assetType,

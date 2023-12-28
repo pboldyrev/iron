@@ -25,6 +25,7 @@
                     type="INTEGER"
                     label="Units"
                     [required]="true"
+                    initValue="1"
                     #units
                     [disabled]="(isLoading$ | async) ?? false"
                 ></blu-input>

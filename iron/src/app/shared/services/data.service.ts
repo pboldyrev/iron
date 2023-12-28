@@ -386,4 +386,20 @@ export class DataService {
       }))
     )
   }
+
+  public TEMP_getValueByVin(vin: string, mileage: string | null = null): Observable<any> {
+    return this.httpClient.get(
+      "https://car-utils.p.rapidapi.com/marketvalue",
+      {
+        headers: {
+          'X-RapidAPI-Key': 'a634701fbcmsh2958180d896811dp13ffafjsn6cd59dc22287',
+          'X-RapidAPI-Host': 'car-utils.p.rapidapi.com'
+        },
+        params: {
+          vin: vin,
+          mileage: mileage ?? '50000'
+        },
+      },
+    )
+  }
 }

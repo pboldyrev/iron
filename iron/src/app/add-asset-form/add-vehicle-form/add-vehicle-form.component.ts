@@ -5,7 +5,7 @@ import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { VEHICLE_MAKES } from './add-vehicle-form.constants';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeMap, of, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeMap, of, switchMap, take } from 'rxjs';
 import { Asset, AssetType, VehicleCustomAttributes } from 'src/app/shared/constants/constants';
 import { DataService } from 'src/app/shared/services/data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -24,6 +24,7 @@ export class AddVehicleFormComponent implements AfterViewInit {
   @ViewChild('model') modelInput!: BluInput;
   @ViewChild('mileage') mileageInput!: BluInput;
   @ViewChild('vin') vinInput!: BluInput;
+  @ViewChild('mileageVin') mileageVinInput!: BluInput;
   @ViewChild('depreciationRate') depreciationRateInput!: BluInput;
   @ViewChild('nickname') nicknameInput!: BluInput;
   @ViewChild('trackManually') trackManually!: TemplateRef<Element>;
@@ -35,6 +36,10 @@ export class AddVehicleFormComponent implements AfterViewInit {
   public showVinTracking = true;
 
   public FeedbackType = FeedbackType;
+
+  constructor(
+    private dataService: DataService,
+  ){}
 
   ngAfterViewInit() {
     this.asset$.pipe(
@@ -76,34 +81,36 @@ export class AddVehicleFormComponent implements AfterViewInit {
     }
   }
 
-  private vinTrackingFormSubmission$(): Observable<VehicleCustomAttributes> {
+  private vinTrackingFormSubmission$(): Observable<Asset> {
     return combineLatest([
       this.vinInput.validate$(),
-      this.mileageInput.validate$()
+      this.mileageVinInput.validate$()
     ]).pipe(
       take(1),
-      map(([
+      switchMap(([
         vin,
         mileage
-      ]: [
-        string,
-        string,
       ]) => {
-        if (!vin) {
+        return this.dataService.TEMP_getValueByVin(vin, mileage);
+      }),
+      map((vinVehicle: any) => {
+        if (!vinVehicle.vin) {
           return {};
         }
 
-        const vehicleCustomAttributes: VehicleCustomAttributes = {
-          vin: vin,
-          mileage: parseInt(mileage),
+        const vehicleCustomAttributes: Asset = {
+          vin: vinVehicle.vin,
+          mileage: vinVehicle.mileage,
+          assetName: vinVehicle.vehicle,
+          initValue: vinVehicle.mean,
         };
 
         return vehicleCustomAttributes;
-      })
+      }),
     )
   }
 
-  private manualTrackingFormSubmission$(): Observable<VehicleCustomAttributes> {
+  private manualTrackingFormSubmission$(): Observable<Asset> {
     return combineLatest([
       this.makeInput.validate$(),
       this.yearInput.validate$(),
@@ -132,7 +139,7 @@ export class AddVehicleFormComponent implements AfterViewInit {
           return {};
         }
 
-        const vehicleCustomAttributes: VehicleCustomAttributes = {
+        const vehicleCustomAttributes: Asset = {
           make: make,
           model: model,
           year: parseInt(year),
