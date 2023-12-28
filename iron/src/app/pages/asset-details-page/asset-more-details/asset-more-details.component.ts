@@ -28,7 +28,8 @@ export type Attributes = {
 })
 export class AssetMoreDetailsComponent {
   @ViewChild("addAssetForm") addAssetForm!: AddAssetFormComponent;
-  @Input() asset$!: BehaviorSubject<Asset>;
+  
+  @Input() asset$!: Observable<Asset>;
 
   public isLoading$ = new BehaviorSubject<boolean>(false);
 

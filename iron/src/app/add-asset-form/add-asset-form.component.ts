@@ -27,7 +27,7 @@ export class AddAssetFormComponent {
 
   @Input() assetType!: AssetType;
   @Input() isAdd!: boolean;
-  @Input() asset$: Observable<Asset> = of({});
+  @Input() asset$!: Observable<Asset>;
   @Input() isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   @Output() savedAsset$: Subject<Asset> = new Subject<Asset>();

@@ -1,6 +1,8 @@
 <div class="add-asset-form-section-wrapper">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8" [ngClass]="{
+            'col-md-12': assetType === AssetType.Vehicle
+        }">
             <div class="add-asset-input">
                 <blu-input 
                     [fullWidth]="true"
@@ -16,16 +18,15 @@
         </div>
         <div class="col-md-4">
             <div class="add-vehicle-input add-asset-input-second">
-                <blu-input 
+                <blu-input
+                    [hidden]="assetType === AssetType.Vehicle"
                     [fullWidth]="true"
                     [feedbackType]="FeedbackType.ERROR" 
                     type="INTEGER"
                     label="Units"
                     [required]="true"
                     #units
-                    [disabled]="(isLoading$ | async) ?? false || assetType === AssetType.Vehicle"
-                    [initValue]="assetType === AssetType.Vehicle ? '1' : ''"
-                    [tooltip]="assetType === AssetType.Vehicle ? 'You may not have multiple of the same vehicle.' : ''"
+                    [disabled]="(isLoading$ | async) ?? false"
                 ></blu-input>
             </div>
         </div>
@@ -35,6 +36,7 @@
     <app-add-vehicle-form
         [asset$]="asset$"
         [isLoading$]="isLoading$"
+        [isAdd]="isAdd"
         #addVehicleForm
     ></app-add-vehicle-form>
 </ng-container>

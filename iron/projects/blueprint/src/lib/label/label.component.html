@@ -1,4 +1,4 @@
-<label *ngIf="label || required" class="blu-label" [matTooltip]="tooltip">
+<label *ngIf="label || required" class="blu-label" [matTooltip]="tooltip" matTooltipClass="blu-tooltip">
     <span *ngIf="label">{{label}}</span>
     <span *ngIf="required" class="blu-label-required">*</span>
     <div class="blu-label-tooltip">

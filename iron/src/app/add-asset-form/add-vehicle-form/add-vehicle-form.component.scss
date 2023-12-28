@@ -9,6 +9,14 @@
     margin-bottom: var(--blu-margin-l);
 }
 
+.add-vehicle-switch {
+    display: flex;
+    width: var(--blu-width-full);
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 0 var(--blu-margin-xl);
+}
+
 .add-vehicle-input-second {
     margin-left: var(--blu-margin-l);
 }

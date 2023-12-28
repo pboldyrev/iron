@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, Component, Input, Output, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { BluSelectOption, FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
@@ -9,57 +9,101 @@ import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, merge
 import { Asset, AssetType, VehicleCustomAttributes } from 'src/app/shared/constants/constants';
 import { DataService } from 'src/app/shared/services/data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 
 @Component({
   selector: 'app-add-vehicle-form',
   standalone: true,
-  imports: [CommonModule, BluInput, BluText, BluSelect, MatTooltipModule],
+  imports: [CommonModule, BluInput, BluText, BluSelect, MatTooltipModule, BluLink],
   templateUrl: './add-vehicle-form.component.html',
   styleUrl: './add-vehicle-form.component.scss'
 })
-export class AddVehicleFormComponent implements AfterContentInit {
+export class AddVehicleFormComponent implements AfterViewInit {
   @ViewChild('make') makeInput!: BluInput;
   @ViewChild('year') yearInput!: BluInput;
   @ViewChild('model') modelInput!: BluInput;
   @ViewChild('mileage') mileageInput!: BluInput;
+  @ViewChild('vin') vinInput!: BluInput;
   @ViewChild('depreciationRate') depreciationRateInput!: BluInput;
   @ViewChild('nickname') nicknameInput!: BluInput;
+  @ViewChild('trackManually') trackManually!: TemplateRef<Element>;
 
-  @Input() asset$: Observable<Asset> = of({});
-  @Input() isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  @Input() asset$!: Observable<Asset>;
+  @Input() isLoading$ = new BehaviorSubject<boolean>(false);
+  @Input() isAdd: boolean = false;
   
+  public showVinTracking = true;
+
   public FeedbackType = FeedbackType;
 
-  constructor(
-    private dataService: DataService,
-  ){}
-
-  ngAfterContentInit() {
+  ngAfterViewInit() {
     this.asset$.pipe(
-      filter((asset: Asset) => !!asset.assetId)
+      filter((asset: Asset) => !!asset.assetId ?? false)
     ).subscribe((asset: Asset) => {
-      if(asset.nickName) {
+      if(asset.nickName && this.nicknameInput) {
         this.nicknameInput.value$.next(asset.nickName);
       }
-      if(asset.make) {
+      if(asset.vin && this.vinInput) {
+        this.vinInput.value$.next(asset.vin);
+      }
+      if(asset.make && this.makeInput) {
         this.makeInput.value$.next(asset.make);
       }
-      if(asset.model) {
+      if(asset.model && this.modelInput) {
         this.modelInput.value$.next(asset.model);
       }
-      if(asset.year) {
+      if(asset.year && this.yearInput) {
         this.yearInput.value$.next(asset.year.toString());
       }
-      if(asset.mileage) {
+      if(asset.mileage && this.mileageInput) {
         this.mileageInput.value$.next(asset.mileage.toString());
       }
-      if(asset.appreciationRate) {
-        this.mileageInput.value$.next(asset.appreciationRate.toString());
+      if(asset.appreciationRate && this.depreciationRateInput) {
+        this.depreciationRateInput.value$.next(asset.appreciationRate.toString());
       }
     });
   }
 
+  public onToggleTrackingType(): void {
+    this.showVinTracking = !this.showVinTracking;
+  }
+
   public onSubmit$(): Observable<VehicleCustomAttributes> {
+    if(this.showVinTracking) {
+      return this.vinTrackingFormSubmission$();
+    } else {
+      return this.manualTrackingFormSubmission$();
+    }
+  }
+
+  private vinTrackingFormSubmission$(): Observable<VehicleCustomAttributes> {
+    return combineLatest([
+      this.vinInput.validate$(),
+      this.mileageInput.validate$()
+    ]).pipe(
+      take(1),
+      map(([
+        vin,
+        mileage
+      ]: [
+        string,
+        string,
+      ]) => {
+        if (!vin) {
+          return {};
+        }
+
+        const vehicleCustomAttributes: VehicleCustomAttributes = {
+          vin: vin,
+          mileage: parseInt(mileage),
+        };
+
+        return vehicleCustomAttributes;
+      })
+    )
+  }
+
+  private manualTrackingFormSubmission$(): Observable<VehicleCustomAttributes> {
     return combineLatest([
       this.makeInput.validate$(),
       this.yearInput.validate$(),
