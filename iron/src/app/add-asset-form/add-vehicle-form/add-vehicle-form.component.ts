@@ -87,22 +87,14 @@ export class AddVehicleFormComponent implements AfterViewInit {
       this.mileageVinInput.validate$()
     ]).pipe(
       take(1),
-      switchMap(([
-        vin,
-        mileage
-      ]) => {
-        return this.dataService.TEMP_getValueByVin(vin, mileage);
-      }),
-      map((vinVehicle: any) => {
-        if (!vinVehicle.vin) {
+      map(([vin, mileage]: [string, string]) => {
+        if (!vin) {
           return {};
         }
 
         const vehicleCustomAttributes: Asset = {
-          vin: vinVehicle.vin,
-          mileage: vinVehicle.mileage,
-          assetName: vinVehicle.vehicle,
-          initValue: vinVehicle.mean,
+          vin: vin,
+          mileage: parseInt(mileage),
         };
 
         return vehicleCustomAttributes;

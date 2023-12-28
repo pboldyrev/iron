@@ -27,7 +27,9 @@ export class ChartComponent implements AfterContentInit {
       
       let yAxis = assetValues.map((assetValue) => assetValue.value ?? 0);
 
-      this.createChart(xAxis, yAxis);
+      if(assetValues.length > 1) {
+        this.createChart(xAxis, yAxis);
+      }
     });
   }
 
@@ -40,7 +42,9 @@ export class ChartComponent implements AfterContentInit {
       }
     } catch {}
 
-    this.chart = new Chart("finacleChart", this.getOptions(xAxis, yAxis));
+    try {
+      this.chart = new Chart("finacleChart", this.getOptions(xAxis, yAxis));
+    } catch {}
   }
 
   private getOptions(xAxis: string[], yAxis: number[]): ChartConfiguration  {

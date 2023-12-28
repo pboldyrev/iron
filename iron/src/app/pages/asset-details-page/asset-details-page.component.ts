@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
-import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of, takeUntil } from 'rxjs';
 import { DataService } from '../../shared/services/data.service';
 import { Asset, AssetType, AssetValue } from '../../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
@@ -14,6 +14,7 @@ import { ChartComponent } from 'src/app/shared/components/chart/chart.component'
 import { AssetMoreDetailsComponent } from './asset-more-details/asset-more-details.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-asset-details-page',
@@ -39,9 +40,7 @@ export class AssetDetailsPageComponent {
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
-  ){}
-
-  ngOnInit() {
+  ){
     const curId: string = this.route.snapshot.paramMap.get('id') ?? "";
     this.assetId$.next(curId);
     this.fetchAssetValue(curId);
@@ -50,6 +49,7 @@ export class AssetDetailsPageComponent {
 
   private fetchAssetValue(assetId: string): void {
     this.dataService.getAssetById$(assetId, this.isDetailsLoading$).pipe(
+      takeUntilDestroyed(),
       map((asset: Asset) => {
         this.asset$.next(asset);
         this.displayAssetName = this.getDisplayName(asset);
@@ -60,6 +60,7 @@ export class AssetDetailsPageComponent {
 
   private fetchValueHistory(assetId: string): void {
     this.dataService.getAssetValues$(assetId, this.isDetailsLoading$).pipe(
+      takeUntilDestroyed(),
       map((assetValues: AssetValue[]) => {
         this.assetValues$.next(assetValues);
       })
