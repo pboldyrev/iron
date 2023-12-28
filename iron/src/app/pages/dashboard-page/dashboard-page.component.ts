@@ -68,7 +68,7 @@ export class DashboardPageComponent {
   private fetchAssets(): void {
     this.dataService.getAssets$(false, this.isAssetsLoading$).pipe(
       tap((assets: Asset[]) => {
-        this.updateAssetTypeSummaries$(assets);
+        // this.updateAssetTypeSummaries$(assets);
       }),
       map((assets: Asset[]) => {
         this.assets = assets;

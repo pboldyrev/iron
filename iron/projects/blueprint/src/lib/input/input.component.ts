@@ -30,6 +30,7 @@ export class BluInput {
   @Input() direction: string = 'ltr';
   @Input() initValue: string = '';
   @Input() tooltip: string = '';
+  @Input() maxChars: number = 100;
 
   public value$ = new BehaviorSubject<string>('');
   public isValid$ = new BehaviorSubject<boolean>(true);

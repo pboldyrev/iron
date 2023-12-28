@@ -243,6 +243,13 @@ html {
   .mat-mdc-tab-header {
     border-bottom: var(--blu-border-tertiary);
   }
+  
+  .mat-mdc-tooltip .mdc-tooltip__surface {
+    background-color: var(--blu-background-tertiary);
+    font: var(--blu-font-primary);
+    color: var(--blu-color-primary);
+    font-size: var(--blu-font-size-s);
+  }
 
   .row {
     --bs-gutter-x: 0px;
