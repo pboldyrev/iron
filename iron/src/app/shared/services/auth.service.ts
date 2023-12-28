@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { environment } from 'src/environments';
+import { NavigationService } from './navigation-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ import { environment } from 'src/environments';
 export class AuthService {
   userData: any;
   constructor(
-    public router: Router,
+    public navigationService: NavigationService,
     public ngZone: NgZone,
     private httpClient: HttpClient,
     private toastService: ToastService,
@@ -66,7 +67,7 @@ export class AuthService {
   public signOut(): void {
     try {
       localStorage.removeItem('sessionToken')
-      this.router.navigate(['/login']);
+      this.navigationService.navigate('/login');
       this.toastService.showToast("You have been logged out", FeedbackType.SUCCESS);
     } catch (error) {
       console.log(error);

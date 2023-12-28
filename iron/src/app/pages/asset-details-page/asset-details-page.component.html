@@ -12,6 +12,7 @@
                     subheadingPosition="top"
                     class="asset-details-page-heading"
                     *ngIf="!(isDetailsLoading$ | async)"
+                    [isNumber]="true"
                 >
                     {{ displayAssetValue }}
                 </blu-heading>

@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AssetType } from 'src/app/shared/constants/constants';
 import { TEXTS } from './add-asset-option.strings';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluIconName } from 'projects/blueprint/src/lib/common/constants';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AssetToNameMap } from './add-asset-option.constants';
 
 @Component({
   selector: 'app-add-asset-option',
@@ -26,32 +27,8 @@ export class AddAssetOptionComponent {
   public TEXTS = TEXTS;
 
   ngOnInit() {
-    switch (this.type) {
-      case AssetType.Stock:
-        this.title = TEXTS.STOCK_TITLE;
-        this.iconName = AssetType.Stock;
-        this.layout = 'top';
-        break;
-      case AssetType.Vehicle:
-        this.title = TEXTS.VEHICLE_TITLE
-        this.iconName = AssetType.Vehicle;
-        this.layout = 'top';
-        break;
-      case AssetType.CD:
-        this.title = TEXTS.CD_TITLE
-        this.iconName = AssetType.CD;
-        this.layout = 'bottom';
-        break;
-      case AssetType.Savings:
-        this.title = TEXTS.HYSA_TITLE
-        this.iconName = AssetType.Savings;
-        this.layout = 'top';
-        break;
-      case AssetType.Custom:
-        this.title = TEXTS.CUSTOM_TITLE
-        this.iconName = AssetType.Custom;
-        this.layout = 'top';
-        break;
-    }
+    this.title = AssetToNameMap[this.type];
+    this.iconName = this.type;
+    this.layout = 'top';
   }
 }

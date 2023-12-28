@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-11 col-sm-10 col-xl-8">
         <div class="add-vehicle-wrapper">
-            <blu-modal subtitle="Tell us about your asset" title="Add a vehicle" subheadingPosition="top">
+            <blu-modal subtitle="Fill in the asset details" [title]="(getTitle$() | async) ?? ''" subheadingPosition="top">
                 <app-add-asset-form
                     [isAdd]="true"
                     [assetType]="(assetType$ | async) ?? AssetType.Custom"

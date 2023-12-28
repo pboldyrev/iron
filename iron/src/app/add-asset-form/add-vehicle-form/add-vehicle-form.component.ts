@@ -11,6 +11,7 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 
 @Component({
   selector: 'app-add-vehicle-form',
@@ -30,7 +31,7 @@ export class AddVehicleFormComponent implements AfterViewInit {
   public FeedbackType = FeedbackType;
 
   constructor(
-    private router: Router,
+    private navigationService: NavigationService,
   ){}
 
   ngAfterViewInit() {
@@ -68,6 +69,6 @@ export class AddVehicleFormComponent implements AfterViewInit {
   }
 
   public onSwitchToCustom(): void {
-    this.router.navigate(['/add/custom']);
+    this.navigationService.navigate('/add/custom');
   }
 }

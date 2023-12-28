@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddVehicleComponent } from './add-vehicle.component';
+import { AddAssetSelectionComponent } from './add-asset-selection.component';
 
-describe('AddVehicleComponent', () => {
-  let component: AddVehicleComponent;
-  let fixture: ComponentFixture<AddVehicleComponent>;
+describe('AddAssetComponent', () => {
+  let component: AddAssetSelectionComponent;
+  let fixture: ComponentFixture<AddAssetSelectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddVehicleComponent]
+      imports: [AddAssetSelectionComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddVehicleComponent);
+    fixture = TestBed.createComponent(AddAssetSelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

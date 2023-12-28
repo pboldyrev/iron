@@ -58,8 +58,6 @@ export type ArchiveAssetResponse = {
 export enum AssetType {
   Stock = 'stock',
   Vehicle = 'vehicle',
-  CD = 'cd',
-  Savings = 'savings',
   Custom = 'custom',
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Router, RoutesRecognized } from "@angular/router";
+import { ActivatedRoute, Router, RoutesRecognized } from "@angular/router";
 import { filter, map, pairwise } from "rxjs";
 import { ROOT_URL } from "../constants/constants";
 import { Location } from "@angular/common";
@@ -12,7 +12,7 @@ export class NavigationService {
 
   constructor(
     private readonly router: Router,
-    private readonly location: Location
+    private readonly location: Location,
   ) {
     this.router.events
       .pipe(
@@ -35,5 +35,9 @@ export class NavigationService {
 
   public navigate(route: string): void {
     this.router.navigate([route]);
+  }
+
+  public getUrlParam(route: ActivatedRoute, param: string): string {
+    return route.snapshot.paramMap.get(param) ?? '';
   }
 }

@@ -10,6 +10,7 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 
 export type AssetTypeSummary = {
   type: AssetType,
@@ -31,10 +32,10 @@ export class AssetTypeCardComponent {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private router: Router,
+    private navigationService: NavigationService,
   ) {}
 
   public onNavigateToSummary(): void {
-    this.router.navigate(['/dashboard/' + this.asset.type]);
+    this.navigationService.navigate('/dashboard/' + this.asset.type);
   }
 }
