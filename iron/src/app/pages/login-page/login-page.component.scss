@@ -45,9 +45,10 @@
 @media screen and (max-width: 991px) {
   .login-side-wrapper {
       min-height: 75vh;
+      border: none;
   }
   
   .login-main-wrapper {
-    min-height: 75vh;
+    min-height: 25vh;
   }
 }

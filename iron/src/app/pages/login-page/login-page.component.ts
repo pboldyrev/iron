@@ -18,8 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MixpanelService } from 'src/app/shared/services/mixpanel.service';
 import { MIXPANEL } from 'src/app/shared/constants/constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { ReviewCardComponent } from './review-card/review-card.component';
-import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
+import { FooterComponent } from 'src/app/footer/footer.component';
 
 @Component({
   selector: 'app-login-page',
@@ -34,7 +33,6 @@ import { FooterComponent } from 'src/app/shared/components/footer/footer.compone
     BluText,
     BluModal,
     BluValidationFeedback,
-    ReviewCardComponent,
     FooterComponent
   ],
   templateUrl: './login-page.component.html',

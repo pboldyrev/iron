@@ -65,7 +65,7 @@
                 {{ TEXTS.UNITS_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                <blu-text type="number">{{ asset.units }}</blu-text>
+                <blu-text [isNumber]="true">{{ asset.units }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
             </mat-footer-cell>
@@ -76,10 +76,10 @@
                 {{ TEXTS.COST_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                <blu-text type="number">${{ (asset.initValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text [isNumber]="true">${{ (asset.initValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ initTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text weight="bold" [isNumber]="true">${{ initTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
@@ -88,10 +88,10 @@
                 {{ TEXTS.VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                <blu-text type="number">${{(asset.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text [isNumber]="true">${{(asset.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" type="number">${{ curTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text weight="bold" [isNumber]="true">${{ curTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
@@ -102,7 +102,7 @@
                 <blu-tag [type]="asset.curValue >= asset.initValue ? 'success' : 'error'">
                     <blu-icon [name]="asset.curValue >= asset.initValue ? 'chevronUp' : 'chevronDown'"></blu-icon>
                     <div class="asset-table-tag-text">
-                        <blu-text size="small" type="number">{{ getPercentChange(asset.initValue, asset.curValue) }}%</blu-text>
+                        <blu-text size="small" [isNumber]="true">{{ getPercentChange(asset.initValue, asset.curValue) }}%</blu-text>
                     </div>
                 </blu-tag>
             </mat-cell>
@@ -115,7 +115,7 @@
                         [name]="initTotal >= curTotal ? 'chevronUp' : 'chevronDown'"
                     ></blu-icon>
                     <div class="asset-table-tag-text">
-                        <blu-text size="small" type="number">
+                        <blu-text size="small" [isNumber]="true">
                             {{ getPercentChange(initTotal, curTotal) }}%
                         </blu-text>
                     </div>

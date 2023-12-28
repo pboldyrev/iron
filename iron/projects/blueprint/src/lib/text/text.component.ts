@@ -9,9 +9,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./text.component.css'],
 })
 export class BluText {
-  @Input() size!: 'large' | 'medium' | 'small' | 'x-small';
-  @Input() type!: 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'info' | 'number';
-  
+  @Input() size: 'large' | 'medium' | 'small' | 'x-small' = 'medium';
+  @Input() type: 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'info' = "primary";
   @Input() weight: 'normal' | 'bold' = 'normal';
-  @Input() capitalize: boolean = false;
+  @Input() capitalize = false;
+  @Input() isNumber = false;
 }

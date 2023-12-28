@@ -49,11 +49,8 @@
 
 .blu-button-secondary {
   background-color: var(--blu-background-secondary);
-  color: var(--blu-color-primary);
-}
-
-.blu-button-secondary:hover {
   border: var(--blu-border-tertiary);
+  color: var(--blu-color-primary);
 }
 
 .blu-button-tertiary {

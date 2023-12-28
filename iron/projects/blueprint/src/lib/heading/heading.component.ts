@@ -12,9 +12,10 @@ import { BluText } from '../text/text.component';
 export class BluHeading {
   @Input() size: 'large' | 'medium' | 'small' | 'x-small' = 'medium';
   @Input() subheadingSize: 'large' | 'medium' | 'small' | 'x-small' = 'medium';
-  @Input() subheading: string = '';
-  @Input() bold: boolean = false;
+  @Input() subheading = '';
+  @Input() bold = false;
   @Input() feedback: 'success' | 'error' | null = null;
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
   @Input() type: 'primary' | 'secondary' | 'tertiary' = 'primary';
+  @Input() isNumber = false;
 }

@@ -55,7 +55,7 @@
               {{ error$ | async }}
             </blu-validation-feedback>
             <blu-button type="primary" [fullWidth]="true" (click)="onConfirmCode()">
-              <blu-spinner *ngIf="isCheckTokenSubmitting"></blu-spinner>
+              <blu-spinner *ngIf="isCheckTokenSubmitting" [inlineSpace]="true"></blu-spinner>
               {{ BTN_TEXTS.SUBMIT_CODE }}
             </blu-button>
             <blu-button type="secondary" iconName="backArrow" [fullWidth]="true" (click)="onBack()">
@@ -67,7 +67,6 @@
   </div>
   <div class="col-lg-7 col-sm-12">
     <div class="login-main-wrapper">
-      <app-review-card></app-review-card>
       <app-footer></app-footer>
     </div>
   </div>

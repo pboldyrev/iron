@@ -1,5 +1,11 @@
 .blu-link {
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.blu-link:hover {
+    filter: brightness(75%);
+    transition: 0.2s;
 }
 
 .blu-link-underline {

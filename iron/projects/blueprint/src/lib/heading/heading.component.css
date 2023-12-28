@@ -25,6 +25,10 @@
   color: var(--blu-color-text-tertiary);
 }
 
+.blu-heading-number {
+  font-family: "Roboto Mono";
+}
+
 .blu-heading-bold {
   font-weight: var(--blu-font-weight-bold);
 }
@@ -39,23 +43,23 @@
 
 .blu-heading-xs {
   font-size: var(--blu-font-size-heading-xs);
-  line-height: var(--blu-line-height-s);
+  line-height: var(--blu-line-height-heading-s);
 }
 
 .blu-heading-s {
   font-size: var(--blu-font-size-heading-s);
-  line-height: var(--blu-line-height-m);
+  line-height: var(--blu-line-height-heading-m);
   margin-bottom: var(--blu-margin-xs);
 }
 
 .blu-heading-m {
   font-size: var(--blu-font-size-heading-m);
-  line-height: var(--blu-line-height-m);
+  line-height: var(--blu-line-height-heading-m);
 }
 
 .blu-heading-l {
   font-size: var(--blu-font-size-heading-l);
-  line-height: var(--blu-line-height-l);
+  line-height: var(--blu-line-height-heading-l);
 }
 
 .blu-heading-success {

@@ -10,6 +10,7 @@
   <blu-text
     *ngIf="subheading && subheadingPosition === 'top'"
     class="blu-heading-sub"
+    type="secondary"
     [size]="subheadingSize">
     {{ subheading }}
   </blu-text>
@@ -26,6 +27,7 @@
       'blu-heading-primary': type === 'primary',
       'blu-heading-secondary': type === 'secondary',
       'blu-heading-tertiary': type === 'tertiary',
+      'blu-heading-number': isNumber,
     }"
   >
     <ng-content></ng-content>

@@ -122,14 +122,23 @@ export class ChartComponent implements AfterContentInit {
             ticks: {
               display: true,
               callback: (yValue: string | number) => {
-                const yValueAsNum = parseInt(yValue.toString());
+                let yValueAsNum = parseInt(yValue.toString());
+
+                let prefix;
+
+                if(yValueAsNum < 0) {
+                  prefix = '-$'
+                  yValueAsNum = Math.abs(yValueAsNum);
+                } else {
+                  prefix = '$'
+                }
 
                 if(yValueAsNum >= 1000 && yValueAsNum < 1000000) {
-                  return '$' + (yValueAsNum / 1000).toLocaleString() + 'K';
+                  return prefix + (yValueAsNum / 1000).toLocaleString() + 'K';
                 } else if (yValueAsNum > 1000000) {
-                  return '$' + (yValueAsNum / 1000000).toLocaleString() + 'M';
+                  return prefix + (yValueAsNum / 1000000).toLocaleString() + 'M';
                 } else {
-                  return '$' + yValue.toLocaleString();
+                  return prefix + yValue.toLocaleString();
                 }
               }
             },
