@@ -1,0 +1,10 @@
+.footer-wrapper {
+    display: flex;
+    gap: var(--blu-space-l);
+    position: absolute;
+    bottom: var(--blu-margin-l);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: fit-content;
+}

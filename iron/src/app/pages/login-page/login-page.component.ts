@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
-import { BTN_TEXTS, TEXTS } from './login-page.strings';
+import { BTN_TEXTS, LABELS, TEXTS, TOOLTIPS } from './login-page.strings';
 import { BehaviorSubject, Observable, combineLatest, map, take, tap } from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
@@ -18,6 +18,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MixpanelService } from 'src/app/shared/services/mixpanel.service';
 import { MIXPANEL } from 'src/app/shared/constants/constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { ReviewCardComponent } from './review-card/review-card.component';
+import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-login-page',
@@ -32,6 +34,8 @@ import { ToastService } from 'src/app/shared/services/toast.service';
     BluText,
     BluModal,
     BluValidationFeedback,
+    ReviewCardComponent,
+    FooterComponent
   ],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
@@ -42,12 +46,14 @@ export class LoginPageComponent {
 
   public TEXTS = TEXTS;
   public BTN_TEXTS = BTN_TEXTS;
+  public LABELS = LABELS;
+  public TOOLTIPS = TOOLTIPS;
   public FeedbackType = FeedbackType;
 
   public isSendCodeSubmitting = false;
   public isCheckTokenSubmitting = false;
   public error$ = new BehaviorSubject<string>('');
-  public showOTPDialog$ = new BehaviorSubject<boolean>(false);
+  public showOTPDialog = false;
 
   private methodId: string = '';
   private phoneNumber: number = 0;
@@ -60,7 +66,7 @@ export class LoginPageComponent {
   ) {}
 
   public onBack(): void {
-    this.showOTPDialog$.next(false);
+    this.showOTPDialog = false;
     this.error$.next('');
     this.clearAuth();
   }
@@ -82,7 +88,7 @@ export class LoginPageComponent {
         next: (methodId: string) => {
           this.methodId = methodId;
           this.phoneNumber = parseInt(phoneNumber);
-          this.showOTPDialog$.next(true);
+          this.showOTPDialog = true;
           this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_PHONE);
           this.isSendCodeSubmitting = false;
           this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);

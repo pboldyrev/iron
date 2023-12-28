@@ -43,3 +43,7 @@
 .blu-spinner-wrapper {
   color: var(--blu-color-primary);
 }
+
+.blu-spinner-inline-spacing {
+  margin-right: var(--blu-margin-s);
+}

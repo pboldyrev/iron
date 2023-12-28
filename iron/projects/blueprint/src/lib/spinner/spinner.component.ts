@@ -11,4 +11,5 @@ import { BluIcon } from '../icon/icon.component';
 })
 export class BluSpinner {
   @Input() size: string = "16";
+  @Input() inlineSpace: boolean = false;
 }

@@ -10,9 +10,8 @@ import { BluText } from '../text/text.component';
   styleUrls: ['./heading.component.css'],
 })
 export class BluHeading {
-  @Input() size!: 'large' | 'medium' | 'small' | 'x-small';
-  @Input() subheadingSize!: 'large' | 'medium' | 'small' | 'x-small';
-
+  @Input() size: 'large' | 'medium' | 'small' | 'x-small' = 'medium';
+  @Input() subheadingSize: 'large' | 'medium' | 'small' | 'x-small' = 'medium';
   @Input() subheading: string = '';
   @Input() bold: boolean = false;
   @Input() feedback: 'success' | 'error' | null = null;

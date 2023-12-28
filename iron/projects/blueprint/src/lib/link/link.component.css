@@ -1,4 +1,7 @@
 .blu-link {
-    text-decoration: underline;
     cursor: pointer;
+}
+
+.blu-link-underline {
+    text-decoration: underline;
 }
