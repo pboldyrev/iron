@@ -1,6 +1,6 @@
 export const TEXTS = {
   TITLE: 'Welcome back',
-  SUBTITLE: 'Log in to your account below',
+  SUBTITLE: 'Log in to your account below.',
   INVALID_CREDENTIALS: 'Invalid credentials.',
   UNKNWON_LOGIN_ERROR: 'Something went wrong. Please try again!',
   INCORRECT_CODE: 'This one time code is incorrect.',
