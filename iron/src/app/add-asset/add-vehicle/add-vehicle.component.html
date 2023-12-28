@@ -4,8 +4,7 @@
             <blu-modal subtitle="Tell us about your asset" title="Add a vehicle" subheadingPosition="top">
                 <app-add-asset-form
                     [isAdd]="true"
-                    [assetType]="AssetType.Vehicle"
-                    (savedAsset$)="onSaved($event)"
+                    [assetType]="(assetType$ | async) ?? AssetType.Custom"
                 ></app-add-asset-form>
             </blu-modal>
         </div>

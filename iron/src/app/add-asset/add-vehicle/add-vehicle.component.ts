@@ -6,7 +6,7 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSelectOption, FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../shared/services/data.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { BehaviorSubject, Subject, combineLatest, filter, map, mergeMap, of, switchMap, take, tap } from 'rxjs';
@@ -18,7 +18,6 @@ import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component
 import { Asset, AssetType, VehicleCustomAttributes } from '../../shared/constants/constants';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { AddVehicleFormComponent } from '../../add-asset-form/add-vehicle-form/add-vehicle-form.component';
 import { AddAssetFormComponent } from 'src/app/add-asset-form/add-asset-form.component';
 
 @Component({
@@ -29,29 +28,18 @@ import { AddAssetFormComponent } from 'src/app/add-asset-form/add-asset-form.com
   styleUrl: './add-vehicle.component.scss'
 })
 
-export class AddVehicleComponent {  
-  public FeedbackType = FeedbackType;
+export class AddVehicleComponent {
   public AssetType = AssetType;
-  public isLoading: boolean = false;
+
+  public assetType$ = new BehaviorSubject<AssetType>(AssetType.Custom);
 
   constructor(
-    private location: Location,
     private router: Router,
     private toastService: ToastService,
+    private route: ActivatedRoute,
   ) {}
 
-  public onSaved(asset: Asset): void {
-    this.isLoading = false;
-
-    if(!asset.assetId) {
-      return;
-    }
-
-    this.router.navigate(['asset/' + asset.assetId]);
-    this.toastService.showToast("Successfully added a " + asset.assetName, FeedbackType.SUCCESS);
-  }
-
-  public onClose(): void {
-    this.location.back();
+  ngOnInit() {
+    this.assetType$.next((this.route.snapshot.paramMap.get('assetType') as AssetType) ?? AssetType.Custom);
   }
 }

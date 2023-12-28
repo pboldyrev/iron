@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { SidebarOption } from './shared/interfaces/interfaces';
 import { MixpanelService } from './shared/services/mixpanel.service';
 
 @Component({

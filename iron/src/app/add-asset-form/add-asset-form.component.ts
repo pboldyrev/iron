@@ -12,6 +12,7 @@ import { DataService } from '../shared/services/data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { ToastService } from '../shared/services/toast.service';
+import { NavigationService } from '../shared/services/navigation-service.service';
 
 @Component({
   selector: 'app-add-asset-form',
@@ -27,17 +28,15 @@ export class AddAssetFormComponent {
 
   @Input() assetType!: AssetType;
   @Input() isAdd!: boolean;
-  @Input() asset$: Observable<Asset> = of({});
-  @Input() isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  @Output() savedAsset$: Subject<Asset> = new Subject<Asset>();
+  @Input() asset$ = of({} as Asset);
+  @Input() isLoading$ = new BehaviorSubject<boolean>(false);
 
   public AssetType = AssetType;
   public FeedbackType = FeedbackType;
 
   constructor(
     private dataService: DataService,
-    private router: Router,
+    private navigationService: NavigationService,
     private toastService: ToastService,
   ){}
 
@@ -90,42 +89,40 @@ export class AddAssetFormComponent {
       }),
     ).subscribe({
       next: ((asset: Asset) => {
-        this.savedAsset$.next(asset);
-        if(this.isAdd){
-          this.toastService.showToast("Successfully added " + asset.assetName, FeedbackType.SUCCESS);
-        } else {
-          this.toastService.showToast("Successfully updated " + asset.assetName, FeedbackType.SUCCESS);
-        }
+        this.onSaveSuccess(asset);
       }),
       error: (() => {
-        this.isLoading$.next(false);
-        if(this.isAdd){
-          this.toastService.showToast("There was an issue with adding this asset", FeedbackType.ERROR);
-        } else {
-          this.toastService.showToast("There was an issue with updating this asset", FeedbackType.ERROR);
-        }
+        this.onSaveError();
       }),
     });
   }
 
-  public onSaved(asset: Asset): void {
-    this.savedAsset$.next(asset);
-  }
-
-  public onDashboard(): void {
-    this.router.navigate(['/dashboard']);
-  }
-
-  private getFinalName(
-    customAttributes: VehicleCustomAttributes
-  ): string {
-    let finalName = customAttributes.year + ' ' + customAttributes.make + ' ' + customAttributes.model;
-
-    if(customAttributes.nickName !== "") {
-      finalName += ' (' + customAttributes.nickName + ')';
+  private onSaveSuccess(asset: Asset): void {
+    this.isLoading$.next(false);
+    
+    if(!asset.assetId) {
+      throwError(() => new Error("No asset ID on created/updated asset."));
     }
 
-    return finalName;
+    if(this.isAdd){
+      this.navigationService.navigate('asset/' + asset.assetId);
+      this.toastService.showToast("Successfully added " + asset.assetName, FeedbackType.SUCCESS);
+    } else {
+      this.toastService.showToast("Successfully updated " + asset.assetName, FeedbackType.SUCCESS);
+    }
   }
 
+  private onSaveError(): void {
+    this.isLoading$.next(false);
+
+    if(this.isAdd){
+      this.toastService.showToast("There was an issue with adding this asset", FeedbackType.ERROR);
+    } else {
+      this.toastService.showToast("There was an issue with updating this asset", FeedbackType.ERROR);
+    }
+  }
+
+  public onBack(): void {
+    this.navigationService.back();
+  }
 }

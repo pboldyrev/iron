@@ -6,7 +6,6 @@ import { authenticatedGuard } from './guards/authenticated.guard';
 import { UnknownPageComponent } from './unknown-page/unknown-page.component';
 import { unauthenticatedGuard } from './guards/unauthenticated.guard';
 import { AddVehicleComponent } from './add-asset/add-vehicle/add-vehicle.component';
-import { AddStockComponent } from './add-asset/add-stock/add-stock.component';
 import { hasAssetGuard } from './guards/has-asset.guard';
 import { AssetDetailsPageComponent } from './pages/asset-details-page/asset-details-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
@@ -33,13 +32,8 @@ const routes: Routes = [
     canActivate: [authenticatedGuard, hasAssetGuard],
   },
   {
-    path: 'add/vehicle',
+    path: 'add/:assetType',
     component: AddVehicleComponent,
-    canActivate: [authenticatedGuard],
-  },
-  {
-    path: 'add/stock',
-    component: AddStockComponent,
     canActivate: [authenticatedGuard],
   },
   {

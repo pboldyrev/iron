@@ -77,6 +77,8 @@ export type ValueChange = {
   percent: number;
 }
 
+export const ROOT_URL = "/dashboard";
+
 export const MIXPANEL = {
   LOGIN_ENTERED_PHONE: "Login|Event|EnteredPhone",
   LOGIN_ENTERED_CODE: "Login|Event|EnteredCode",
