@@ -56,7 +56,7 @@ export const BluToIconMap = {
   vehicle: 'heroRocketLaunch',
   stock: 'heroBuildingLibrary',
   savings: 'heroBanknotes',
-  custom: 'heroBanknotes',
+  custom: 'octGear',
   spinner: 'heroArrowPath',
   cd: 'heroClock',
   trash: 'heroTrash',

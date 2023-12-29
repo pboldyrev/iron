@@ -23,8 +23,9 @@
                     'asset-details-page-hidden': isDetailsLoading$ | async
                 }">
                     <mat-tab label="Value history">
-                        <div *ngIf="((assetValues$ | async) ?? []).length >= 2" class="asset-details-value-history-chart-wrapper">
+                        <div class="asset-details-value-history-chart-wrapper">
                             <app-chart
+                                *ngIf="(asset$ | async)?.assetType !== AssetType.Stock && ((assetValues$ | async) ?? []).length >= 2"
                                 [values$]="assetValues$"
                             ></app-chart>
                         </div>

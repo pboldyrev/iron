@@ -8,6 +8,7 @@
                 [required]="true"
                 [disabled]="(isLoading$ | async) ?? false || !isAdd"
                 [maxChars]="6"
+                [tooltip]="isAdd ? TEXTS.TICKER_TOOLTIP : ''"
                 type="TEXT"
                 #ticker
             ></blu-input>

@@ -14,11 +14,12 @@ import { ToastService } from '../../../services/toast.service';
 import { NavigationService } from '../../../services/navigation-service.service';
 import { TEXTS } from './add-asset-form.strings';
 import { AddStockFormComponent } from '../add-stock-form/add-stock-form.component';
+import { AddCustomFormComponent } from '../add-custom-form/add-custom-form.component';
 
 @Component({
   selector: 'app-add-asset-form',
   standalone: true,
-  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent],
+  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCustomFormComponent],
   templateUrl: './add-asset-form.component.html',
   styleUrl: './add-asset-form.component.scss'
 })
@@ -26,7 +27,7 @@ export class AddAssetFormComponent {
   @ViewChild('account') accountInput!: BluInput;
   @ViewChild('units') unitsInput!: BluInput;
   @ViewChild('vehicleForm') vehicleForm!: AddVehicleFormComponent;
-  @ViewChild('customForm') customForm!: AddVehicleFormComponent;
+  @ViewChild('customForm') customForm!: AddCustomFormComponent;
   @ViewChild('stockForm') stockForm!: AddStockFormComponent;
 
   @Input() assetType!: AssetType;
@@ -102,7 +103,7 @@ export class AddAssetFormComponent {
     });
   }
 
-  private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | null {
+  private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | AddCustomFormComponent | null {
     switch (this.assetType) {
       case AssetType.Vehicle:
         return this.vehicleForm;

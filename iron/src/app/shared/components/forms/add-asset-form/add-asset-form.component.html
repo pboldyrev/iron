@@ -46,6 +46,13 @@
     [isAdd]="isAdd"
     #stockForm
 ></app-add-stock-form>
+<app-add-custom-form
+    *ngIf="assetType === AssetType.Custom"
+    [asset$]="asset$"
+    [isLoading$]="isLoading$"
+    [isAdd]="isAdd"
+    #customForm
+></app-add-custom-form>
 <div class="row">
     <ng-container *ngIf="isAdd else isUpdate">
         <div class="col-md-4 order-md-1 order-2">

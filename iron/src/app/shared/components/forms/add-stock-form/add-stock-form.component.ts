@@ -23,11 +23,7 @@ export class AddStockFormComponent {
 
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
-
-  constructor(
-    private navigationService: NavigationService,
-  ){}
-
+  
   ngAfterViewInit() {
     if(this.isAdd) {
       return;

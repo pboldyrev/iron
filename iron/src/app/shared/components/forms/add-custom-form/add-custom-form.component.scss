@@ -1,0 +1,13 @@
+.add-custom-input {
+    margin-bottom: var(--blu-margin-l);
+}
+
+.add-custom-input-second {
+    margin-left: var(--blu-margin-l);
+}
+
+@media only screen and (max-width: 767px) {
+    .add-custom-input-second {
+        margin-left: var(--blu-margin-none);
+    }
+}
