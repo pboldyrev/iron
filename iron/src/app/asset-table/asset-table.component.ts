@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
-import { AddAssetPopupComponent } from '../add-asset-popup/add-asset-popup.component';
+import { AddAssetPopupComponent } from '../add-asset-selection/add-asset-popup/add-asset-popup.component';
 import { ToastService } from '../shared/services/toast.service';
 import { NavigationService } from '../shared/services/navigation-service.service';
 

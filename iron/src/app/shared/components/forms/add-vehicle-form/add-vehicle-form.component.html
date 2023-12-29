@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="add-vehicle-input">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.VIN_LABEL"
+                [required]="true"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                [tooltip]="isAdd ? TOOLTIPS.VIN_ADD : TOOLTIPS.VIN_DETAILS"
+                type="VIN"
+                #vin
+            ></blu-input>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="add-vehicle-input add-vehicle-input-second">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.MILEAGE_LABEL"
+                [required]="false"
+                [disabled]="(isLoading$ | async) ?? false"
+                [tooltip]="TOOLTIPS.MILEAGE"
+                type="INTEGER"
+                #mileage
+            ></blu-input>
+        </div>
+    </div>
+</div>
+<div class="add-vehicle-switch" *ngIf="isAdd">
+    <blu-text type="secondary">
+        {{ TEXTS.OR }}
+        <blu-link (click)="onSwitchToCustom()">
+            {{ TEXTS.SWITCH }}
+        </blu-link>
+    </blu-text>
+</div>

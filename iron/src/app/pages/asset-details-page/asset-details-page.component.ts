@@ -69,7 +69,7 @@ export class AssetDetailsPageComponent {
   }
 
   public onBack() {
-    this.navigationService.navigate('/dashboard');
+    this.navigationService.back();
   }
 
   private getDisplayName(asset: Asset): string {

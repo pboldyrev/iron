@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, ViewChild } from '@angular/core';
-import { AddVehicleFormComponent } from './add-vehicle-form/add-vehicle-form.component';
-import { Asset, AssetType, VehicleCustomAttributes } from '../shared/constants/constants';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeMap, of, take, throwError } from 'rxjs';
+import { Component, Input, ViewChild } from '@angular/core';
+import { AddVehicleFormComponent } from '../add-vehicle-form/add-vehicle-form.component';
+import { Asset, AssetType, VehicleCustomAttributes } from '../../../constants/constants';
+import { BehaviorSubject, combineLatest, filter, mergeMap, of, take, throwError } from 'rxjs';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
-import { DataService } from '../shared/services/data.service';
+import { DataService } from '../../../services/data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router } from '@angular/router';
-import { ToastService } from '../shared/services/toast.service';
-import { NavigationService } from '../shared/services/navigation-service.service';
+import { ToastService } from '../../../services/toast.service';
+import { NavigationService } from '../../../services/navigation-service.service';
+import { TEXTS } from './add-asset-form.strings';
 
 @Component({
   selector: 'app-add-asset-form',
@@ -24,7 +24,9 @@ import { NavigationService } from '../shared/services/navigation-service.service
 export class AddAssetFormComponent {
   @ViewChild('account') accountInput!: BluInput;
   @ViewChild('units') unitsInput!: BluInput;
-  @ViewChild('addVehicleForm') addVehicleForm!: AddVehicleFormComponent;
+  @ViewChild('vehicleForm') vehicleForm!: AddVehicleFormComponent;
+  @ViewChild('customForm') customForm!: AddVehicleFormComponent;
+  @ViewChild('stockForm') stockForm!: AddVehicleFormComponent;
 
   @Input() assetType!: AssetType;
   @Input() isAdd!: boolean;
@@ -33,6 +35,7 @@ export class AddAssetFormComponent {
 
   public AssetType = AssetType;
   public FeedbackType = FeedbackType;
+  public TEXTS = TEXTS;
 
   constructor(
     private dataService: DataService,
@@ -41,13 +44,11 @@ export class AddAssetFormComponent {
   ){}
 
   ngAfterContentInit() {
-    this.asset$.pipe(
-      filter((asset: Asset) => !!asset.assetId)
-    ).subscribe((asset: Asset) => {
-      if(asset.account) {
+    this.asset$.subscribe((asset: Asset) => {
+      if(asset.account && this.accountInput) {
         this.accountInput.value$.next(asset.account);
       }
-      if(asset.units) {
+      if(asset.units && this.unitsInput) {
         this.unitsInput.value$.next(asset.units.toString());
       }
     });
@@ -58,34 +59,37 @@ export class AddAssetFormComponent {
 
     combineLatest([
       this.asset$,
-      this.addVehicleForm.onSubmit$(),
-      this.unitsInput.validate$(),
+      this.getSubForm()?.onSubmit$() ?? of({}),
+      this.unitsInput?.validate$() ?? of(1),
       this.accountInput.validate$(),
     ]).pipe(
       take(1),
-      mergeMap(([
+      filter(([
         asset,
-        vehicleCustomAttributes,
+        customAttributes,
         units,
         account,
       ]) => {
-        if(Object.keys(vehicleCustomAttributes).length === 0 || !units || !account) {
-          this.isLoading$.next(false);
-          return throwError(() => new Error());
-        }
-
-        const vehiclePayload: Asset = {
-          ...vehicleCustomAttributes,
+        return this.filterIncomplete(customAttributes, units, account);
+      }),
+      mergeMap(([
+        asset,
+        customAttributes,
+        units,
+        account,
+      ]) => {
+        const assetPayload: Asset = {
           units: parseInt(units),
           account: account,
           assetType: this.assetType,
+          ...customAttributes,
         }
 
         if(asset.assetId) {
-          return this.dataService.updateAsset$({assetId: asset.assetId, ...vehiclePayload}, this.isLoading$);
+          return this.dataService.updateAsset$({assetId: asset.assetId, ...assetPayload}, this.isLoading$);
+        } else {
+          return this.dataService.putAsset$(assetPayload, this.isLoading$);
         }
-        
-        return this.dataService.putAsset$(vehiclePayload, this.isLoading$);
       }),
     ).subscribe({
       next: ((asset: Asset) => {
@@ -97,13 +101,34 @@ export class AddAssetFormComponent {
     });
   }
 
+  private getSubForm(): AddVehicleFormComponent | null {
+    switch (this.assetType) {
+      case AssetType.Vehicle:
+        return this.vehicleForm;
+      case AssetType.Custom:
+        return this.customForm;
+      case AssetType.Stock:
+        return this.stockForm;
+      default:
+        return null;
+    }
+  }
+
+  private filterIncomplete(
+    customAttributes: Asset, 
+    units: string, 
+    account: string
+  ) {
+    const isValid = !!units && !!account && Object.keys(customAttributes).length !== 0;
+    if(!isValid) {
+      this.isLoading$.next(false);
+    }
+    return isValid;
+  }
+
   private onSaveSuccess(asset: Asset): void {
     this.isLoading$.next(false);
     
-    if(!asset.assetId) {
-      throwError(() => new Error("No asset ID on created/updated asset."));
-    }
-
     if(this.isAdd){
       this.navigationService.navigate('asset/' + asset.assetId);
       this.toastService.showToast("Successfully added " + asset.assetName, FeedbackType.SUCCESS);

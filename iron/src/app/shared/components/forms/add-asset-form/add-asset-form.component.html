@@ -1,0 +1,80 @@
+<div class="add-asset-form-section-wrapper">
+    <div class="row">
+        <div class="col">
+            <div class="add-asset-input">
+                <blu-input
+                    type="TEXT"
+                    [fullWidth]="true"
+                    [feedbackType]="FeedbackType.ERROR" 
+                    [label]="TEXTS.LABEL_ACCOUNT"
+                    [required]="true"
+                    [disabled]="(isLoading$ | async) ?? false"
+                    #account
+                ></blu-input>
+            </div>
+        </div>
+        <div
+            class="col-md-4" 
+            *ngIf="assetType !== AssetType.Vehicle"
+        >
+            <div class="add-asset-input add-asset-input-second">
+                <blu-input
+                    type="INTEGER"
+                    initValue="1"
+                    [fullWidth]="true"
+                    [feedbackType]="FeedbackType.ERROR" 
+                    [label]="TEXTS.LABEL_UNITS"
+                    [required]="true"
+                    [disabled]="(isLoading$ | async) ?? false"
+                    #units
+                ></blu-input>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="assetType === AssetType.Vehicle">
+    <app-add-vehicle-form
+        [asset$]="asset$"
+        [isLoading$]="isLoading$"
+        [isAdd]="isAdd"
+        #vehicleForm
+    ></app-add-vehicle-form>
+</ng-container>
+<div class="row">
+    <ng-container *ngIf="isAdd else isUpdate">
+        <div class="col-md-4 order-md-1 order-2">
+            <div class="add-asset-input">
+                <blu-button 
+                    [fullWidth]="true" 
+                    type="secondary" 
+                    (click)="onBack()"
+                    iconName="backArrow"
+                >{{ TEXTS.BTN_BACK }}</blu-button>
+            </div>
+        </div>
+        <div class="col-md-8 order-md-2 order-1">
+            <div class="add-asset-input add-asset-input-second">
+                <blu-button
+                    [fullWidth]="true" 
+                    type="primary"
+                    (click)="onSubmit()"
+                >
+                    <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
+                    {{ TEXTS.BTN_ADD }}
+                </blu-button>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #isUpdate>
+        <div class="col">
+            <blu-button
+                [fullWidth]="true" 
+                type="primary" 
+                (click)="onSubmit()"
+            >
+                <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
+                {{ TEXTS.BTN_UPDATE }}
+            </blu-button>
+        </div>
+    </ng-template>
+</div>

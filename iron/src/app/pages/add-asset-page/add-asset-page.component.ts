@@ -11,14 +11,13 @@ import { DataService } from '../../shared/services/data.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeMap, of, switchMap, take, tap } from 'rxjs';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
-import { VEHICLE_MAKES } from '../../add-asset-form/add-vehicle-form/add-vehicle-form.constants';
 import { ValueHistoryComponent } from '../asset-details-page/value-history/value-history.component';
-import { TEXTS } from '../../add-asset-form/add-vehicle-form/add-vehicle.strings';
+import { TEXTS } from '../../shared/components/forms/add-vehicle-form/add-vehicle-form.strings';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { Asset, AssetType, VehicleCustomAttributes } from '../../shared/constants/constants';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { AddAssetFormComponent } from 'src/app/add-asset-form/add-asset-form.component';
+import { AddAssetFormComponent } from 'src/app/shared/components/forms/add-asset-form/add-asset-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { AssetToTitleMap } from './add-asset-page.constants';
 
