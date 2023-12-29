@@ -2,15 +2,12 @@
     <div class="row">
         <div class="col">
             <div class="add-asset-input">
-                <blu-input
-                    type="TEXT"
-                    [fullWidth]="true"
-                    [feedbackType]="FeedbackType.ERROR" 
+                <blu-select
                     [label]="TEXTS.LABEL_ACCOUNT"
                     [required]="true"
-                    [disabled]="(isLoading$ | async) ?? false"
+                    [options]="accountOptions"
                     #account
-                ></blu-input>
+                ></blu-select>
             </div>
         </div>
         <div

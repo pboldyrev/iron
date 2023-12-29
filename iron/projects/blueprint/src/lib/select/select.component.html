@@ -4,19 +4,17 @@
   [required]="required"
 ></blu-label>
 <select class="blu-select"
-    (change)="updateValue($event)"
     [ngClass]="{
-        'blu-select-small': size === 'small',
-        'blu-select-medium': size === 'medium',
-        'blu-select-large': size === 'large',
-        'blu-select-primary': type === 'primary',
-        'blu-select-secondary': type === 'secondary',
+        'blu-select-feedback-shown': !isValid,
+        'blu-select-error': !isValid,
     }"
+    (change)="updateValue(bluSelect.value)"
+    #bluSelect
 >
     <ng-container *ngFor="let option of options">
-        <option [value]="option.id" [selected]="option.selected">{{ option.text }}</option>
+        <option [value]="option">{{ option }}</option>
     </ng-container>
 </select>
-<blu-validation-feedback *ngIf="!(isValid$ | async)" [type]="FeedbackType.ERROR">
+<blu-validation-feedback *ngIf="!isValid" [type]="FeedbackType.ERROR">
     {{ FEEDBACK_STRINGS["error"]["TEXT"] }}
 </blu-validation-feedback>

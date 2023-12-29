@@ -81,7 +81,7 @@ export type ValueChange = {
 
 export const ROOT_URL = "/dashboard";
 
-export const MIXPANEL = {
+export const ANALYTICS = {
   LOGIN_ENTERED_PHONE: "Login|Event|EnteredPhone",
   LOGIN_ENTERED_CODE: "Login|Event|EnteredCode",
   LOGIN_PHONE_FAILED: "Login|Error|FailedPhone",

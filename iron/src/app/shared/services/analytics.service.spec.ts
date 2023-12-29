@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MixpanelService } from './mixpanel.service';
+import { AnalyticsService } from './analytics.service';
 
-describe('MixpanelService', () => {
-  let service: MixpanelService;
+describe('AnalyticsService', () => {
+  let service: AnalyticsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MixpanelService);
+    service = TestBed.inject(AnalyticsService);
   });
 
   it('should be created', () => {

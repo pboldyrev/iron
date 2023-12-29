@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MixpanelService {
+export class AnalyticsService {
 
   constructor(
     private authService: AuthService,
@@ -31,7 +31,7 @@ export class MixpanelService {
     try {
       mixpanel.track(eventName, properties);
     } catch {
-      console.log("ERROR: Failed to track an event with Mixpanel.");
+      console.log("ERROR: Failed to track an event.");
     }
   }
 }

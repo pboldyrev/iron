@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetType, AssetValue, MIXPANEL, NetWorthValue } from '../constants/constants';
+import { Asset, AssetType, AssetValue, ANALYTICS, NetWorthValue } from '../constants/constants';
 import { BehaviorSubject, Observable, combineLatest, delay, map, mergeMap, take, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
-import { MixpanelService } from './mixpanel.service';
+import { AnalyticsService } from './analytics.service';
 import { environment } from 'src/environments';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class DataService {
     private httpClient: HttpClient,
     private authService: AuthService,
     private toastService: ToastService,
-    private mixpanelService: MixpanelService,
+    private analyticsService: AnalyticsService,
   ) {}
 
   /*
@@ -234,8 +234,8 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
-          this.mixpanelService.track(
-            MIXPANEL.HTTP_CREATED_ASSET,
+          this.analyticsService.track(
+            ANALYTICS.HTTP_CREATED_ASSET,
             {
               asset: asset,
             }
@@ -265,8 +265,8 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
-          this.mixpanelService.track(
-            MIXPANEL.HTTP_CREATED_ASSET,
+          this.analyticsService.track(
+            ANALYTICS.HTTP_CREATED_ASSET,
             {
               asset: asset,
             }
@@ -375,8 +375,8 @@ export class DataService {
           } else {
             this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
           }
-          this.mixpanelService.track(
-            MIXPANEL.HTTP_RESPONSE_ERROR,
+          this.analyticsService.track(
+            ANALYTICS.HTTP_RESPONSE_ERROR,
             {
               endpoint: endpoint,
               error: err

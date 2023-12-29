@@ -15,11 +15,12 @@ import { NavigationService } from '../../../services/navigation-service.service'
 import { TEXTS } from './add-asset-form.strings';
 import { AddStockFormComponent } from '../add-stock-form/add-stock-form.component';
 import { AddCustomFormComponent } from '../add-custom-form/add-custom-form.component';
+import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 
 @Component({
   selector: 'app-add-asset-form',
   standalone: true,
-  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCustomFormComponent],
+  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCustomFormComponent, BluSelect],
   templateUrl: './add-asset-form.component.html',
   styleUrl: './add-asset-form.component.scss'
 })
@@ -38,6 +39,7 @@ export class AddAssetFormComponent {
   public AssetType = AssetType;
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
+  public accountOptions: string[] = ['Taxable', 'Non-Taxable', 'Other'];
 
   constructor(
     private dataService: DataService,

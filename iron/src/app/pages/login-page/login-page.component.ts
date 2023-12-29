@@ -15,8 +15,8 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MixpanelService } from 'src/app/shared/services/mixpanel.service';
-import { MIXPANEL } from 'src/app/shared/constants/constants';
+import { AnalyticsService } from 'src/app/shared/services/analytics.service';
+import { ANALYTICS } from 'src/app/shared/constants/constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { FooterComponent } from 'src/app/footer/footer.component';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
@@ -60,7 +60,7 @@ export class LoginPageComponent {
   constructor(
     private authService: AuthService,
     private navigationService: NavigationService,
-    private mixpanelService: MixpanelService,
+    private analyticsService: AnalyticsService,
     private toastService: ToastService,
   ) {}
 
@@ -88,14 +88,14 @@ export class LoginPageComponent {
           this.methodId = methodId;
           this.phoneNumber = parseInt(phoneNumber);
           this.showOTPDialog = true;
-          this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_PHONE);
+          this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_PHONE);
           this.isSendCodeSubmitting = false;
           this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);
         },
         error: () => {
           this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
           this.isSendCodeSubmitting = false;
-          this.mixpanelService.track(MIXPANEL.LOGIN_PHONE_FAILED);
+          this.analyticsService.track(ANALYTICS.LOGIN_PHONE_FAILED);
         },
       });
     });
@@ -118,7 +118,7 @@ export class LoginPageComponent {
           this.navigationService.navigate('/dashboard');
           this.toastService.showToast("Login successful", FeedbackType.SUCCESS);
           this.isCheckTokenSubmitting = false;
-          this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_CODE);
+          this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_CODE);
         },
         error: (error: HttpErrorResponse) => {
           if(error.status === 400) {
@@ -127,7 +127,7 @@ export class LoginPageComponent {
             this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
           }
           this.isCheckTokenSubmitting = false;
-          this.mixpanelService.track(MIXPANEL.LOGIN_CODE_FAILED);
+          this.analyticsService.track(ANALYTICS.LOGIN_CODE_FAILED);
         },
       });
     });

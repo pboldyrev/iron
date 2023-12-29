@@ -4,12 +4,6 @@ export enum FeedbackType {
   INFO = 'info',
 }
 
-export type BluSelectOption = {
-  id: string,
-  text: string,
-  selected?: boolean,
-}
-
 export type BluIconName =
   | 'check'
   | 'info'

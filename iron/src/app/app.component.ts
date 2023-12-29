@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { MixpanelService } from './shared/services/mixpanel.service';
+import { AnalyticsService } from './shared/services/analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +11,8 @@ export class AppComponent {
   title = 'iron';
 
   constructor(
-    private mixpanelService: MixpanelService,
+    private analyticsService: AnalyticsService,
   ) {
-    this.mixpanelService.initialize();
+    this.analyticsService.initialize();
   }
 }
