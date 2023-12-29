@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouteReuseStrategy } from '@angular/router';
+import { DefaultRouteReuseStrategy } from './route-reuse-strategy';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,5 +20,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule,
   ],
   bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: DefaultRouteReuseStrategy,
+    },
+  ],
 })
 export class AppModule {}

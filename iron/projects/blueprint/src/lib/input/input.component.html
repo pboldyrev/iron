@@ -17,10 +17,11 @@
     'blu-input-rtl': direction === 'rtl',
     'blu-feedback-shown': !(isValid$ | async) && appearance !== 'cell',
   }"
-  [type]="(type === 'NUMBER') ? 'TEXT' : (type === 'PHONE' || type === 'INTEGER') ? 'NUMBER' : type"
+  [type]="(type === 'NUMBER' || type === 'VIN') ? 'TEXT' : (type === 'PHONE' || type === 'INTEGER') ? 'NUMBER' : type"
   [placeholder]="placeholder"
   [disabled]="disabled"
   [value]="value$ | async"
+  [maxLength]="maxChars"
   (input)="updateValue($event)"
 />
 <blu-validation-feedback *ngIf="!(isValid$ | async) && appearance !== 'cell'" [type]="feedbackType">

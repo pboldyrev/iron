@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="add-custom-input">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.LABEL_NAME"
+                [required]="true"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                type="TEXT"
+                #assetName
+            ></blu-input>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="add-custom-input">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.LABEL_APPRECIATION"
+                [required]="true"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                [tooltip]="TEXTS.TOOLTIP_APPRECIATION"
+                type="NUMBER"
+                #appreciationRate
+            ></blu-input>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="add-custom-input add-custom-input-second">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.LABEL_CUR_VALUE"
+                [required]="false"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                [tooltip]="TEXTS.TOOLTIP_CUR_VALUE"
+                type="NUMBER"
+                #curValue
+            ></blu-input>
+        </div>
+    </div>
+</div>

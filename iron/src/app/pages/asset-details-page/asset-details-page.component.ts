@@ -15,6 +15,7 @@ import { AssetMoreDetailsComponent } from './asset-more-details/asset-more-detai
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 
 @Component({
   selector: 'app-asset-details-page',
@@ -37,11 +38,11 @@ export class AssetDetailsPageComponent {
   public displayAssetValue = "";
 
   constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private dataService: DataService,
   ){
-    const curId: string = this.route.snapshot.paramMap.get('id') ?? "";
+    const curId: string = this.navigationService.getUrlParam(this.route, 'id');
     this.assetId$.next(curId);
     this.fetchAssetValue(curId);
     this.fetchValueHistory(curId);
@@ -68,7 +69,7 @@ export class AssetDetailsPageComponent {
   }
 
   public onBack() {
-    this.router.navigate(['/dashboard']);
+    this.navigationService.back();
   }
 
   private getDisplayName(asset: Asset): string {

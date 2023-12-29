@@ -19,6 +19,7 @@ import { MixpanelService } from 'src/app/shared/services/mixpanel.service';
 import { MIXPANEL } from 'src/app/shared/constants/constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { FooterComponent } from 'src/app/footer/footer.component';
+import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 
 @Component({
   selector: 'app-login-page',
@@ -58,7 +59,7 @@ export class LoginPageComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
+    private navigationService: NavigationService,
     private mixpanelService: MixpanelService,
     private toastService: ToastService,
   ) {}
@@ -114,7 +115,7 @@ export class LoginPageComponent {
         this.methodId, this.phoneNumber, code
       ).subscribe({
         next: () => {
-          this.router.navigate(['/dashboard']);
+          this.navigationService.navigate('/dashboard');
           this.toastService.showToast("Login successful", FeedbackType.SUCCESS);
           this.isCheckTokenSubmitting = false;
           this.mixpanelService.track(MIXPANEL.LOGIN_ENTERED_CODE);

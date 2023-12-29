@@ -29,7 +29,7 @@
                 Value
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
-                <blu-text type="primary">${{entry?.value?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? 0}}</blu-text>
+                <blu-text type="primary" [isNumber]="true">${{entry?.value?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? 0}}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-input 

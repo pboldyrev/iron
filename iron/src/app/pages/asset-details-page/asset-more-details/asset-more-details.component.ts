@@ -6,8 +6,8 @@ import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { BehaviorSubject, Observable, take } from 'rxjs';
-import { AddAssetFormComponent } from 'src/app/add-asset-form/add-asset-form.component';
-import { AddVehicleFormComponent } from 'src/app/add-asset-form/add-vehicle-form/add-vehicle-form.component';
+import { AddAssetFormComponent } from 'src/app/shared/components/forms/add-asset-form/add-asset-form.component';
+import { AddVehicleFormComponent } from 'src/app/shared/components/forms/add-vehicle-form/add-vehicle-form.component';
 import { Asset, AssetType } from 'src/app/shared/constants/constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
 

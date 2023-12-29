@@ -3,7 +3,7 @@
         <div class="asset-details-page-wrapper justify-content-center">
             <blu-modal>
                 <div class="asset-details-page-button-back">
-                    <blu-button type="primary" iconName="backArrow" (click)="onBack()">Dashboard</blu-button>
+                    <blu-button type="primary" iconName="backArrow" (click)="onBack()">Back</blu-button>
                 </div>
                 <blu-heading
                     size="medium"
@@ -12,6 +12,7 @@
                     subheadingPosition="top"
                     class="asset-details-page-heading"
                     *ngIf="!(isDetailsLoading$ | async)"
+                    [isNumber]="true"
                 >
                     {{ displayAssetValue }}
                 </blu-heading>
@@ -22,8 +23,9 @@
                     'asset-details-page-hidden': isDetailsLoading$ | async
                 }">
                     <mat-tab label="Value history">
-                        <div *ngIf="((assetValues$ | async) ?? []).length >= 2" class="asset-details-value-history-chart-wrapper">
+                        <div class="asset-details-value-history-chart-wrapper">
                             <app-chart
+                                *ngIf="(asset$ | async)?.assetType !== AssetType.Stock && ((assetValues$ | async) ?? []).length >= 2"
                                 [values$]="assetValues$"
                             ></app-chart>
                         </div>

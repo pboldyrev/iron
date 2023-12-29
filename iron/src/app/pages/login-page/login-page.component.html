@@ -20,7 +20,8 @@
               [fullWidth]="true"
               [feedbackType]="FeedbackType.ERROR"
               [tooltip]="TOOLTIPS.PHONE"
-              type="PHONE"
+              [maxChars]="10"
+              type="NUMBER"
               (keydown.enter)='onSendCode()'
               #phoneInput
             ></blu-input>
@@ -43,6 +44,7 @@
               [fullWidth]="true"
               [feedbackType]="FeedbackType.ERROR"
               [tooltip]="TOOLTIPS.OTP"
+              [maxChars]="6"
               type="NUMBER"
               (keydown.enter)="onConfirmCode()"
               (input)="error$.next('')"

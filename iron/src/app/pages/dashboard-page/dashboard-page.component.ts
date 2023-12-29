@@ -12,7 +12,7 @@ import { ChartComponent } from '../../shared/components/chart/chart.component';
 import { AssetTableColumn, AssetTableComponent } from '../../asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';
-import { AddAssetPopupComponent } from 'src/app/add-asset-popup/add-asset-popup.component';
+import { AddAssetPopupComponent } from 'src/app/add-asset-selection/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
 import { BehaviorSubject, Observable, filter, map, mergeMap, of, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
@@ -68,7 +68,7 @@ export class DashboardPageComponent {
   private fetchAssets(): void {
     this.dataService.getAssets$(false, this.isAssetsLoading$).pipe(
       tap((assets: Asset[]) => {
-        this.updateAssetTypeSummaries$(assets);
+        // this.updateAssetTypeSummaries$(assets);
       }),
       map((assets: Asset[]) => {
         this.assets = assets;

@@ -3,6 +3,7 @@ export const REGEX = {
   PASSWORD: new RegExp('^.{8,}$'),
   TEXT: new RegExp('^.+$'),
   NUMBER: new RegExp('^([0-9]*\.)?[0-9]+$'),
+  VIN: new RegExp('[(A-H|J-N|P|R-Z|0-9)]{17,}'),
   PHONE: new RegExp('^[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$'),
   INTEGER: new RegExp('^[1-9]+[0-9]*$'),
   DATE: new RegExp('^[0-9]{4,}-[0-9]{2,}-[0-9]{2,}$'),
@@ -30,6 +31,10 @@ export type VehicleCustomAttributes = {
   appreciationRate?: number,
 }
 
+export type StockCustomAttributes = {
+  ticker?: string;
+}
+
 export type BaseAsset = {
   assetId?: string,
   userId?: string,
@@ -44,7 +49,7 @@ export type BaseAsset = {
   isArchived?: boolean,
 }
 
-export type Asset = BaseAsset & VehicleCustomAttributes;
+export type Asset = BaseAsset & VehicleCustomAttributes & StockCustomAttributes;
 
 export type GetAssetsResponse = {
   assets: Asset[]
@@ -57,8 +62,6 @@ export type ArchiveAssetResponse = {
 export enum AssetType {
   Stock = 'stock',
   Vehicle = 'vehicle',
-  CD = 'cd',
-  Savings = 'savings',
   Custom = 'custom',
 }
 
@@ -75,6 +78,8 @@ export type ValueChange = {
   value: number;
   percent: number;
 }
+
+export const ROOT_URL = "/dashboard";
 
 export const MIXPANEL = {
   LOGIN_ENTERED_PHONE: "Login|Event|EnteredPhone",

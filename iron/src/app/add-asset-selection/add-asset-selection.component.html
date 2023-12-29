@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-sm-6">
+        <app-add-asset-option
+            [type]="AssetType.Stock"
+            (click)="onAssetTypeClicked(AssetType.Stock)"
+            (click)="null"
+        ></app-add-asset-option>
+    </div>
+    <div class="col-sm-6">
+        <app-add-asset-option
+            [type]="AssetType.Vehicle"
+            (click)="onAssetTypeClicked(AssetType.Vehicle)"
+        ></app-add-asset-option>
+    </div>
+    <div class="col-sm-12">
+        <app-add-asset-option
+            view="secondary"
+            [type]="AssetType.Custom"
+            (click)="onAssetTypeClicked(AssetType.Custom)"
+        ></app-add-asset-option>
+    </div>
+</div>
