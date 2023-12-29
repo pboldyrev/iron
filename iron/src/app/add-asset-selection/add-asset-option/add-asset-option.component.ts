@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { AssetType } from 'src/app/shared/constants/constants';
-import { TEXTS } from './add-asset-option.strings';
 import { CommonModule } from '@angular/common';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
@@ -17,14 +16,11 @@ import { AssetToNameMap } from './add-asset-option.constants';
 })
 export class AddAssetOptionComponent {
   @Input() type!: AssetType;
-
   @Input() view: 'primary' | 'secondary' = 'primary';
-  @Input() disabled: boolean = false;
 
   public title: string = '';
   public iconName: BluIconName = AssetType.Stock;
   public layout: string = 'top';
-  public TEXTS = TEXTS;
 
   ngOnInit() {
     this.title = AssetToNameMap[this.type];
