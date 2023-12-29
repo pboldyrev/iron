@@ -120,6 +120,8 @@ export class ChartComponent implements AfterContentInit {
           y: {
             position: "right",
             ticks: {
+              maxRotation: 0,
+              autoSkipPadding: 20,
               display: true,
               callback: (yValue: string | number) => {
                 let yValueAsNum = parseInt(yValue.toString());

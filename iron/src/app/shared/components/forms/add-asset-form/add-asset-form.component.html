@@ -32,14 +32,20 @@
         </div>
     </div>
 </div>
-<ng-container *ngIf="assetType === AssetType.Vehicle">
-    <app-add-vehicle-form
-        [asset$]="asset$"
-        [isLoading$]="isLoading$"
-        [isAdd]="isAdd"
-        #vehicleForm
-    ></app-add-vehicle-form>
-</ng-container>
+<app-add-vehicle-form
+    *ngIf="assetType === AssetType.Vehicle"
+    [asset$]="asset$"
+    [isLoading$]="isLoading$"
+    [isAdd]="isAdd"
+    #vehicleForm
+></app-add-vehicle-form>
+<app-add-stock-form
+    *ngIf="assetType === AssetType.Stock"
+    [asset$]="asset$"
+    [isLoading$]="isLoading$"
+    [isAdd]="isAdd"
+    #stockForm
+></app-add-stock-form>
 <div class="row">
     <ng-container *ngIf="isAdd else isUpdate">
         <div class="col-md-4 order-md-1 order-2">

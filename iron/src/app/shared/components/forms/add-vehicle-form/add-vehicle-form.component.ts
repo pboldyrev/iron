@@ -40,10 +40,10 @@ export class AddVehicleFormComponent implements AfterViewInit {
     }
 
     this.asset$.subscribe((asset: Asset) => {
-      if(asset.vin) {
+      if(asset.vin && this.vinInput) {
         this.vinInput.value$.next(asset.vin);
       }
-      if(asset.mileage) {
+      if(asset.mileage && this.mileageInput) {
         this.mileageInput.value$.next(asset.mileage.toString());
       }
     });

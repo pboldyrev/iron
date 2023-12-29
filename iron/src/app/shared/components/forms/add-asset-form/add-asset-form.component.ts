@@ -13,11 +13,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastService } from '../../../services/toast.service';
 import { NavigationService } from '../../../services/navigation-service.service';
 import { TEXTS } from './add-asset-form.strings';
+import { AddStockFormComponent } from '../add-stock-form/add-stock-form.component';
 
 @Component({
   selector: 'app-add-asset-form',
   standalone: true,
-  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule],
+  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent],
   templateUrl: './add-asset-form.component.html',
   styleUrl: './add-asset-form.component.scss'
 })
@@ -26,7 +27,7 @@ export class AddAssetFormComponent {
   @ViewChild('units') unitsInput!: BluInput;
   @ViewChild('vehicleForm') vehicleForm!: AddVehicleFormComponent;
   @ViewChild('customForm') customForm!: AddVehicleFormComponent;
-  @ViewChild('stockForm') stockForm!: AddVehicleFormComponent;
+  @ViewChild('stockForm') stockForm!: AddStockFormComponent;
 
   @Input() assetType!: AssetType;
   @Input() isAdd!: boolean;
@@ -101,7 +102,7 @@ export class AddAssetFormComponent {
     });
   }
 
-  private getSubForm(): AddVehicleFormComponent | null {
+  private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | null {
     switch (this.assetType) {
       case AssetType.Vehicle:
         return this.vehicleForm;

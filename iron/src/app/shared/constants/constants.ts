@@ -31,6 +31,10 @@ export type VehicleCustomAttributes = {
   appreciationRate?: number,
 }
 
+export type StockCustomAttributes = {
+  ticker?: string;
+}
+
 export type BaseAsset = {
   assetId?: string,
   userId?: string,
@@ -45,7 +49,7 @@ export type BaseAsset = {
   isArchived?: boolean,
 }
 
-export type Asset = BaseAsset & VehicleCustomAttributes;
+export type Asset = BaseAsset & VehicleCustomAttributes & StockCustomAttributes;
 
 export type GetAssetsResponse = {
   assets: Asset[]
