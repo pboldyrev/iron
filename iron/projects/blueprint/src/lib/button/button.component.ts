@@ -2,20 +2,21 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { BluIconName } from '../common/constants';
 import { BluIcon } from '../icon/icon.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'blu-button',
   standalone: true,
-  imports: [CommonModule, BluIcon],
+  imports: [CommonModule, BluIcon, MatTooltipModule],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css'],
 })
 export class BluButton {
-  @Input() type!: string;
-  @Input() iconName!: BluIconName;
-
-  @Input() iconOnly: boolean = false;
-  @Input() iconSize: string = "16";
-  @Input() fullWidth: boolean = false;
+  @Input() type: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'none' = 'primary';
+  @Input() iconName: BluIconName | null = null;
+  @Input() iconOnly = false;
+  @Input() iconSize = "16";
+  @Input() fullWidth = false;
   @Input() size: 'small' | 'normal' = 'normal';
+  @Input() tooltip = '';
 }

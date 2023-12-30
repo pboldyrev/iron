@@ -215,14 +215,14 @@ html {
   --mat-tab-header-inactive-label-text-color: var(--blu-color-secondary);
 
   .mat-mdc-tab-group {
-    --mdc-tab-indicator-active-indicator-color: var(--blu-color-brand);
-    --mat-tab-header-active-focus-indicator-color: var(--blu-color-brand);
-    --mat-tab-header-active-label-text-color: var(--blu-color-brand);
+    --mdc-tab-indicator-active-indicator-color: var(--blu-color-primary);
+    --mat-tab-header-active-focus-indicator-color: var(--blu-color-primary);
+    --mat-tab-header-active-label-text-color: var(--blu-color-primary);
     --mat-tab-header-active-ripple-color: none;
-    --mat-tab-header-active-hover-indicator-color: var(--blu-color-brand);
-    --mat-tab-header-active-focus-label-text-color: var(--blu-color-brand);
+    --mat-tab-header-active-hover-indicator-color: var(--blu-color-primary);
+    --mat-tab-header-active-focus-label-text-color: var(--blu-color-primary);
     --mat-tab-header-inactive-ripple-color: none;
-    --mat-tab-header-active-hover-label-text-color: var(--blu-color-brand);
+    --mat-tab-header-active-hover-label-text-color: var(--blu-color-primary);
   }
 
   .mat-mdc-menu-content {

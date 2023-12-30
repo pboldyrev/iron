@@ -9,11 +9,10 @@
         'blu-select-error': !isValid,
     }"
     (change)="updateValue(bluSelect.value)"
+    [(ngModel)]="selected"
     #bluSelect
 >
-    <ng-container *ngFor="let option of options">
-        <option [value]="option">{{ option }}</option>
-    </ng-container>
+    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
 </select>
 <blu-validation-feedback *ngIf="!isValid" [type]="FeedbackType.ERROR">
     {{ FEEDBACK_STRINGS["error"]["TEXT"] }}

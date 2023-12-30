@@ -3,5 +3,6 @@ export const TEXTS = {
     LABEL_ACCOUNT: "Account",
     BTN_BACK: "Back",
     BTN_ADD: "Add asset",
-    BTN_UPDATE: "Update details"
+    BTN_UPDATE: "Update details",
+    MANAGE_ACCOUNTS: "Manage accounts"
 }

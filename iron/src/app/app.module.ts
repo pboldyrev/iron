@@ -8,6 +8,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouteReuseStrategy } from '@angular/router';
 import { DefaultRouteReuseStrategy } from './route-reuse-strategy';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { DefaultRouteReuseStrategy } from './route-reuse-strategy';
     HttpClientModule,
     NgChartsModule,
     MatSnackBarModule,
+    FormsModule,
   ],
   bootstrap: [AppComponent],
   providers: [

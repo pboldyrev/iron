@@ -19,6 +19,7 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { ASSET_TABLE_COLS } from './dashboard-page.constants';
 import { FooterComponent } from 'src/app/footer/footer.component';
+import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -46,6 +47,7 @@ export class DashboardPageComponent {
   constructor(
     private authService: AuthService,
     private dataService: DataService,
+    private navigationService: NavigationService,
   ) {}
 
   ngOnInit() {
@@ -55,6 +57,10 @@ export class DashboardPageComponent {
 
   public onAddAsset(): void {
     this.addAssetPopup.show();
+  }
+
+  public onSettings(): void {
+    this.navigationService.navigate('/settings');
   }
 
   public onLogOut(): void {

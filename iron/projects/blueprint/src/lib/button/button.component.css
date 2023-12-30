@@ -6,7 +6,6 @@
   height: fit-content;
   padding: var(--blu-padding-l) var(--blu-padding-xxl);
   color: var(--blu-color-tertiary);
-  background-color: var(--blu-color-primary);
   border-radius: var(--blu-radius-m);
   box-sizing: border-box;
   font: var(--blu-font-primary);
@@ -17,7 +16,7 @@
 }
 
 .blu-button-icon-only {
-  padding: 0px;
+  padding: var(--blu-padding-l);
 }
 
 .blu-button-icon {

@@ -35,12 +35,11 @@
 <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
     <div class="row">
         <div class="col-12 dashboard-actions-wrapper">
-            <blu-button type="primary" iconName="plus" (click)="onAddAsset()">
+            <blu-button type="primary" iconName="plus" (click)="onAddAsset()" tooltip="Add asset">
                 {{ TEXTS.BTN_PRIMARY_CTA }}
             </blu-button>
-            <blu-button type="secondary" (click)="onLogOut()">
-                {{ TEXTS.BTN_SECONDARY_CTA }}
-            </blu-button>
+            <blu-button type="secondary" [iconOnly]="true" iconName="gear" (click)="onSettings()" tooltip="Settings page"></blu-button>
+            <blu-button type="secondary" [iconOnly]="true" iconName="signOut" (click)="onLogOut()" tooltip="Log out"></blu-button>
         </div>
     </div>
         <div *ngIf="(isAssetsLoading$ | async) else mainContent" class="dashboard-main-loader-wrapper">

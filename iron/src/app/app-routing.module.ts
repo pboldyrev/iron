@@ -8,6 +8,7 @@ import { AddAssetPageComponent } from './pages/add-asset-page/add-asset-page.com
 import { hasAssetGuard } from './guards/has-asset.guard';
 import { AssetDetailsPageComponent } from './pages/asset-details-page/asset-details-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardPageComponent,
+    canActivate: [authenticatedGuard],
+  },
+  {
+    path: 'settings',
+    component: SettingsPageComponent,
     canActivate: [authenticatedGuard],
   },
   {

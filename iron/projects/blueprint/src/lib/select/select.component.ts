@@ -5,11 +5,12 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { BluLabel } from '../label/label.component';
 import { FEEDBACK_STRINGS } from 'src/app/shared/constants/strings';
 import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'blu-select',
   standalone: true,
-  imports: [CommonModule, BluLabel, BluValidationFeedback,],
+  imports: [CommonModule, BluLabel, BluValidationFeedback, FormsModule],
   templateUrl: './select.component.html',
   styleUrl: './select.component.css'
 })
@@ -35,8 +36,9 @@ export class BluSelect implements AfterContentInit {
   public validate$(): Observable<string> {
     this.isValid = true;
 
-    if(!this.selected) {
+    if(!this.selected || this.options.indexOf(this.selected) === -1) {
       this.isValid = false;
+      return of('');
     }
 
     return of(this.selected);

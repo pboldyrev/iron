@@ -16,16 +16,21 @@ import { TEXTS } from './add-asset-form.strings';
 import { AddStockFormComponent } from '../add-stock-form/add-stock-form.component';
 import { AddCustomFormComponent } from '../add-custom-form/add-custom-form.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
+import { BluText } from 'projects/blueprint/src/lib/text/text.component';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
+import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
+import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 
 @Component({
   selector: 'app-add-asset-form',
   standalone: true,
-  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCustomFormComponent, BluSelect],
+  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCustomFormComponent, BluSelect, BluText, BluLink, BluPopup, BluModal],
   templateUrl: './add-asset-form.component.html',
   styleUrl: './add-asset-form.component.scss'
 })
 export class AddAssetFormComponent {
-  @ViewChild('account') accountInput!: BluInput;
+  @ViewChild('addAccountPopup') addAccountPopup!: BluPopup;
+  @ViewChild('account') accountInput!: BluSelect;
   @ViewChild('units') unitsInput!: BluInput;
   @ViewChild('vehicleForm') vehicleForm!: AddVehicleFormComponent;
   @ViewChild('customForm') customForm!: AddCustomFormComponent;
@@ -50,7 +55,7 @@ export class AddAssetFormComponent {
   ngAfterContentInit() {
     this.asset$.subscribe((asset: Asset) => {
       if(asset.account && this.accountInput) {
-        this.accountInput.value$.next(asset.account);
+        this.accountInput.updateValue(asset.account);
       }
       if(asset.units && this.unitsInput) {
         this.unitsInput.value$.next(asset.units.toString());
@@ -149,6 +154,10 @@ export class AddAssetFormComponent {
     } else {
       this.toastService.showToast("There was an issue with updating this asset", FeedbackType.ERROR);
     }
+  }
+
+  public onManageAccount(): void {
+    this.navigationService.navigate('/settings');
   }
 
   public onBack(): void {
