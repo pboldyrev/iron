@@ -32,8 +32,8 @@
 }
 
 .mat-column-edit {
-    max-width: 50px;
-    min-width: 50px;
+    max-width: var(--blu-width-l);
+    min-width: var(--blu-width-l);
 }
 
 .asset-table-progress-bar {

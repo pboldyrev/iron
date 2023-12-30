@@ -8,7 +8,7 @@ export const FEEDBACK_STRINGS = {
     PHONE: 'Please enter a valid US phone number without a country code.',
     INTEGER: 'Please enter a valid integer.',
     NOT_REQUIRED: 'This field is not required.',
-    DATE: 'Please enter a valid date in mm-dd-yyyy format.',
+    DATE: 'Please enter a valid date in mm/dd/yyyy format.',
   },
   info: {
     EMAIL: 'Please enter a valid email.',
@@ -19,7 +19,7 @@ export const FEEDBACK_STRINGS = {
     PHONE: 'Please enter a valid US phone number without a country code.',
     INTEGER: 'Please enter a valid integer.',
     NOT_REQUIRED: 'This field is not required.',
-    DATE: 'Please enter a valid date in mm-dd-yyyy format.',
+    DATE: 'Please enter a valid date in mm/dd/yyyy format.',
   },
   success: {
     EMAIL: 'Please enter a valid email.',
@@ -30,6 +30,6 @@ export const FEEDBACK_STRINGS = {
     PHONE: 'Please enter a valid US phone number without a country code.',
     INTEGER: 'Please enter a valid integer.',
     NOT_REQUIRED: 'This field is not required.',
-    DATE: 'Please enter a valid date in mm/yyyy format.',
+    DATE: 'Please enter a valid date in mm/dd/yyyy format.',
   },
 };

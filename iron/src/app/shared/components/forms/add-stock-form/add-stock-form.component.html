@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col">
+    <div class="col-md-4">
         <div class="add-stock-input">
             <blu-input 
                 [fullWidth]="true"
@@ -11,6 +11,20 @@
                 [tooltip]="isAdd ? TEXTS.TICKER_TOOLTIP : ''"
                 type="TEXT"
                 #ticker
+            ></blu-input>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="add-stock-input add-stock-input-second">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.DATE_LABEL"
+                [required]="true"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                [tooltip]="isAdd ? TEXTS.DATE_TOOLTIP : ''"
+                type="DATE"
+                #purchaseDate
             ></blu-input>
         </div>
     </div>

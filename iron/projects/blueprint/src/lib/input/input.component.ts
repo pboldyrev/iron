@@ -33,9 +33,9 @@ export class BluInput {
   @Input() maxChars: number = 100;
 
   public value$ = new BehaviorSubject<string>('');
-  public isValid$ = new BehaviorSubject<boolean>(true);
+  public isValid = true;
   public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
-  public customFeedback$ = new BehaviorSubject<string>("");
+  public customFeedback = "";
 
   constructor(private regexService: RegexService) {}
 
@@ -47,7 +47,7 @@ export class BluInput {
 
   public updateValue(event: any): void {
     this.value$.next(event.target.value);
-    this.isValid$.next(true);
+    this.isValid = true;
   }
 
   public validate$(): Observable<string> {
@@ -55,14 +55,14 @@ export class BluInput {
       take(1),
       map((value: string) => {
         if(!this.required && (value === "" || !value)) {
-          this.isValid$.next(true);
+          this.isValid = true;
           return value;
         }
         if(this.regexService.isValidString(value, this.type)) {
-          this.isValid$.next(true);
+          this.isValid = true;
           return value;
         }
-        this.isValid$.next(false);
+        this.isValid = false
         return "";
       })
     );
@@ -70,6 +70,6 @@ export class BluInput {
 
   public clearValueAndValidators(): void {
     this.value$.next("");
-    this.isValid$.next(true);
+    this.isValid = true;
   }
 }
