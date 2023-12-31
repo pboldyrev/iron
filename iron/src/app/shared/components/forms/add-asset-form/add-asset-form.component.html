@@ -6,6 +6,7 @@
                     [label]="TEXTS.LABEL_ACCOUNT"
                     [required]="true"
                     [options]="accountOptions"
+                    [disabled]="(isLoading$ | async) ?? false"
                     #account
                 ></blu-select>
             </div>

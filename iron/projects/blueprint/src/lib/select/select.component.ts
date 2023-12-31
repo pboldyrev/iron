@@ -16,8 +16,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class BluSelect implements AfterContentInit {
   @Input() options!: string[];
-  @Input() required: boolean = false;
+  @Input() required = false;
   @Input() label: string | null = null;
+  @Input() disabled = false;
 
   public selected: string = '';
   public isValid = true;

@@ -10,6 +10,7 @@
     }"
     (change)="updateValue(bluSelect.value)"
     [(ngModel)]="selected"
+    [disabled]="disabled"
     #bluSelect
 >
     <option *ngFor="let option of options" [value]="option">{{ option }}</option>
