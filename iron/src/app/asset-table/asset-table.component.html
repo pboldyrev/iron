@@ -18,15 +18,14 @@
   #archiveConfirmPopup
 ></app-confirmation-popup>
 <div class="asset-table">
-    <div *ngIf="assets.length === 0">
+    <div *ngIf="((assets$ | async) ?? []).length === 0">
         <blu-text type="secondary">No assets added yet... <blu-link (click)="onAddAsset()">Add one?</blu-link></blu-text>
     </div>
     <mat-table 
-        *ngIf="assets.length > 0" 
+        *ngIf="((assets$ | async) ?? []).length > 0" 
         #table 
-        [dataSource]="assets"
+        [dataSource]="(assets$ | async) ?? []"
     >
-        
         <ng-container matColumnDef="account">
             <mat-header-cell *matHeaderCellDef>
                 {{ TEXTS.ACCOUNT_TITLE }}

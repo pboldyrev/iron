@@ -20,7 +20,7 @@
         </div>
         <div
             class="col-md-4" 
-            *ngIf="assetType !== AssetType.Vehicle"
+            *ngIf="((asset$ | async) ?? {}).assetType !== AssetType.Vehicle"
         >
             <div class="add-asset-input add-asset-input-second">
                 <blu-input
@@ -30,7 +30,7 @@
                     [feedbackType]="FeedbackType.ERROR" 
                     [label]="TEXTS.LABEL_UNITS"
                     [required]="true"
-                    [disabled]="(isLoading$ | async) ?? false"
+                    [disabled]="(isLoading$ | async) ?? false || !isAdd"
                     #units
                 ></blu-input>
             </div>
@@ -38,21 +38,21 @@
     </div>
 </div>
 <app-add-vehicle-form
-    *ngIf="assetType === AssetType.Vehicle"
+    *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Vehicle"
     [asset$]="asset$"
     [isLoading$]="isLoading$"
     [isAdd]="isAdd"
     #vehicleForm
 ></app-add-vehicle-form>
 <app-add-stock-form
-    *ngIf="assetType === AssetType.Stock"
+    *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Stock"
     [asset$]="asset$"
     [isLoading$]="isLoading$"
     [isAdd]="isAdd"
     #stockForm
 ></app-add-stock-form>
 <app-add-custom-form
-    *ngIf="assetType === AssetType.Custom"
+    *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Custom"
     [asset$]="asset$"
     [isLoading$]="isLoading$"
     [isAdd]="isAdd"

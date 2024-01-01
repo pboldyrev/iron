@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ValueHistoryComponent } from './value-history/value-history.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';  

@@ -31,6 +31,7 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
 export class DashboardPageComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
   @ViewChild('logOutConfirmPopup') logOutConfirmPopup!: ConfirmationPopupComponent;
+  @ViewChild('assetTable') assetTable!: AssetTableComponent;
   
   public TEXTS = TEXTS;
   public isNetworthLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -40,7 +41,7 @@ export class DashboardPageComponent {
   public networthTimeframes: ValueChange[] = [];
   public networthValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
-  public assets: Asset[] = [];
+  public assets$ = new BehaviorSubject([] as Asset[]);
   public assetSummaries: AssetTypeSummary[] = [];
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
 
@@ -73,11 +74,8 @@ export class DashboardPageComponent {
 
   private fetchAssets(): void {
     this.dataService.getAssets$(false, this.isAssetsLoading$).pipe(
-      tap((assets: Asset[]) => {
-        // this.updateAssetTypeSummaries$(assets);
-      }),
       map((assets: Asset[]) => {
-        this.assets = assets;
+        this.assets$.next(assets);
       }),
     ).subscribe();
   }

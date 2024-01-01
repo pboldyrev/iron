@@ -59,8 +59,9 @@
                 <div class="col-12 dashboard-asset-table-wrapper">
                     <app-asset-table
                         [columns]="assetTableColumns"
-                        [assets]="assets"
+                        [assets$]="assets$"
                         [loadingIndicator$]="isAssetsLoading$"
+                        #assetTable
                     ></app-asset-table>
                 </div>
             </div>

@@ -57,7 +57,7 @@ export class AssetTableComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
   @Input() columns!: AssetTableColumn[];
-  @Input() assets!: Asset[];
+  @Input() assets$!: BehaviorSubject<Asset[]>;
   @Input() loadingIndicator$!: BehaviorSubject<boolean>
 
   public curTotal: number = 0;
@@ -75,9 +75,15 @@ export class AssetTableComponent {
   ){}
 
   ngOnInit() {
+    this.assets$.subscribe((assets: Asset[]) => {
+      this.updateTotals(assets);
+    });
+  }
+
+  public updateTotals(assets: Asset[]): void {
     let curTotal = 0;
     let initTotal = 0;
-    this.assets.forEach((asset: Asset) => {
+    assets.forEach((asset: Asset) => {
       curTotal += asset.curValue ?? 0;
       initTotal += asset.initValue ?? 0;
     });
@@ -107,7 +113,7 @@ export class AssetTableComponent {
 
     this.dataService.archiveAsset$(this.assetToArchive.assetId, this.loadingIndicator$).subscribe(() => {
       this.toastService.showToast("Successfully archived " + this.assetToArchive?.assetName, FeedbackType.SUCCESS);
-      this.assetToArchive = undefined
+      this.assetToArchive = undefined;
     });
   }
 
@@ -119,7 +125,7 @@ export class AssetTableComponent {
 
     this.dataService.deleteAsset$(this.assetToDelete.assetId, this.loadingIndicator$).subscribe(() => {
       this.toastService.showToast("Successfully deleted " + this.assetToDelete?.assetName, FeedbackType.SUCCESS);
-      this.assetToArchive = undefined
+      this.assetToArchive = undefined;
     });
   }
 
