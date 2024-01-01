@@ -1,6 +1,7 @@
 <div class="row asset-more-details-wrapper">
     <app-add-asset-form
         [asset$]="asset$"
+        [assetType]="(asset$ | async)?.assetType ?? AssetType.Custom"
         [isLoading$]="isLoading$"
         (savedAsset$)="onSaved()"
         #addAssetForm

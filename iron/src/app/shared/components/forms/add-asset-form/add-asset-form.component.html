@@ -38,21 +38,21 @@
     </div>
 </div>
 <app-add-vehicle-form
-    *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Vehicle"
+    *ngIf="assetType === AssetType.Vehicle"
     [asset$]="asset$"
     [isLoading$]="isLoading$"
     [isAdd]="isAdd"
     #vehicleForm
 ></app-add-vehicle-form>
 <app-add-stock-form
-    *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Stock"
+    *ngIf="assetType === AssetType.Stock"
     [asset$]="asset$"
     [isLoading$]="isLoading$"
     [isAdd]="isAdd"
     #stockForm
 ></app-add-stock-form>
 <app-add-custom-form
-    *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Custom"
+    *ngIf="assetType === AssetType.Custom"
     [asset$]="asset$"
     [isLoading$]="isLoading$"
     [isAdd]="isAdd"

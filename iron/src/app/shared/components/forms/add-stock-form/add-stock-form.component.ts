@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, Input, ViewChild } from '@angular/core';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BehaviorSubject, Observable, combineLatest, map, of, take } from 'rxjs';
@@ -14,7 +14,7 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
   templateUrl: './add-stock-form.component.html',
   styleUrl: './add-stock-form.component.scss'
 })
-export class AddStockFormComponent {
+export class AddStockFormComponent implements AfterContentChecked {
   @ViewChild('ticker') tickerInput!: BluInput;
   @ViewChild('purchaseDate') purchaseDateInput!: BluInput;
 
@@ -25,7 +25,7 @@ export class AddStockFormComponent {
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
   
-  ngAfterViewInit() {
+  ngAfterContentChecked() {
     if(this.isAdd) {
       return;
     }

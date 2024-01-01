@@ -39,7 +39,7 @@ export type BaseAsset = {
   assetId?: string,
   userId?: string,
   assetName?: string,
-  assetType?: string,
+  assetType?: AssetType,
   timeCreated?: number,
   account?: string,
   units?: number,

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
@@ -18,7 +18,7 @@ import { TEXTS, TOOLTIPS } from './add-vehicle-form.strings';
   templateUrl: './add-vehicle-form.component.html',
   styleUrl: './add-vehicle-form.component.scss'
 })
-export class AddVehicleFormComponent implements AfterViewInit {
+export class AddVehicleFormComponent implements AfterContentChecked {
   @ViewChild('mileage') mileageInput!: BluInput;
   @ViewChild('vin') vinInput!: BluInput;
 
@@ -34,7 +34,7 @@ export class AddVehicleFormComponent implements AfterViewInit {
     private navigationService: NavigationService,
   ){}
 
-  ngAfterViewInit() {
+  ngAfterContentChecked() {
     if(this.isAdd) {
       return;
     }

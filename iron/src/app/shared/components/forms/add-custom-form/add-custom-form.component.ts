@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, Input, ViewChild } from '@angular/core';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { Observable, BehaviorSubject, take, map, combineLatest } from 'rxjs';
@@ -13,7 +13,7 @@ import { TEXTS } from './add-custom-form.strings';
   templateUrl: './add-custom-form.component.html',
   styleUrl: './add-custom-form.component.scss'
 })
-export class AddCustomFormComponent {
+export class AddCustomFormComponent implements AfterContentChecked {
   @ViewChild('assetName') assetNameInput!: BluInput;
   @ViewChild('appreciationRate') appreciationRateInput!: BluInput;
   @ViewChild('curValue') curValueInput!: BluInput;
@@ -25,7 +25,7 @@ export class AddCustomFormComponent {
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
 
-  ngAfterViewInit() {
+  ngAfterContentChecked() {
     if(this.isAdd) {
       return;
     }
