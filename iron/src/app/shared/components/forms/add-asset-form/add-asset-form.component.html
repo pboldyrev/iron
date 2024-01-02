@@ -19,8 +19,8 @@
             </div>
         </div>
         <div
-            class="col-md-4" 
-            *ngIf="((asset$ | async) ?? {}).assetType !== AssetType.Vehicle"
+            class="col-md-4"
+            *ngIf="assetType !== AssetType.Vehicle"
         >
             <div class="add-asset-input add-asset-input-second">
                 <blu-input

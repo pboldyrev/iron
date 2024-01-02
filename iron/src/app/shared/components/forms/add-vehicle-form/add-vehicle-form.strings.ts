@@ -2,6 +2,9 @@ export const TEXTS = {
     UNKNOWN_ERROR: "Unknown error has occured.",
     MILEAGE_LABEL: "Mileage",
     VIN_LABEL: "VIN",
+    NICKNAME_LABEL: "Nickname",
+    DATE_LABEL: "Purchase date",
+    PRICE_LABEL: "Purchase price",
     SWITCH: "track via a custom asset",
     OR: "...or ",
 }

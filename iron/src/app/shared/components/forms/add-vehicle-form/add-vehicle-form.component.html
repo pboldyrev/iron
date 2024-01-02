@@ -27,6 +27,45 @@
             ></blu-input>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="add-vehicle-input">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.DATE_LABEL"
+                [required]="true"
+                [disabled]="(isLoading$ | async) ?? false"
+                type="DATE"
+                #date
+            ></blu-input>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="add-vehicle-input add-vehicle-input-second">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.PRICE_LABEL"
+                [required]="true"
+                [disabled]="(isLoading$ | async) ?? false"
+                type="NUMBER"
+                #price
+            ></blu-input>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="add-vehicle-input">
+            <blu-input 
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                [label]="TEXTS.NICKNAME_LABEL"
+                [required]="false"
+                [disabled]="(isLoading$ | async) ?? false"
+                type="TEXT"
+                #nickname
+            ></blu-input>
+        </div>
+    </div>
 </div>
 <div class="add-vehicle-switch" *ngIf="isAdd">
     <blu-text type="secondary">

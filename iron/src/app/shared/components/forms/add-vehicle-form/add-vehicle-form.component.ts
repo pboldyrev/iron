@@ -21,6 +21,9 @@ import { TEXTS, TOOLTIPS } from './add-vehicle-form.strings';
 export class AddVehicleFormComponent implements AfterContentChecked {
   @ViewChild('mileage') mileageInput!: BluInput;
   @ViewChild('vin') vinInput!: BluInput;
+  @ViewChild('date') dateInput!: BluInput;
+  @ViewChild('price') priceInput!: BluInput;
+  @ViewChild('nickname') nicknameInput!: BluInput;
 
   @Input() asset$!: Observable<Asset>;
   @Input() isLoading$ = new BehaviorSubject<boolean>(false);
@@ -46,23 +49,58 @@ export class AddVehicleFormComponent implements AfterContentChecked {
       if(asset.mileage && this.mileageInput) {
         this.mileageInput.value$.next(asset.mileage.toString());
       }
+      if(asset.purchaseDate && this.dateInput) {
+        this.dateInput.value$.next(asset.purchaseDate.toLocaleDateString());
+      }
+      if(asset.purchasePrice && this.priceInput) {
+        this.priceInput.value$.next(asset.purchasePrice.toString());
+      }
+      if(asset.nickName && this.nicknameInput) {
+        this.nicknameInput.value$.next(asset.nickName);
+      }
     });
   }
 
   public onSubmit$(): Observable<Asset> {
     return combineLatest([
       this.vinInput.validate$(),
-      this.mileageInput.validate$()
+      this.mileageInput.validate$(),
+      this.dateInput.validate$(),
+      this.priceInput.validate$(),
+      this.nicknameInput.validate$(),
     ]).pipe(
       take(1),
-      map(([vin, mileage]: [string, string]) => {
-        if(!vin) {
-          return {};
+      map(([vin, mileage, date, price, nickname]: [string, string, string, string, string]) => {
+        let isValid = true;
+
+        if(!vin || !date || !price) {
+          isValid = false;
+        }
+
+        const dateObj = new Date(date);
+
+        if(dateObj.getFullYear() < 1900) {
+          this.dateInput.isValid = false;
+          this.dateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
+          isValid = false;
+        }
+
+        if(dateObj > new Date()) {
+          this.dateInput.isValid = false;
+          this.dateInput.customFeedback = "We do not support future purchases.";
+          isValid = false;
         }
         
+        if(!isValid) {
+          return {};
+        }
+
         return {
           vin: vin,
           mileage: parseInt(mileage),
+          purchasePrice: parseFloat(price),
+          purchaseDate: dateObj,
+          nickname: nickname
         };
       }),
     )

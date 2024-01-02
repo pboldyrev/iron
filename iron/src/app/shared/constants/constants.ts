@@ -29,6 +29,8 @@ export type VehicleCustomAttributes = {
   year?: number,
   mileage?: number,
   appreciationRate?: number,
+  purchasePrice?: number,
+  purchaseDate?: Date,
 }
 
 export type StockCustomAttributes = {

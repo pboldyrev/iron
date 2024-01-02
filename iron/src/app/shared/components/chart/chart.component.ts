@@ -27,9 +27,7 @@ export class ChartComponent implements AfterContentInit {
       
       let yAxis = assetValues.map((assetValue) => assetValue.value ?? 0);
 
-      if(assetValues.length > 1) {
-        this.createChart(xAxis, yAxis);
-      }
+      this.createChart(xAxis, yAxis);
     });
   }
 
@@ -60,9 +58,19 @@ export class ChartComponent implements AfterContentInit {
             data: yAxis,
             spanGaps: true,
             tension: 0,
-            borderWidth: 5,
+            borderWidth: () => {
+              if(xAxis.length > 1) {
+                return 5;
+              }
+              return 0;
+            },
             borderJoinStyle: "round",
-            pointRadius: 0,
+            pointRadius: () => {
+              if(xAxis.length > 1) {
+                return 0;
+              }
+              return 5;
+            },
             pointHitRadius: 20,
             pointHoverRadius: 5,
             pointBorderColor: this.getBorderColor(yAxis),
@@ -105,7 +113,7 @@ export class ChartComponent implements AfterContentInit {
         scales: {
           x: {
             ticks: {
-              display: false,
+              display: xAxis.length === 1,
               autoSkip: true,
               maxRotation: 0,
               autoSkipPadding: 20,
@@ -185,9 +193,7 @@ export class ChartComponent implements AfterContentInit {
 
   private getBorderColor(yValues: number[]): string {
     if(
-      yValues && 
-      yValues.length > 0 && 
-      yValues[0] >= yValues[yValues.length-1]
+      yValues[0] > yValues[yValues.length-1]
     ) {
       return "#c43528";
     } else {

@@ -32,6 +32,7 @@ export class BluSelect implements AfterContentInit {
 
   public updateValue(value: string): void {
     this.selected = value;
+    this.isValid = true;
   }
 
   public validate$(): Observable<string> {
