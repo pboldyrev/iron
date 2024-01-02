@@ -7,55 +7,18 @@ import { AssetValue } from '../constants/constants';
 })
 export class ChartService {
 
-  public getOptions(data: AssetValue[]): ChartConfiguration  {
-    let xAxis;
+  public getOptions(chartId: string, data: AssetValue[]): ChartConfiguration  {
+    let xAxis, yAxis;
 
-    if(data.length > 30) {
-      xAxis = data.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
-    } else {
-      xAxis = data.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
-    }
-    
-    let yAxis = data.map((assetValue) => assetValue.value ?? 0);
+    [xAxis, yAxis] = this.getAxisData(data);
 
     return {
       type: 'line',
-      data: {
-        labels: xAxis, 
-	       datasets: [
-          {
-            animation: {
-              duration: 0,
-            },
-            data: yAxis,
-            spanGaps: true,
-            tension: 0,
-            borderWidth: () => {
-              if(xAxis.length > 1) {
-                return 5;
-              }
-              return 0;
-            },
-            borderJoinStyle: "round",
-            pointRadius: () => {
-              if(xAxis.length > 1) {
-                return 0;
-              }
-              return 5;
-            },
-            pointHitRadius: 20,
-            pointHoverRadius: 5,
-            pointBorderColor: this.getBorderColor(yAxis),
-            pointBackgroundColor: this.getBorderColor(yAxis),
-            fill: true,
-            backgroundColor: this.getBackgroundColor(yAxis),
-          }
-        ]
-      },
+      data: this.getDataSet(chartId, data),
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        borderColor: this.getBorderColor(yAxis),
+        borderColor: this.getBorderColor(data),
         plugins: {
           legend: {
             display: false,
@@ -151,8 +114,47 @@ export class ChartService {
     }
   }
 
-  private getBackgroundColor(yValues: number[]): CanvasGradient | string {
-    const ctx = <HTMLCanvasElement> document.getElementById('finacleChart');
+  public getDataSet(chartId: string, data: AssetValue[]) {
+    let xAxis, yAxis;
+
+    [xAxis, yAxis] = this.getAxisData(data);
+
+    return {
+      labels: xAxis, 
+      datasets: [
+        {
+          animation: {
+            duration: 0,
+          },
+          data: yAxis,
+          spanGaps: true,
+          tension: 0,
+          borderWidth: () => {
+            if(xAxis.length > 1) {
+              return 5;
+            }
+            return 0;
+          },
+          borderJoinStyle: "round",
+          pointRadius: () => {
+            if(xAxis.length > 1) {
+              return 0;
+            }
+            return 5;
+          },
+          pointHitRadius: 20,
+          pointHoverRadius: 5,
+          pointBorderColor: this.getBorderColor(data),
+          pointBackgroundColor: this.getBorderColor(data),
+          fill: true,
+          backgroundColor: this.getBackgroundColor(chartId, data),
+        }
+      ],
+    }
+  }
+
+  private getBackgroundColor(chartId: string, data: AssetValue[]): CanvasGradient | string {
+    const ctx = <HTMLCanvasElement> document.getElementById(chartId);
 
     if(!ctx || !ctx?.getContext('2d') || !ctx?.getContext('2d')?.createLinearGradient(0, 0, 0, 250)) {
       // no gradient
@@ -161,15 +163,7 @@ export class ChartService {
 
     let gradientColor: string;
 
-    if(
-      yValues && 
-      yValues.length > 0 && 
-      yValues[0] >= yValues[yValues.length-1]
-    ) {
-      gradientColor = "#c43528";
-    } else {
-      gradientColor = "#095d3b";
-    }
+    gradientColor = this.getBorderColor(data);
 
     const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 250);
     gradient.addColorStop(0, gradientColor);
@@ -178,13 +172,29 @@ export class ChartService {
     return gradient;
   }
 
-  private getBorderColor(yValues: number[]): string {
-    if(
-      yValues[0] > yValues[yValues.length-1]
-    ) {
+  public getBorderColor(data: AssetValue[]): string {
+    let xAxis, yAxis;
+
+    [xAxis, yAxis] = this.getAxisData(data);
+
+    if(yAxis[0] > yAxis[yAxis.length-1]) {
       return "#c43528";
     } else {
       return "#095d3b";
     }
+  }
+
+  private getAxisData(data: AssetValue[]): [string[], number[]] {
+    let xAxis;
+
+    if(data.length > 30) {
+      xAxis = data.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
+    } else {
+      xAxis = data.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
+    }
+    
+    let yAxis = data.map((assetValue) => assetValue.value ?? 0);
+
+    return [xAxis, yAxis]
   }
 }

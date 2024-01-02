@@ -12,28 +12,28 @@
             ></blu-input>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col">
         <div class="add-custom-input">
             <blu-input 
                 [fullWidth]="true"
                 [feedbackType]="FeedbackType.ERROR" 
                 [label]="TEXTS.LABEL_APPRECIATION"
                 [required]="true"
-                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                [disabled]="(isLoading$ | async) ?? false"
                 [tooltip]="TEXTS.TOOLTIP_APPRECIATION"
                 type="NUMBER"
                 #appreciationRate
             ></blu-input>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col" *ngIf="isAdd">
         <div class="add-custom-input add-custom-input-second">
             <blu-input 
                 [fullWidth]="true"
                 [feedbackType]="FeedbackType.ERROR" 
                 [label]="TEXTS.LABEL_CUR_VALUE"
                 [required]="false"
-                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                [disabled]="(isLoading$ | async) ?? false"
                 [tooltip]="TEXTS.TOOLTIP_CUR_VALUE"
                 type="NUMBER"
                 #curValue

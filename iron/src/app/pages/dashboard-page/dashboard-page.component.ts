@@ -62,10 +62,15 @@ export class DashboardPageComponent implements AfterContentInit {
 
   ngAfterContentInit() {
     this.networthValues$.pipe(
-      skip(1), 
-      take(1)
+      skip(1),
     ).subscribe((data: AssetValue[]) => {
-      this.dashboardChart = new Chart('dashboardChart', this.chartService.getOptions(data));
+      if(this.dashboardChart) {
+        this.dashboardChart.data = this.chartService.getDataSet('dashboardChart', data);
+        this.dashboardChart.options.borderColor = this.chartService.getBorderColor(data);
+        this.dashboardChart.update();
+      } else {
+        this.dashboardChart = new Chart('dashboardChart', this.chartService.getOptions('dashboardChart', data));
+      }
     });
   }
 

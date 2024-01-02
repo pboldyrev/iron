@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterContentChecked, Component, Input, ViewChild } from '@angular/core';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
-import { Observable, BehaviorSubject, take, map, combineLatest } from 'rxjs';
+import { Observable, BehaviorSubject, take, map, combineLatest, of } from 'rxjs';
 import { Asset } from 'src/app/shared/constants/constants';
 import { TEXTS } from './add-custom-form.strings';
 
@@ -34,6 +34,9 @@ export class AddCustomFormComponent implements AfterContentChecked {
       if(asset.assetName && this.assetNameInput) {
         this.assetNameInput.value$.next(asset.assetName);
       }
+      if(asset.appreciationRate && this.appreciationRateInput) {
+        this.appreciationRateInput.value$.next(asset.appreciationRate.toString());
+      }
     });
   }
 
@@ -41,20 +44,25 @@ export class AddCustomFormComponent implements AfterContentChecked {
     return combineLatest([
       this.assetNameInput.validate$(),
       this.appreciationRateInput.validate$(),
-      this.curValueInput.validate$(),
+      this.isAdd ? this.curValueInput.validate$() : of(''),
     ]).pipe(
       take(1),
       map(([assetName, appreciationRate, curValue]: [string, string, string]) => {
-        if(!assetName || !appreciationRate) {
+        if(!assetName || (!appreciationRate && this.isAdd)) {
           return {};
         }
-        
-        return {
+
+        let assetObj: Asset = {
           assetName: assetName,
-          appreciationRate: parseFloat(appreciationRate),
           curValue: parseFloat(curValue) ?? 0,
           initValue: parseFloat(curValue) ?? 0,
         };
+
+        if(this.isAdd) {
+          assetObj.appreciationRate = parseFloat(appreciationRate);
+        }
+        
+        return assetObj;
       }),
     )
   }

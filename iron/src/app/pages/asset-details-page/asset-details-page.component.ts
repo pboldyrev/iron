@@ -54,9 +54,14 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   ngAfterContentInit() {
     this.assetValues$.pipe(
       skip(1), 
-      take(1)
     ).subscribe((data: AssetValue[]) => {
-      this.historyChart = new Chart('detailChart', this.chartService.getOptions(data));
+      if(this.historyChart) {
+        this.historyChart.data = this.chartService.getDataSet('detailChart', data);
+        this.historyChart.options.borderColor = this.chartService.getBorderColor(data);
+        this.historyChart.update();
+      } else {
+        this.historyChart = new Chart('detailChart', this.chartService.getOptions('detailChart', data));
+      }
     });
   }
 
