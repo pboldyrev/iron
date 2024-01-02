@@ -24,12 +24,6 @@ $iron-theme: mat.define-dark-theme((
   color: var(--blu-color-secondary);
 }
 
-[type="date"]::-webkit-calendar-picker-indicator {
-  background-color: var(--blu-color-primary);
-  border-radius: var(--blu-radius-s);
-  padding: var(--blu-padding-xs);
-}
-
 html {
   background-color: var(--blu-background-primary);
   font: var(--blu-font-primary);
@@ -261,13 +255,18 @@ html {
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
-      /* display: none; <- Crashes Chrome on hover */
       -webkit-appearance: none;
-      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+      margin: 0;
   }
 
   input[type=number] {
       appearance: textfield;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: var(--blu-color-primary);
+    border-radius: var(--blu-radius-s);
+    padding: var(--blu-padding-xxs);
   }
 
   /* width */

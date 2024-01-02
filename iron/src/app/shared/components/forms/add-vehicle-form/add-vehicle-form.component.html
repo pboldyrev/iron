@@ -34,7 +34,7 @@
                 [feedbackType]="FeedbackType.ERROR" 
                 [label]="TEXTS.DATE_LABEL"
                 [required]="true"
-                [disabled]="(isLoading$ | async) ?? false"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
                 type="DATE"
                 #date
             ></blu-input>
@@ -47,7 +47,7 @@
                 [feedbackType]="FeedbackType.ERROR" 
                 [label]="TEXTS.PRICE_LABEL"
                 [required]="true"
-                [disabled]="(isLoading$ | async) ?? false"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
                 type="NUMBER"
                 #price
             ></blu-input>
