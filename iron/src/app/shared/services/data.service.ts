@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Asset, AssetType, AssetValue, ANALYTICS, NetWorthValue } from '../constants/constants';
-import { BehaviorSubject, Observable, combineLatest, delay, map, mergeMap, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, delay, map, mergeMap, of, take, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
@@ -329,6 +329,20 @@ export class DataService {
         }
       })
     )
+  }
+
+  public deleteArchivedAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<boolean> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    console.log("Deleted all assets");
+
+    if(loadingIndicator) {
+      loadingIndicator.next(false);
+    }
+
+    return of(true);
   }
 
   private fetchUserAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {

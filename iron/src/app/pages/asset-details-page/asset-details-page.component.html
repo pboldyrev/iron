@@ -19,9 +19,12 @@
                 <div *ngIf="(isDetailsLoading$ | async)" class="asset-details-history-loading">
                     <blu-spinner size="50"></blu-spinner>
                 </div>
-                <mat-tab-group [ngClass]="{
-                    'asset-details-page-hidden': isDetailsLoading$ | async
-                }" [dynamicHeight]="true">
+                <mat-tab-group 
+                    [ngClass]="{
+                        'asset-details-page-hidden': isDetailsLoading$ | async
+                    }" 
+                    [dynamicHeight]="true"
+                >
                     <mat-tab label="Value history">
                         <div class="asset-details-value-history-chart-wrapper">
                             <app-chart

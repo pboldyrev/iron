@@ -15,10 +15,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class ConfirmationPopupComponent {
   @ViewChild('popup') popup!: BluPopup;
 
-  @Input() title!: string;
-
-  @Input() subtitle: string = '';
-  @Input() confirmText: string = 'Confirm';
+  @Input() title = '';
+  @Input() subtitle = '';
+  @Input() confirmText = 'Confirm';
   @Input() size: 'small' | 'medium' | 'large' | 'x-large' = 'medium';
 
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter();
