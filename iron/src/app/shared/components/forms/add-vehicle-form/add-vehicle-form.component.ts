@@ -100,7 +100,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
           mileage: parseInt(mileage),
           purchasePrice: parseFloat(price),
           purchaseDate: dateObj,
-          nickname: nickname
+          nickName: nickname
         };
       }),
     )

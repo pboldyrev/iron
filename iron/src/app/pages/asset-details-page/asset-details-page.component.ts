@@ -73,13 +73,21 @@ export class AssetDetailsPageComponent {
   }
 
   private getDisplayName(asset: Asset): string {
-    if(!asset) {
-      return '';
-    }
+    let finalName = '';
+
     if(asset.assetType) {
-      return asset.assetType + ' - ' + asset.assetName ?? '';
+      finalName += asset.assetType + ' - ';
     }
-    return asset.assetName ?? ''
+
+    if(asset.assetName) {
+      finalName += asset.assetName
+    }
+
+    if(asset.nickName) {
+      finalName += ' (' + asset.nickName + ')';
+    }
+    
+    return finalName;
   }
 
   private getDisplayWorth(asset: Asset): string {
