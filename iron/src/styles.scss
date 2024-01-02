@@ -229,6 +229,10 @@ html {
     flex-grow: 0 !important;
   }
 
+  .mat-mdc-tab-body-wrapper {
+    margin-top: var(--blu-margin-xl);
+  }
+
   .mdc-tab {
     padding: 0 var(--blu-padding-xxl)!important;
     font: var(--blu-font-primary)!important;

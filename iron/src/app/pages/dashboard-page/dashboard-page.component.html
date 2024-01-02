@@ -24,12 +24,11 @@
                         [timeframes]="networthTimeframes"
                     ></app-value-change>
                 </div>
-                <div class="dashboard-networth-chart-wrapper">
-                    <app-chart
-                        [values$]="networthValues$"
-                    ></app-chart>
-                </div>
             </ng-template>
+            <div class="dashboard-networth-chart-wrapper"
+                [hidden]="(isNetworthLoading$ | async)">
+                <canvas id="dashboardChart">{{ dashboardChart }}</canvas>
+            </div>
         </div>
     </div>
 <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">

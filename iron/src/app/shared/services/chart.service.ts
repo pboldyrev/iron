@@ -1,50 +1,23 @@
-import { CommonModule } from '@angular/common';
-import { AfterContentInit, Component, Input } from '@angular/core';
-import { Chart, ChartConfiguration } from 'chart.js';
-import { AssetValue } from '../../constants/constants';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { ChartConfiguration } from 'chart.js';
+import { AssetValue } from '../constants/constants';
 
-@Component({
-  selector: 'app-chart',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './chart.component.html',
-  styleUrl: './chart.component.scss'
+@Injectable({
+  providedIn: 'root'
 })
-export class ChartComponent implements AfterContentInit {
-  @Input() values$ = new BehaviorSubject<AssetValue[]>([]);
+export class ChartService {
 
-  public chart: Chart<any> | undefined;
-
-  ngAfterContentInit(): void {
+  public getOptions(data: AssetValue[]): ChartConfiguration  {
     let xAxis;
-    this.values$.subscribe((assetValues: AssetValue[]) => {
-      if(assetValues?.length > 30) {
-        xAxis = assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
-      } else {
-        xAxis = assetValues.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
-      }
-      
-      let yAxis = assetValues.map((assetValue) => assetValue.value ?? 0);
 
-      this.createChart(xAxis, yAxis);
-    });
-  }
+    if(data.length > 30) {
+      xAxis = data.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', timeZone: 'UTC'}));
+    } else {
+      xAxis = data.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
+    }
+    
+    let yAxis = data.map((assetValue) => assetValue.value ?? 0);
 
-  private createChart(xAxis: string[], yAxis: number[]): void {
-    try {
-      if(this.chart){
-        this.chart.clear();
-        this.chart.destroy();
-      }
-    } catch {}
-
-    try {
-      this.chart = new Chart("finacleChart", this.getOptions(xAxis, yAxis));
-    } catch {}
-  }
-
-  private getOptions(xAxis: string[], yAxis: number[]): ChartConfiguration  {
     return {
       type: 'line',
       data: {
@@ -92,6 +65,15 @@ export class ChartComponent implements AfterContentInit {
             borderColor: '#363636',
             borderWidth: 1,
             displayColors: false,
+            bodyFont: {
+              family: 'Rethink Sans'
+            },
+            titleFont: {
+              family: 'Rethink Sans'
+            },
+            footerFont: {
+                family: 'Rethink Sans'
+            },
             callbacks: {
               label: function(labelContent) {
                 let formattedValue = labelContent.formattedValue;
@@ -116,6 +98,9 @@ export class ChartComponent implements AfterContentInit {
               autoSkip: true,
               maxRotation: 0,
               autoSkipPadding: 20,
+              font: {
+                family: 'Rethink Sans'
+              }
             },
             title: {
               display: false,
@@ -130,6 +115,9 @@ export class ChartComponent implements AfterContentInit {
               maxRotation: 0,
               autoSkipPadding: 20,
               display: true,
+              font: {
+                family: 'Rethink Sans'
+              },
               callback: (yValue: string | number) => {
                 let yValueAsNum = parseInt(yValue.toString());
 

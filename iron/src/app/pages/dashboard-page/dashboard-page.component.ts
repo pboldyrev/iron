@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ViewChild } from '@angular/core';
 import { NetworthComponent } from '../../shared/components/networth/networth.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
@@ -8,27 +8,28 @@ import { Asset, AssetType, AssetValue, NetWorthValue, ValueChange } from '../../
 import { AssetTypeCardComponent, AssetTypeSummary } from './asset-type-card/asset-type-card.component';
 import { ValueChangeComponent } from '../../shared/components/value-change/value-change.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
-import { ChartComponent } from '../../shared/components/chart/chart.component';
 import { AssetTableColumn, AssetTableComponent } from '../../asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/add-asset-selection/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
-import { BehaviorSubject, Observable, filter, map, mergeMap, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, mergeMap, of, skip, take, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { ASSET_TABLE_COLS } from './dashboard-page.constants';
 import { FooterComponent } from 'src/app/footer/footer.component';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
+import { Chart } from 'chart.js';
+import { ChartService } from 'src/app/shared/services/chart.service';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, ChartComponent, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, FooterComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, FooterComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
-export class DashboardPageComponent {
+export class DashboardPageComponent implements AfterContentInit {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
   @ViewChild('logOutConfirmPopup') logOutConfirmPopup!: ConfirmationPopupComponent;
   @ViewChild('assetTable') assetTable!: AssetTableComponent;
@@ -45,15 +46,27 @@ export class DashboardPageComponent {
   public assetSummaries: AssetTypeSummary[] = [];
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
 
+  dashboardChart!: Chart;
+
   constructor(
     private authService: AuthService,
     private dataService: DataService,
     private navigationService: NavigationService,
+    private chartService: ChartService,
   ) {}
 
   ngOnInit() {
     this.fetchNetWorth();
     this.fetchAssets();
+  }
+
+  ngAfterContentInit() {
+    this.networthValues$.pipe(
+      skip(1), 
+      take(1)
+    ).subscribe((data: AssetValue[]) => {
+      this.dashboardChart = new Chart('dashboardChart', this.chartService.getOptions(data));
+    });
   }
 
   public onAddAsset(): void {

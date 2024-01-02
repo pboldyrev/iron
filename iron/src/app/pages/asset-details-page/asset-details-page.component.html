@@ -26,10 +26,8 @@
                     [dynamicHeight]="true"
                 >
                     <mat-tab label="Value history">
-                        <div class="asset-details-value-history-chart-wrapper">
-                            <app-chart
-                                [values$]="assetValues$"
-                            ></app-chart>
+                        <div class="asset-details-chart-container">
+                            <canvas id="detailChart">{{ historyChart }}</canvas>
                         </div>
                         <div *ngIf="(asset$ | async)?.assetType === AssetType.Custom" class="asset-details-value-history-wrapper">
                             <app-value-history
