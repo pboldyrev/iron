@@ -33,10 +33,9 @@ export class ChartComponent implements AfterContentInit {
 
   private createChart(xAxis: string[], yAxis: number[]): void {
     try {
-      let oldChart = Chart.getChart("finacleChart") ?? undefined;
-      if(oldChart){
-        oldChart.clear();
-        oldChart.destroy();
+      if(this.chart){
+        this.chart.clear();
+        this.chart.destroy();
       }
     } catch {}
 

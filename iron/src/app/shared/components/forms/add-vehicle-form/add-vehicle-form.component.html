@@ -7,7 +7,7 @@
                 [label]="TEXTS.VIN_LABEL"
                 [required]="true"
                 [disabled]="(isLoading$ | async) ?? false || !isAdd"
-                [tooltip]="isAdd ? TOOLTIPS.VIN_ADD : TOOLTIPS.VIN_DETAILS"
+                [tooltip]="TOOLTIPS.VIN_ADD"
                 type="VIN"
                 #vin
             ></blu-input>
