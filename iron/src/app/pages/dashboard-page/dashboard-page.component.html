@@ -38,6 +38,7 @@
                 {{ TEXTS.BTN_PRIMARY_CTA }}
             </blu-button>
             <blu-button type="secondary" [iconOnly]="true" iconName="gear" (click)="onSettings()" tooltip="Settings page"></blu-button>
+            <blu-button type="secondary" [iconOnly]="true" iconName="spinner" (click)="onRefresh()" tooltip="Refresh data"></blu-button>
             <blu-button type="secondary" [iconOnly]="true" iconName="signOut" (click)="onLogOut()" tooltip="Log out"></blu-button>
         </div>
     </div>
@@ -65,7 +66,5 @@
                 </div>
             </div>
         </ng-template>
-    <app-footer></app-footer>
-
     </div>
 </div>

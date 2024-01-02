@@ -36,6 +36,6 @@ export class AssetTypeCardComponent {
   ) {}
 
   public onNavigateToSummary(): void {
-    this.navigationService.navigate('/dashboard/' + this.asset.type);
+    this.navigationService.navigate('/dashboard');
   }
 }

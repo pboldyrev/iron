@@ -74,16 +74,20 @@ export class DashboardPageComponent implements AfterContentInit {
     });
   }
 
-  public onAddAsset(): void {
+  onAddAsset(): void {
     this.addAssetPopup.show();
   }
 
-  public onSettings(): void {
+  onSettings(): void {
     this.navigationService.navigate('/settings');
   }
 
-  public onLogOut(): void {
+  onLogOut(): void {
     this.logOutConfirmPopup.show();
+  }
+
+  onRefresh(): void {
+    this.dataService.dataChanged$.next(true);
   }
 
   public onConfirmLogOut(): void {
@@ -94,27 +98,30 @@ export class DashboardPageComponent implements AfterContentInit {
     this.dataService.getAssets$(false, this.isAssetsLoading$).pipe(
       map((assets: Asset[]) => {
         this.assets$.next(assets);
+        this.updateAssetTypeSummaries$(assets);
       }),
     ).subscribe();
   }
 
   private updateAssetTypeSummaries$(assets: Asset[]): Observable<void> {
-    const assetTypes: AssetType[] = [...new Set(assets.map(asset => (asset.assetType ?? "") as AssetType)) ]
+    let assetsAndValues: any = {};
     this.assetSummaries = [];
 
-    assetTypes.forEach((type: AssetType) => {
+    assets.map(asset => {
+      if (assetsAndValues[(asset.assetType ?? "")] === undefined) {
+        assetsAndValues[(asset.assetType ?? "")] = 0;
+      } else {
+        assetsAndValues[(asset.assetType ?? "")] += asset.curValue;
+      }
+    })
+
+    Object.keys(assetsAndValues).forEach((key: string) => {
       this.assetSummaries.push({
-        type: type,
-        total: 123,
-        valueChange: [
-          {
-            type: "All time",
-            value: 1200,
-            percent: 14,
-          }
-        ]
+        type: key as AssetType,
+        total: assetsAndValues[key],
       })
     });
+
     return of();
   }
 

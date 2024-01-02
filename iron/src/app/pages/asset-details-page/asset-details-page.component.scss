@@ -13,8 +13,11 @@
     overflow-x: auto;
 }
 
-.asset-details-page-button-back {
+.asset-details-page-button-wrapper {
     margin-bottom: var(--blu-margin-xl);
+    display: flex;
+    width: var(--blu-width-full);
+    justify-content: space-between;
 }
 
 .asset-details-spinner {

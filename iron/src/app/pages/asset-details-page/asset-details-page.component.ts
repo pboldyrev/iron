@@ -85,8 +85,12 @@ export class AssetDetailsPageComponent implements AfterContentInit {
     ).subscribe()
   }
 
-  public onBack() {
+  onBack() {
     this.navigationService.back();
+  }
+
+  onRefresh() {
+    this.dataService.dataChanged$.next(true);
   }
 
   private getDisplayName(asset: Asset): string {
