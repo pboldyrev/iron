@@ -7,19 +7,17 @@
                     Settings
                 </blu-heading>
                 <div class="row settings-page-body">
-                    <mat-tab-group>
+                    <mat-tab-group [dynamicHeight]="true">
                         <mat-tab label="Profile">
                             <div class="settings-page-tab">
                                 <blu-button type="danger" (click)="onDeleteArchivedAssets()">Delete archived assets</blu-button>
                             </div>
                         </mat-tab>
-                        <mat-tab label="Accounts">
-                            <div class="settings-page-tab">
-                                <!-- <mat-table></mat-table> -->
-                            </div>
-                        </mat-tab>
                         <mat-tab label="Billing">
                             <div class="settings-page-tab">
+                                <blu-text type="primary">
+                                    To be added soon!
+                                </blu-text>
                             </div>
                         </mat-tab>
                     </mat-tab-group>
