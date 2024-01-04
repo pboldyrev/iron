@@ -40,27 +40,31 @@ export class AddVehicleFormComponent implements AfterContentChecked {
   ){}
 
   ngAfterContentChecked() {
-    if(this.isAdd || this.isContentSet) {
+    if(this.isAdd === false || this.isContentSet) {
       return;
     }
 
     this.asset$.subscribe((asset: Asset) => {
       if(asset.vin && this.vinInput) {
         this.vinInput.value$.next(asset.vin);
+        this.isContentSet = true;
       }
       if(asset.mileage && this.mileageInput) {
         this.mileageInput.value$.next(asset.mileage.toString());
+        this.isContentSet = true;
       }
       if(asset.purchaseDate && this.dateInput) {
         this.dateInput.value$.next(asset.purchaseDate.toLocaleDateString());
+        this.isContentSet = true;
       }
       if(asset.purchasePrice && this.priceInput) {
         this.priceInput.value$.next(asset.purchasePrice.toString());
+        this.isContentSet = true;
       }
       if(asset.nickName && this.nicknameInput) {
         this.nicknameInput.value$.next(asset.nickName);
+        this.isContentSet = true;
       }
-      this.isContentSet = true;
     });
   }
 

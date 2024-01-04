@@ -29,15 +29,15 @@ export class AddStockFormComponent implements AfterContentChecked {
   private isContentSet = false;
   
   ngAfterContentChecked() {
-    if(this.isAdd || this.isContentSet) {
+    if(this.isAdd === false || this.isContentSet) {
       return;
     }
 
     this.asset$.subscribe((asset: Asset) => {
       if(asset.ticker && this.tickerInput) {
         this.tickerInput.value$.next(asset.ticker);
+        this.isContentSet = true;
       }
-      this.isContentSet = true;
     });
   }
 

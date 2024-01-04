@@ -31,7 +31,6 @@ import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 export class AddAssetFormComponent {
   @ViewChild('addAccountPopup') addAccountPopup!: BluPopup;
   @ViewChild('account') accountInput!: BluSelect;
-  @ViewChild('units') unitsInput!: BluInput;
   @ViewChild('vehicleForm') vehicleForm!: AddVehicleFormComponent;
   @ViewChild('customForm') customForm!: AddCustomFormComponent;
   @ViewChild('stockForm') stockForm!: AddStockFormComponent;
@@ -55,18 +54,15 @@ export class AddAssetFormComponent {
   ){}
 
   ngAfterContentInit() {
-    if(!this.isAdd || this.isContentSet) {
+    if(this.isAdd === false || this.isContentSet) {
       return;
     }
 
     this.asset$.subscribe((asset: Asset) => {
       if(asset.account && this.accountInput) {
         this.accountInput.updateValue(asset.account);
+        this.isContentSet = true;
       }
-      if(asset.units && this.unitsInput) {
-        this.unitsInput.value$.next(asset.units.toString());
-      }
-      this.isContentSet = true;
     });
   }
 

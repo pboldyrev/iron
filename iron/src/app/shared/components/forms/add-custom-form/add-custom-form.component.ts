@@ -29,18 +29,19 @@ export class AddCustomFormComponent implements AfterContentChecked {
   private isContentSet = false;
 
   ngAfterContentChecked() {
-    if(this.isAdd || this.isContentSet) {
+    if(this.isAdd === false || this.isContentSet) {
       return;
     }
 
     this.asset$.subscribe((asset: Asset) => {
       if(asset.assetName && this.assetNameInput) {
         this.assetNameInput.value$.next(asset.assetName);
+        this.isContentSet = true;
       }
       if(asset.appreciationRate && this.appreciationRateInput) {
         this.appreciationRateInput.value$.next(asset.appreciationRate.toString());
+        this.isContentSet = true;
       }
-      this.isContentSet = true;
     });
   }
 
