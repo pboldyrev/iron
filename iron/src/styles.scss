@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @include mat.core();
 $iron-primary: mat.define-palette(mat.$green-palette);
-$iron-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$iron-accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
 $iron-warn: mat.define-palette(mat.$red-palette);
 
 $iron-theme: mat.define-dark-theme((

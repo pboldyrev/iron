@@ -1,0 +1,12 @@
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--blu-space-m);
+}
+
+.loading-state-spinner ::ng-deep circle {
+    stroke: var(--blu-color-brand) !important;
+    stroke-linecap: round;
+}

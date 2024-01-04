@@ -9,22 +9,22 @@
 <app-add-asset-popup
     #addAssetPopup
 ></app-add-asset-popup>
-<div class="row dashboard-wrapper">
+<div *ngIf="(isNetworthLoading$ | async) || (isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
+    <app-loading-state></app-loading-state>
+</div>
+<div class="row dashboard-wrapper"
+    [hidden]="(isNetworthLoading$ | async) || (isAssetsLoading$ | async)"
+>
     <div class="col-lg-5 col-sm-12">
         <div class="dashboard-side-wrapper">
-            <div *ngIf="(isNetworthLoading$ | async) else sideContent" class="dashboard-side-loader-wrapper">
-                <blu-spinner size="50"></blu-spinner>
+            <div class="dashboard-networth-wrapper">
+                <app-networth
+                    [totalNetworth]="totalNetworth"
+                ></app-networth>
+                <app-value-change
+                    [timeframes]="networthTimeframes"
+                ></app-value-change>
             </div>
-            <ng-template #sideContent>
-                <div class="dashboard-networth-wrapper">
-                    <app-networth
-                        [totalNetworth]="totalNetworth"
-                    ></app-networth>
-                    <app-value-change
-                        [timeframes]="networthTimeframes"
-                    ></app-value-change>
-                </div>
-            </ng-template>
             <div class="dashboard-networth-chart-wrapper"
                 [hidden]="(isNetworthLoading$ | async)">
                 <canvas id="dashboardChart">{{ dashboardChart }}</canvas>
@@ -42,20 +42,15 @@
             <blu-button type="secondary" [iconOnly]="true" iconName="signOut" (click)="onLogOut()" tooltip="Log out"></blu-button>
         </div>
     </div>
-        <div *ngIf="(isAssetsLoading$ | async) else mainContent" class="dashboard-main-loader-wrapper">
-            <blu-spinner size="50"></blu-spinner>
-        </div>
-        <ng-template #mainContent>
-            <div class="row" class="dashboard-row">
-                <div class="col-12 dashboard-asset-table-wrapper">
-                    <app-asset-table
-                        [columns]="assetTableColumns"
-                        [assets$]="assets$"
-                        [loadingIndicator$]="isAssetsLoading$"
-                        #assetTable
-                    ></app-asset-table>
-                </div>
+        <div class="row" class="dashboard-row">
+            <div class="col-12 dashboard-asset-table-wrapper">
+                <app-asset-table
+                    [columns]="assetTableColumns"
+                    [assets$]="assets$"
+                    [loadingIndicator$]="isAssetsLoading$"
+                    #assetTable
+                ></app-asset-table>
             </div>
-        </ng-template>
+        </div>
     </div>
 </div>
