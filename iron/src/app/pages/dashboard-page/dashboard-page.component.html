@@ -9,15 +9,16 @@
 <app-add-asset-popup
     #addAssetPopup
 ></app-add-asset-popup>
-<div *ngIf="(isNetworthLoading$ | async) || (isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
+<div *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
     <app-loading-state></app-loading-state>
 </div>
-<div class="row dashboard-wrapper"
-    [hidden]="(isNetworthLoading$ | async) || (isAssetsLoading$ | async)"
->
+<div class="row dashboard-wrapper">
     <div class="col-lg-5 col-sm-12">
         <div class="dashboard-side-wrapper">
-            <div class="dashboard-networth-wrapper">
+            <div *ngIf="(isNetworthLoading$ | async)" class="dashboard-side-loader-wrapper">
+                <blu-spinner size="50"></blu-spinner>
+            </div>
+            <div class="dashboard-networth-wrapper" [hidden]="(isNetworthLoading$ | async)">
                 <app-networth
                     [totalNetworth]="totalNetworth"
                 ></app-networth>
@@ -43,7 +44,10 @@
         </div>
     </div>
         <div class="row" class="dashboard-row">
-            <div class="col-12 dashboard-asset-table-wrapper">
+            <div *ngIf="(isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
+                <blu-spinner size="50"></blu-spinner>
+            </div>
+            <div class="col-12 dashboard-asset-table-wrapper" [hidden]="(isAssetsLoading$ | async)">
                 <app-asset-table
                     [columns]="assetTableColumns"
                     [assets$]="assets$"
