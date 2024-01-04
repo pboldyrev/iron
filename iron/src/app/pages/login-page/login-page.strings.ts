@@ -1,5 +1,5 @@
 export const TEXTS = {
-  TITLE: 'Welcome back',
+  TITLE: 'Welcome back!',
   SUBTITLE: 'Log in to your account below.',
   INVALID_CREDENTIALS: 'Invalid credentials.',
   UNKNWON_LOGIN_ERROR: 'Something went wrong. Please try again!',

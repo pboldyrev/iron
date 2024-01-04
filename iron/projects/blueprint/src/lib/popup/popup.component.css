@@ -18,6 +18,7 @@
   margin: 0 var(--blu-margin-xl);
   max-height: 80vh;
   overflow: auto;
+  border: var(--blu-border-tertiary);
 }
 
 .blu-popup-header {

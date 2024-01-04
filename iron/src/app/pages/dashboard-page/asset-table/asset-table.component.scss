@@ -3,13 +3,7 @@
     border-radius: var(--blu-radius-m);
     padding: var(--blu-padding-xxl);
     overflow-x: auto;
-    transition: 0.2s;
     border: var(--blu-border-tertiary);
-}
-
-.asset-table:hover {
-    scale: 1.02;
-    transition: 0.2s;
 }
 
 .mat-column-initValue,

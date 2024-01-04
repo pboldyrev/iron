@@ -1,10 +1,10 @@
 .modal-outline {
   border: var(--blu-border-tertiary);
   border-radius: var(--blu-radius-m);
+  background-color: var(--blu-background-secondary);
 }
 
 .modal-content {
-  padding: var(--blu-padding-4xl);
   height: fit-content;
 }
 
@@ -23,6 +23,18 @@
   }
 }
 
-.modal-no-padding {
-  padding: 0;
+.modal-padding-s {
+  padding: var(--blu-padding-m);
+}
+
+.modal-padding-m {
+  padding: var(--blu-padding-xl);
+}
+
+.modal-padding-l {
+  padding: var(--blu-padding-xxl);
+}
+
+.modal-padding-xl {
+  padding: var(--blu-padding-4xl);
 }

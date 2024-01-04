@@ -17,6 +17,7 @@ export class AddCustomFormComponent implements AfterContentChecked {
   @ViewChild('assetName') assetNameInput!: BluInput;
   @ViewChild('appreciationRate') appreciationRateInput!: BluInput;
   @ViewChild('curValue') curValueInput!: BluInput;
+  @ViewChild('units') unitsInput!: BluInput;
 
   @Input() asset$!: Observable<Asset>;
   @Input() isLoading$ = new BehaviorSubject<boolean>(false);
@@ -25,8 +26,10 @@ export class AddCustomFormComponent implements AfterContentChecked {
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
 
+  private isContentSet = false;
+
   ngAfterContentChecked() {
-    if(this.isAdd) {
+    if(this.isAdd || this.isContentSet) {
       return;
     }
 
@@ -37,6 +40,7 @@ export class AddCustomFormComponent implements AfterContentChecked {
       if(asset.appreciationRate && this.appreciationRateInput) {
         this.appreciationRateInput.value$.next(asset.appreciationRate.toString());
       }
+      this.isContentSet = true;
     });
   }
 
@@ -45,21 +49,23 @@ export class AddCustomFormComponent implements AfterContentChecked {
       this.assetNameInput.validate$(),
       this.appreciationRateInput.validate$(),
       this.isAdd ? this.curValueInput.validate$() : of(''),
+      this.unitsInput.validate$(),
     ]).pipe(
       take(1),
-      map(([assetName, appreciationRate, curValue]: [string, string, string]) => {
-        if(!assetName || (!appreciationRate && this.isAdd)) {
+      map(([assetName, appreciationRate, curValue, units]: [string, string, string, string]) => {
+        if(!assetName || !appreciationRate || !units) {
           return {};
         }
 
         let assetObj: Asset = {
           assetName: assetName,
-          curValue: parseFloat(curValue) ?? 0,
-          initValue: parseFloat(curValue) ?? 0,
+          appreciationRate: parseFloat(appreciationRate),
+          units: parseInt(units),
         };
 
         if(this.isAdd) {
-          assetObj.appreciationRate = parseFloat(appreciationRate);
+          assetObj.initValue = parseFloat(curValue);
+          assetObj.curValue = parseFloat(curValue);
         }
         
         return assetObj;

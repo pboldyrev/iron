@@ -25,7 +25,7 @@
     margin-bottom: var(--blu-margin-4xl);
 }
 
-.asset-details-page-heading {
+.asset-details-page-top-row {
     margin: var(--blu-margin-xl) 0;
 }
 
@@ -33,6 +33,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.asset-details-page-tooltip {
+    margin-top: var(--blu-margin-xl);
 }
 
 .asset-details-page-hidden {

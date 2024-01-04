@@ -17,11 +17,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
+import { BluLabel } from 'projects/blueprint/src/lib/label/label.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss',
   encapsulation: ViewEncapsulation.None,

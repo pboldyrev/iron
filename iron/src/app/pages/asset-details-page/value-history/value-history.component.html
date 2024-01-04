@@ -1,8 +1,4 @@
 <div class="value-history-wrapper">
-    <blu-modal
-        [noPadding]="true"
-        [outline]="false"
-    >
     <mat-table #table [dataSource]="assetValues">
         <ng-container matColumnDef="date">
             <mat-header-cell *matHeaderCellDef>
@@ -63,5 +59,4 @@
         <mat-row *matRowDef="let row; columns: DISPLAYED_COLUMNS;"></mat-row>
         <mat-footer-row *matFooterRowDef="DISPLAYED_COLUMNS"></mat-footer-row>
     </mat-table>
-    </blu-modal>
 </div>

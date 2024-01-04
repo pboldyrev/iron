@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <div class="add-stock-input">
             <blu-input 
                 [fullWidth]="true"
@@ -14,7 +14,21 @@
             ></blu-input>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
+        <div class="add-stock-input">
+            <blu-input
+                type="INTEGER"
+                initValue="1"
+                [fullWidth]="true"
+                [feedbackType]="FeedbackType.ERROR" 
+                label="Units"
+                [required]="true"
+                [disabled]="(isLoading$ | async) ?? false || !isAdd"
+                #units
+            ></blu-input>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="add-stock-input add-stock-input-second">
             <blu-input 
                 [fullWidth]="true"

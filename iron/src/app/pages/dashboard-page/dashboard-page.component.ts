@@ -5,10 +5,9 @@ import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { TEXTS } from './dashboard-page.strings';
 import { Asset, AssetType, AssetValue, NetWorthValue, ValueChange } from '../../shared/constants/constants';
-import { AssetTypeCardComponent, AssetTypeSummary } from './asset-type-card/asset-type-card.component';
 import { ValueChangeComponent } from '../../shared/components/value-change/value-change.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
-import { AssetTableColumn, AssetTableComponent } from '../../asset-table/asset-table.component';
+import { AssetTableColumn, AssetTableComponent } from './asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/add-asset-selection/add-asset-popup/add-asset-popup.component';
@@ -25,7 +24,7 @@ import { ChartService } from 'src/app/shared/services/chart.service';
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, AssetTypeCardComponent, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, FooterComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, FooterComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
@@ -43,7 +42,6 @@ export class DashboardPageComponent implements AfterContentInit {
   public networthValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
   public assets$ = new BehaviorSubject([] as Asset[]);
-  public assetSummaries: AssetTypeSummary[] = [];
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
 
   dashboardChart!: Chart;
@@ -105,7 +103,6 @@ export class DashboardPageComponent implements AfterContentInit {
 
   private updateAssetTypeSummaries$(assets: Asset[]): Observable<void> {
     let assetsAndValues: any = {};
-    this.assetSummaries = [];
 
     assets.map(asset => {
       if (assetsAndValues[(asset.assetType ?? "")] === undefined) {
@@ -116,10 +113,6 @@ export class DashboardPageComponent implements AfterContentInit {
     })
 
     Object.keys(assetsAndValues).forEach((key: string) => {
-      this.assetSummaries.push({
-        type: key as AssetType,
-        total: assetsAndValues[key],
-      })
     });
 
     return of();

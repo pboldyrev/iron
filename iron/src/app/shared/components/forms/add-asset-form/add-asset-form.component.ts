@@ -46,6 +46,8 @@ export class AddAssetFormComponent {
   public TEXTS = TEXTS;
   public accountOptions: string[] = ['Taxable', 'Non-Taxable', 'Other'];
 
+  private isContentSet = false;
+
   constructor(
     private dataService: DataService,
     private navigationService: NavigationService,
@@ -53,6 +55,10 @@ export class AddAssetFormComponent {
   ){}
 
   ngAfterContentInit() {
+    if(!this.isAdd || this.isContentSet) {
+      return;
+    }
+
     this.asset$.subscribe((asset: Asset) => {
       if(asset.account && this.accountInput) {
         this.accountInput.updateValue(asset.account);
@@ -60,6 +66,7 @@ export class AddAssetFormComponent {
       if(asset.units && this.unitsInput) {
         this.unitsInput.value$.next(asset.units.toString());
       }
+      this.isContentSet = true;
     });
   }
 
@@ -69,26 +76,22 @@ export class AddAssetFormComponent {
     combineLatest([
       this.asset$,
       this.getSubForm()?.onSubmit$() ?? of({}),
-      this.unitsInput?.validate$() ?? of(1),
       this.accountInput.validate$(),
     ]).pipe(
       take(1),
       filter(([
         asset,
         customAttributes,
-        units,
         account,
       ]) => {
-        return this.filterIncomplete(customAttributes, units, account);
+        return this.filterIncomplete(customAttributes, account);
       }),
       mergeMap(([
         asset,
         customAttributes,
-        units,
         account,
       ]) => {
         const assetPayload: Asset = {
-          units: parseInt(units),
           account: account,
           assetType: this.assetType,
           ...customAttributes,
@@ -125,10 +128,9 @@ export class AddAssetFormComponent {
 
   private filterIncomplete(
     customAttributes: Asset, 
-    units: string, 
     account: string
   ) {
-    const isValid = !!units && !!account && Object.keys(customAttributes).length !== 0;
+    const isValid =  !!account && Object.keys(customAttributes).length !== 0;
     if(!isValid) {
       this.isLoading$.next(false);
     }

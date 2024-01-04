@@ -1,7 +1,9 @@
 <div class="row justify-content-center">
     <div class="col-11 col-sm-10 col-xl-8">
         <div class="asset-details-page-wrapper justify-content-center">
-            <blu-modal>
+            <blu-modal
+                padding="xl"
+            >
                 <div class="asset-details-page-button-wrapper">
                     <blu-button type="primary" iconName="backArrow" (click)="onBack()">Back</blu-button>
                     <blu-button 
@@ -13,17 +15,18 @@
                         tooltip="Refresh data"
                     ></blu-button>
                 </div>
-                <blu-heading
-                    size="medium"
-                    [bold]="true"
-                    [subheading]="displayAssetName"
-                    subheadingPosition="top"
-                    class="asset-details-page-heading"
-                    *ngIf="!(isDetailsLoading$ | async)"
-                    [isNumber]="true"
-                >
-                    {{ displayAssetValue }}
-                </blu-heading>
+                <div class="asset-details-page-top-row">
+                    <blu-heading
+                        size="medium"
+                        [bold]="true"
+                        [subheading]="displayAssetName"
+                        subheadingPosition="top"
+                        *ngIf="!(isDetailsLoading$ | async)"
+                        [isNumber]="true"
+                    >
+                        {{ displayAssetValue }}
+                    </blu-heading>
+                </div>
                 <div *ngIf="(isDetailsLoading$ | async)" class="asset-details-history-loading">
                     <blu-spinner size="50"></blu-spinner>
                 </div>
@@ -45,6 +48,12 @@
                                 #valueHistory
                             ></app-value-history>
                         </div>
+                        <blu-label
+                            class="asset-details-page-tooltip"
+                            type="tertiary" 
+                            [tooltip]="(asset$ | async)?.assetType === AssetType.Custom ? 'To update the asset value, please update the value table above.' : 'Come back daily to see the updated value.'" 
+                            [label]="(asset$ | async)?.assetType === AssetType.Custom ? 'This asset is tracked manually' : 'This asset is tracked automatically'"
+                        ></blu-label>
                     </mat-tab>
                     <mat-tab label="Asset details">
                         <app-asset-more-details

@@ -33,12 +33,14 @@ export class AddVehicleFormComponent implements AfterContentChecked {
   public TEXTS = TEXTS;
   public TOOLTIPS = TOOLTIPS;
 
+  private isContentSet = false;
+
   constructor(
     private navigationService: NavigationService,
   ){}
 
   ngAfterContentChecked() {
-    if(this.isAdd) {
+    if(this.isAdd || this.isContentSet) {
       return;
     }
 
@@ -58,6 +60,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
       if(asset.nickName && this.nicknameInput) {
         this.nicknameInput.value$.next(asset.nickName);
       }
+      this.isContentSet = true;
     });
   }
 
@@ -100,7 +103,8 @@ export class AddVehicleFormComponent implements AfterContentChecked {
           mileage: parseInt(mileage),
           purchasePrice: parseFloat(price),
           purchaseDate: dateObj,
-          nickName: nickname
+          nickName: nickname,
+          units: 1,
         };
       }),
     )

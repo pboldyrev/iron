@@ -2,23 +2,23 @@ import { Component, Input, Output, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
-import { Asset } from '../shared/constants/constants';
+import { Asset } from '../../../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BehaviorSubject, Observable, combineLatest, filter, map, merge, mergeMap, of, take, tap } from 'rxjs';
-import { DataService } from '../shared/services/data.service';
+import { DataService } from '../../../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
-import { ConfirmationPopupComponent } from '../shared/components/confirmation-popup/confirmation-popup.component';
+import { ConfirmationPopupComponent } from '../../../shared/components/confirmation-popup/confirmation-popup.component';
 import { Router } from '@angular/router';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
-import { AddAssetPopupComponent } from '../add-asset-selection/add-asset-popup/add-asset-popup.component';
-import { ToastService } from '../shared/services/toast.service';
-import { NavigationService } from '../shared/services/navigation-service.service';
+import { AddAssetPopupComponent } from '../../../add-asset-selection/add-asset-popup/add-asset-popup.component';
+import { ToastService } from '../../../shared/services/toast.service';
+import { NavigationService } from '../../../shared/services/navigation-service.service';
 
 export type AssetTableColumn = 
   "account" | 

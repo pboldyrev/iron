@@ -17,6 +17,7 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
 export class AddStockFormComponent implements AfterContentChecked {
   @ViewChild('ticker') tickerInput!: BluInput;
   @ViewChild('purchaseDate') purchaseDateInput!: BluInput;
+  @ViewChild('units') unitsInput!: BluInput;
 
   @Input() asset$!: Observable<Asset>;
   @Input() isLoading$ = new BehaviorSubject<boolean>(false);
@@ -24,9 +25,11 @@ export class AddStockFormComponent implements AfterContentChecked {
 
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
+
+  private isContentSet = false;
   
   ngAfterContentChecked() {
-    if(this.isAdd) {
+    if(this.isAdd || this.isContentSet) {
       return;
     }
 
@@ -34,6 +37,7 @@ export class AddStockFormComponent implements AfterContentChecked {
       if(asset.ticker && this.tickerInput) {
         this.tickerInput.value$.next(asset.ticker);
       }
+      this.isContentSet = true;
     });
   }
 
@@ -41,9 +45,10 @@ export class AddStockFormComponent implements AfterContentChecked {
     return combineLatest([
       this.tickerInput.validate$(),
       this.purchaseDateInput.validate$(),
+      this.unitsInput.validate$(),
     ]).pipe(
       take(1),
-      map(([ticker, purchaseDate]: [string, string]) => {
+      map(([ticker, purchaseDate, units]: [string, string, string]) => {
         const purchaseDateObj = new Date(purchaseDate);
         
         if(purchaseDateObj.getFullYear() < 1900) {
@@ -58,12 +63,14 @@ export class AddStockFormComponent implements AfterContentChecked {
           return {};
         }
 
-        if(!ticker || !purchaseDate) {
+        if(!ticker || !purchaseDate || !units) {
           return {};
         }
         
         return {
           ticker: ticker,
+          purchaseDate: new Date(purchaseDate),
+          units: parseInt(units)
         };
       }),
     )

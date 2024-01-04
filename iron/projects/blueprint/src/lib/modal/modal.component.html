@@ -1,6 +1,9 @@
 <div class="modal-content" [ngClass]="{
   'modal-outline': outline,
-  'modal-no-padding': noPadding,
+  'modal-padding-s': padding === 's',
+  'modal-padding-m': padding === 'm',
+  'modal-padding-l': padding === 'l',
+  'modal-padding-xl': padding === 'xl',
 }">
   <blu-heading
     *ngIf="title != ''"
