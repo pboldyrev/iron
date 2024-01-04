@@ -25,12 +25,17 @@
               (keydown.enter)='onSendCode()'
               #phoneInput
             ></blu-input>
-            <blu-validation-feedback
-              *ngIf="error$ | async"
-              [type]="FeedbackType.ERROR"
-            >
-              {{ error$ | async }}
-            </blu-validation-feedback>
+            <blu-input
+              [label]="LABELS.BETA"
+              [required]="true"
+              [fullWidth]="true"
+              [feedbackType]="FeedbackType.ERROR"
+              [tooltip]="TOOLTIPS.BETA"
+              [maxChars]="5"
+              type="NUMBER"
+              (keydown.enter)='onSendCode()'
+              #inviteCodeInput
+            ></blu-input>
             <blu-button type="primary" [fullWidth]="true" (click)="onSendCode()">
               <blu-spinner *ngIf="isSendCodeSubmitting" [inlineSpace]="true"></blu-spinner>
               {{ BTN_TEXTS.LOGIN }}

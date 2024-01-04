@@ -4,7 +4,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BTN_TEXTS, LABELS, TEXTS, TOOLTIPS } from './login-page.strings';
-import { BehaviorSubject, Observable, combineLatest, map, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, flatMap, map, mergeMap, of, take, tap } from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { FEEDBACK_STRINGS } from '../../shared/constants/strings';
@@ -42,6 +42,7 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
 export class LoginPageComponent {
   @ViewChild('phoneInput') phoneInput!: BluInput;
   @ViewChild('codeInput') codeInput!: BluInput;
+  @ViewChild('inviteCodeInput') inviteCodeInput!: BluInput;
 
   public TEXTS = TEXTS;
   public BTN_TEXTS = BTN_TEXTS;
@@ -66,39 +67,58 @@ export class LoginPageComponent {
 
   public onBack(): void {
     this.showOTPDialog = false;
-    this.error$.next('');
     this.clearAuth();
   }
 
   public onSendCode(): void {
     this.clearAuth();
-    this.error$.next('');
     this.isSendCodeSubmitting = true;
 
-    this.phoneInput.validate$().subscribe((phoneNumber: string) => {
-      if (!phoneNumber) {
-        this.isSendCodeSubmitting = false;
-        return;
-      }
+    combineLatest([
+      this.phoneInput.validate$(),
+      this.inviteCodeInput.validate$(),
+    ])
+    .pipe(
+      mergeMap(([phoneNumber, inviteCode]: [string, string]) => {
+        if (!phoneNumber) {
+          this.isSendCodeSubmitting = false;
+          return of('');
+        }
 
-      this.authService.submitPhoneNumber$(
-        parseInt(phoneNumber)
-      ).subscribe({
+        if(inviteCode !== '42096') {
+          this.isSendCodeSubmitting = false;
+          this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
+          return of('invalidInviteCode');
+        }
+
+        this.phoneNumber = parseInt(phoneNumber);
+
+        return this.authService.submitPhoneNumber$(this.phoneNumber);
+      })
+    ).subscribe({
         next: (methodId: string) => {
+          if(methodId === 'invalidInviteCode') {
+            this.inviteCodeInput.isValid = false;
+            this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
+            this.isSendCodeSubmitting = false;
+            return;
+          }
+          if(!methodId) {
+            this.isSendCodeSubmitting = false;
+            return;
+          }
           this.methodId = methodId;
-          this.phoneNumber = parseInt(phoneNumber);
           this.showOTPDialog = true;
           this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_PHONE);
           this.isSendCodeSubmitting = false;
           this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);
         },
         error: () => {
-          this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
+          this.phoneInput.customFeedback = TEXTS.UNKNWON_LOGIN_ERROR;
           this.isSendCodeSubmitting = false;
           this.analyticsService.track(ANALYTICS.LOGIN_PHONE_FAILED);
         },
       });
-    });
   }
 
   public onConfirmCode(): void {
