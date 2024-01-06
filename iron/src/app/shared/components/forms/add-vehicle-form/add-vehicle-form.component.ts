@@ -88,13 +88,13 @@ export class AddVehicleFormComponent implements AfterContentChecked {
 
         const utcDate = new Date(localeDate.toLocaleDateString('en-US', {timeZone: 'UTC'}));
 
-        if(utcDate.getFullYear() < 1900) {
+        if(utcDate.getFullYear() < 1900 && this.isAdd) {
           this.dateInput.isValid = false;
           this.dateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
           isValid = false;
         }
 
-        if(utcDate > new Date()) {
+        if(utcDate > new Date() && this.isAdd) {
           this.dateInput.isValid = false;
           this.dateInput.customFeedback = "We do not support future purchases.";
           isValid = false;
@@ -104,14 +104,22 @@ export class AddVehicleFormComponent implements AfterContentChecked {
           return {};
         }
 
-        return {
+        let customAttributes: Asset = {
           vin: vin,
           mileage: parseInt(mileage),
           nickName: nickname,
           units: 1,
-          purchaseDate: utcDate,
-          purchasePrice: parseFloat(price),
         };
+
+        if(this.isAdd) {
+          customAttributes = {
+            ...customAttributes,
+            purchaseDate: utcDate,
+            purchasePrice: parseFloat(price),
+          }
+        }
+
+        return customAttributes;
       }),
     )
   }
