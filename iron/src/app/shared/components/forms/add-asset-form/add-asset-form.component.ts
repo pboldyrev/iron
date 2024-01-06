@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { AddVehicleFormComponent } from '../add-vehicle-form/add-vehicle-form.component';
 import { Asset, AssetType, VehicleCustomAttributes } from '../../../constants/constants';
-import { BehaviorSubject, combineLatest, filter, map, mergeMap, of, take, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map, mergeMap, of, take, tap, throwError } from 'rxjs';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
@@ -102,18 +102,7 @@ export class AddAssetFormComponent {
           return this.dataService.putAsset$(assetPayload, this.isLoading$)
           .pipe(
             mergeMap((createdAsset: Asset) => {
-              if(createdAsset.assetType === AssetType.Vehicle && createdAsset.assetId) {
-                return this.dataService.putAssetValue$(
-                  createdAsset.assetId,
-                  {
-                    timestamp: customAttributes.purchaseDate?.getUTCDate() ?? new Date().getUTCDate(),
-                    value: customAttributes.purchasePrice ?? 0,
-                  }).pipe(
-                    mergeMap(() => of(createdAsset))
-                  );
-              } else {
-                return of(createdAsset);
-              }
+              return this.updateFirstValue$(customAttributes, createdAsset);
             }),
           );
         }
@@ -126,6 +115,21 @@ export class AddAssetFormComponent {
         this.onSaveError(err);
       }),
     });
+  }
+
+  private updateFirstValue$(customAttributes: Asset, createdAsset: Asset): Observable<Asset> {
+    if(createdAsset.assetType !== AssetType.Vehicle || !createdAsset.assetId) {
+      return of(createdAsset);
+    }
+    return this.dataService.putAssetValue$(
+      createdAsset.assetId,
+      {
+        timestamp: customAttributes.purchaseDate?.valueOf() ?? 0,
+        value: customAttributes.purchasePrice ?? 0,
+      }, 
+      this.isLoading$).pipe(
+        mergeMap(() => of(createdAsset))
+      );
   }
 
   private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | AddCustomFormComponent | null {

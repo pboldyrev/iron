@@ -95,7 +95,7 @@ export class ChartService {
 
                 if(yValueAsNum >= 1000 && yValueAsNum < 1000000) {
                   return prefix + (yValueAsNum / 1000).toLocaleString() + 'K';
-                } else if (yValueAsNum > 1000000) {
+                } else if (yValueAsNum >= 1000000) {
                   return prefix + (yValueAsNum / 1000000).toLocaleString() + 'M';
                 } else {
                   return prefix + yValue.toLocaleString();
