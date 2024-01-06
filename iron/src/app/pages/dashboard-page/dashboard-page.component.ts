@@ -53,9 +53,7 @@ export class DashboardPageComponent implements AfterContentInit {
     private dataService: DataService,
     private navigationService: NavigationService,
     private chartService: ChartService,
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.fetchNetWorth();
     this.fetchAssets();
   }
@@ -132,16 +130,56 @@ export class DashboardPageComponent implements AfterContentInit {
           this.totalNetworth = 0;
         }
 
-        this.networthValues$.next(
-          networthValues.map((nw: NetWorthValue) => {
-            return {
-              timestamp: nw.timestamp,
-              value: nw.netWorth
-            }
-          })
-        );
+        const networthAsAssetValues = networthValues.map((nw: NetWorthValue) => {
+          return {
+            timestamp: nw.timestamp,
+            value: nw.netWorth
+          }
+        });
+
+        this.networthValues$.next(this.fillMissingData(networthAsAssetValues));
       },
     );
+  }
+
+  private fillMissingData(data: AssetValue[]): AssetValue[] {
+    if(data.length === 0) {
+      return [];
+    }
+
+    const day = 86400000;
+
+    let filledData: AssetValue[] = [data[0]];
+
+    for(let i = 1; i < data.length; ++i) {
+      let endDate = data[i].timestamp;
+      let startDate = data[i-1].timestamp;
+      if(endDate - startDate > day * 365) {
+        for(let d = startDate; d < endDate; d += day * 365) {
+          filledData.push({
+            timestamp: d,
+            value: data[i-1].value,
+          })
+        }
+      } else if(endDate - startDate > day * 30) {
+        for(let d = startDate; d < endDate; d += day * 30) {
+          filledData.push({
+            timestamp: d,
+            value: data[i-1].value,
+          })
+        }
+      } else if(endDate - startDate > day) {
+        for(let d = startDate; d < endDate; d += day) {
+          filledData.push({
+            timestamp: d,
+            value: data[i-1].value,
+          })
+        }
+      }
+      filledData.push(data[i]);
+    }
+
+    return filledData;
   }
 
   private setValueChanges(networthValues: NetWorthValue[]): void {

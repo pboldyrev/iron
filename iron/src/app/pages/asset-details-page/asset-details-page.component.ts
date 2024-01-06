@@ -104,8 +104,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
       filledData.push(data[i]);
     }
 
-    console.log(filledData);
-
     return filledData;
   }
 
