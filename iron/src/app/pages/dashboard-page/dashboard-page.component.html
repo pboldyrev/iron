@@ -12,7 +12,7 @@
 <div *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
     <app-loading-state></app-loading-state>
 </div>
-<div class="row dashboard-wrapper">
+<div class="row dashboard-wrapper" [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)">
     <div class="col-lg-5 col-sm-12">
         <div class="dashboard-side-wrapper">
             <div *ngIf="(isNetworthLoading$ | async)" class="dashboard-side-loader-wrapper">
@@ -32,17 +32,17 @@
             </div>
         </div>
     </div>
-<div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
-    <div class="row">
-        <div class="col-12 dashboard-actions-wrapper">
-            <blu-button type="primary" iconName="plus" (click)="onAddAsset()" tooltip="Add asset">
-                {{ TEXTS.BTN_PRIMARY_CTA }}
-            </blu-button>
-            <blu-button type="secondary" [iconOnly]="true" iconName="gear" (click)="onSettings()" tooltip="Settings page"></blu-button>
-            <blu-button type="secondary" [iconOnly]="true" iconName="spinner" (click)="onRefresh()" tooltip="Refresh data"></blu-button>
-            <blu-button type="secondary" [iconOnly]="true" iconName="signOut" (click)="onLogOut()" tooltip="Log out"></blu-button>
+    <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
+        <div class="row">
+            <div class="col-12 dashboard-actions-wrapper">
+                <blu-button type="primary" iconName="plus" (click)="onAddAsset()" tooltip="Add asset">
+                    {{ TEXTS.BTN_PRIMARY_CTA }}
+                </blu-button>
+                <blu-button type="secondary" [iconOnly]="true" iconName="gear" (click)="onSettings()" tooltip="Settings page"></blu-button>
+                <blu-button type="secondary" [iconOnly]="true" iconName="spinner" (click)="onRefresh()" tooltip="Refresh data"></blu-button>
+                <blu-button type="secondary" [iconOnly]="true" iconName="signOut" (click)="onLogOut()" tooltip="Log out"></blu-button>
+            </div>
         </div>
-    </div>
         <div class="row" class="dashboard-row">
             <div *ngIf="(isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
                 <blu-spinner size="50"></blu-spinner>
