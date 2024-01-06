@@ -84,15 +84,17 @@ export class AddVehicleFormComponent implements AfterContentChecked {
           isValid = false;
         }
 
-        const dateObj = new Date(date);
+        const localeDate = new Date(date);
 
-        if(dateObj.getFullYear() < 1900) {
+        const utcDate = new Date(localeDate.toLocaleDateString('en-US', {timeZone: 'UTC'}));
+
+        if(utcDate.getFullYear() < 1900) {
           this.dateInput.isValid = false;
           this.dateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
           isValid = false;
         }
 
-        if(dateObj > new Date()) {
+        if(utcDate > new Date()) {
           this.dateInput.isValid = false;
           this.dateInput.customFeedback = "We do not support future purchases.";
           isValid = false;
@@ -107,7 +109,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
           mileage: parseInt(mileage),
           nickName: nickname,
           units: 1,
-          purchaseDate: dateObj,
+          purchaseDate: utcDate,
           purchasePrice: parseFloat(price),
         };
       }),
