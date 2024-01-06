@@ -121,74 +121,27 @@ export class DashboardPageComponent implements AfterContentInit {
 
   private fetchNetWorth(): void {
     this.dataService.getNetWorthValues$(null, this.isNetworthLoading$).pipe(takeUntilDestroyed())
-    .subscribe((networthValues: NetWorthValue[]) => {
+    .subscribe((networthValues: AssetValue[]) => {
         this.setValueChanges(networthValues);
         
         if(networthValues.length > 0) {
-          this.totalNetworth = networthValues[networthValues.length-1].netWorth ?? 0;
+          this.totalNetworth = networthValues[networthValues.length-1].value ?? 0;
         } else {
           this.totalNetworth = 0;
         }
 
-        const networthAsAssetValues = networthValues.map((nw: NetWorthValue) => {
-          return {
-            timestamp: nw.timestamp,
-            value: nw.netWorth
-          }
-        });
-
-        this.networthValues$.next(this.fillMissingData(networthAsAssetValues));
+        this.networthValues$.next(networthValues);
       },
     );
   }
 
-  private fillMissingData(data: AssetValue[]): AssetValue[] {
-    if(data.length === 0) {
-      return [];
-    }
-
-    const day = 86400000;
-
-    let filledData: AssetValue[] = [data[0]];
-
-    for(let i = 1; i < data.length; ++i) {
-      let endDate = data[i].timestamp;
-      let startDate = data[i-1].timestamp;
-      if(endDate - startDate > day * 365) {
-        for(let d = startDate; d < endDate; d += day * 365) {
-          filledData.push({
-            timestamp: d,
-            value: data[i-1].value,
-          })
-        }
-      } else if(endDate - startDate > day * 30) {
-        for(let d = startDate; d < endDate; d += day * 30) {
-          filledData.push({
-            timestamp: d,
-            value: data[i-1].value,
-          })
-        }
-      } else if(endDate - startDate > day) {
-        for(let d = startDate; d < endDate; d += day) {
-          filledData.push({
-            timestamp: d,
-            value: data[i-1].value,
-          })
-        }
-      }
-      filledData.push(data[i]);
-    }
-
-    return filledData;
-  }
-
-  private setValueChanges(networthValues: NetWorthValue[]): void {
+  private setValueChanges(networthValues: AssetValue[]): void {
     if(networthValues.length === 0) {
       return;
     }
 
     this.networthTimeframes = [];
-    const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].netWorth ?? 0, networthValues[0].netWorth ?? 0, "All time");
+    const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].value ?? 0, networthValues[0].value ?? 0, "All time");
     this.networthTimeframes.push(allTimeChange);
 
     if(networthValues.length < 2) {
@@ -196,8 +149,8 @@ export class DashboardPageComponent implements AfterContentInit {
     }
 
     const sinceLastChange = this.getValueChange(
-      networthValues[networthValues.length-1].netWorth ?? 0, 
-      networthValues[networthValues.length-2].netWorth ?? 0, 
+      networthValues[networthValues.length-1].value ?? 0, 
+      networthValues[networthValues.length-2].value ?? 0, 
       "Since " + (new Date(networthValues[networthValues.length-2].timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'})));
     this.networthTimeframes.push(sinceLastChange);
   }

@@ -56,7 +56,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
     this.assetValues$.pipe(
       skip(1), 
     ).subscribe((data: AssetValue[]) => {
-      data = this.fillMissingData(data);
       if(this.historyChart) {
         this.historyChart.data = this.chartService.getDataSet('detailChart', data);
         this.historyChart.options.borderColor = this.chartService.getBorderColor(data);
@@ -65,46 +64,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
         this.historyChart = new Chart('detailChart', this.chartService.getOptions('detailChart', data));
       }
     });
-  }
-
-  private fillMissingData(data: AssetValue[]): AssetValue[] {
-    if(data.length === 0) {
-      return [];
-    }
-
-    const day = 86400000;
-
-    let filledData: AssetValue[] = [data[0]];
-
-    for(let i = 1; i < data.length; ++i) {
-      let endDate = data[i].timestamp;
-      let startDate = data[i-1].timestamp;
-      if(endDate - startDate > day * 365) {
-        for(let d = startDate; d < endDate; d += day * 365) {
-          filledData.push({
-            timestamp: d,
-            value: data[i-1].value,
-          })
-        }
-      } else if(endDate - startDate > day * 30) {
-        for(let d = startDate; d < endDate; d += day * 30) {
-          filledData.push({
-            timestamp: d,
-            value: data[i-1].value,
-          })
-        }
-      } else if(endDate - startDate > day) {
-        for(let d = startDate; d < endDate; d += day) {
-          filledData.push({
-            timestamp: d,
-            value: data[i-1].value,
-          })
-        }
-      }
-      filledData.push(data[i]);
-    }
-
-    return filledData;
   }
 
   private fetchAssetValue(assetId: string): void {

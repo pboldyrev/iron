@@ -25,7 +25,7 @@ export class DataService {
    *  NEED TO BE REFETCHED AFTER DATA CHANGES
    */
 
-  public getNetWorthValues$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<NetWorthValue[]> {
+  public getNetWorthValues$(assetType: AssetType | null = null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<AssetValue[]> {
     let options: any;
 
     if(assetType) {
@@ -45,7 +45,15 @@ export class DataService {
         return this.httpPost("getUserNetWorths", options)
       }),
       map((data: any) => {
-        return data?.netWorths ?? [];
+        let totalNetworth: NetWorthValue[] = data?.netWorths ?? [];
+        let totalValues: AssetValue[] = totalNetworth.map((val: NetWorthValue) => {
+          return {
+            timestamp: val.timestamp,
+            value: val.netWorth,
+          } as AssetValue;
+        })
+        totalValues = this.addTodaysValueIfMissing(totalValues);
+        return totalValues;
       }),
       tap({
         next: () => {
@@ -103,7 +111,8 @@ export class DataService {
         return this.httpPost("getAssetValues", options)
       }),
       map((data: any) => {
-        return data?.totalValues ?? [] as AssetValue[];
+        let totalValues = data?.totalValues ?? [];
+        return this.addTodaysValueIfMissing(totalValues);
       }),
       tap({
         next: () => {
@@ -399,5 +408,22 @@ export class DataService {
         }
       }))
     )
+  }
+
+  private addTodaysValueIfMissing(totalValues: AssetValue[]): AssetValue[] {
+    if(totalValues.length === 0) {
+      return [];
+    }
+
+    const day = 86400000;
+
+    if(totalValues[totalValues.length-1].timestamp  < (new Date()).valueOf() - day) {
+      totalValues.push({
+        timestamp: (new Date()).valueOf(),
+        value: totalValues[totalValues.length-1].value,
+      })
+    }
+   
+    return totalValues;
   }
 }
