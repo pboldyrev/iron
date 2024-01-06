@@ -11,13 +11,13 @@ export const REGEX = {
 };
 
 export type AssetValue = {
-  timestamp?: number,
-  value?: number,
+  timestamp: number,
+  value: number,
 }
 
 export type NetWorthValue = {
-  timestamp?: number,
-  netWorth?: number,
+  timestamp: number,
+  netWorth: number,
 }
 
 

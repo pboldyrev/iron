@@ -21,6 +21,7 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
 import { LoadingStateComponent } from 'src/app/loading-state/loading-state.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -95,6 +96,7 @@ export class DashboardPageComponent implements AfterContentInit {
 
   private fetchAssets(): void {
     this.dataService.getAssets$(false, this.isAssetsLoading$).pipe(
+      takeUntilDestroyed(),
       map((assets: Asset[]) => {
         this.assets$.next(assets);
         this.updateAssetTypeSummaries$(assets);
@@ -120,7 +122,7 @@ export class DashboardPageComponent implements AfterContentInit {
   }
 
   private fetchNetWorth(): void {
-    this.dataService.getNetWorthValues$(null, this.isNetworthLoading$)
+    this.dataService.getNetWorthValues$(null, this.isNetworthLoading$).pipe(takeUntilDestroyed())
     .subscribe((networthValues: NetWorthValue[]) => {
         this.setValueChanges(networthValues);
         
