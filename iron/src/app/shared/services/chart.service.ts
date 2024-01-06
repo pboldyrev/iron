@@ -128,7 +128,7 @@ export class ChartService {
           },
           data: yAxis,
           spanGaps: true,
-          tension: 0,
+          tension: 0.25,
           borderWidth: () => {
             if(xAxis.length > 1) {
               return 5;
@@ -165,7 +165,7 @@ export class ChartService {
 
     gradientColor = this.getBorderColor(data);
 
-    const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 250);
+    const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, gradientColor);
     gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
