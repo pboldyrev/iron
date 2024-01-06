@@ -4,7 +4,7 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
-import { BehaviorSubject, Observable, combineLatest, filter, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map, take, tap } from 'rxjs';
 import { Asset, VehicleCustomAttributes } from 'src/app/shared/constants/constants';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
@@ -80,7 +80,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
       map(([vin, mileage, date, price, nickname]: [string, string, string, string, string]) => {
         let isValid = true;
 
-        if(!vin || !date || !price) {
+        if(!vin || (!date && this.isAdd) || (!price && this.isAdd)) {
           isValid = false;
         }
 
@@ -105,10 +105,10 @@ export class AddVehicleFormComponent implements AfterContentChecked {
         return {
           vin: vin,
           mileage: parseInt(mileage),
-          purchasePrice: parseFloat(price),
-          purchaseDate: dateObj,
           nickName: nickname,
           units: 1,
+          purchaseDate: dateObj,
+          purchasePrice: parseFloat(price),
         };
       }),
     )

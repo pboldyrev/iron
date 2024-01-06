@@ -24,4 +24,10 @@
     .add-asset-form-manage-accounts {
         margin-bottom: var(--blu-margin-l);
     }
+
+    .add-asset-two-btns {
+        display: flex;
+        flex-direction: column;
+        gap: var(--blu-space-s);
+    }    
 }

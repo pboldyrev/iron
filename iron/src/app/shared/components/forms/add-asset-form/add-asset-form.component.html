@@ -36,24 +36,26 @@
 ></app-add-custom-form>
 <div class="row add-asset-btn-row">
     <ng-container *ngIf="isAdd else isUpdate">
-        <div class="col-md-4 order-md-1 order-2">
-            <blu-button 
-                [fullWidth]="true" 
-                type="secondary" 
-                (click)="onBack()"
-                iconName="backArrow"
-            >{{ TEXTS.BTN_BACK }}</blu-button>
-        </div>
-        <div class="col-md-8 order-md-2 order-1">
-            <div class="add-asset-input-second">
-                <blu-button
+        <div class="row add-asset-two-btns">
+            <div class="col-md-4 order-md-1 order-2">
+                <blu-button 
                     [fullWidth]="true" 
-                    type="primary"
-                    (click)="onSubmit()"
-                >
-                    <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
-                    {{ TEXTS.BTN_ADD }}
-                </blu-button>
+                    type="secondary" 
+                    (click)="onBack()"
+                    iconName="backArrow"
+                >{{ TEXTS.BTN_BACK }}</blu-button>
+            </div>
+            <div class="col-md-8 order-md-2 order-1">
+                <div class="add-asset-input-second">
+                    <blu-button
+                        [fullWidth]="true" 
+                        type="primary"
+                        (click)="onSubmit()"
+                    >
+                        <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
+                        {{ TEXTS.BTN_ADD }}
+                    </blu-button>
+                </div>
             </div>
         </div>
     </ng-container>

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { AddVehicleFormComponent } from '../add-vehicle-form/add-vehicle-form.component';
 import { Asset, AssetType, VehicleCustomAttributes } from '../../../constants/constants';
-import { BehaviorSubject, combineLatest, filter, mergeMap, of, take, throwError } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, mergeMap, of, take, tap, throwError } from 'rxjs';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
@@ -20,6 +20,7 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-asset-form',
@@ -79,6 +80,8 @@ export class AddAssetFormComponent {
         asset,
         customAttributes,
         account,
+      ]: [
+        Asset, Asset, string
       ]) => {
         return this.filterIncomplete(customAttributes, account);
       }),
@@ -96,15 +99,31 @@ export class AddAssetFormComponent {
         if(asset.assetId) {
           return this.dataService.updateAsset$({assetId: asset.assetId, ...assetPayload}, this.isLoading$);
         } else {
-          return this.dataService.putAsset$(assetPayload, this.isLoading$);
+          return this.dataService.putAsset$(assetPayload, this.isLoading$)
+          .pipe(
+            mergeMap((createdAsset: Asset) => {
+              if(createdAsset.assetType === AssetType.Vehicle && createdAsset.assetId) {
+                return this.dataService.putAssetValue$(
+                  createdAsset.assetId,
+                  {
+                    timestamp: customAttributes.purchaseDate?.getUTCDate() ?? new Date().getUTCDate(),
+                    value: customAttributes.purchasePrice ?? 0,
+                  }).pipe(
+                    mergeMap(() => of(createdAsset))
+                  );
+              } else {
+                return of(createdAsset);
+              }
+            }),
+          );
         }
       }),
     ).subscribe({
       next: ((asset: Asset) => {
         this.onSaveSuccess(asset);
       }),
-      error: (() => {
-        this.onSaveError();
+      error: ((err: HttpErrorResponse) => {
+        this.onSaveError(err);
       }),
     });
   }
@@ -144,11 +163,15 @@ export class AddAssetFormComponent {
     }
   }
 
-  private onSaveError(): void {
+  private onSaveError(err: HttpErrorResponse): void {
     this.isLoading$.next(false);
 
     if(this.isAdd){
-      this.toastService.showToast("There was an issue with adding this asset", FeedbackType.ERROR);
+      if(this.assetType === AssetType.Vehicle && err.status === 400) {
+        this.toastService.showToast("The entered VIN is invalid", FeedbackType.ERROR);
+      } else {
+        this.toastService.showToast("There was an issue with adding this asset", FeedbackType.ERROR);
+      }
     } else {
       this.toastService.showToast("There was an issue with updating this asset", FeedbackType.ERROR);
     }
