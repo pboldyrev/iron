@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="add-stock-input add-custom-input-second">
+        <div class="add-custom-input add-custom-input-second">
             <blu-input
                 type="INTEGER"
                 initValue="1"
@@ -26,13 +26,14 @@
             ></blu-input>
         </div>
     </div>
-    <div class="col">
+    <div class="col-md-6">
         <div class="add-custom-input">
             <blu-input 
                 [fullWidth]="true"
                 [feedbackType]="FeedbackType.ERROR" 
                 [label]="TEXTS.LABEL_APPRECIATION"
                 [required]="true"
+                placeholder="ex. 0.15"
                 [disabled]="(isLoading$ | async) ?? false"
                 [tooltip]="TEXTS.TOOLTIP_APPRECIATION"
                 type="NUMBER"
@@ -40,7 +41,7 @@
             ></blu-input>
         </div>
     </div>
-    <div class="col" *ngIf="isAdd">
+    <div class="col-md-6" *ngIf="isAdd">
         <div class="add-custom-input add-custom-input-second">
             <blu-input 
                 [fullWidth]="true"

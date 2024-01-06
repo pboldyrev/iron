@@ -27,7 +27,7 @@
                 ></app-value-change>
             </div>
             <div class="dashboard-networth-chart-wrapper"
-                [hidden]="(isNetworthLoading$ | async)">
+                [hidden]="(isNetworthLoading$ | async) || ((networthValues$ | async) ?? []).length === 0">
                 <canvas id="dashboardChart">{{ dashboardChart }}</canvas>
             </div>
         </div>
