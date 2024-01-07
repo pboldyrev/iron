@@ -78,11 +78,12 @@ export class AddVehicleFormComponent implements AfterContentChecked {
     ]).pipe(
       take(1),
       map(([vin, mileage, date, price, nickname]: [string, string, string, string, string]) => {
-        let isValid = true;
-
-        if(!vin || (!date && this.isAdd) || (!price && this.isAdd)) {
-          isValid = false;
-        }
+        let isValid = 
+          this.vinInput.isValid &&
+          this.mileageInput.isValid &&
+          this.dateInput.isValid &&
+          this.priceInput.isValid && 
+          this.nicknameInput.isValid;
 
         const localeDate = new Date(date);
 

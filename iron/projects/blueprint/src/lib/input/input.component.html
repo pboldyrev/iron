@@ -17,10 +17,10 @@
     'blu-input-rtl': direction === 'rtl',
     'blu-feedback-shown': !isValid && appearance !== 'cell',
   }"
-  [type]="(type === 'NUMBER' || type === 'VIN') ? 'TEXT' : (type === 'PHONE' || type === 'INTEGER') ? 'NUMBER' : type"
+  [type]="(type === 'NUMBER' || type === 'VIN' || type === 'PHONE' || type === 'INTEGER') ? 'TEXT' : type"
   [placeholder]="placeholder"
   [disabled]="disabled"
-  [value]="value$ | async"
+  [value]="(type === 'INTEGER') ? (value$ | async | displayNumber) : (value$ | async)"
   [maxLength]="maxChars"
   (input)="updateValue($event)"
 />

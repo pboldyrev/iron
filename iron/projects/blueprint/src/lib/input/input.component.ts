@@ -8,13 +8,14 @@ import { FeedbackType } from '../common/constants';
 import { BluText } from '../text/text.component';
 import { FEEDBACK_STRINGS } from 'src/app/shared/constants/strings';
 import { BluLabel } from '../label/label.component';
+import { DisplayNumberPipe } from "../common/pipes/displayNumber.pipe";
 
 @Component({
-  selector: 'blu-input',
-  standalone: true,
-  imports: [CommonModule, BluValidationFeedback, BluText, BluLabel],
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css'],
+    selector: 'blu-input',
+    standalone: true,
+    templateUrl: './input.component.html',
+    styleUrls: ['./input.component.css'],
+    imports: [CommonModule, BluValidationFeedback, BluText, BluLabel, DisplayNumberPipe]
 })
 export class BluInput {
   @Input() type!: InputType;
@@ -50,10 +51,27 @@ export class BluInput {
     this.isValid = true;
   }
 
+  public formatDisplayValue(value: string) {
+    if(this.type === "INTEGER") {
+      return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    return value;
+  }
+
+  public removeFormatting(value: string) {
+    if(this.type === "INTEGER") {
+        return value.replace(",", "");
+    }
+
+    return value;
+  }
+
   public validate$(): Observable<string> {
     return this.value$.pipe(
       take(1),
       map((value: string) => {
+        value = this.removeFormatting(value);
         if(!this.required && (value === "" || !value)) {
           this.isValid = true;
           return value;
