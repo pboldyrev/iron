@@ -1,11 +1,3 @@
-<app-confirmation-popup
-    title="Permanently delete all archived assets?"
-    subtitle="You are about to permanently delete all archived assets. You will no longer see their value contribute to your historical networth. There is no way to undo this action."
-    confirmText="I understand, delete them"
-    (confirmed)="onDeleteArchivedAssets()"
-    #confirmDelete
->
-</app-confirmation-popup>
 <div class="row justify-content-center">
     <div class="col-11 col-sm-10 col-xl-8">
         <div class="settings-page-wrapper justify-content-center">
@@ -20,8 +12,9 @@
                     <mat-tab-group [dynamicHeight]="true">
                         <mat-tab label="Profile">
                             <div class="settings-page-tab">
-                                <blu-button type="danger" (click)="confirmDelete.show()">Delete archived assets</blu-button>
-                                <blu-button type="primary" (click)="confirmDelete.show()">Restore archived assets</blu-button>
+                                <blu-text type="primary">
+                                    To be added soon!
+                                </blu-text>
                             </div>
                         </mat-tab>
                         <mat-tab label="Billing">

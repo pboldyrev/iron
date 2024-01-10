@@ -15,4 +15,4 @@ export interface User {
 }
 
 // Must have matching regex in constants file with same key
-export type InputType = 'TEXT' | 'EMAIL' | 'PASSWORD' | 'NUMBER' | 'INTEGER' | 'DATE' | 'PHONE' | 'VIN';
+export type InputType = 'TEXT' | 'EMAIL' | 'PASSWORD' | 'NUMBER' | 'INTEGER' | 'DATE' | 'PHONE' | 'VIN' | 'CURRENCY';

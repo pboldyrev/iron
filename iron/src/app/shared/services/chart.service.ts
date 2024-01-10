@@ -29,13 +29,13 @@ export class ChartService {
             borderWidth: 1,
             displayColors: false,
             bodyFont: {
-              family: 'Rethink Sans'
+              family: 'Outfit'
             },
             titleFont: {
-              family: 'Rethink Sans'
+              family: 'Outfit'
             },
             footerFont: {
-                family: 'Rethink Sans'
+                family: 'Outfit'
             },
             callbacks: {
               label: function(labelContent) {
@@ -62,7 +62,7 @@ export class ChartService {
               maxRotation: 0,
               autoSkipPadding: 20,
               font: {
-                family: 'Rethink Sans'
+                family: 'Outfit'
               }
             },
             title: {
@@ -79,7 +79,7 @@ export class ChartService {
               autoSkipPadding: 20,
               display: true,
               font: {
-                family: 'Rethink Sans'
+                family: 'Outfit'
               },
               callback: (yValue: string | number) => {
                 let yValueAsNum = parseInt(yValue.toString());
@@ -131,7 +131,7 @@ export class ChartService {
           tension: 0,
           borderWidth: () => {
             if(xAxis.length > 1) {
-              return 5;
+              return 2;
             }
             return 0;
           },
@@ -193,7 +193,7 @@ export class ChartService {
       xAxis = data.map((assetValue) => new Date(assetValue.timestamp ?? 0).toLocaleDateString('en-US', {month: 'short', year: 'numeric', day: 'numeric', timeZone: 'UTC'}));
     }
     
-    let yAxis = data.map((assetValue) => assetValue.value ?? 0);
+    let yAxis = data.map((assetValue) => assetValue.totalValue ?? 0);
 
     return [xAxis, yAxis]
   }

@@ -96,7 +96,8 @@ export class ValueHistoryComponent {
   ]): Observable<string> {
     const newValue: AssetValue = {
       timestamp: new Date(date).valueOf(),
-      value: parseFloat(value)
+      totalValue: parseFloat(value),
+      units: 1,
     };
     return this.dataService.putAssetValue$(
       this.assetId || '',

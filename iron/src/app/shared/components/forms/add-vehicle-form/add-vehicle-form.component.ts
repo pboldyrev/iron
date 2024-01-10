@@ -53,12 +53,12 @@ export class AddVehicleFormComponent implements AfterContentChecked {
         this.mileageInput.value$.next(asset.mileage.toString());
         this.isContentSet = true;
       }
-      if(asset.purchaseDate && this.dateInput) {
-        this.dateInput.value$.next(asset.purchaseDate.toLocaleDateString());
+      if(asset.initTimestamp && this.dateInput) {
+        this.dateInput.value$.next(new Date(asset.initTimestamp).toLocaleDateString());
         this.isContentSet = true;
       }
-      if(asset.purchasePrice && this.priceInput) {
-        this.priceInput.value$.next(asset.purchasePrice.toString());
+      if(asset.initTotalValue && this.priceInput) {
+        this.priceInput.value$.next(asset.initTotalValue.toString());
         this.isContentSet = true;
       }
       if(asset.nickName && this.nicknameInput) {
@@ -81,9 +81,13 @@ export class AddVehicleFormComponent implements AfterContentChecked {
         let isValid = 
           this.vinInput.isValid &&
           this.mileageInput.isValid &&
-          this.dateInput.isValid &&
-          this.priceInput.isValid && 
           this.nicknameInput.isValid;
+
+        if (this.isAdd) {
+          isValid = isValid &&
+            this.dateInput.isValid &&
+            this.priceInput.isValid;
+        }
 
         const localeDate = new Date(date);
 
@@ -105,19 +109,18 @@ export class AddVehicleFormComponent implements AfterContentChecked {
           return {};
         }
 
-        let customAttributes: Asset = {
+        let customAttributes: VehicleCustomAttributes = {
           vin: vin,
           mileage: parseInt(mileage),
           nickName: nickname,
-          units: 1,
         };
 
         if(this.isAdd) {
           customAttributes = {
             ...customAttributes,
-            purchaseDate: utcDate,
-            purchasePrice: parseFloat(price),
-          }
+            initTimestamp: new Date(utcDate).valueOf(),
+            initTotalValue: parseFloat(price),
+          } as VehicleCustomAttributes
         }
 
         return customAttributes;

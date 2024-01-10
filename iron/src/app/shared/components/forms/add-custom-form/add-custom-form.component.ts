@@ -61,12 +61,10 @@ export class AddCustomFormComponent implements AfterContentChecked {
         let assetObj: Asset = {
           assetName: assetName,
           appreciationRate: parseFloat(appreciationRate),
-          units: parseInt(units),
         };
 
         if(this.isAdd) {
-          assetObj.initValue = parseFloat(curValue);
-          assetObj.curValue = parseFloat(curValue);
+          assetObj.curTotalValue = parseFloat(curValue);
         }
         
         return assetObj;

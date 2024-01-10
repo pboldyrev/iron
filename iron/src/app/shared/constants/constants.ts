@@ -3,6 +3,7 @@ export const REGEX = {
   PASSWORD: new RegExp('^.{8,}$'),
   TEXT: new RegExp('^.+$'),
   NUMBER: new RegExp('^([0-9]*\.)?[0-9]+$'),
+  CURRENCY: new RegExp('^([0-9]*\.)?[0-9]+$'),
   VIN: new RegExp('[(A-H|J-N|P|R-Z|0-9)]{17,}'),
   PHONE: new RegExp('^[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$'),
   INTEGER: new RegExp('^[1-9]+[0-9]*$'),
@@ -12,29 +13,24 @@ export const REGEX = {
 
 export type AssetValue = {
   timestamp: number,
-  value: number,
+  totalValue: number,
+  units: number,
 }
-
-export type NetWorthValue = {
-  timestamp: number,
-  netWorth: number,
-}
-
 
 export type VehicleCustomAttributes = {
   nickName?: string,
   vin?: string,
-  make?: string,
-  model?: string,
-  year?: number,
   mileage?: number,
-  appreciationRate?: number,
-  purchasePrice?: number,
-  purchaseDate?: Date,
+  initTotalValue?: number,
+  initTimestamp?: number,
 }
 
 export type StockCustomAttributes = {
   ticker?: string;
+}
+
+export type CustomCustomAttributes = {
+  appreciationRate?: number;
 }
 
 export type BaseAsset = {
@@ -44,22 +40,12 @@ export type BaseAsset = {
   assetType?: AssetType,
   timeCreated?: number,
   account?: string,
-  units?: number,
-  totalValues?: AssetValue[],
-  curValue?: number,
-  initValue?: number,
+  curTotalValue?: number,
+  curUnits?: number,
   isArchived?: boolean,
 }
 
-export type Asset = BaseAsset & VehicleCustomAttributes & StockCustomAttributes;
-
-export type GetAssetsResponse = {
-  assets: Asset[]
-}
-
-export type ArchiveAssetResponse = {
-  asset: Asset
-}
+export type Asset = BaseAsset & VehicleCustomAttributes & StockCustomAttributes & CustomCustomAttributes;
 
 export enum AssetType {
   Stock = 'stock',

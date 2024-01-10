@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Asset, AssetType, AssetValue, ANALYTICS, NetWorthValue } from '../constants/constants';
+import { Asset, AssetType, AssetValue, ANALYTICS } from '../constants/constants';
 import { BehaviorSubject, Observable, combineLatest, delay, map, mergeMap, of, take, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -45,13 +45,13 @@ export class DataService {
         return this.httpPost("getUserNetWorths", options)
       }),
       map((data: any) => {
-        let totalNetworth: NetWorthValue[] = data?.netWorths ?? [];
-        let totalValues: AssetValue[] = totalNetworth.map((val: NetWorthValue) => {
+        let totalValues = (data?.netWorths ?? []).map((netWorthValue: any) => {
           return {
-            timestamp: val.timestamp,
-            value: val.netWorth,
-          } as AssetValue;
-        })
+            timestamp: netWorthValue.timestamp,
+            totalValue: netWorthValue.netWorth,
+            units: -1,
+          } as AssetValue
+        });
         totalValues = this.addTodaysValueIfMissing(totalValues);
         return totalValues;
       }),
@@ -70,7 +70,7 @@ export class DataService {
     );
   }
 
-  public getAssets$(includeArchived: boolean = false, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
+  public getAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
     return this.dataChanged$.pipe(
       mergeMap(() => {
         if(loadingIndicator) {
@@ -78,9 +78,6 @@ export class DataService {
         }
 
         return this.fetchUserAssets$()
-      }),
-      map((assets: Asset[]) => {
-        return assets.filter((asset) => !asset.isArchived || includeArchived);
       }),
       tap({
         next: () => {
@@ -172,7 +169,7 @@ export class DataService {
     const options = {
       assetId: assetId, 
       timestamp: newValue.timestamp, 
-      value: newValue.value
+      value: newValue.totalValue
     };
 
     return this.httpPost("putAssetValue", options)
@@ -228,12 +225,25 @@ export class DataService {
     )
   }
 
-  public putAsset$(asset: Asset, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+  public putAsset$(asset: Asset, initialValue: AssetValue | null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
     if(loadingIndicator) {
       loadingIndicator.next(true);
     }
 
-    return this.httpPost("putAsset", {asset: asset}).pipe(
+    let assetPayload;
+
+    if(initialValue) {
+      assetPayload = {
+        asset: asset,
+        initAssetValue: initialValue,
+      }
+    } else {
+      assetPayload = {
+        asset: asset,
+      }
+    }
+
+    return this.httpPost("putAsset", assetPayload).pipe(
       map((data: any) => {
         this.dataChanged$.next(true);
         return data?.asset ?? {} as Asset;
@@ -290,31 +300,6 @@ export class DataService {
     )
   }
 
-  public archiveAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
-    return this.httpPost("archiveAsset", {assetId: assetId}).pipe(
-      map((data: any) => {
-        this.dataChanged$.next(true);
-        return data?.asset ?? {} as Asset;
-      }),
-      tap({
-        next: () => {
-          if (loadingIndicator) {
-            loadingIndicator.next(false);
-          }
-        },
-        error: () => {
-          if (loadingIndicator) {
-            loadingIndicator.next(false);
-          }
-        }
-      })
-    )
-  }
-
   public deleteAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
     if(loadingIndicator) {
       loadingIndicator.next(true);
@@ -338,20 +323,6 @@ export class DataService {
         }
       })
     )
-  }
-
-  public deleteArchivedAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<boolean> {
-    if(loadingIndicator) {
-      loadingIndicator.next(true);
-    }
-
-    console.log("Deleted all assets");
-
-    if(loadingIndicator) {
-      loadingIndicator.next(false);
-    }
-
-    return of(true);
   }
 
   private fetchUserAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
@@ -420,7 +391,8 @@ export class DataService {
     if(totalValues[totalValues.length-1].timestamp  < (new Date()).valueOf() - day) {
       totalValues.push({
         timestamp: (new Date()).valueOf(),
-        value: totalValues[totalValues.length-1].value,
+        totalValue: totalValues[totalValues.length-1].totalValue,
+        units: totalValues[totalValues.length-1].units,
       })
     }
    

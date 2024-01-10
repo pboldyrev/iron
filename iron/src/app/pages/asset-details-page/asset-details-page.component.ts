@@ -113,6 +113,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   }
 
   private getDisplayWorth(asset: Asset): string {
-    return '$' + (asset?.curValue ?? 0).toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    return '$' + (asset?.curTotalValue ?? 0).toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
   }
 }

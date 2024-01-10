@@ -8,14 +8,15 @@ import { FeedbackType } from '../common/constants';
 import { BluText } from '../text/text.component';
 import { FEEDBACK_STRINGS } from 'src/app/shared/constants/strings';
 import { BluLabel } from '../label/label.component';
-import { DisplayNumberPipe } from "../common/pipes/displayNumber.pipe";
+import { DisplayIntegerPipe } from "../common/pipes/display-integer";
+import { DisplayCurrencyPipe } from "../common/pipes/display-currency.pipe";
 
 @Component({
     selector: 'blu-input',
     standalone: true,
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.css'],
-    imports: [CommonModule, BluValidationFeedback, BluText, BluLabel, DisplayNumberPipe]
+    imports: [CommonModule, BluValidationFeedback, BluText, BluLabel, DisplayIntegerPipe, DisplayCurrencyPipe]
 })
 export class BluInput {
   @Input() type!: InputType;
@@ -51,17 +52,13 @@ export class BluInput {
     this.isValid = true;
   }
 
-  public formatDisplayValue(value: string) {
-    if(this.type === "INTEGER") {
-      return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    return value;
-  }
-
   public removeFormatting(value: string) {
     if(this.type === "INTEGER") {
-        return value.replace(",", "");
+        return value.replaceAll(/[^\d-]/g,'');
+    }
+
+    if(this.type === "CURRENCY") {
+      return value.replaceAll(/[^\d.-]/g,'');
     }
 
     return value;

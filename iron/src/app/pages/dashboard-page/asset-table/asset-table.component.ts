@@ -52,7 +52,6 @@ export type AssetTableColumn =
 })
 
 export class AssetTableComponent {
-  @ViewChild('archiveConfirmPopup') archiveConfirmPopup!: ConfirmationPopupComponent;
   @ViewChild('deleteConfirmPopup') deleteConfirmPopup!: ConfirmationPopupComponent;
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
@@ -63,7 +62,6 @@ export class AssetTableComponent {
   public curTotal: number = 0;
   public initTotal: number = 0;
 
-  public assetToArchive: Asset | undefined;
   public assetToDelete: Asset | undefined;
   public TEXTS = TEXTS;
   public FeedbackType = FeedbackType;
@@ -84,16 +82,11 @@ export class AssetTableComponent {
     let curTotal = 0;
     let initTotal = 0;
     assets.forEach((asset: Asset) => {
-      curTotal += asset.curValue ?? 0;
-      initTotal += asset.initValue ?? 0;
+      curTotal += asset.curTotalValue ?? 0;
+      initTotal += asset.initTotalValue ?? 0;
     });
     this.curTotal = curTotal;
     this.initTotal = initTotal;
-  }
-
-  public onArchiveAsset(asset: Asset): void {
-    this.archiveConfirmPopup.show();
-    this.assetToArchive = asset;
   }
 
   public onDeleteAsset(asset: Asset): void {
@@ -105,18 +98,6 @@ export class AssetTableComponent {
     this.navigationService.navigate('/asset/' + asset.assetId);
   }
 
-  public onArchiveAssetConfirmed() {
-    if(!this.assetToArchive || !this.assetToArchive.assetId) {
-      this.toastService.showToast("This asset does not exist", FeedbackType.ERROR);
-      return;
-    }
-
-    this.dataService.archiveAsset$(this.assetToArchive.assetId, this.loadingIndicator$).subscribe(() => {
-      this.toastService.showToast("Successfully archived " + this.assetToArchive?.assetName, FeedbackType.SUCCESS);
-      this.assetToArchive = undefined;
-    });
-  }
-
   public onDeleteAssetConfirmed() {
     if(!this.assetToDelete || !this.assetToDelete.assetId) {
       this.toastService.showToast("This asset does not exist", FeedbackType.ERROR);
@@ -125,7 +106,7 @@ export class AssetTableComponent {
 
     this.dataService.deleteAsset$(this.assetToDelete.assetId, this.loadingIndicator$).subscribe(() => {
       this.toastService.showToast("Successfully deleted " + this.assetToDelete?.assetName, FeedbackType.SUCCESS);
-      this.assetToArchive = undefined;
+      this.assetToDelete = undefined;
     });
   }
 

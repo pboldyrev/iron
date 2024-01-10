@@ -32,16 +32,4 @@ export class SettingsPageComponent {
   public onBack(): void {
     this.navigationService.back();
   }
-
-  public onDeleteArchivedAssets(): void {
-    this.dataService.deleteArchivedAssets$()
-    .subscribe({
-      next: () => {
-        this.toastService.showToast("All archived assets have been deleted.", FeedbackType.SUCCESS);
-      },
-      error: () => {
-        this.toastService.showToast("There was an issue deleting the assets. Please try again later.", FeedbackType.ERROR);
-      }
-    });
-  }
 }

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { AddVehicleFormComponent } from '../add-vehicle-form/add-vehicle-form.component';
-import { Asset, AssetType, VehicleCustomAttributes } from '../../../constants/constants';
-import { BehaviorSubject, Observable, combineLatest, filter, map, mergeMap, of, take, tap, throwError } from 'rxjs';
+import { Asset, AssetType, AssetValue, VehicleCustomAttributes } from '../../../constants/constants';
+import { BehaviorSubject, Observable, combineLatest, filter, map, merge, mergeMap, of, take, tap, throwError } from 'rxjs';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
@@ -98,14 +98,19 @@ export class AddAssetFormComponent {
 
         if(asset.assetId) {
           return this.dataService.updateAsset$({assetId: asset.assetId, ...assetPayload}, this.isLoading$);
-        } else {
-          return this.dataService.putAsset$(assetPayload, this.isLoading$)
-          .pipe(
-            mergeMap((createdAsset: Asset) => {
-              return this.updateFirstValue$(customAttributes, createdAsset);
-            }),
-          );
         }
+
+        if (this.assetType === AssetType.Vehicle) {
+          const initValue: AssetValue = {
+            timestamp: customAttributes.initTimestamp ?? 0,
+            totalValue: customAttributes.initTotalValue ?? 0,
+            units: 1,
+          };
+          return this.dataService.putAsset$(assetPayload, initValue, this.isLoading$);
+        }
+
+        return this.dataService.putAsset$(assetPayload, null, this.isLoading$);
+      
       }),
     ).subscribe({
       next: ((asset: Asset) => {
@@ -115,21 +120,6 @@ export class AddAssetFormComponent {
         this.onSaveError(err);
       }),
     });
-  }
-
-  private updateFirstValue$(customAttributes: Asset, createdAsset: Asset): Observable<Asset> {
-    if(createdAsset.assetType !== AssetType.Vehicle || !createdAsset.assetId) {
-      return of(createdAsset);
-    }
-    return this.dataService.putAssetValue$(
-      createdAsset.assetId,
-      {
-        timestamp: customAttributes.purchaseDate?.valueOf() ?? 0,
-        value: customAttributes.purchasePrice ?? 0,
-      }, 
-      this.isLoading$).pipe(
-        mergeMap(() => of(createdAsset))
-      );
   }
 
   private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | AddCustomFormComponent | null {

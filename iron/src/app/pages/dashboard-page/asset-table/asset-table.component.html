@@ -9,14 +9,6 @@
   (confirmed)="onDeleteAssetConfirmed()"
   #deleteConfirmPopup
 ></app-confirmation-popup>
-<app-confirmation-popup
-  [title]="TEXTS.ARCHIVE_POPUP_TITLE_1 + assetToArchive?.assetName + TEXTS.ARCHIVE_POPUP_TITLE_2"
-  [subtitle]="TEXTS.ARCHIVE_POPUP_SUBTITLE"
-  [confirmText]="TEXTS.ARCHIVE_POPUP_CTA"
-  size="large"
-  (confirmed)="onArchiveAssetConfirmed()"
-  #archiveConfirmPopup
-></app-confirmation-popup>
 <div class="asset-table">
     <div *ngIf="((assets$ | async) ?? []).length === 0">
         <blu-text type="secondary">No assets added yet... <blu-link (click)="onAddAsset()">Add one?</blu-link></blu-text>
@@ -72,10 +64,10 @@
 
         <ng-container matColumnDef="initValue">
             <mat-header-cell *matHeaderCellDef>
-                {{ TEXTS.COST_TITLE }}
+                {{ TEXTS.INIT_VALUE_TITLE }}
             </mat-header-cell>
-            <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                <blu-text [isNumber]="true">${{ (asset.initValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+            <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
+                <blu-text [isNumber]="true">${{(asset.initTotalValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-text weight="bold" [isNumber]="true">${{ initTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
@@ -87,7 +79,7 @@
                 {{ TEXTS.VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                <blu-text [isNumber]="true">${{(asset.curValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text [isNumber]="true">${{(asset.curTotalValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-text weight="bold" [isNumber]="true">${{ curTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
@@ -98,28 +90,13 @@
             <mat-header-cell *matHeaderCellDef>
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-align-left">
-                <blu-tag [type]="asset.curValue >= asset.initValue ? 'success' : 'error'">
-                    <blu-icon [name]="asset.curValue >= asset.initValue ? 'chevronUp' : 'chevronDown'"></blu-icon>
+                <blu-tag [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'">
+                    <blu-icon [name]="asset.curTotalValue >= asset.initTotalValue ? 'chevronUp' : 'chevronDown'"></blu-icon>
                     <div class="asset-table-tag-text">
-                        <blu-text size="small" [isNumber]="true">{{ getPercentChange(asset.initValue, asset.curValue) }}%</blu-text>
+                        <blu-text size="small" [isNumber]="true">{{ getPercentChange(asset.initTotalValue, asset.curTotalValue) }}%</blu-text>
                     </div>
                 </blu-tag>
             </mat-cell>
-            <mat-footer-cell *matFooterCellDef>
-                <blu-tag 
-                    *ngIf="getPercentChange(initTotal, curTotal) !== 0"
-                    [type]="initTotal >= curTotal ? 'success' : 'error'"
-                >
-                    <blu-icon 
-                        [name]="initTotal >= curTotal ? 'chevronUp' : 'chevronDown'"
-                    ></blu-icon>
-                    <div class="asset-table-tag-text">
-                        <blu-text size="small" [isNumber]="true">
-                            {{ getPercentChange(initTotal, curTotal) }}%
-                        </blu-text>
-                    </div>
-                </blu-tag>
-            </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="edit">
@@ -129,7 +106,6 @@
                 <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" class="asset-table-edit-menu" [matMenuTriggerFor]="appMenu"></blu-button>
                 <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
                     <div mat-menu-item [disableRipple]="true" (click)="onDetailsAsset(asset)"><blu-text type="primary" size="small">{{ TEXTS.ENTRY_BUTTON_DETAILS }}</blu-text></div>
-                    <div mat-menu-item [disableRipple]="true" (click)="onArchiveAsset(asset)"><blu-text type="primary" size="small">{{ TEXTS.ENTRY_BUTTON_ARCHIVE }}</blu-text></div>
                     <div mat-menu-item [disableRipple]="true" (click)="onDeleteAsset(asset)"><blu-text type="error" size="small">Permanently delete</blu-text></div>
                 </mat-menu>
             </mat-cell>

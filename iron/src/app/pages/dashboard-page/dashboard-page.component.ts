@@ -4,7 +4,7 @@ import { NetworthComponent } from '../../shared/components/networth/networth.com
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { TEXTS } from './dashboard-page.strings';
-import { Asset, AssetType, AssetValue, NetWorthValue, ValueChange } from '../../shared/constants/constants';
+import { Asset, AssetType, AssetValue, ValueChange } from '../../shared/constants/constants';
 import { ValueChangeComponent } from '../../shared/components/value-change/value-change.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { AssetTableColumn, AssetTableComponent } from './asset-table/asset-table.component';
@@ -93,7 +93,7 @@ export class DashboardPageComponent implements AfterContentInit {
   }
 
   private fetchAssets(): void {
-    this.dataService.getAssets$(false, this.isAssetsLoading$).pipe(
+    this.dataService.getAssets$(this.isAssetsLoading$).pipe(
       takeUntilDestroyed(),
       map((assets: Asset[]) => {
         this.assets$.next(assets);
@@ -109,7 +109,7 @@ export class DashboardPageComponent implements AfterContentInit {
       if (assetsAndValues[(asset.assetType ?? "")] === undefined) {
         assetsAndValues[(asset.assetType ?? "")] = 0;
       } else {
-        assetsAndValues[(asset.assetType ?? "")] += asset.curValue;
+        assetsAndValues[(asset.assetType ?? "")] += asset.curTotalValue;
       }
     })
 
@@ -125,7 +125,7 @@ export class DashboardPageComponent implements AfterContentInit {
         this.setValueChanges(networthValues);
         
         if(networthValues.length > 0) {
-          this.totalNetworth = networthValues[networthValues.length-1].value ?? 0;
+          this.totalNetworth = networthValues[networthValues.length-1].totalValue ?? 0;
         } else {
           this.totalNetworth = 0;
         }
@@ -141,7 +141,7 @@ export class DashboardPageComponent implements AfterContentInit {
     }
 
     this.networthTimeframes = [];
-    const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].value ?? 0, networthValues[0].value ?? 0, "All time");
+    const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].totalValue ?? 0, networthValues[0].totalValue ?? 0, "All time");
     this.networthTimeframes.push(allTimeChange);
 
     if(networthValues.length < 2) {
@@ -149,8 +149,8 @@ export class DashboardPageComponent implements AfterContentInit {
     }
 
     const sinceLastChange = this.getValueChange(
-      networthValues[networthValues.length-1].value ?? 0, 
-      networthValues[networthValues.length-2].value ?? 0, 
+      networthValues[networthValues.length-1].totalValue ?? 0, 
+      networthValues[networthValues.length-2].totalValue ?? 0, 
       "Since " + (new Date(networthValues[networthValues.length-2].timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'})));
     this.networthTimeframes.push(sinceLastChange);
   }
