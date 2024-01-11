@@ -107,14 +107,15 @@ export class ValueHistoryComponent {
       this.toastService.showToast("Please do not include currency symbols in the value field.", FeedbackType.ERROR);
       return false;
     }
-    const curDate = Date.now().valueOf();
-    const selectedDate = new Date(date).valueOf();
-    const minDate = new Date("1900-1-1").valueOf();
+    const curDate = new Date();
+    curDate.setDate(curDate.getDate() - 1);
+    const selectedDate = new Date(date);
+    const minDate = new Date("1900-1-1");
     if (selectedDate > curDate) {
-      this.toastService.showToast("Date can not be in the future", FeedbackType.ERROR);
+      this.toastService.showToast("Please select a date in the past.", FeedbackType.ERROR);
     }
     if (selectedDate < minDate) {
-      this.toastService.showToast("We only support assets with history after Jan 1, 1900", FeedbackType.ERROR);
+      this.toastService.showToast("We only support assets with history after Jan 1, 1900.", FeedbackType.ERROR);
     }
     return selectedDate <= curDate && selectedDate > minDate;
   }

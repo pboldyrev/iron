@@ -10,7 +10,8 @@ export const TEXTS = {
 }
 
 export const TOOLTIPS = {
-    VIN_ADD: "We use the VIN of your car to automatically gather the car\'s information such as the make, model, and year. Adding a VIN will allow us to automatically update your vehicle\'s value.",
-    VIN_DETAILS: "You may not change the VIN after the asset is created.",
-    MILEAGE: "If you leave mileage blank, we will use the average mileage for your vehicle to track its value.",
+    VIN_ADD: "Adding a VIN will allow us to automatically update your vehicle\'s value.",
+    VIN_EDIT: "You may not change the VIN after the asset is created.",
+    MILEAGE_ADD: "We use mileage to get a more precise value for your vehicle.",
+    MILEAGE_EDIT: "Modifying the mileage will impact tomorrow's asset value.",
 }

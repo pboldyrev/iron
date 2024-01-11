@@ -136,11 +136,12 @@ export class DashboardPageComponent implements AfterContentInit {
   }
 
   private setValueChanges(networthValues: AssetValue[]): void {
+    this.networthTimeframes = [];
+    
     if(networthValues.length === 0) {
       return;
     }
 
-    this.networthTimeframes = [];
     const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].totalValue ?? 0, networthValues[0].totalValue ?? 0, "All time");
     this.networthTimeframes.push(allTimeChange);
 

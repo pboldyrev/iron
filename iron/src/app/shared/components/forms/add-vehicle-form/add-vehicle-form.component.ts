@@ -107,9 +107,11 @@ export class AddVehicleFormComponent implements AfterContentChecked {
       return false;
     }
 
-    if(utcDate > new Date() && this.isAdd) {
+    let curDate = new Date();
+    curDate.setDate(curDate.getDate() - 1);
+    if(utcDate > curDate && this.isAdd) {
       this.dateInput.isValid = false;
-      this.dateInput.customFeedback = "We do not support future purchases.";
+      this.dateInput.customFeedback = "Please select a date in the past.";
       return false;
     }
 
