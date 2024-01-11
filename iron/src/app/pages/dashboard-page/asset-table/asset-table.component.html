@@ -93,10 +93,18 @@
                 <blu-tag [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'">
                     <blu-icon [name]="asset.curTotalValue >= asset.initTotalValue ? 'chevronUp' : 'chevronDown'"></blu-icon>
                     <div class="asset-table-tag-text">
-                        <blu-text size="small" [isNumber]="true">{{ getPercentChange(asset.initTotalValue, asset.curTotalValue) }}%</blu-text>
+                        <blu-text [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="small" [isNumber]="true">{{ getPercentChange() }}%</blu-text>
                     </div>
                 </blu-tag>
             </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+                <blu-tag [type]="curTotal >= initTotal ? 'success' : 'error'">
+                    <blu-icon [name]="curTotal >= initTotal ? 'chevronUp' : 'chevronDown'"></blu-icon>
+                    <div class="asset-table-tag-text">
+                        <blu-text [type]="curTotal >= initTotal ? 'success' : 'error'" size="small" [isNumber]="true">{{ getPercentChange() }}%</blu-text>
+                    </div>
+                </blu-tag>
+            </mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="edit">

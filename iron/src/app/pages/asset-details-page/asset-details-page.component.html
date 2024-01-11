@@ -48,12 +48,24 @@
                                 #valueHistory
                             ></app-value-history>
                         </div>
-                        <blu-label
-                            class="asset-details-page-tooltip"
-                            type="tertiary" 
-                            [tooltip]="(asset$ | async)?.assetType === AssetType.Custom ? 'To update the asset value, please update the value table above.' : 'Come back daily to see the updated value.'" 
-                            [label]="(asset$ | async)?.assetType === AssetType.Custom ? 'This asset is tracked manually' : 'This asset is tracked automatically'"
-                        ></blu-label>
+                        <div class="asset-details-footer">
+                            <blu-label
+                                *ngIf="(asset$ | async)?.assetType !== AssetType.Custom"
+                                class="asset-details-page-tooltip"
+                                type="tertiary" 
+                                tooltip="Come back daily to see the updated value." 
+                                label="This asset is tracked automatically"
+                            ></blu-label>
+                            <blu-text type="secondary" size="small">
+                                Want to <blu-link (click)="onShowManualEntry()">add a value manually</blu-link>?
+                            </blu-text>
+                            <div *ngIf="showManualEntry" class="row">
+                                <app-manual-value-entry
+                                    [assetId]="(assetId$ | async) ?? ''"
+                                    [isLoading$]="isDetailsLoading$"
+                                ></app-manual-value-entry>
+                            </div>
+                        </div>
                     </mat-tab>
                     <mat-tab label="Asset details">
                         <app-asset-more-details

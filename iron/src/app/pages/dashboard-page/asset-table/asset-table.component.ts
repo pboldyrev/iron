@@ -110,11 +110,11 @@ export class AssetTableComponent {
     });
   }
 
-  public getPercentChange(init: number, cur: number): number {
-    if(!init || !cur || init === 0) {
+  public getPercentChange(): number {
+    if(!this.initTotal || !this.curTotal || this.initTotal === 0) {
       return 0;
     }
-    return Math.abs(Math.round(((cur-init) / init) * 100));
+    return Math.abs(Math.round(((this.curTotal-this.initTotal) / this.initTotal) * 100));
   }
 
   public onAddAsset(): void {

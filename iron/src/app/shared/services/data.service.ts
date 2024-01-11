@@ -169,7 +169,8 @@ export class DataService {
     const options = {
       assetId: assetId, 
       timestamp: newValue.timestamp, 
-      value: newValue.totalValue
+      totalValue: newValue.totalValue,
+      units: newValue.units,
     };
 
     return this.httpPost("putAssetValue", options)

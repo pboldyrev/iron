@@ -18,11 +18,15 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
 import { BluLabel } from 'projects/blueprint/src/lib/label/label.component';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
+import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
+import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
+import { ManualValueEntryComponent } from './manual-value-entry/manual-value-entry.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, ManualValueEntryComponent],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -39,6 +43,8 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   public displayAssetName = "";
   public displayAssetValue = "";
   historyChart: Chart | null = null;
+  showManualEntry = false;
+  FeedbackType = FeedbackType;
 
   constructor(
     private navigationService: NavigationService,
@@ -64,6 +70,10 @@ export class AssetDetailsPageComponent implements AfterContentInit {
         this.historyChart = new Chart('detailChart', this.chartService.getOptions('detailChart', data));
       }
     });
+  }
+
+  public onShowManualEntry(): void {
+    this.showManualEntry = !this.showManualEntry;
   }
 
   private fetchAssetValue(assetId: string): void {

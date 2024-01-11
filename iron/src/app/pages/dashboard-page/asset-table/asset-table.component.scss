@@ -25,7 +25,8 @@
     min-width: var(--blu-width-xxl);
 }
 
-.mat-column-edit {
+.mat-column-edit,
+.mat-column-change {
     max-width: var(--blu-width-l);
     min-width: var(--blu-width-l);
 }
