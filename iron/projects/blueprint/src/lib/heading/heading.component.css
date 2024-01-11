@@ -43,12 +43,12 @@
 
 .blu-heading-xs {
   font-size: var(--blu-font-size-heading-xs);
-  line-height: var(--blu-line-height-heading-s);
+  line-height: var(--blu-line-height-heading-xs);
 }
 
 .blu-heading-s {
   font-size: var(--blu-font-size-heading-s);
-  line-height: var(--blu-line-height-heading-m);
+  line-height: var(--blu-line-height-heading-s);
   margin-bottom: var(--blu-margin-xs);
 }
 

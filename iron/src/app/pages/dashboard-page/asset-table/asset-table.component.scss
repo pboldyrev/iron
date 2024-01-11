@@ -25,10 +25,18 @@
     min-width: var(--blu-width-xxl);
 }
 
-.mat-column-edit,
 .mat-column-change {
     max-width: var(--blu-width-l);
     min-width: var(--blu-width-l);
+}
+
+.mat-column-edit {
+    max-width: 30px;
+    min-width: 30px;
+}
+
+.mat-column-edit:last-of-type {
+    padding: 0;
 }
 
 .asset-table-progress-bar {
