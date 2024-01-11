@@ -1,6 +1,6 @@
 .add-asset-form-section-wrapper {
     margin-bottom: var(--blu-margin-xxl);
-    padding-bottom: var(--blu-margin-xl);
+    padding-bottom: var(--blu-margin-l);
     border-bottom: var(--blu-border-tertiary);
 }
 
@@ -10,10 +10,6 @@
 
 .add-asset-input-second {
     margin-left: var(--blu-margin-l);
-}
-
-.add-asset-btn-row {
-    margin-top: var(--blu-margin-xl);
 }
 
 @media only screen and (max-width: 767px) {

@@ -35,7 +35,7 @@
             ></blu-input>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" [hidden]="!isAdd">
         <div class="add-vehicle-input">
             <blu-input 
                 [fullWidth]="true"
@@ -43,13 +43,12 @@
                 [label]="TEXTS.DATE_LABEL"
                 [required]="isAdd"
                 [disabled]="(isLoading$ | async) ?? false"
-                [hidden]="!isAdd"
                 type="DATE"
                 #date
             ></blu-input>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" [hidden]="!isAdd">
         <div class="add-vehicle-input add-vehicle-input-second">
             <blu-input 
                 [fullWidth]="true"
@@ -57,7 +56,6 @@
                 [label]="TEXTS.PRICE_LABEL"
                 [required]="isAdd"
                 [disabled]="(isLoading$ | async) ?? false"
-                [hidden]="!isAdd"
                 type="CURRENCY"
                 #price
             ></blu-input>
