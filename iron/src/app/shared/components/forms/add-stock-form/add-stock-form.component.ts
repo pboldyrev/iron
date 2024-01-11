@@ -35,7 +35,7 @@ export class AddStockFormComponent implements AfterContentChecked {
 
     this.asset$.subscribe((asset: Asset) => {
       if(asset.ticker && this.tickerInput) {
-        this.tickerInput.value$.next(asset.ticker);
+        this.tickerInput.value = asset.ticker;
         this.isContentSet = true;
       }
     });

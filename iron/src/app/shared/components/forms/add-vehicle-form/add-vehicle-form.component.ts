@@ -46,23 +46,23 @@ export class AddVehicleFormComponent implements AfterContentChecked {
 
     this.asset$.subscribe((asset: Asset) => {
       if(asset.vin && this.vinInput) {
-        this.vinInput.value$.next(asset.vin);
+        this.vinInput.value = asset.vin;
         this.isContentSet = true;
       }
       if(asset.mileage && this.mileageInput) {
-        this.mileageInput.value$.next(asset.mileage.toString());
+        this.mileageInput.value = asset.mileage.toString();
         this.isContentSet = true;
       }
       if(asset.initTimestamp && this.dateInput) {
-        this.dateInput.value$.next(new Date(asset.initTimestamp).toLocaleDateString());
+        this.dateInput.value = new Date(asset.initTimestamp).toLocaleDateString();
         this.isContentSet = true;
       }
       if(asset.initTotalValue && this.priceInput) {
-        this.priceInput.value$.next(asset.initTotalValue.toString());
+        this.priceInput.value = asset.initTotalValue.toString();
         this.isContentSet = true;
       }
       if(asset.nickName && this.nicknameInput) {
-        this.nicknameInput.value$.next(asset.nickName);
+        this.nicknameInput.value = asset.nickName;
         this.isContentSet = true;
       }
     });

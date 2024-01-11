@@ -20,6 +20,7 @@ import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DISPLAYED_COLUMNS } from './value-history.constants';
+import { BluLabel } from 'projects/blueprint/src/lib/label/label.component';
 
 export type ValueChange = {
   amount?: number,
@@ -30,7 +31,7 @@ export type ValueChange = {
 @Component({
   selector: 'app-value-history',
   standalone: true,
-  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag],
+  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag],
   templateUrl: './value-history.component.html',
   styleUrl: './value-history.component.scss'
 })

@@ -22,10 +22,10 @@
   [disabled]="disabled"
   [value]="
     (type === 'INTEGER') ? 
-      (value$ | async | displayInteger) : 
+      (value | displayInteger) : 
       (type === 'CURRENCY') ?
-        (value$ | async | displayCurrency) :
-        (value$ | async)"
+        (value | displayCurrency) :
+        (value)"
   [maxLength]="maxChars"
   (input)="updateValue($event)"
 />

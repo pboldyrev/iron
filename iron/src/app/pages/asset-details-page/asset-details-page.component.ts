@@ -21,12 +21,11 @@ import { BluLabel } from 'projects/blueprint/src/lib/label/label.component';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
-import { ManualValueEntryComponent } from './manual-value-entry/manual-value-entry.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, ManualValueEntryComponent],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -44,6 +43,10 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   public displayAssetValue = "";
   historyChart: Chart | null = null;
   showManualEntry = false;
+  showValueHistory$ = this.asset$.pipe(
+    take(1),
+    map((asset: Asset) => asset.assetType === AssetType.Custom)
+  );
   FeedbackType = FeedbackType;
 
   constructor(
@@ -72,8 +75,8 @@ export class AssetDetailsPageComponent implements AfterContentInit {
     });
   }
 
-  public onShowManualEntry(): void {
-    this.showManualEntry = !this.showManualEntry;
+  public onShowValueHistory(): void {
+    this.showValueHistory$ = of(true);
   }
 
   private fetchAssetValue(assetId: string): void {

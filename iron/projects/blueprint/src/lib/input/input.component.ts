@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable, map, mergeMap, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, map, mergeMap, of, take, takeUntil } from 'rxjs';
 import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
 import { InputType } from 'src/app/shared/interfaces/interfaces';
 import { RegexService } from 'src/app/shared/services/regex.service';
@@ -34,7 +34,7 @@ export class BluInput {
   @Input() tooltip: string = '';
   @Input() maxChars: number = 100;
 
-  public value$ = new BehaviorSubject<string>('');
+  public value = "";
   public isValid = true;
   public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
   public customFeedback = "";
@@ -43,18 +43,18 @@ export class BluInput {
 
   ngOnInit() {
     if(this.initValue) {
-      this.value$.next(this.initValue);
+      this.value = this.initValue;
     }
   }
 
   public updateValue(event: any): void {
-    this.value$.next(event.target.value);
+    this.value = event.target.value;
     this.isValid = true;
   }
 
   public removeFormatting(value: string) {
     if(this.type === "INTEGER") {
-        return value.replaceAll(/[^\d-]/g,'');
+      return value.replaceAll(/[^\d-]/g,'');
     }
 
     if(this.type === "CURRENCY") {
@@ -65,26 +65,21 @@ export class BluInput {
   }
 
   public validate$(): Observable<string> {
-    return this.value$.pipe(
-      take(1),
-      map((value: string) => {
-        value = this.removeFormatting(value);
-        if(!this.required && (value === "" || !value)) {
-          this.isValid = true;
-          return value;
-        }
-        if(this.regexService.isValidString(value, this.type)) {
-          this.isValid = true;
-          return value;
-        }
-        this.isValid = false
-        return "";
-      })
-    );
+      let value = this.removeFormatting(this.value);
+      if(!this.required && (value === "" || !value)) {
+        this.isValid = true;
+        return of(value);
+      }
+      if(this.regexService.isValidString(value, this.type)) {
+        this.isValid = true;
+        return of(value);
+      }
+      this.isValid = false
+      return of("");
   }
 
   public clearValueAndValidators(): void {
-    this.value$.next("");
+    this.value = "";
     this.isValid = true;
   }
 }

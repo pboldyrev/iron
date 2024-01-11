@@ -35,11 +35,11 @@ export class AddCustomFormComponent implements AfterContentChecked {
 
     this.asset$.subscribe((asset: Asset) => {
       if(asset.assetName && this.assetNameInput) {
-        this.assetNameInput.value$.next(asset.assetName);
+        this.assetNameInput.value = asset.assetName;
         this.isContentSet = true;
       }
       if(asset.appreciationRate && this.appreciationRateInput) {
-        this.appreciationRateInput.value$.next(asset.appreciationRate.toString());
+        this.appreciationRateInput.value = asset.appreciationRate.toString();
         this.isContentSet = true;
       }
     });
