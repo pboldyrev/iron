@@ -53,18 +53,14 @@ export class ValueHistoryComponent {
   ) {}
 
   public onAddEntry(): void {
-    combineLatest([
-      this.valueInput.validate$(),
-      this.dateInput.validate$(),
-    ]).pipe(
-      take(1),
-      filter((input: any) => {
-        return this.verifyNewEntry(input);
-      }),
-      mergeMap((input: any) => {
-        return this.addEntry$(input);
-      })
-    ).subscribe({
+    const valueInput = this.valueInput.validate();
+    const dateInput = this.dateInput.validate();
+
+    if(!this.verifyNewEntry(valueInput, dateInput)) {
+      return;
+    }
+
+    this.addEntry$(valueInput, dateInput).subscribe({
       next: (timestamp: string) => {
         this.toastService.showToast("Successfully added the entry for " + new Date(timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
         this.valueInput.clearValueAndValidators();
@@ -88,13 +84,7 @@ export class ValueHistoryComponent {
     return (new Date(ms)).toLocaleDateString('en-US', {timeZone: 'UTC'});
   }
 
-  private addEntry$([
-    value,
-    date,
-  ]: [
-    string,
-    string
-  ]): Observable<string> {
+  private addEntry$(value: string, date: string): Observable<string> {
     const newValue: AssetValue = {
       timestamp: new Date(date).valueOf(),
       totalValue: parseFloat(value),
@@ -107,13 +97,7 @@ export class ValueHistoryComponent {
     );
   }
 
-  private verifyNewEntry([
-    value,
-    date
-  ]: [
-    string,
-    string
-  ]): boolean {
+  private verifyNewEntry(value: string, date: string): boolean {
     if (!value || !date) {
       this.toastService.showToast("Please fill in the date and value fields with valid values", FeedbackType.ERROR);
       return false;

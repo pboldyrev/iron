@@ -45,30 +45,25 @@ export class AddCustomFormComponent implements AfterContentChecked {
     });
   }
 
-  public onSubmit$(): Observable<Asset> {
-    return combineLatest([
-      this.assetNameInput.validate$(),
-      this.appreciationRateInput.validate$(),
-      this.isAdd ? this.curValueInput.validate$() : of(''),
-      this.unitsInput.validate$(),
-    ]).pipe(
-      take(1),
-      map(([assetName, appreciationRate, curValue, units]: [string, string, string, string]) => {
-        if(!assetName || !appreciationRate || !units) {
-          return {};
-        }
+  public onSubmit(): Asset {
+    const assetName = this.assetNameInput.validate();
+    const appreciationRate = this.appreciationRateInput.validate();
+    const curValue = this.isAdd ? this.curValueInput.validate() : ''
+    const units = this.unitsInput.validate();
 
-        let assetObj: Asset = {
-          assetName: assetName,
-          appreciationRate: parseFloat(appreciationRate),
-        };
+    if(!assetName || !appreciationRate || !units) {
+      return {};
+    }
 
-        if(this.isAdd) {
-          assetObj.curTotalValue = parseFloat(curValue);
-        }
-        
-        return assetObj;
-      }),
-    )
+    let assetObj: Asset = {
+      assetName: assetName,
+      appreciationRate: parseFloat(appreciationRate),
+    };
+
+    if(this.isAdd) {
+      assetObj.curTotalValue = parseFloat(curValue);
+    }
+    
+    return assetObj;
   }
 }

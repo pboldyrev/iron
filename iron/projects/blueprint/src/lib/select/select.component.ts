@@ -35,14 +35,14 @@ export class BluSelect implements AfterContentInit {
     this.isValid = true;
   }
 
-  public validate$(): Observable<string> {
+  public validate(): string {
     this.isValid = true;
 
     if(!this.selected || this.options.indexOf(this.selected) === -1) {
       this.isValid = false;
-      return of('');
+      return '';
     }
 
-    return of(this.selected);
+    return this.selected;
   }
 }

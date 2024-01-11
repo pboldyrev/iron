@@ -74,97 +74,87 @@ export class LoginPageComponent {
     this.clearAuth();
     this.isSendCodeSubmitting = true;
 
-    combineLatest([
-      this.phoneInput.validate$(),
-      this.inviteCodeInput.validate$(),
-    ])
-    .pipe(
-      mergeMap(([phoneNumber, inviteCode]: [string, string]) => {
-        if (!phoneNumber) {
-          this.isSendCodeSubmitting = false;
-          return of('');
-        }
+    const phone = this.phoneInput.validate();
+    const inviteCode = this.inviteCodeInput.validate();
 
-        if(inviteCode !== '42096') {
-          this.isSendCodeSubmitting = false;
+    if (!phone) {
+      this.isSendCodeSubmitting = false;
+      return;
+    }
+
+    if(inviteCode !== '42096') {
+      this.isSendCodeSubmitting = false;
+      this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
+      return;
+    }
+
+    this.phoneNumber = parseInt(phone);
+
+    this.authService.submitPhoneNumber$(this.phoneNumber).subscribe({
+      next: (methodId: string) => {
+        if(methodId === 'invalidInviteCode') {
+          this.inviteCodeInput.isValid = false;
           this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
-          return of('invalidInviteCode');
+          this.isSendCodeSubmitting = false;
+          return;
         }
-
-        this.phoneNumber = parseInt(phoneNumber);
-
-        return this.authService.submitPhoneNumber$(this.phoneNumber);
-      })
-    ).subscribe({
-        next: (methodId: string) => {
-          if(methodId === 'invalidInviteCode') {
-            this.inviteCodeInput.isValid = false;
-            this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
-            this.isSendCodeSubmitting = false;
-            return;
-          }
-          if(!methodId) {
-            this.isSendCodeSubmitting = false;
-            return;
-          }
-          this.methodId = methodId;
-          this.showOTPDialog = true;
-          this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_PHONE);
+        if(!methodId) {
           this.isSendCodeSubmitting = false;
-          this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);
-        },
-        error: () => {
-          this.phoneInput.customFeedback = TEXTS.UNKNWON_LOGIN_ERROR;
-          this.isSendCodeSubmitting = false;
-          this.analyticsService.track(ANALYTICS.LOGIN_PHONE_FAILED);
-        },
-      });
+          return;
+        }
+        this.methodId = methodId;
+        this.showOTPDialog = true;
+        this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_PHONE);
+        this.isSendCodeSubmitting = false;
+        this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);
+      },
+      error: () => {
+        this.phoneInput.customFeedback = TEXTS.UNKNWON_LOGIN_ERROR;
+        this.isSendCodeSubmitting = false;
+        this.analyticsService.track(ANALYTICS.LOGIN_PHONE_FAILED);
+      },
+    });
   }
 
   public onConfirmCode(): void {
     this.error$.next('');
     this.isCheckTokenSubmitting = true;
-    this.isCodeValid$().subscribe((code: string) => {
-      if(!code){
-        this.isCheckTokenSubmitting = false;
-        this.error$.next(TEXTS.INCORRECT_CODE);
-        return;
-      }
 
-      this.authService.checkPhoneCode$(
-        this.methodId, this.phoneNumber, code
-      ).subscribe({
-        next: () => {
-          this.navigationService.navigate('/dashboard');
-          this.toastService.showToast("Login successful", FeedbackType.SUCCESS);
-          this.isCheckTokenSubmitting = false;
-          this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_CODE);
-        },
-        error: (error: HttpErrorResponse) => {
-          if(error.status === 400) {
-            this.error$.next(TEXTS.INCORRECT_CODE);
-          } else {
-            this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
-          }
-          this.isCheckTokenSubmitting = false;
-          this.analyticsService.track(ANALYTICS.LOGIN_CODE_FAILED);
-        },
-      });
+    const code = this.getCode();
+
+    if(!code){
+      this.isCheckTokenSubmitting = false;
+      this.error$.next(TEXTS.INCORRECT_CODE);
+      return;
+    }
+
+    this.authService.checkPhoneCode$(
+      this.methodId, this.phoneNumber, code
+    ).subscribe({
+      next: () => {
+        this.navigationService.navigate('/dashboard');
+        this.toastService.showToast("Login successful", FeedbackType.SUCCESS);
+        this.isCheckTokenSubmitting = false;
+        this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_CODE);
+      },
+      error: (error: HttpErrorResponse) => {
+        if(error.status === 400) {
+          this.error$.next(TEXTS.INCORRECT_CODE);
+        } else {
+          this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
+        }
+        this.isCheckTokenSubmitting = false;
+        this.analyticsService.track(ANALYTICS.LOGIN_CODE_FAILED);
+      },
     });
   }
 
-  private isCodeValid$(): Observable<string> {
-    return this.codeInput.validate$().pipe(
-      take(1),
-      map(
-        (codeValue: string) => {
-          if (codeValue && codeValue.length === 6) {
-            return codeValue;
-          }
-          return '';
-        },
-      ),
-    );
+  private getCode(): string {
+    const code = this.codeInput.validate();
+    if (code && code.length === 6) {
+      return code;
+    }
+    return '';
   }
 
   private clearAuth(): void {

@@ -41,38 +41,33 @@ export class AddStockFormComponent implements AfterContentChecked {
     });
   }
 
-  public onSubmit$(): Observable<Asset> {
-    return combineLatest([
-      this.tickerInput.validate$(),
-      this.purchaseDateInput.validate$(),
-      this.unitsInput.validate$(),
-    ]).pipe(
-      take(1),
-      map(([ticker, purchaseDate, units]: [string, string, string]) => {
-        const purchaseDateObj = new Date(purchaseDate);
-        
-        if(purchaseDateObj.getFullYear() < 1900) {
-          this.purchaseDateInput.isValid = false;
-          this.purchaseDateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
-          return {};
-        }
+  public onSubmit(): Asset {
+    const ticker = this.tickerInput.validate();
+    const purchaseDate = this.purchaseDateInput.validate();
+    const units = this.unitsInput.validate();
 
-        if(purchaseDateObj > new Date()) {
-          this.purchaseDateInput.isValid = false;
-          this.purchaseDateInput.customFeedback = "We do not support future purchases.";
-          return {};
-        }
-
-        if(!ticker || !purchaseDate || !units) {
-          return {};
-        }
+    const purchaseDateObj = new Date(purchaseDate);
         
-        return {
-          ticker: ticker,
-          purchaseDate: new Date(purchaseDate),
-          units: parseInt(units)
-        };
-      }),
-    )
+    if(purchaseDateObj.getFullYear() < 1900) {
+      this.purchaseDateInput.isValid = false;
+      this.purchaseDateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
+      return {};
+    }
+
+    if(purchaseDateObj > new Date()) {
+      this.purchaseDateInput.isValid = false;
+      this.purchaseDateInput.customFeedback = "We do not support future purchases.";
+      return {};
+    }
+
+    if(!ticker || !purchaseDate || !units) {
+      return {};
+    }
+    
+    return {
+      ticker: ticker,
+      initTimestamp: purchaseDateObj.valueOf(),
+      curUnits: parseInt(units)
+    };
   }
 }

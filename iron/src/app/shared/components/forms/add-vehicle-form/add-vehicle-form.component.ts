@@ -68,64 +68,67 @@ export class AddVehicleFormComponent implements AfterContentChecked {
     });
   }
 
-  public onSubmit$(): Observable<Asset> {
-    return combineLatest([
-      this.vinInput.validate$(),
-      this.mileageInput.validate$(),
-      this.dateInput.validate$(),
-      this.priceInput.validate$(),
-      this.nicknameInput.validate$(),
-    ]).pipe(
-      take(1),
-      map(([vin, mileage, date, price, nickname]: [string, string, string, string, string]) => {
-        let isValid = 
-          this.vinInput.isValid &&
-          this.mileageInput.isValid &&
-          this.nicknameInput.isValid;
+  public onSubmit(): Asset {
+    const vin = this.vinInput.validate();
+    const mileage = this.mileageInput.validate();
+    const date = this.dateInput.validate();
+    const price = this.priceInput.validate();
+    const nickname = this.nicknameInput.validate();
 
-        if (this.isAdd) {
-          isValid = isValid &&
-            this.dateInput.isValid &&
-            this.priceInput.isValid;
-        }
+    let isInputValid = this.validateInputs();
 
-        const localeDate = new Date(date);
+    const utcDate = new Date((new Date(date)).toLocaleDateString('en-US', {timeZone: 'UTC'}));
+    
+    if(!this.isDateValid(utcDate) || !isInputValid) {
+      return {};
+    }
 
-        const utcDate = new Date(localeDate.toLocaleDateString('en-US', {timeZone: 'UTC'}));
+    let customAttributes: VehicleCustomAttributes = {
+      vin: vin,
+      mileage: parseInt(mileage),
+      nickName: nickname,
+    };
 
-        if(utcDate.getFullYear() < 1900 && this.isAdd) {
-          this.dateInput.isValid = false;
-          this.dateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
-          isValid = false;
-        }
+    if(this.isAdd) {
+      customAttributes = {
+        ...customAttributes,
+        initTimestamp: utcDate.valueOf(),
+        initTotalValue: parseFloat(price),
+      } as VehicleCustomAttributes
+    }
 
-        if(utcDate > new Date() && this.isAdd) {
-          this.dateInput.isValid = false;
-          this.dateInput.customFeedback = "We do not support future purchases.";
-          isValid = false;
-        }
-        
-        if(!isValid) {
-          return {};
-        }
+    return customAttributes;
+  }
 
-        let customAttributes: VehicleCustomAttributes = {
-          vin: vin,
-          mileage: parseInt(mileage),
-          nickName: nickname,
-        };
+  private isDateValid(utcDate: Date): boolean {
+    if(utcDate.getFullYear() < 1900 && this.isAdd) {
+      this.dateInput.isValid = false;
+      this.dateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
+      return false;
+    }
 
-        if(this.isAdd) {
-          customAttributes = {
-            ...customAttributes,
-            initTimestamp: new Date(utcDate).valueOf(),
-            initTotalValue: parseFloat(price),
-          } as VehicleCustomAttributes
-        }
+    if(utcDate > new Date() && this.isAdd) {
+      this.dateInput.isValid = false;
+      this.dateInput.customFeedback = "We do not support future purchases.";
+      return false;
+    }
 
-        return customAttributes;
-      }),
-    )
+    return true;
+  }
+
+  private validateInputs(): boolean {
+    let isValid = 
+        this.vinInput.isValid &&
+        this.mileageInput.isValid &&
+        this.nicknameInput.isValid;
+
+    if (this.isAdd) {
+      isValid = isValid &&
+        this.dateInput.isValid &&
+        this.priceInput.isValid;
+    }
+
+    return isValid;
   }
 
   public onSwitchToCustom(): void {

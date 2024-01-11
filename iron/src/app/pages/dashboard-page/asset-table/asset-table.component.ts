@@ -19,6 +19,7 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { AddAssetPopupComponent } from '../../../add-asset-selection/add-asset-popup/add-asset-popup.component';
 import { ToastService } from '../../../shared/services/toast.service';
 import { NavigationService } from '../../../shared/services/navigation-service.service';
+import { DisplayIntegerPipe } from 'projects/blueprint/src/lib/common/pipes/display-integer';
 
 export type AssetTableColumn = 
   "account" | 
@@ -46,6 +47,7 @@ export type AssetTableColumn =
     BluValidationFeedback,
     BluLink,
     AddAssetPopupComponent,
+    DisplayIntegerPipe
   ],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.scss'
@@ -110,11 +112,11 @@ export class AssetTableComponent {
     });
   }
 
-  public getPercentChange(): number {
-    if(!this.initTotal || !this.curTotal || this.initTotal === 0) {
+  public getPercentChange(init: number, cur: number): number {
+    if(!init || !cur || init === 0) {
       return 0;
     }
-    return Math.abs(Math.round(((this.curTotal-this.initTotal) / this.initTotal) * 100));
+    return Math.abs(Math.round(((cur-init) / init) * 100));
   }
 
   public onAddAsset(): void {

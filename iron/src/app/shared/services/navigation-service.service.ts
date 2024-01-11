@@ -26,7 +26,7 @@ export class NavigationService {
   }
 
   public back(): void {
-    if (this.previousUrl !== undefined && !((this.previousUrl ?? '').includes('/add'))) {
+    if ((this.previousUrl !== undefined  && !((this.previousUrl ?? '').includes('/add'))) || ((this.previousUrl ?? '').includes('/add') && (this.router.url).includes('/add'))) {
       this.location.back();
     } else {
       this.router.navigate([ROOT_URL], { replaceUrl: true });

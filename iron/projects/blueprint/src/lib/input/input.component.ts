@@ -64,18 +64,18 @@ export class BluInput {
     return value;
   }
 
-  public validate$(): Observable<string> {
+  public validate(): string {
       let value = this.removeFormatting(this.value);
       if(!this.required && (value === "" || !value)) {
         this.isValid = true;
-        return of(value);
+        return value;
       }
       if(this.regexService.isValidString(value, this.type)) {
         this.isValid = true;
-        return of(value);
+        return value;
       }
       this.isValid = false
-      return of("");
+      return "";
   }
 
   public clearValueAndValidators(): void {

@@ -70,26 +70,15 @@ export class AddAssetFormComponent {
   public onSubmit(): void {
     this.isLoading$.next(true);
 
-    combineLatest([
-      this.asset$,
-      this.getSubForm()?.onSubmit$() ?? of({}),
-      this.accountInput.validate$(),
-    ]).pipe(
+    const customAttributes = this.getSubForm()?.onSubmit() ?? {};
+    const account = this.accountInput.validate();
+
+    this.asset$.pipe(
       take(1),
-      filter(([
-        asset,
-        customAttributes,
-        account,
-      ]: [
-        Asset, Asset, string
-      ]) => {
+      filter((asset: Asset) => {
         return this.filterIncomplete(customAttributes, account);
       }),
-      mergeMap(([
-        asset,
-        customAttributes,
-        account,
-      ]) => {
+      mergeMap((asset) => {
         const assetPayload: Asset = {
           account: account,
           assetType: this.assetType,
