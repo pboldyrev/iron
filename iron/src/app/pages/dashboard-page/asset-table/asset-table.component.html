@@ -45,7 +45,7 @@
                 {{ TEXTS.ASSET_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                <blu-text type="primary">{{asset.assetName}}</blu-text>
+                <blu-text type="primary">{{asset.assetName}} {{asset.nickName ? ' (' + asset.nickName + ')' : ''}}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
             </mat-footer-cell>
