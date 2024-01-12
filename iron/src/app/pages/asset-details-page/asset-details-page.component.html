@@ -35,15 +35,16 @@
                         'asset-details-page-hidden': isDetailsLoading$ | async
                     }" 
                     [dynamicHeight]="true"
+                    (selectedTabChange)="onTabClick($event)"
                 >
-                    <mat-tab label="Value history">
+                    <mat-tab label="Historical value">
                         <div class="asset-details-chart-container">
                             <canvas id="detailChart">{{ historyChart }}</canvas>
                         </div>
                         <div *ngIf="showValueHistory$ | async" class="asset-details-value-history-wrapper">
                             <app-value-history
                                 [assetValues]="(assetValues$ | async) ?? []"
-                                [assetId]="(assetId$ | async) ?? ''"
+                                [assetId]="assetId"
                                 [isLoading$]="isDetailsLoading$"
                                 #valueHistory
                             ></app-value-history>
@@ -63,6 +64,55 @@
                             >
                                 Want to <blu-link (click)="onShowValueHistory()">modify values manually</blu-link>?
                             </blu-text>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Future projection">
+                        <div class="asset-details-chart-container">
+                            <canvas id="projectionChart">{{ projectionChart }}</canvas>
+                        </div>
+                        <div class="asset-details-projection-summary">
+                            <blu-text>
+                                <blu-text type="secondary">After </blu-text>
+                                {{selectedTimeframe}}<blu-text type="secondary">, at a </blu-text>
+                                {{selectedRate}} depreciation rate<blu-text type="secondary">, your </blu-text>
+                                {{(asset$ | async)?.assetName}}<blu-text type="secondary"> will likely be worth </blu-text>
+                                <blu-text weight="bold">${{valueProjection}}</blu-text>.
+                            </blu-text>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="asset-details-input">
+                                    <blu-input 
+                                        [fullWidth]="true"
+                                        [feedbackType]="FeedbackType.ERROR" 
+                                        [required]="true"
+                                        tooltip="The rate at which you expect the vehicle to lose value. The industry average is 0.15."
+                                        label="Depreciation rate"
+                                        type="NUMBER"
+                                        initValue="0.15"
+                                        #appreciationRateInput
+                                    ></blu-input>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="asset-details-input asset-details-input-second">
+                                    <blu-select 
+                                        [required]="true"
+                                        [options]="projectionTimeframes"
+                                        [selected]="projectionTimeframes[0]"
+                                        label="Projection timeframe"
+                                        type="NUMBER"
+                                        #timeframeInput
+                                    ></blu-select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="">
+                                    <blu-button [fullWidth]="true" (click)="updateProjectionChart()">
+                                        Update projection
+                                    </blu-button>
+                                </div>
+                            </div>
                         </div>
                     </mat-tab>
                     <mat-tab label="Asset details">

@@ -19,15 +19,17 @@ export class BluSelect implements AfterContentInit {
   @Input() required = false;
   @Input() label: string | null = null;
   @Input() disabled = false;
+  @Input() selected: string = '';
 
-  public selected: string = '';
   public isValid = true;
 
   public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
   public FeedbackType = FeedbackType;
 
   ngAfterContentInit() {
-    this.options.unshift(this.selected);
+    if(!this.selected) {
+      this.options.unshift(this.selected);
+    }
   }
 
   public updateValue(value: string): void {

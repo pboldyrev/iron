@@ -7,14 +7,14 @@ import { AssetValue } from '../constants/constants';
 })
 export class ChartService {
 
-  public getOptions(chartId: string, data: AssetValue[]): ChartConfiguration  {
+  public getOptions(data: AssetValue[]): ChartConfiguration  {
     let xAxis, yAxis;
 
     [xAxis, yAxis] = this.getAxisData(data);
 
     return {
       type: 'line',
-      data: this.getDataSet(chartId, data),
+      data: this.getDataSet(data),
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -114,7 +114,7 @@ export class ChartService {
     }
   }
 
-  public getDataSet(chartId: string, data: AssetValue[]) {
+  public getDataSet(data: AssetValue[]) {
     let xAxis, yAxis;
 
     [xAxis, yAxis] = this.getAxisData(data);
@@ -147,29 +147,16 @@ export class ChartService {
           pointBorderColor: this.getBorderColor(data),
           pointBackgroundColor: this.getBorderColor(data),
           fill: true,
-          backgroundColor: this.getBackgroundColor(chartId, data),
+          backgroundColor: (context: any) => {
+            const ctx = context.chart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 340);
+            gradient.addColorStop(0, this.getBorderColor(data));
+            gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+            return gradient;
+          },
         }
       ],
     }
-  }
-
-  private getBackgroundColor(chartId: string, data: AssetValue[]): CanvasGradient | string {
-    const ctx = <HTMLCanvasElement> document.getElementById(chartId);
-
-    if(!ctx || !ctx?.getContext('2d') || !ctx?.getContext('2d')?.createLinearGradient(0, 0, 0, 250)) {
-      // no gradient
-      return '#181818'
-    }
-
-    let gradientColor: string;
-
-    gradientColor = this.getBorderColor(data);
-
-    const gradient = ctx?.getContext('2d')!.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, gradientColor);
-    gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-    return gradient;
   }
 
   public getBorderColor(data: AssetValue[]): string {

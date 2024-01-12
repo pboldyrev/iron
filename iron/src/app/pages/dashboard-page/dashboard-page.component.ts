@@ -63,11 +63,11 @@ export class DashboardPageComponent implements AfterContentInit {
       skip(1),
     ).subscribe((data: AssetValue[]) => {
       if(this.dashboardChart) {
-        this.dashboardChart.data = this.chartService.getDataSet('dashboardChart', data);
+        this.dashboardChart.data = this.chartService.getDataSet(data);
         this.dashboardChart.options.borderColor = this.chartService.getBorderColor(data);
         this.dashboardChart.update();
       } else {
-        this.dashboardChart = new Chart('dashboardChart', this.chartService.getOptions('dashboardChart', data));
+        this.dashboardChart = new Chart('dashboardChart', this.chartService.getOptions(data));
       }
     });
   }
