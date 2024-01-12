@@ -1,4 +1,7 @@
-<div class="value-history-wrapper">
+<div class="value-history-chart-container">
+    <canvas id="detailChart">{{ historyChart }}</canvas>
+</div>
+<div class="value-history-wrapper mb-3" *ngIf="showValueHistory">
     <mat-table #table [dataSource]="assetValues">
         <ng-container matColumnDef="date">
             <mat-header-cell *matHeaderCellDef>
@@ -60,4 +63,26 @@
         <mat-row *matRowDef="let row; columns: DISPLAYED_COLUMNS;"></mat-row>
         <mat-footer-row *matFooterRowDef="DISPLAYED_COLUMNS"></mat-footer-row>
     </mat-table>
+</div>
+<div class="value-history-footer" *ngIf="!isAssetCustom">
+    <blu-label
+        class="asset-details-page-tooltip"
+        type="tertiary" 
+        tooltip="Come back daily to see the updated value." 
+        label="This asset is tracked automatically"
+    ></blu-label>
+    <blu-text 
+        *ngIf="!isAssetCustom && !showValueHistory"
+        type="secondary"
+        size="small"
+    >
+        Want to <blu-link (click)="toggleValueHistory()">modify values manually</blu-link>?
+    </blu-text>
+    <blu-text 
+        *ngIf="!isAssetCustom && showValueHistory"
+        type="secondary"
+        size="small"
+    >
+        <blu-link (click)="toggleValueHistory()">Hide table</blu-link>
+    </blu-text>
 </div>

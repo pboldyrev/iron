@@ -34,7 +34,7 @@
 ></app-add-custom-form>
 <div class="row g-3">
     <ng-container *ngIf="isAdd else isUpdate">
-        <div class="col-md-4 order-md-1 order-2">
+        <div class="col-md-4 order-md-1 order-2 pt-3">
             <blu-button 
                 [fullWidth]="true" 
                 type="secondary" 
@@ -42,7 +42,7 @@
                 iconName="backArrow"
             >{{ TEXTS.BTN_BACK }}</blu-button>
         </div>
-        <div class="col-md-8 order-md-2 order-1">
+        <div class="col-md-8 order-md-2 order-1 pt-3">
             <blu-button
                 [fullWidth]="true" 
                 type="primary"

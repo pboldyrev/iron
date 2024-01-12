@@ -21,6 +21,9 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DISPLAYED_COLUMNS } from './value-history.constants';
 import { BluLabel } from 'projects/blueprint/src/lib/label/label.component';
+import { Chart } from 'chart.js';
+import { ChartService } from 'src/app/shared/services/chart.service';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 
 export type ValueChange = {
   amount?: number,
@@ -31,7 +34,7 @@ export type ValueChange = {
 @Component({
   selector: 'app-value-history',
   standalone: true,
-  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag],
+  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink],
   templateUrl: './value-history.component.html',
   styleUrl: './value-history.component.scss'
 })
@@ -39,18 +42,37 @@ export class ValueHistoryComponent {
   @ViewChild('value') valueInput!: BluInput;
   @ViewChild('date') dateInput!: BluInput;
   
-  @Input() assetValues: AssetValue[] = [];
-  @Input() assetId: string = "";
-  @Input() isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  @Input() assetValues = [] as AssetValue[];
+  @Input() assetId = "";
+  @Input() isAssetCustom = false;
+  @Input() isLoading$= new BehaviorSubject<boolean>(false);
 
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
   public DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
 
+  showValueHistory = this.isAssetCustom;
+  historyChart: Chart | null = null;
+
   constructor(
     private dataService: DataService,
     private toastService: ToastService,
+    private chartService: ChartService,
   ) {}
+
+  public updateChart(data: AssetValue[]): void {
+    if(this.historyChart) {
+      this.historyChart.data = this.chartService.getDataSet(data);
+      this.historyChart.options.borderColor = this.chartService.getBorderColor(data);
+      this.historyChart.update();
+    } else {
+      this.historyChart = new Chart('detailChart', this.chartService.getOptions(data));
+    }
+  }
+
+  public toggleValueHistory(): void {
+    this.showValueHistory = !this.showValueHistory;
+  }
 
   public onAddEntry(): void {
     const valueInput = this.valueInput.validate();

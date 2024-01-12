@@ -1,0 +1,43 @@
+<div class="future-projection-chart-container">
+    <canvas id="projectionChart">{{ projectionChart }}</canvas>
+</div>
+<blu-modal>
+    <div class="future-projection-summary">
+        <blu-text>
+            <blu-text type="secondary">After </blu-text>
+            {{selectedTimeframe}}<blu-text type="secondary">, at a </blu-text>
+            {{selectedRate}} depreciation rate<blu-text type="secondary">, your </blu-text>
+            {{assetName}}<blu-text type="secondary"> will likely be worth </blu-text>
+            <blu-text weight="bold">${{valueProjection}}</blu-text>.
+        </blu-text>
+    </div>
+<div class="row">
+    <div class="col-sm-6">
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [required]="true"
+            tooltip="The rate at which you expect the vehicle to lose value. The industry average is 0.15."
+            label="Depreciation rate"
+            type="NUMBER"
+            initValue="0.15"
+            #depreciationRateInput
+        ></blu-input>
+    </div>
+    <div class="col-sm-6">
+        <blu-select 
+            [required]="true"
+            [options]="projectionTimeframes"
+            [selected]="projectionTimeframes[0]"
+            label="Projection timeframe"
+            type="NUMBER"
+            #timeframeInput
+        ></blu-select>
+    </div>
+    <div class="col-12 pt-3">
+        <blu-button [fullWidth]="true" (click)="updateChart()">
+            Update projection
+        </blu-button>
+    </div>
+</div>
+</blu-modal>

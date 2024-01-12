@@ -23,19 +23,19 @@ import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { LoadingStateComponent } from 'src/app/loading-state/loading-state.component';
+import { FutureProjectionComponent } from 'src/app/future-projection/future-projection.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect, LoadingStateComponent],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect, LoadingStateComponent, FutureProjectionComponent],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
 export class AssetDetailsPageComponent implements AfterContentInit {
-  @ViewChild("appreciationRateInput") appreciationRateInput!: BluInput;
-  @ViewChild("timeframeInput") timeframeInput!: BluSelect;
-
+  @ViewChild("futureProjection") futureProjection!: FutureProjectionComponent;
+  @ViewChild("valueHistory") valueHistory!: ValueHistoryComponent;
   AssetType = AssetType;
   FeedbackType = FeedbackType;
 
@@ -43,17 +43,11 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   assetId = "";
   assetValues$ = new BehaviorSubject<AssetValue[]>([]);
   isDetailsLoading$ = new BehaviorSubject<boolean>(false);
-
-  valueProjection = "";
-  selectedTimeframe = "";
-  selectedRate = "";
+  isValuesLoading$ = new BehaviorSubject<boolean>(false);
   
   displayAssetName = "";
   displayAssetValue = "";
-  historyChart: Chart | null = null;
-  projectionChart: Chart | null = null;
   showManualEntry = false;
-  projectionTimeframes = ['1 year', '2 years', '3 years', '4 years', '5 years', '7 years', '10 years'];
 
   showValueHistory$ = this.asset$.pipe(
     take(1),
@@ -76,75 +70,26 @@ export class AssetDetailsPageComponent implements AfterContentInit {
     this.assetValues$.pipe(
       skip(1), 
     ).subscribe((data: AssetValue[]) => {
-      if(this.historyChart) {
-        this.historyChart.data = this.chartService.getDataSet(data);
-        this.historyChart.options.borderColor = this.chartService.getBorderColor(data);
-        this.historyChart.update();
-      } else {
-        this.historyChart = new Chart('detailChart', this.chartService.getOptions(data));
-      }
+      this.valueHistory.updateChart(data);
     });
   }
 
   onTabClick(tab: MatTabChangeEvent) {
+    if(tab.index === 0) {
+      this.assetValues$.pipe(
+        skip(1),
+        take(1)
+      ).subscribe((data: AssetValue[]) => {
+        this.valueHistory.updateChart(data);
+      });
+    }
     if(tab.index === 1) {
-      this.updateProjectionChart();
+      this.futureProjection.updateChart();
     }
-  }
-
-  updateProjectionChart(): void {
-    if(!this.appreciationRateInput.validate() || 
-        !this.timeframeInput.validate()) {
-      return;
-    }
-
-    const rate = parseFloat(this.appreciationRateInput.value);
-    const timeframe = this.timeframeInput.selected;
-    const timeframeAsNum = parseInt(timeframe.split(' ')[0]);
-    this.selectedTimeframe = timeframe;
-    this.selectedRate = (rate * 100) + "%";
-    this.getValueProjections$(rate, timeframeAsNum).subscribe((projections: AssetValue[]) => {
-        if(this.projectionChart) {
-          this.projectionChart.data = this.chartService.getDataSet(projections);
-          this.projectionChart.options.borderColor = this.chartService.getBorderColor(projections);
-          this.projectionChart.update();
-        } else {
-          this.projectionChart = new Chart('projectionChart', this.chartService.getOptions(projections));
-        }
-    });
-  }
-
-  private getValueProjections$(appreciationRate: number, years: number): Observable<AssetValue[]> {
-    return this.assetValues$.pipe(map((assetValues: AssetValue[]) => {
-      if(assetValues.length === 0) {
-        return [] as AssetValue[];
-      }
-
-      let latestValue = assetValues[assetValues.length-1].totalValue;
-      const latestDate = assetValues[assetValues.length-1].timestamp;
-
-      const projection = [] as AssetValue[];
-      const monthInMs = 2629800000;
-
-      for(let i = 1; i < 12 * years; ++i) {
-        latestValue = latestValue * (1-(appreciationRate/12));
-        projection.push({
-          timestamp: latestDate + i * monthInMs,
-          totalValue: latestValue,
-          units: 1
-        })
-      }
-      this.valueProjection = latestValue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      return projection;
-    }));
-  }
-
-  public onShowValueHistory(): void {
-    this.showValueHistory$ = of(true);
   }
 
   private fetchAssetValue(assetId: string): void {
-    this.dataService.getAssetById$(assetId, this.isDetailsLoading$).pipe(
+    this.dataService.getAssetById$(assetId, this.isValuesLoading$).pipe(
       takeUntilDestroyed(),
       map((asset: Asset) => {
         this.asset$.next(asset);

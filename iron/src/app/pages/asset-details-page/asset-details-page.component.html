@@ -25,7 +25,7 @@
                         {{ displayAssetValue }}
                     </blu-heading>
                 </div>
-                <div *ngIf="(isDetailsLoading$ | async)" class="asset-details-loading-wrapper">
+                <div *ngIf="(isDetailsLoading$ | async) || (isValuesLoading$ | async)" class="asset-details-loading-wrapper">
                     <app-loading-state></app-loading-state>
                 </div>
                 <mat-tab-group 
@@ -36,84 +36,20 @@
                     (selectedTabChange)="onTabClick($event)"
                 >
                     <mat-tab label="Historical value">
-                        <div class="asset-details-chart-container">
-                            <canvas id="detailChart">{{ historyChart }}</canvas>
-                        </div>
-                        <div *ngIf="showValueHistory$ | async" class="asset-details-value-history-wrapper">
-                            <app-value-history
-                                [assetValues]="(assetValues$ | async) ?? []"
-                                [assetId]="assetId"
-                                [isLoading$]="isDetailsLoading$"
-                                #valueHistory
-                            ></app-value-history>
-                        </div>
-                        <div class="asset-details-footer">
-                            <blu-label
-                                *ngIf="(asset$ | async)?.assetType !== AssetType.Custom"
-                                class="asset-details-page-tooltip"
-                                type="tertiary" 
-                                tooltip="Come back daily to see the updated value." 
-                                label="This asset is tracked automatically"
-                            ></blu-label>
-                            <blu-text 
-                                *ngIf="!(showValueHistory$ | async)"
-                                type="secondary" 
-                                size="small"
-                            >
-                                Want to <blu-link (click)="onShowValueHistory()">modify values manually</blu-link>?
-                            </blu-text>
-                        </div>
+                        <app-value-history
+                            [assetValues]="(assetValues$ | async) ?? []"
+                            [assetId]="assetId"
+                            [isLoading$]="isDetailsLoading$"
+                            [isAssetCustom]="(asset$ | async)?.assetType === AssetType.Custom"
+                            #valueHistory
+                        ></app-value-history>
                     </mat-tab>
                     <mat-tab label="Future projection">
-                        <div class="asset-details-chart-container">
-                            <canvas id="projectionChart">{{ projectionChart }}</canvas>
-                        </div>
-                        <blu-modal>
-                            <div class="asset-details-projection-summary">
-                                <blu-text>
-                                    <blu-text type="secondary">After </blu-text>
-                                    {{selectedTimeframe}}<blu-text type="secondary">, at a </blu-text>
-                                    {{selectedRate}} depreciation rate<blu-text type="secondary">, your </blu-text>
-                                    {{(asset$ | async)?.assetName}}<blu-text type="secondary"> will likely be worth </blu-text>
-                                    <blu-text weight="bold">${{valueProjection}}</blu-text>.
-                                </blu-text>
-                            </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="asset-details-input">
-                                    <blu-input 
-                                        [fullWidth]="true"
-                                        [feedbackType]="FeedbackType.ERROR" 
-                                        [required]="true"
-                                        tooltip="The rate at which you expect the vehicle to lose value. The industry average is 0.15."
-                                        label="Depreciation rate"
-                                        type="NUMBER"
-                                        initValue="0.15"
-                                        #appreciationRateInput
-                                    ></blu-input>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="asset-details-input">
-                                    <blu-select 
-                                        [required]="true"
-                                        [options]="projectionTimeframes"
-                                        [selected]="projectionTimeframes[0]"
-                                        label="Projection timeframe"
-                                        type="NUMBER"
-                                        #timeframeInput
-                                    ></blu-select>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="">
-                                    <blu-button [fullWidth]="true" (click)="updateProjectionChart()">
-                                        Update projection
-                                    </blu-button>
-                                </div>
-                            </div>
-                        </div>
-                    </blu-modal>
+                        <app-future-projection
+                            [assetName]="(asset$ | async)?.assetName ?? ''"
+                            [assetValues]="(assetValues$ | async) ?? []"
+                            #futureProjection
+                        ></app-future-projection>
                     </mat-tab>
                     <mat-tab label="Asset details">
                         <app-asset-more-details
