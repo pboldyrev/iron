@@ -33,6 +33,7 @@
                         'asset-details-page-hidden': isDetailsLoading$ | async
                     }" 
                     [dynamicHeight]="true"
+                    [hidden]="(isDetailsLoading$ | async) || (isValuesLoading$ | async)"
                     (selectedTabChange)="onTabClick($event)"
                 >
                     <mat-tab label="Historical value">
