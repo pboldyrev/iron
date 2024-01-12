@@ -99,7 +99,7 @@ export class ValueHistoryComponent {
 
   private verifyNewEntry(value: string, date: string): boolean {
     if (!value || !date) {
-      this.toastService.showToast("Please fill in the date and value fields with valid values", FeedbackType.ERROR);
+      this.toastService.showToast("Please fill in the date and value fields with valid values.", FeedbackType.ERROR);
       return false;
     }
 

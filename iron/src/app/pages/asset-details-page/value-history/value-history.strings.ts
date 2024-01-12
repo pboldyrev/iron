@@ -4,5 +4,6 @@ export const TEXTS = {
     BUTTON_ADD_ASSET: "Save changes",
     BUTTON_ADD_ROW: "Save entry data",
     NO_ENTRIES: "No entries added",
-    FEEDBACK_FAILED_TO_SAVE: "Failed to add value, please try again."
+    FEEDBACK_FAILED_TO_SAVE: "Failed to add value, please try again.",
+    ADD_VALUE_BTN: "Add value"
 }

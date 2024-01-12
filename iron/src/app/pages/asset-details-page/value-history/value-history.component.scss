@@ -1,18 +1,21 @@
 .value-history-wrapper {
     min-width: var(--blu-width-3xl);
+    height: fit-content;
 }
 
 .mat-column-value {
     display: flex;
     justify-content: flex-end;
+    width: 100%;
 }
 
 .mat-column-date {
     min-width: var(--blu-width-xxl);
+    width: 100%;
+    height: fit-content;
 }
 
-.mat-column-action,
-.mat-column-addAction {
+.mat-column-action {
     min-width: var(--blu-width-l);
     max-width: var(--blu-width-l);
     display: flex;
