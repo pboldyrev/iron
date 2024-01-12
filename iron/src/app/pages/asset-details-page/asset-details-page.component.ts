@@ -22,11 +22,12 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
+import { LoadingStateComponent } from 'src/app/loading-state/loading-state.component';
 
 @Component({
   selector: 'app-asset-details-page',
   standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect],
+  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect, LoadingStateComponent],
   templateUrl: './asset-details-page.component.html',
   styleUrl: './asset-details-page.component.scss',
   encapsulation: ViewEncapsulation.None,

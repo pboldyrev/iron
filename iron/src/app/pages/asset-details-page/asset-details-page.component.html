@@ -1,9 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-11 col-sm-10 col-xl-8">
         <div class="asset-details-page-wrapper justify-content-center">
-            <blu-modal
-                padding="xl"
-            >
+            <blu-modal>
                 <div class="asset-details-page-button-wrapper">
                     <blu-button type="primary" iconName="backArrow" (click)="onBack()">Back</blu-button>
                     <blu-button 
@@ -27,8 +25,8 @@
                         {{ displayAssetValue }}
                     </blu-heading>
                 </div>
-                <div *ngIf="(isDetailsLoading$ | async)" class="asset-details-loading">
-                    <blu-spinner size="50"></blu-spinner>
+                <div *ngIf="(isDetailsLoading$ | async)" class="asset-details-loading-wrapper">
+                    <app-loading-state></app-loading-state>
                 </div>
                 <mat-tab-group 
                     [ngClass]="{
@@ -72,7 +70,7 @@
                         </div>
                         <blu-modal>
                             <div class="asset-details-projection-summary">
-                                <blu-text size="large">
+                                <blu-text>
                                     <blu-text type="secondary">After </blu-text>
                                     {{selectedTimeframe}}<blu-text type="secondary">, at a </blu-text>
                                     {{selectedRate}} depreciation rate<blu-text type="secondary">, your </blu-text>

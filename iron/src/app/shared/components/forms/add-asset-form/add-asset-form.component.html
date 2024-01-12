@@ -1,5 +1,5 @@
 <div class="add-asset-form-section-wrapper">
-    <div class="row">
+    <div class="row g-3">
         <div class="col">
             <blu-select
                 [label]="TEXTS.LABEL_ACCOUNT"
@@ -32,7 +32,7 @@
     [isAdd]="isAdd"
     #customForm
 ></app-add-custom-form>
-<div class="row add-asset-btn-row">
+<div class="row g-3">
     <ng-container *ngIf="isAdd else isUpdate">
         <div class="col-md-4 order-md-1 order-2">
             <blu-button 
@@ -54,7 +54,7 @@
         </div>
     </ng-container>
     <ng-template #isUpdate>
-        <div class="col-12">
+        <div class="col-12 pt-3">
             <blu-button
                 [fullWidth]="true" 
                 type="primary" 

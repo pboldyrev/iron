@@ -3,7 +3,6 @@
         [asset$]="asset$"
         [assetType]="(asset$ | async)?.assetType ?? AssetType.Custom"
         [isLoading$]="isLoading$"
-        (savedAsset$)="onSaved()"
         #addAssetForm
     ></app-add-asset-form>
 </div>

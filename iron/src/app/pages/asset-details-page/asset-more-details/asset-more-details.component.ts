@@ -42,10 +42,4 @@ export class AssetMoreDetailsComponent {
   public onSaveInit(): void {
     this.addAssetForm.onSubmit();
   }
-
-  public onSaved(): void {
-    this.asset$.pipe(take(1)).subscribe((asset: Asset) => {
-      this.toastService.showToast("Successfully updated " + asset.assetName, FeedbackType.SUCCESS);
-    });
-  }
 }

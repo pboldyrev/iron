@@ -29,11 +29,15 @@
     margin: var(--blu-margin-xl) 0;
 }
 
-.asset-details-loading {
+.asset-details-loading-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 40vh;
+}
+
+.asset-details-loading-content {
+    width: 50%;
 }
 
 .asset-details-page-tooltip {
