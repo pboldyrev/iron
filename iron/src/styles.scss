@@ -254,8 +254,8 @@ html {
   }
 
   .row {
-    --bs-gutter-x: 0px;
-    --bs-gutter-y: 0px;
+    --bs-gutter-x: var(--blu-space-s);
+    --bs-gutter-y: var(--blu-space-s);
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {

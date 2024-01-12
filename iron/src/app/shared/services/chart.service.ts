@@ -57,7 +57,7 @@ export class ChartService {
         scales: {
           x: {
             ticks: {
-              display: xAxis.length === 1,
+              display: true,
               autoSkip: true,
               maxRotation: 0,
               autoSkipPadding: 20,

@@ -71,7 +71,7 @@
                             <canvas id="projectionChart">{{ projectionChart }}</canvas>
                         </div>
                         <div class="asset-details-projection-summary">
-                            <blu-text>
+                            <blu-text size="large">
                                 <blu-text type="secondary">After </blu-text>
                                 {{selectedTimeframe}}<blu-text type="secondary">, at a </blu-text>
                                 {{selectedRate}} depreciation rate<blu-text type="secondary">, your </blu-text>
@@ -79,6 +79,7 @@
                                 <blu-text weight="bold">${{valueProjection}}</blu-text>.
                             </blu-text>
                         </div>
+                        <blu-modal>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="asset-details-input">
@@ -95,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="asset-details-input asset-details-input-second">
+                                <div class="asset-details-input">
                                     <blu-select 
                                         [required]="true"
                                         [options]="projectionTimeframes"
@@ -114,6 +115,7 @@
                                 </div>
                             </div>
                         </div>
+                    </blu-modal>
                     </mat-tab>
                     <mat-tab label="Asset details">
                         <app-asset-more-details

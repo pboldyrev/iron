@@ -1,29 +1,15 @@
 .add-asset-form-section-wrapper {
-    margin-bottom: var(--blu-margin-xxl);
-    padding-bottom: var(--blu-margin-l);
+    margin-bottom: var(--blu-margin-xl);
+    padding-bottom: var(--blu-margin-xl);
     border-bottom: var(--blu-border-tertiary);
 }
 
-.add-asset-input {
-    margin-bottom: var(--blu-margin-l);
-}
-
-.add-asset-input-second {
-    margin-left: var(--blu-margin-l);
+.add-asset-btn-row {
+    margin-top: var(--blu-margin-s);
 }
 
 @media only screen and (max-width: 767px) {
-    .add-asset-input-second {
-        margin-left: var(--blu-margin-none);
-    }
-    
     .add-asset-form-manage-accounts {
         margin-bottom: var(--blu-margin-l);
     }
-
-    .add-asset-two-btns {
-        display: flex;
-        flex-direction: column;
-        gap: var(--blu-space-s);
-    }    
 }

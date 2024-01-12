@@ -1,77 +1,67 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="add-vehicle-input">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.VIN_LABEL"
-                [required]="true"
-                [disabled]="(isLoading$ | async) ?? false || !isAdd"
-                [tooltip]="isAdd ? TOOLTIPS.VIN_ADD : TOOLTIPS.VIN_EDIT"
-                type="VIN"
-                #vin
-            ></blu-input>
-            <div class="add-vehicle-switch" *ngIf="isAdd">
-                <blu-text type="secondary">
-                    {{ TEXTS.OR }}
-                    <blu-link (click)="onSwitchToCustom()">
-                        {{ TEXTS.SWITCH }}
-                    </blu-link>
-                </blu-text>
-            </div>
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.VIN_LABEL"
+            [required]="true"
+            [disabled]="(isLoading$ | async) ?? false || !isAdd"
+            [tooltip]="isAdd ? TOOLTIPS.VIN_ADD : TOOLTIPS.VIN_EDIT"
+            type="VIN"
+            #vin
+        ></blu-input>
+        <div class="add-vehicle-switch" *ngIf="isAdd">
+            <blu-text type="secondary">
+                {{ TEXTS.OR }}
+                <blu-link (click)="onSwitchToCustom()">
+                    {{ TEXTS.SWITCH }}
+                </blu-link>
+            </blu-text>
         </div>
     </div>
     <div class="col-md-6">
-        <div class="add-vehicle-input add-vehicle-input-second">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.MILEAGE_LABEL"
-                [required]="false"
-                [disabled]="(isLoading$ | async) ?? false"
-                [tooltip]="isAdd ? TOOLTIPS.MILEAGE_ADD : TOOLTIPS.MILEAGE_EDIT"
-                type="INTEGER"
-                #mileage
-            ></blu-input>
-        </div>
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.MILEAGE_LABEL"
+            [required]="false"
+            [disabled]="(isLoading$ | async) ?? false"
+            [tooltip]="isAdd ? TOOLTIPS.MILEAGE_ADD : TOOLTIPS.MILEAGE_EDIT"
+            type="INTEGER"
+            #mileage
+        ></blu-input>
     </div>
     <div class="col-md-6" [hidden]="!isAdd">
-        <div class="add-vehicle-input">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.DATE_LABEL"
-                [required]="isAdd"
-                [disabled]="(isLoading$ | async) ?? false"
-                type="DATE"
-                #date
-            ></blu-input>
-        </div>
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.DATE_LABEL"
+            [required]="isAdd"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="DATE"
+            #date
+        ></blu-input>
     </div>
     <div class="col-md-6" [hidden]="!isAdd">
-        <div class="add-vehicle-input add-vehicle-input-second">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.PRICE_LABEL"
-                [required]="isAdd"
-                [disabled]="(isLoading$ | async) ?? false"
-                type="CURRENCY"
-                #price
-            ></blu-input>
-        </div>
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.PRICE_LABEL"
+            [required]="isAdd"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="CURRENCY"
+            #price
+        ></blu-input>
     </div>
     <div class="col-md-12">
-        <div class="add-vehicle-input">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.NICKNAME_LABEL"
-                [required]="false"
-                [disabled]="(isLoading$ | async) ?? false"
-                type="TEXT"
-                #nickname
-            ></blu-input>
-        </div>
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.NICKNAME_LABEL"
+            [required]="false"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="TEXT"
+            #nickname
+        ></blu-input>
     </div>
 </div>
