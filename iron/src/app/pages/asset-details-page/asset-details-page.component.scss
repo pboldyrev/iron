@@ -49,6 +49,7 @@
     height: 30vw;
     max-height: var(--blu-height-5xl);
     width: 100%;
+    margin-bottom: var(--blu-margin-xl);
 }
 
 .asset-details-footer {
@@ -60,6 +61,10 @@
     margin-bottom: var(--blu-margin-s);
 }
 
+.asset-details-projection {
+    margin-top: var(--blu-margin-xl);
+}
+
 .asset-details-projection-summary {
-    margin: var(--blu-margin-xxl) 0;
+    margin-bottom: var(--blu-margin-xl);
 }

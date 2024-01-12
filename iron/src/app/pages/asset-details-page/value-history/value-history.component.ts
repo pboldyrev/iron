@@ -86,7 +86,7 @@ export class ValueHistoryComponent {
 
   private addEntry$(value: string, date: string): Observable<string> {
     const newValue: AssetValue = {
-      timestamp: new Date(date).valueOf(),
+      timestamp: new Date((new Date(date)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf(),
       totalValue: parseFloat(value),
       units: 1,
     };
