@@ -1,9 +1,8 @@
-.asset-table {
+.asset-table-wrapper {
     background-color: var(--blu-background-secondary);
     border-radius: var(--blu-radius-m);
-    padding: var(--blu-padding-xxl);
-    overflow-x: auto;
     border: var(--blu-border-tertiary);
+    overflow: hidden;
 }
 
 .mat-column-initValue,
@@ -22,7 +21,7 @@
 .mat-column-type,
 .mat-column-curValue,
 .mat-column-initValue {
-    min-width: var(--blu-width-xxl);
+    text-overflow: ellipsis;
 }
 
 .mat-column-change {
@@ -31,8 +30,9 @@
 }
 
 .mat-column-edit {
-    max-width: 30px;
-    min-width: 30px;
+    max-width: 50px;
+    min-width: 50px;
+    text-align: left;
 }
 
 .mat-column-edit:last-of-type {
@@ -43,28 +43,16 @@
     padding: var(--blu-padding-4xl);
 }
 
-.asset-table-value-cell {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
 .asset-table-button-group {
     display: flex;
     justify-content: flex-end;
     gap: var(--blu-space-xs);
 }
 
-.asset-table-tag {
-    margin-left: var(--blu-margin-s);
-}
-
-.asset-table-title {
-    padding-bottom: var(--blu-margin-m);
-}
-
-.asset-table-tag-text {
-    margin-left: var(--blu-margin-xs);
+.asset-table-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .asset-table-edit-menu {

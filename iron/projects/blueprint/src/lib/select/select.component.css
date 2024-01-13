@@ -41,3 +41,9 @@
 .blu-select-feedback-shown {
   margin-bottom: var(--blu-space-s);
 }
+
+.blu-select-small {
+  padding: var(--blu-padding-s);
+  font-size: var(--blu-font-size-s);
+  min-width: var(--blu-width-xl);
+}

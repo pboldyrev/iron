@@ -1,7 +1,6 @@
 .dashboard-wrapper {
     width: 100vw;
     min-height: var(--blu-height-full);
-    height: 100vh;
     overflow-x: hidden;
 }
 
@@ -9,20 +8,19 @@
     background-color: var(--blu-background-secondary);
     padding: var(--blu-padding-4xl);
     width: var(--blu-width-full);
-    height: var(--blu-height-full);
+    height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-right: var(--blu-border-tertiary);
+    overflow-y: auto;
 }
 
 .dashboard-content-wrapper {
     padding: var(--blu-padding-4xl);
-    height: var(--blu-height-full);
-    overflow-y: auto;
+    height: 100vh;
     overflow-x: hidden;
-    position: relative;
 }
 
 .dashboard-actions-wrapper {
@@ -48,6 +46,7 @@
     width: var(--blu-width-full);
     margin-top: var(--blu-margin-4xl);
     height: 60vh;
+    min-height: none;
 }
 
 .dashboard-side-loader-wrapper {

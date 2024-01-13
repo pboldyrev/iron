@@ -6,11 +6,12 @@ import { BluLabel } from '../label/label.component';
 import { FEEDBACK_STRINGS } from 'src/app/shared/constants/strings';
 import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
 import { FormsModule } from '@angular/forms';
+import { BluIcon } from '../icon/icon.component';
 
 @Component({
   selector: 'blu-select',
   standalone: true,
-  imports: [CommonModule, BluLabel, BluValidationFeedback, FormsModule],
+  imports: [CommonModule, BluLabel, BluValidationFeedback, FormsModule, BluIcon],
   templateUrl: './select.component.html',
   styleUrl: './select.component.css'
 })
@@ -20,6 +21,7 @@ export class BluSelect implements AfterContentInit {
   @Input() label: string | null = null;
   @Input() disabled = false;
   @Input() selected: string = '';
+  @Input() size: 'small' | 'normal' = 'normal';
 
   public isValid = true;
 

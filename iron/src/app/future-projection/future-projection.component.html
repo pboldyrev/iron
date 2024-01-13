@@ -11,7 +11,7 @@
             <blu-text weight="bold">${{valueProjection}}</blu-text>.
         </blu-text>
     </div>
-<div class="row">
+<div class="row g-3">
     <div class="col-sm-6">
         <blu-input 
             [fullWidth]="true"
@@ -34,7 +34,7 @@
             #timeframeInput
         ></blu-select>
     </div>
-    <div class="col-12 pt-3">
+    <div class="col-12">
         <blu-button [fullWidth]="true" (click)="updateChart()">
             Update projection
         </blu-button>

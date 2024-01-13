@@ -12,8 +12,8 @@
 <div *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
     <app-loading-state></app-loading-state>
 </div>
-<div class="row dashboard-wrapper" [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)">
-    <div class="col-lg-5 col-sm-12">
+<div class="row dashboard-wrapper m-0" [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)">
+    <div class="col-lg-5 col-sm-12 p-0">
         <div class="dashboard-side-wrapper">
             <div *ngIf="(isNetworthLoading$ | async)" class="dashboard-side-loader-wrapper">
                 <blu-spinner size="50"></blu-spinner>
@@ -47,7 +47,12 @@
             <div *ngIf="(isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
                 <blu-spinner size="50"></blu-spinner>
             </div>
-            <div class="col-12 dashboard-asset-table-wrapper" [hidden]="(isAssetsLoading$ | async)">
+            <div class="col-sm-6 pb-3">
+                <app-movers
+                    [assets]="(assets$ | async) ?? []"
+                ></app-movers>
+            </div>
+            <div class="col-12" [hidden]="(isAssetsLoading$ | async)">
                 <app-asset-table
                     [columns]="assetTableColumns"
                     [assets$]="assets$"

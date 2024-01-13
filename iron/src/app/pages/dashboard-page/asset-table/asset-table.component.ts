@@ -20,6 +20,9 @@ import { AddAssetPopupComponent } from '../../../add-asset-selection/add-asset-p
 import { ToastService } from '../../../shared/services/toast.service';
 import { NavigationService } from '../../../shared/services/navigation-service.service';
 import { DisplayIntegerPipe } from 'projects/blueprint/src/lib/common/pipes/display-integer';
+import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
+import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
+import { TIMEFRAMES } from './asset-table.constants';
 
 export type AssetTableColumn = 
   "account" | 
@@ -47,7 +50,9 @@ export type AssetTableColumn =
     BluValidationFeedback,
     BluLink,
     AddAssetPopupComponent,
-    DisplayIntegerPipe
+    DisplayIntegerPipe,
+    BluHeading,
+    BluSelect
   ],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.scss'
@@ -66,6 +71,7 @@ export class AssetTableComponent {
 
   public assetToDelete: Asset | undefined;
   public TEXTS = TEXTS;
+  public TIMEFRAMES = TIMEFRAMES;
   public FeedbackType = FeedbackType;
 
   constructor(

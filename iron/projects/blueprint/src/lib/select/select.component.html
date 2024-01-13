@@ -7,13 +7,15 @@
     [ngClass]="{
         'blu-select-feedback-shown': !isValid,
         'blu-select-error': !isValid,
+        'blu-select-small': size === 'small',
     }"
     (change)="updateValue(bluSelect.value)"
     [(ngModel)]="selected"
     [disabled]="disabled"
     #bluSelect
 >
-    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+    <option *ngFor="let option of options" [value]="option">{{ option }}
+    <blu-icon name="plus"></blu-icon></option>
 </select>
 <blu-validation-feedback *ngIf="!isValid" [type]="FeedbackType.ERROR">
     {{ FEEDBACK_STRINGS["error"]["TEXT"] }}

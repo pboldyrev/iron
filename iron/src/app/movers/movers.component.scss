@@ -1,0 +1,10 @@
+.movers-option {
+    width: var(--blu-width-full);
+    display: flex;
+    justify-content: space-between;
+}
+
+.movers-option-change {
+    display: flex;
+    gap: var(--blu-space-xs);
+}

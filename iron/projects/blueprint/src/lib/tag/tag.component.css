@@ -1,5 +1,4 @@
 .blu-tag {
-  padding: 0 var(--blu-padding-s);
   border-radius: var(--blu-radius-s);
   display: flex;
   align-items: center;
