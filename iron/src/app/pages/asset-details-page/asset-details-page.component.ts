@@ -24,6 +24,7 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { LoadingStateComponent } from 'src/app/loading-state/loading-state.component';
 import { FutureProjectionComponent } from 'src/app/future-projection/future-projection.component';
+import { TEXTS } from './asset-details-page.strings';
 
 @Component({
   selector: 'app-asset-details-page',
@@ -38,12 +39,13 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   @ViewChild("valueHistory") valueHistory!: ValueHistoryComponent;
   AssetType = AssetType;
   FeedbackType = FeedbackType;
+  TEXTS = TEXTS;
 
   asset$ = new BehaviorSubject<Asset>({});
   assetId = "";
   assetValues$ = new BehaviorSubject<AssetValue[]>([]);
-  isDetailsLoading$ = new BehaviorSubject<boolean>(false);
   isValuesLoading$ = new BehaviorSubject<boolean>(false);
+  isAssetLoading$ = new BehaviorSubject<boolean>(false);
   
   displayAssetName = "";
   displayAssetValue = "";
@@ -57,8 +59,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   constructor(
     private navigationService: NavigationService,
     private route: ActivatedRoute,
-    private dataService: DataService,
-    private chartService: ChartService,
+    private dataService: DataService
   ){
     const curId: string = this.navigationService.getUrlParam(this.route, 'id');
     this.assetId = curId;
@@ -89,7 +90,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   }
 
   private fetchAssetValue(assetId: string): void {
-    this.dataService.getAssetById$(assetId, this.isValuesLoading$).pipe(
+    this.dataService.getAssetById$(assetId, this.isAssetLoading$).pipe(
       takeUntilDestroyed(),
       map((asset: Asset) => {
         this.asset$.next(asset);
@@ -100,7 +101,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   }
 
   private fetchValueHistory(assetId: string): void {
-    this.dataService.getAssetValues$(assetId, this.isDetailsLoading$).pipe(
+    this.dataService.getAssetValues$(assetId, this.isValuesLoading$).pipe(
       takeUntilDestroyed(),
       map((assetValues: AssetValue[]) => {
         this.assetValues$.next(assetValues);

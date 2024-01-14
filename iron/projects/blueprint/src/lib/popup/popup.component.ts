@@ -13,7 +13,7 @@ import { BluIcon } from '../icon/icon.component';
   styleUrls: ['./popup.component.css'],
 })
 export class BluPopup {
-  @Input() size!: 'large' | 'medium' | 'small' | 'x-large';
+  @Input() size!: 's' | 'm' | 'l' | 'xl';
 
   @Input() title: string = '';
   @Input() subtitle: string = '';

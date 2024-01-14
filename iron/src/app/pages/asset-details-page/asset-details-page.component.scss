@@ -1,7 +1,11 @@
 .asset-details-page-wrapper {
-    margin: var(--blu-margin-4xl) auto;
-    background-color: var(--blu-background-secondary);
     max-width: var(--blu-width-6xl);
+}
+
+.asset-details-page-button-wrapper {
+    display: flex;
+    width: var(--blu-width-full);
+    justify-content: space-between;
 }
 
 .asset-details-value-history-chart-wrapper {
@@ -13,20 +17,9 @@
     overflow-x: auto;
 }
 
-.asset-details-page-button-wrapper {
-    margin-bottom: var(--blu-margin-xl);
-    display: flex;
-    width: var(--blu-width-full);
-    justify-content: space-between;
-}
-
 .asset-details-spinner {
     color: var(--blu-color-primary);
     margin-bottom: var(--blu-margin-4xl);
-}
-
-.asset-details-page-top-row {
-    margin: var(--blu-margin-xl) 0;
 }
 
 .asset-details-loading-wrapper {
@@ -42,8 +35,4 @@
 
 .asset-details-page-tooltip {
     margin-top: var(--blu-margin-xl);
-}
-
-.asset-details-page-hidden {
-    display: none!important;
 }

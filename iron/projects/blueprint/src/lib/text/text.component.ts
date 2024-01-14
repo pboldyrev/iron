@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./text.component.css'],
 })
 export class BluText {
-  @Input() size: 'large' | 'medium' | 'small' | 'x-small' = 'medium';
+  @Input() size: 'xs' | 's' | 'm' | 'l' = 'm';
   @Input() type: 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'info' = "primary";
   @Input() weight: 'normal' | 'bold' = 'normal';
   @Input() capitalize = false;

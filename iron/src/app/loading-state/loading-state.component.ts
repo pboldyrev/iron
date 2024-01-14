@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
+import { TEXTS } from './loading-state.strings';
 
 @Component({
   selector: 'app-loading-state',
@@ -11,5 +12,7 @@ import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component
   styleUrl: './loading-state.component.scss'
 })
 export class LoadingStateComponent {
-  @Input() loadingText = 'Loading...';
+  @Input() loadingText = TEXTS.DEFAULT_TEXT;
+  
+  TEXTS = TEXTS
 }

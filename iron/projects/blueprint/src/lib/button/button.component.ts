@@ -17,6 +17,5 @@ export class BluButton {
   @Input() iconOnly = false;
   @Input() iconSize = "16";
   @Input() fullWidth = false;
-  @Input() size: 'small' | 'normal' = 'normal';
   @Input() tooltip = '';
 }

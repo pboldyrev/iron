@@ -1,67 +1,66 @@
-<div class="row justify-content-center">
-    <div class="col-11 col-sm-10 col-xl-8">
-        <div class="asset-details-page-wrapper justify-content-center">
-            <blu-modal>
-                <div class="asset-details-page-button-wrapper">
-                    <blu-button type="primary" iconName="backArrow" (click)="onBack()">Back</blu-button>
-                    <blu-button 
-                        *ngIf="(asset$ | async)?.assetType === AssetType.Vehicle || (asset$ | async)?.assetType === AssetType.Stock"
-                        type="secondary" 
-                        [iconOnly]="true" 
-                        iconName="spinner" 
-                        (click)="onRefresh()" 
-                        tooltip="Refresh data"
-                    ></blu-button>
-                </div>
-                <div class="asset-details-page-top-row">
-                    <blu-heading
-                        size="medium"
-                        [bold]="true"
-                        [subheading]="displayAssetName"
-                        subheadingPosition="top"
-                        *ngIf="!(isDetailsLoading$ | async)"
-                        [isNumber]="true"
-                    >
-                        {{ displayAssetValue }}
-                    </blu-heading>
-                </div>
-                <div *ngIf="(isDetailsLoading$ | async) || (isValuesLoading$ | async)" class="asset-details-loading-wrapper">
-                    <app-loading-state></app-loading-state>
-                </div>
-                <mat-tab-group 
-                    [ngClass]="{
-                        'asset-details-page-hidden': isDetailsLoading$ | async
-                    }" 
-                    [dynamicHeight]="true"
-                    [hidden]="(isDetailsLoading$ | async) || (isValuesLoading$ | async)"
-                    (selectedTabChange)="onTabClick($event)"
+<div class="row justify-content-center my-5">
+    <div class="col-11 col-sm-10 col-xl-8 asset-details-page-wrapper">
+        <blu-modal>
+            <div class="asset-details-page-button-wrapper mb-4">
+                <blu-button 
+                    type="primary" 
+                    iconName="backArrow" 
+                    (click)="onBack()"
                 >
-                    <mat-tab label="Historical value">
-                        <app-value-history
-                            [assetValues]="(assetValues$ | async) ?? []"
-                            [assetId]="assetId"
-                            [isLoading$]="isDetailsLoading$"
-                            [isAssetCustom]="(asset$ | async)?.assetType === AssetType.Custom"
-                            #valueHistory
-                        ></app-value-history>
-                    </mat-tab>
-                    <mat-tab label="Future projection">
-                        <app-future-projection
-                            [assetName]="(asset$ | async)?.assetName ?? ''"
-                            [assetValues]="(assetValues$ | async) ?? []"
-                            #futureProjection
-                        ></app-future-projection>
-                    </mat-tab>
-                    <mat-tab label="Asset details">
-                        <app-asset-more-details
-                            [ngClass]="{
-                                'asset-details-page-hidden': isDetailsLoading$ | async
-                            }"
-                            [asset$]="asset$"
-                        ></app-asset-more-details>
-                    </mat-tab>
-                </mat-tab-group>
-            </blu-modal>
-        </div>
+                        {{ TEXTS.BTN_BACK }}
+                </blu-button>
+                <blu-button 
+                    *ngIf="(asset$ | async)?.assetType !== AssetType.Custom"
+                    type="secondary" 
+                    [iconOnly]="true" 
+                    iconName="spinner" 
+                    (click)="onRefresh()" 
+                    [tooltip]="TEXTS.TOOLTIP_REFRESH"
+                ></blu-button>
+            </div>
+            <blu-heading
+                class="mb-4"
+                size="m"
+                [bold]="true"
+                [subheading]="displayAssetName"
+                subheadingPosition="top"
+                [isNumber]="true"
+            >
+                {{ displayAssetValue }}
+            </blu-heading>
+            <div 
+                *ngIf="(isValuesLoading$ | async) && (isAssetLoading$ | async)" 
+                class="asset-details-loading-wrapper"
+            >
+                <app-loading-state></app-loading-state>
+            </div>
+            <mat-tab-group 
+                [dynamicHeight]="true"
+                [hidden]="(isValuesLoading$ | async)"
+                (selectedTabChange)="onTabClick($event)"
+            >
+                <mat-tab [label]="TEXTS.TAB_HISTORICAL">
+                    <app-value-history
+                        [assetValues]="(assetValues$ | async) ?? []"
+                        [assetId]="assetId"
+                        [isLoading$]="isValuesLoading$"
+                        [isAssetCustom]="(asset$ | async)?.assetType === AssetType.Custom"
+                        #valueHistory
+                    ></app-value-history>
+                </mat-tab>
+                <mat-tab [label]="TEXTS.TAB_PROJECTION">
+                    <app-future-projection
+                        [assetName]="(asset$ | async)?.assetName ?? ''"
+                        [assetValues]="(assetValues$ | async) ?? []"
+                        #futureProjection
+                    ></app-future-projection>
+                </mat-tab>
+                <mat-tab [label]="TEXTS.TAB_MORE_DETAILS">
+                    <app-asset-more-details
+                        [asset$]="asset$"
+                    ></app-asset-more-details>
+                </mat-tab>
+            </mat-tab-group>
+        </blu-modal>
     </div>
 </div>

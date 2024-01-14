@@ -18,7 +18,7 @@ export class ConfirmationPopupComponent {
   @Input() title = '';
   @Input() subtitle = '';
   @Input() confirmText = 'Confirm';
-  @Input() size: 'small' | 'medium' | 'large' | 'x-large' = 'medium';
+  @Input() size: 's' | 'm' | 'l' | 'xl' = 'm';
 
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter();
 

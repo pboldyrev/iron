@@ -1,7 +1,7 @@
 <ng-container *ngFor="let timeframe of timeframes">
     <blu-text type="secondary">
         <div class="value-change-content">
-            <blu-text size="small" type="secondary">{{ timeframe.type }}:</blu-text>
+            <blu-text size="s" type="secondary">{{ timeframe.type }}:</blu-text>
             <blu-text [isNumber]="true" [type]="timeframe.value < 0 ? 'error' : 'success'">
                 {{ getDisplayString(timeframe) }}
             </blu-text>

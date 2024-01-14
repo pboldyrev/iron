@@ -21,7 +21,7 @@ export class BluSelect implements AfterContentInit {
   @Input() label: string | null = null;
   @Input() disabled = false;
   @Input() selected: string = '';
-  @Input() size: 'small' | 'normal' = 'normal';
+  @Input() size: 's' | 'm' = 'm';
 
   public isValid = true;
 

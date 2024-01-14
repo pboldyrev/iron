@@ -8,14 +8,14 @@
   <div
     class="blu-popup-content"
     [ngClass]="{
-      'blu-popup-s': size === 'small',
-      'blu-popup-m': size === 'medium',
-      'blu-popup-l': size === 'large',
-      'blu-popup-xl': size === 'x-large',
+      'blu-popup-s': size === 's',
+      'blu-popup-m': size === 'm',
+      'blu-popup-l': size === 'l',
+      'blu-popup-xl': size === 'xl',
     }"
   >
     <div class="blu-popup-header mb-3">
-      <blu-heading [subheading]="subtitle" size="small" subheadingSize="medium">
+      <blu-heading [subheading]="subtitle" size="s" subheadingSize="m">
         {{ title }}
       </blu-heading>
       <blu-button

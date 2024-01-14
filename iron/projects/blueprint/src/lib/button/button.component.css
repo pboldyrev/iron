@@ -73,11 +73,6 @@
   background-color: var(--blu-background-blank);
 }
 
-.blu-button-small {
-  padding: var(--blu-padding-s) var(--blu-padding-xl);
-  font-size: var(--blu-font-size-xs);
-}
-
 .blu-button-icon-space {
   margin-right: var(--blu-margin-s);
 }
