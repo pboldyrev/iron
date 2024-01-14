@@ -18,38 +18,23 @@
 }
 
 .dashboard-content-wrapper {
-    padding: var(--blu-padding-4xl);
     height: 100vh;
     overflow-x: hidden;
 }
 
 .dashboard-actions-wrapper {
-    padding: 0 var(--blu-padding-m) var(--blu-padding-4xl);
     display: flex;
     justify-content: flex-end;
     gap: var(--blu-space-s);
 }
 
-.dashboard-asset-summary {
-    padding: var(--blu-padding-m);
-}
-
-.dashboard-networth-change-wrapper {
-    margin-top: var(--blu-margin-xl);
-}
-
-.dashboard-row {
-    margin-bottom: var(--blu-margin-l);
-}
-
 .dashboard-networth-chart-wrapper {
     width: var(--blu-width-full);
-    margin-top: var(--blu-margin-4xl);
-    height: 60vh;
-    min-height: none;
+    min-height: 40vh;
+    height: var(--blu-height-full);
 }
 
-.dashboard-side-loader-wrapper {
+.dashboard-loader-wrapper {
     width: var(--blu-height-full);
     height: var(--blu-height-full);
     display: flex;
@@ -57,25 +42,11 @@
     align-items: center;
 }
 
-.dashboard-main-loader-wrapper {
-    width: var(--blu-height-full);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
 @media screen and (max-width: 991px) {
     .dashboard-wrapper {
         height: fit-content;
     }
     .dashboard-side-wrapper {
         border: none;
-    }
-    .dashboard-networth-chart-wrapper {
-        height: 40vh;
-    }
-    .dashboard-content-wrapper {
-        padding: var(--blu-padding-4xl) var(--blu-padding-xl);
     }
 }

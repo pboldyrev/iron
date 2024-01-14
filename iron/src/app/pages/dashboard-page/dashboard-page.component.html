@@ -1,7 +1,7 @@
 <app-confirmation-popup
-  title="Log out?"
-  subtitle="Just confirming it wasn't a misclick."
-  confirmText="Yes, log out"
+  [title]="TEXTS.LOGOUT_TITLE"
+  [subtitle]="TEXTS.LOGOUT_SUBTITLE"
+  [confirmText]="TEXTS.LOGOUT_CTA"
   size="medium"
   (confirmed)="onConfirmLogOut()"
   #logOutConfirmPopup
@@ -9,16 +9,24 @@
 <app-add-asset-popup
     #addAssetPopup
 ></app-add-asset-popup>
-<div *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
-    <app-loading-state></app-loading-state>
-</div>
-<div class="row dashboard-wrapper m-0" [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)">
+<app-loading-state
+    *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)"
+    class="dashboard-loader-wrapper"
+></app-loading-state>
+
+<div 
+    class="row dashboard-wrapper m-0" 
+    [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)"
+>
     <div class="col-lg-5 col-sm-12 p-0">
         <div class="dashboard-side-wrapper">
-            <div *ngIf="(isNetworthLoading$ | async)" class="dashboard-side-loader-wrapper">
-                <blu-spinner size="50"></blu-spinner>
-            </div>
-            <div class="dashboard-networth-wrapper" [hidden]="(isNetworthLoading$ | async)">
+            <app-loading-state
+                *ngIf="(isNetworthLoading$ | async)"
+                class="dashboard-loader-wrapper"
+            ></app-loading-state>
+            <div 
+                [hidden]="(isNetworthLoading$ | async)"
+            >
                 <app-networth
                     [totalNetworth]="totalNetworth"
                 ></app-networth>
@@ -26,40 +34,53 @@
                     [timeframes]="networthTimeframes"
                 ></app-value-change>
             </div>
-            <div class="dashboard-networth-chart-wrapper"
-                [hidden]="(isNetworthLoading$ | async) || ((networthValues$ | async) ?? []).length === 0">
+            <div 
+                class="dashboard-networth-chart-wrapper mt-4"
+                [hidden]="(isNetworthLoading$ | async)"
+            >
                 <canvas id="dashboardChart">{{ dashboardChart }}</canvas>
             </div>
         </div>
     </div>
-    <div class="col-lg-7 col-sm-12 dashboard-content-wrapper">
+    <div class="col-lg-7 col-sm-12 px-5 py-4 dashboard-content-wrapper">
         <div class="row">
-            <div class="col-12 dashboard-actions-wrapper">
-                <blu-button type="primary" iconName="plus" (click)="onAddAsset()" tooltip="Add asset">
+            <div class="col-12 dashboard-actions-wrapper pb-4">
+                <blu-button 
+                    type="primary" 
+                    iconName="plus" 
+                    (click)="onAddAsset()" 
+                    [tooltip]="TEXTS.TOOLTIP_CTA"
+                >
                     {{ TEXTS.BTN_PRIMARY_CTA }}
                 </blu-button>
-                <blu-button type="secondary" [iconOnly]="true" iconName="gear" (click)="onSettings()" tooltip="Settings page"></blu-button>
-                <blu-button type="secondary" [iconOnly]="true" iconName="spinner" (click)="onRefresh()" tooltip="Refresh data"></blu-button>
-                <blu-button type="secondary" [iconOnly]="true" iconName="signOut" (click)="onLogOut()" tooltip="Log out"></blu-button>
+                <blu-button 
+                    type="secondary" 
+                    [iconOnly]="true" 
+                    iconName="gear" 
+                    (click)="onSettings()" 
+                    [tooltip]="TEXTS.TOOLTIP_SETTINGS"
+                ></blu-button>
+                <blu-button 
+                    type="secondary" 
+                    [iconOnly]="true" 
+                    iconName="signOut" 
+                    (click)="onLogOut()" 
+                    [tooltip]="TEXTS.TOOLTIP_LOG_OUT"
+                ></blu-button>
             </div>
         </div>
-        <div class="row" class="dashboard-row">
-            <div *ngIf="(isAssetsLoading$ | async)" class="dashboard-side-loader-wrapper">
-                <blu-spinner size="50"></blu-spinner>
-            </div>
-            <div class="col-sm-6 pb-3">
-                <app-movers
-                    [assets]="(assets$ | async) ?? []"
-                ></app-movers>
-            </div>
-            <div class="col-12" [hidden]="(isAssetsLoading$ | async)">
-                <app-asset-table
-                    [columns]="assetTableColumns"
-                    [assets$]="assets$"
-                    [loadingIndicator$]="isAssetsLoading$"
-                    #assetTable
-                ></app-asset-table>
-            </div>
+        <div class="row">
+            <app-loading-state
+                *ngIf="(isAssetsLoading$ | async)"
+                class="dashboard-loader-wrapper"
+            ></app-loading-state>
+            <app-asset-table
+                [hidden]="(isAssetsLoading$ | async)"
+                [columns]="assetTableColumns"
+                [assets$]="assets$"
+                [loadingIndicator$]="isAssetsLoading$"
+                #assetTable
+            ></app-asset-table>
         </div>
     </div>
 </div>

@@ -10,9 +10,6 @@
   #deleteConfirmPopup
 ></app-confirmation-popup>
 <div class="asset-table-wrapper pb-3">
-    <div *ngIf="((assets$ | async) ?? []).length === 0">
-        <blu-text type="secondary">No assets added yet... <blu-link (click)="onAddAsset()">Add one?</blu-link></blu-text>
-    </div>
     <div class="asset-table-heading px-4 pt-3">
         <blu-heading size="small">
             Assets
@@ -23,6 +20,9 @@
             [options]="TIMEFRAMES"
             [selected]="TIMEFRAMES[TIMEFRAMES.length - 1]"
         ></blu-select>
+    </div>
+    <div *ngIf="((assets$ | async) ?? []).length === 0">
+        <blu-text type="secondary">No assets added yet... <blu-link (click)="onAddAsset()">Add one?</blu-link></blu-text>
     </div>
     <table 
         mat-table

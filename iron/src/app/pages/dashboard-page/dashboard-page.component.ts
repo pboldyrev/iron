@@ -85,11 +85,7 @@ export class DashboardPageComponent implements AfterContentInit {
     this.logOutConfirmPopup.show();
   }
 
-  onRefresh(): void {
-    this.dataService.dataChanged$.next(true);
-  }
-
-  public onConfirmLogOut(): void {
+  onConfirmLogOut(): void {
     this.authService.signOut();
   }
 
@@ -98,42 +94,23 @@ export class DashboardPageComponent implements AfterContentInit {
       takeUntilDestroyed(),
       map((assets: Asset[]) => {
         this.assets$.next(assets);
-        this.updateAssetTypeSummaries$(assets);
       }),
     ).subscribe();
   }
 
-  private updateAssetTypeSummaries$(assets: Asset[]): Observable<void> {
-    let assetsAndValues: any = {};
-
-    assets.map(asset => {
-      if (assetsAndValues[(asset.assetType ?? "")] === undefined) {
-        assetsAndValues[(asset.assetType ?? "")] = 0;
-      } else {
-        assetsAndValues[(asset.assetType ?? "")] += asset.curTotalValue;
-      }
-    })
-
-    Object.keys(assetsAndValues).forEach((key: string) => {
-    });
-
-    return of();
-  }
-
   private fetchNetWorth(): void {
-    this.dataService.getNetWorthValues$(null, this.isNetworthLoading$).pipe(takeUntilDestroyed())
-    .subscribe((networthValues: AssetValue[]) => {
-        this.setValueChanges(networthValues);
-        
+    this.dataService.getNetWorthValues$(null, this.isNetworthLoading$).pipe(
+      takeUntilDestroyed(),
+      map((networthValues: AssetValue[]) => {
         if(networthValues.length > 0) {
           this.totalNetworth = networthValues[networthValues.length-1].totalValue ?? 0;
         } else {
           this.totalNetworth = 0;
         }
-
         this.networthValues$.next(networthValues);
-      },
-    );
+        this.setValueChanges(networthValues);
+      })
+    ).subscribe();
   }
 
   private setValueChanges(networthValues: AssetValue[]): void {
@@ -143,7 +120,10 @@ export class DashboardPageComponent implements AfterContentInit {
       return;
     }
 
-    const allTimeChange = this.getValueChange(networthValues[networthValues.length-1].totalValue ?? 0, networthValues[0].totalValue ?? 0, "All time");
+    const allTimeChange = this.getValueChange(
+      networthValues[networthValues.length-1].totalValue ?? 0,
+      networthValues[0].totalValue ?? 0, "All time"
+    );
     this.networthTimeframes.push(allTimeChange);
 
     if(networthValues.length < 2) {
@@ -153,7 +133,8 @@ export class DashboardPageComponent implements AfterContentInit {
     const sinceLastChange = this.getValueChange(
       networthValues[networthValues.length-1].totalValue ?? 0, 
       networthValues[networthValues.length-2].totalValue ?? 0, 
-      "Since " + (new Date(networthValues[networthValues.length-2].timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'})));
+      "Since " + (new Date(networthValues[networthValues.length-2].timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}))
+    );
     this.networthTimeframes.push(sinceLastChange);
   }
 
