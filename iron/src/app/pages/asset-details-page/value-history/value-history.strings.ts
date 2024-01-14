@@ -5,5 +5,16 @@ export const TEXTS = {
     BUTTON_ADD_ROW: "Save entry data",
     NO_ENTRIES: "No entries added",
     FEEDBACK_FAILED_TO_SAVE: "Failed to add value, please try again.",
-    ADD_VALUE_BTN: "Add value"
+    ADD_VALUE_BTN: "Add value",
+    COL_DATE: "Date",
+    COL_VALUE: "Value",
+    PLACEHOLDER_VALUE: "Enter value",
+    BTN_DELETE: "Delete",
+    LABEL_MODIFY: "Modify value",
+    TOOLTIP_MODIFY: "To modify the value, add a new value with the same date.",
+    TOOLTIP_TRACKED: "Come back daily to see the updated value.",
+    LABEL_TRACKED: "This asset is tracked automatically",
+    LINK_HIDE: "Hide table",
+    WANT_TO: "Want to ",
+    LINK_MODIFY: "modify values manually",
 }

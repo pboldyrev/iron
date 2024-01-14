@@ -29,7 +29,7 @@
                 {{ displayAssetValue }}
             </blu-heading>
             <div 
-                *ngIf="(isValuesLoading$ | async) && (isAssetLoading$ | async)" 
+                *ngIf="(isValuesLoading$ | async) || (isAssetLoading$ | async)" 
                 class="asset-details-loading-wrapper"
             >
                 <app-loading-state></app-loading-state>

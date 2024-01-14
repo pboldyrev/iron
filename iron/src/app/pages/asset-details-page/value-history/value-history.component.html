@@ -1,21 +1,22 @@
-<div class="value-history-chart-container">
+<div class="value-history-chart-wrapper">
     <canvas id="detailChart">{{ historyChart }}</canvas>
 </div>
-<div class="value-history-wrapper mb-3" *ngIf="showValueHistory">
+<div class="mb-3" *ngIf="showValueHistory">
     <mat-table #table [dataSource]="assetValues">
         <ng-container matColumnDef="date">
             <mat-header-cell *matHeaderCellDef>
-                Date
+                {{ TEXTS.COL_DATE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
-                <blu-text type="primary">{{getDateString(entry?.timestamp ?? 0)}}</blu-text>
+                <blu-text type="primary">
+                    {{ getDateString(entry?.timestamp ?? 0) }}
+                </blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-input 
                     [fullWidth]="true"
                     appearance="cell"
                     [feedbackType]="FeedbackType.ERROR"
-                    placeholder="Date (mm/yyyy)" 
                     type="DATE"
                     #date
                     (keydown.enter)="onAddEntry()"
@@ -25,17 +26,19 @@
 
         <ng-container matColumnDef="value">
             <mat-header-cell *matHeaderCellDef>
-                Value
+                {{ TEXTS.COL_VALUE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
-                <blu-text type="primary" [isNumber]="true">${{entry?.totalValue?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? 0}}</blu-text>
+                <blu-text type="primary" [isNumber]="true">
+                    ${{entry?.totalValue?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? 0}}
+                </blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-input 
                     [fullWidth]="true" 
                     appearance="cell"
                     [feedbackType]="FeedbackType.ERROR"
-                    placeholder="Enter value" 
+                    [placeholder]="TEXTS.PLACEHOLDER_VALUE" 
                     type="CURRENCY"
                     direction="rtl"
                     #value
@@ -48,14 +51,34 @@
             <mat-header-cell *matHeaderCellDef>
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
-                <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" [matMenuTriggerFor]="appMenu"></blu-button>
+                <blu-button 
+                    [iconOnly]="true" 
+                    iconName="kebab" 
+                    type="tertiary" 
+                    [matMenuTriggerFor]="appMenu">
+                </blu-button>
                 <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
-                    <div mat-menu-item [disableRipple]="true" (click)="onDeleteEntry(entry)"><blu-text type="error" size="s">Delete</blu-text></div>
-                    <div mat-menu-item [disableRipple]="true"><blu-label label="Modify value" tooltip="To modify the value, add a new value with the same date."></blu-label></div>
+                    <div 
+                        mat-menu-item 
+                        [disableRipple]="true" 
+                        (click)="onDeleteEntry(entry)"
+                    >
+                        <blu-text type="error" size="s">{{ TEXTS.BTN_DELETE }}</blu-text></div>
+                    <div 
+                        mat-menu-item 
+                        [disableRipple]="true"
+                    >
+                        <blu-label [label]="TEXTS.LABEL_MODIFY" [tooltip]="TEXTS.TOOLTIP_MODIFY"></blu-label>
+                    </div>
                 </mat-menu>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
-                <blu-button [iconOnly]="true" type="primary" iconName="plus" (click)="onAddEntry()"></blu-button>
+                <blu-button
+                    [iconOnly]="true" 
+                    type="primary" 
+                    iconName="plus" 
+                    (click)="onAddEntry()"
+                ></blu-button>
             </mat-footer-cell>
         </ng-container>
 
@@ -68,21 +91,21 @@
     <blu-label
         class="asset-details-page-tooltip"
         type="tertiary" 
-        tooltip="Come back daily to see the updated value." 
-        label="This asset is tracked automatically"
+        [tooltip]="TEXTS.TOOLTIP_TRACKED" 
+        [label]="TEXTS.LABEL_TRACKED"
     ></blu-label>
     <blu-text 
         *ngIf="!isAssetCustom && !showValueHistory"
         type="secondary"
         size="s"
     >
-        Want to <blu-link (click)="toggleValueHistory()">modify values manually</blu-link>?
+        {{ TEXTS.WANT_TO }}<blu-link (click)="toggleValueHistory()">{{ TEXTS.LINK_MODIFY }}</blu-link>?
     </blu-text>
     <blu-text 
         *ngIf="!isAssetCustom && showValueHistory"
         type="secondary"
         size="s"
     >
-        <blu-link (click)="toggleValueHistory()">Hide table</blu-link>
+        <blu-link (click)="toggleValueHistory()">{{ TEXTS.LINK_HIDE }}</blu-link>
     </blu-text>
 </div>
