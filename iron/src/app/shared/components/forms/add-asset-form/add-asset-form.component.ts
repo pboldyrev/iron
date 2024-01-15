@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { AddVehicleFormComponent } from '../add-vehicle-form/add-vehicle-form.component';
-import { Asset, AssetType, AssetValue, VehicleCustomAttributes } from '../../../constants/constants';
+import { Asset, AssetType, AssetValue, VehicleAttributes } from '../../../constants/constants';
 import { BehaviorSubject, Observable, combineLatest, filter, map, merge, mergeMap, of, take, tap, throwError } from 'rxjs';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
@@ -14,7 +14,7 @@ import { ToastService } from '../../../services/toast.service';
 import { NavigationService } from '../../../services/navigation-service.service';
 import { TEXTS } from './add-asset-form.strings';
 import { AddStockFormComponent } from '../add-stock-form/add-stock-form.component';
-import { AddCustomFormComponent } from '../add-custom-form/add-custom-form.component';
+import { AddCashFormComponent } from '../add-cash-form/add-cash-form.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
@@ -25,7 +25,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-add-asset-form',
   standalone: true,
-  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCustomFormComponent, BluSelect, BluText, BluLink, BluPopup, BluModal],
+  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCashFormComponent, BluSelect, BluText, BluLink, BluPopup, BluModal],
   templateUrl: './add-asset-form.component.html',
   styleUrl: './add-asset-form.component.scss'
 })
@@ -33,7 +33,7 @@ export class AddAssetFormComponent {
   @ViewChild('addAccountPopup') addAccountPopup!: BluPopup;
   @ViewChild('account') accountInput!: BluSelect;
   @ViewChild('vehicleForm') vehicleForm!: AddVehicleFormComponent;
-  @ViewChild('customForm') customForm!: AddCustomFormComponent;
+  @ViewChild('customForm') customForm!: AddCashFormComponent;
   @ViewChild('stockForm') stockForm!: AddStockFormComponent;
 
   @Input() assetType!: AssetType;
@@ -111,11 +111,11 @@ export class AddAssetFormComponent {
     });
   }
 
-  private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | AddCustomFormComponent | null {
+  private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | AddCashFormComponent | null {
     switch (this.assetType) {
       case AssetType.Vehicle:
         return this.vehicleForm;
-      case AssetType.Custom:
+      case AssetType.Cash:
         return this.customForm;
       case AssetType.Stock:
         return this.stockForm;

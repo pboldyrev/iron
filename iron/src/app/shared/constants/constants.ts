@@ -17,7 +17,7 @@ export type AssetValue = {
   units: number,
 }
 
-export type VehicleCustomAttributes = {
+export type VehicleAttributes = {
   nickName?: string,
   vin?: string,
   mileage?: number,
@@ -25,11 +25,11 @@ export type VehicleCustomAttributes = {
   initTimestamp?: number,
 }
 
-export type StockCustomAttributes = {
+export type StockAttributes = {
   ticker?: string;
 }
 
-export type CustomCustomAttributes = {
+export type CashAttributes = {
   appreciationRate?: number;
 }
 
@@ -45,20 +45,18 @@ export type BaseAsset = {
   isArchived?: boolean,
 }
 
-export type Asset = BaseAsset & VehicleCustomAttributes & StockCustomAttributes & CustomCustomAttributes;
+export type Asset = BaseAsset & VehicleAttributes & StockAttributes & CashAttributes;
 
 export enum AssetType {
   Stock = 'stock',
   Vehicle = 'vehicle',
-  Custom = 'custom',
+  Cash = 'cash',
 }
 
 export const TypeToDisplayName = {
   stock: "Stock",
   vehicle: "Vehicle",
-  cd: "CD",
-  savings: "Savings",
-  custom: "Custom",
+  cash: "Cash",
 }
 
 export type ValueChange = {

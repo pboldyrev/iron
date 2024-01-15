@@ -22,17 +22,15 @@ import {
 } from '@ng-icons/octicons';
 import {
   heroBuildingLibrary, 
-  heroChevronDown, 
-  heroChevronUp, 
   heroRocketLaunch,
   heroBanknotes,
   heroClock,
   heroArrowPath,
   heroTrash,
   heroArrowLeft,
-  heroQuestionMarkCircle,
   heroArrowTrendingUp,
   heroArrowTrendingDown,
+  heroCurrencyDollar,
 } from '@ng-icons/heroicons/outline';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -72,6 +70,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroArrowLeft,
       heroArrowTrendingUp,
       heroArrowTrendingDown,
+      heroCurrencyDollar,
     }),
   ],
 })

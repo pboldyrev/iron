@@ -13,7 +13,7 @@ import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { ValueHistoryComponent } from '../asset-details-page/value-history/value-history.component';
 import { TEXTS } from '../../shared/components/forms/add-vehicle-form/add-vehicle-form.strings';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { Asset, AssetType, VehicleCustomAttributes } from '../../shared/constants/constants';
+import { Asset, AssetType, VehicleAttributes } from '../../shared/constants/constants';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AddAssetFormComponent } from 'src/app/shared/components/forms/add-asset-form/add-asset-form.component';
@@ -30,7 +30,7 @@ import { AssetToTitleMap } from './add-asset-page.constants';
 
 export class AddAssetPageComponent {
   public AssetType = AssetType;
-  public assetType$ = new BehaviorSubject<AssetType>(AssetType.Custom);
+  public assetType$ = new BehaviorSubject<AssetType>(AssetType.Cash);
 
   constructor(
     private navigationService: NavigationService,
@@ -40,7 +40,7 @@ export class AddAssetPageComponent {
   ngOnInit() {
     const assetType = this.navigationService.getUrlParam(this.route, 'assetType');
     if(assetType === '') {
-      this.assetType$.next(AssetType.Custom);
+      this.assetType$.next(AssetType.Cash);
     } else {
       this.assetType$.next(assetType as AssetType);
     }

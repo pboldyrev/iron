@@ -5,7 +5,7 @@ import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BehaviorSubject, Observable, combineLatest, filter, map, take, tap } from 'rxjs';
-import { Asset, VehicleCustomAttributes } from 'src/app/shared/constants/constants';
+import { Asset, VehicleAttributes } from 'src/app/shared/constants/constants';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
@@ -83,7 +83,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
       return {};
     }
 
-    let customAttributes: VehicleCustomAttributes = {
+    let customAttributes: VehicleAttributes = {
       vin: vin,
       mileage: parseInt(mileage),
       nickName: nickname,
@@ -94,7 +94,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
         ...customAttributes,
         initTimestamp: utcDate.valueOf(),
         initTotalValue: parseFloat(price),
-      } as VehicleCustomAttributes
+      } as VehicleAttributes
     }
 
     return customAttributes;

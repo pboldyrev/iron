@@ -10,7 +10,7 @@
                         {{ TEXTS.BTN_BACK }}
                 </blu-button>
                 <blu-button 
-                    *ngIf="(asset$ | async)?.assetType !== AssetType.Custom"
+                    *ngIf="(asset$ | async)?.assetType !== AssetType.Cash"
                     type="secondary" 
                     [iconOnly]="true" 
                     iconName="spinner" 
@@ -36,7 +36,7 @@
             </div>
             <mat-tab-group 
                 [dynamicHeight]="true"
-                [hidden]="(isValuesLoading$ | async)"
+                [hidden]="(isValuesLoading$ | async) || (isAssetLoading$ | async)"
                 (selectedTabChange)="onTabClick($event)"
             >
                 <mat-tab [label]="TEXTS.TAB_HISTORICAL">
@@ -44,7 +44,7 @@
                         [assetValues]="(assetValues$ | async) ?? []"
                         [assetId]="assetId"
                         [isLoading$]="isValuesLoading$"
-                        [isAssetCustom]="(asset$ | async)?.assetType === AssetType.Custom"
+                        [isAssetCustom]="(asset$ | async)?.assetType === AssetType.Cash"
                         #valueHistory
                     ></app-value-history>
                 </mat-tab>

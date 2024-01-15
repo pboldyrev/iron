@@ -53,7 +53,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
 
   showValueHistory$ = this.asset$.pipe(
     take(1),
-    map((asset: Asset) => asset.assetType === AssetType.Custom)
+    map((asset: Asset) => asset.assetType === AssetType.Cash)
   );
 
   constructor(

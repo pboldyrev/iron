@@ -4,7 +4,7 @@
             <blu-modal subtitle="Fill in the asset details" [title]="(getTitle$() | async) ?? ''" subheadingPosition="top" padding="xl">
                 <app-add-asset-form
                     [isAdd]="true"
-                    [assetType]="(assetType$ | async) ?? AssetType.Custom"
+                    [assetType]="(assetType$ | async) ?? AssetType.Cash"
                 ></app-add-asset-form>
             </blu-modal>
         </div>

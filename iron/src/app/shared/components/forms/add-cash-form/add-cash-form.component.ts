@@ -4,16 +4,16 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { Observable, BehaviorSubject, take, map, combineLatest, of } from 'rxjs';
 import { Asset } from 'src/app/shared/constants/constants';
-import { TEXTS } from './add-custom-form.strings';
+import { TEXTS } from './add-cash-form.strings';
 
 @Component({
-  selector: 'app-add-custom-form',
+  selector: 'app-add-cash-form',
   standalone: true,
   imports: [CommonModule, BluInput],
-  templateUrl: './add-custom-form.component.html',
-  styleUrl: './add-custom-form.component.scss'
+  templateUrl: './add-cash-form.component.html',
+  styleUrl: './add-cash-form.component.scss'
 })
-export class AddCustomFormComponent implements AfterContentChecked {
+export class AddCashFormComponent implements AfterContentChecked {
   @ViewChild('assetName') assetNameInput!: BluInput;
   @ViewChild('appreciationRate') appreciationRateInput!: BluInput;
   @ViewChild('curValue') curValueInput!: BluInput;

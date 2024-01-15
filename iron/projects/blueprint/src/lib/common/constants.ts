@@ -23,7 +23,7 @@ export type BluIconName =
   | 'stock'
   | 'vehicle'
   | 'savings'
-  | 'custom'
+  | 'cash'
   | 'cd'
   | 'spinner'
   | 'trash'
@@ -50,7 +50,7 @@ export const BluToIconMap = {
   vehicle: 'heroRocketLaunch',
   stock: 'heroBuildingLibrary',
   savings: 'heroBanknotes',
-  custom: 'octGear',
+  cash: 'heroCurrencyDollar',
   spinner: 'heroArrowPath',
   cd: 'heroClock',
   trash: 'heroTrash',
