@@ -119,8 +119,11 @@ export class AssetTableComponent {
   }
 
   public getPercentChange(init: number, cur: number): number {
-    if(!init || !cur || init === 0) {
+    if(!init || !cur) {
       return 0;
+    }
+    if(init === 0) {
+      return 10000;
     }
     return Math.abs(Math.round(((cur-init) / init) * 100));
   }

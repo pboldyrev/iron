@@ -76,7 +76,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   }
 
   onTabClick(tab: MatTabChangeEvent) {
-    if(tab.index === 0) {
+    if(tab.tab.textLabel === TEXTS.TAB_HISTORICAL) {
       this.assetValues$.pipe(
         skip(1),
         take(1)
@@ -84,7 +84,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
         this.valueHistory.updateChart(data);
       });
     }
-    if(tab.index === 1) {
+    if(tab.tab.textLabel === TEXTS.TAB_PROJECTION) {
       this.futureProjection.updateChart();
     }
   }

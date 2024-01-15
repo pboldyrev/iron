@@ -21,7 +21,7 @@
             [selected]="TIMEFRAMES[TIMEFRAMES.length - 1]"
         ></blu-select>
     </div>
-    <div *ngIf="((assets$ | async) ?? []).length === 0">
+    <div *ngIf="((assets$ | async) ?? []).length === 0" class="px-4 py-3">
         <blu-text type="secondary">No assets added yet... <blu-link (click)="onAddAsset()">Add one?</blu-link></blu-text>
     </div>
     <table 
@@ -104,7 +104,7 @@
             <mat-cell *matCellDef="let asset" class="asset-table-align-left">
                 <blu-tag [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'">
                     <div class="me-1">
-                        <blu-text [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(asset.initTotalValue, asset.curTotalValue).toString() | displayInteger }}%</blu-text>
+                        <blu-text [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(asset.initTotalValue, asset.curTotalValue) > 10000 ? "Inf" : getPercentChange(asset.initTotalValue, asset.curTotalValue).toString() | displayInteger }}%</blu-text>
                     </div>
                     <blu-icon [name]="asset.curTotalValue >= asset.initTotalValue ? 'chevronUp' : 'chevronDown'"></blu-icon>
                 </blu-tag>
