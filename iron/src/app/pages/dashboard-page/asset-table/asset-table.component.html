@@ -104,7 +104,7 @@
             <mat-cell *matCellDef="let asset" class="asset-table-align-left">
                 <blu-tag [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'">
                     <div class="me-1">
-                        <blu-text [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(asset.initTotalValue, asset.curTotalValue) > 10000 ? "Inf" : getPercentChange(asset.initTotalValue, asset.curTotalValue).toString() | displayInteger }}%</blu-text>
+                        <blu-text [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(asset.initTotalValue, asset.curTotalValue).toString() | displayInteger }}%</blu-text>
                     </div>
                     <blu-icon [name]="asset.curTotalValue >= asset.initTotalValue ? 'chevronUp' : 'chevronDown'"></blu-icon>
                 </blu-tag>
@@ -112,7 +112,7 @@
             <mat-footer-cell *matFooterCellDef>
                 <blu-tag [type]="curTotal >= initTotal ? 'success' : 'error'">
                     <div class="me-1">
-                        <blu-text [type]="curTotal >= initTotal ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(initTotal, curTotal) }}%</blu-text>
+                        <blu-text [type]="curTotal >= initTotal ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(initTotal, curTotal).toString() | displayInteger }}%</blu-text>
                     </div>
                     <blu-icon [name]="curTotal >= initTotal ? 'chevronUp' : 'chevronDown'"></blu-icon>
                 </blu-tag>

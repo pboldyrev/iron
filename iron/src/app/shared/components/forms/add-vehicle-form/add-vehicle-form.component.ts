@@ -101,9 +101,9 @@ export class AddVehicleFormComponent implements AfterContentChecked {
   }
 
   private isDateValid(utcDate: Date): boolean {
-    if(utcDate.getFullYear() < 1900 && this.isAdd) {
+    if(utcDate.getFullYear() < 1950 && this.isAdd) {
       this.dateInput.isValid = false;
-      this.dateInput.customFeedback = "We do not support assets from before Jan 1, 1900.";
+      this.dateInput.customFeedback = "We do not support assets from before Jan 1, 1950.";
       return false;
     }
 

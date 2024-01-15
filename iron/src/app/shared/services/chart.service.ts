@@ -82,7 +82,7 @@ export class ChartService {
                 family: 'Outfit'
               },
               callback: (yValue: string | number) => {
-                let yValueAsNum = parseInt(yValue.toString());
+                let yValueAsNum = parseFloat(yValue.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
 
                 let prefix;
 
