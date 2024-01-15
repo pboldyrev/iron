@@ -87,7 +87,7 @@
         <mat-footer-row *matFooterRowDef="DISPLAYED_COLUMNS"></mat-footer-row>
     </mat-table>
 </div>
-<div class="value-history-footer" *ngIf="!isAssetCustom">
+<div class="value-history-footer" *ngIf="assetType !== AssetType.Cash">
     <blu-label
         class="asset-details-page-tooltip"
         type="tertiary" 
@@ -95,14 +95,14 @@
         [label]="TEXTS.LABEL_TRACKED"
     ></blu-label>
     <blu-text 
-        *ngIf="!isAssetCustom && !showValueHistory"
+        *ngIf="assetType === AssetType.Vehicle && !showValueHistory"
         type="secondary"
         size="s"
     >
-        {{ TEXTS.WANT_TO }}<blu-link (click)="toggleValueHistory()">{{ TEXTS.LINK_MODIFY }}</blu-link>?
+        {{ TEXTS.WANT_TO }}<blu-link (click)="toggleValueHistory()" class="ms-1">{{ TEXTS.LINK_MODIFY }}</blu-link>?
     </blu-text>
     <blu-text 
-        *ngIf="!isAssetCustom && showValueHistory"
+        *ngIf="assetType === AssetType.Vehicle && showValueHistory"
         type="secondary"
         size="s"
     >

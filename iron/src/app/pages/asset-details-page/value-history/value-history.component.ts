@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, merge
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluValidationFeedback } from 'projects/blueprint/src/lib/validation-popup/validation-feedback.component';
-import { Asset, AssetValue } from '../../../shared/constants/constants';
+import { Asset, AssetType, AssetValue } from '../../../shared/constants/constants';
 import { DataService } from '../../../shared/services/data.service';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -44,14 +44,15 @@ export class ValueHistoryComponent {
   
   @Input() assetValues = [] as AssetValue[];
   @Input() assetId = "";
-  @Input() isAssetCustom = false;
+  @Input() assetType = AssetType.Stock;
   @Input() isLoading$= new BehaviorSubject<boolean>(false);
 
   public FeedbackType = FeedbackType;
+  public AssetType = AssetType;
   public TEXTS = TEXTS;
   public DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
 
-  showValueHistory = this.isAssetCustom;
+  showValueHistory = this.assetType === AssetType.Cash;
   historyChart: Chart | null = null;
 
   constructor(

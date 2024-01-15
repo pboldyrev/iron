@@ -44,7 +44,7 @@
                         [assetValues]="(assetValues$ | async) ?? []"
                         [assetId]="assetId"
                         [isLoading$]="isValuesLoading$"
-                        [isAssetCustom]="(asset$ | async)?.assetType === AssetType.Cash"
+                        [assetType]="(asset$ | async)?.assetType ?? AssetType.Cash"
                         #valueHistory
                     ></app-value-history>
                 </mat-tab>
