@@ -69,18 +69,27 @@
                 ></blu-button>
             </div>
         </div>
-        <div class="row">
-            <app-loading-state
-                *ngIf="(isAssetsLoading$ | async)"
-                class="dashboard-loader-wrapper"
-            ></app-loading-state>
-            <app-asset-table
-                [hidden]="(isAssetsLoading$ | async)"
-                [columns]="assetTableColumns"
-                [assets$]="assets$"
-                [loadingIndicator$]="isAssetsLoading$"
-                #assetTable
-            ></app-asset-table>
+        <div class="row g-3">
+            <div class="col-12">
+                <app-loading-state
+                    *ngIf="(isAssetsLoading$ | async)"
+                    class="dashboard-loader-wrapper"
+                ></app-loading-state>
+            </div>
+            <div class="col-12">
+                <app-ai-feedback
+                    [assets]="(assets$ | async) ?? []"
+                ></app-ai-feedback>
+            </div>
+            <div class="col-12">
+                <app-asset-table
+                    [hidden]="(isAssetsLoading$ | async)"
+                    [columns]="assetTableColumns"
+                    [assets$]="assets$"
+                    [loadingIndicator$]="isAssetsLoading$"
+                    #assetTable
+                ></app-asset-table>
+            </div>
         </div>
     </div>
 </div>

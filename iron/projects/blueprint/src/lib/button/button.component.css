@@ -76,3 +76,17 @@
 .blu-button-icon-space {
   margin-right: var(--blu-margin-s);
 }
+
+.blu-button-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.blu-button-disabled:hover {
+  cursor: not-allowed;
+}
+
+.blu-button-disabled:active {
+  cursor: not-allowed;
+  scale: 1;
+}

@@ -11,5 +11,5 @@ import { BluIconName } from '../common/constants';
   styleUrl: './tag.component.css'
 })
 export class BluTag {
-  @Input() type!: "success" | "error" | "info";
+  @Input() type: "success" | "error" | "info" | "special" = "info";
 }

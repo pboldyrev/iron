@@ -1,0 +1,27 @@
+.ai-feedback-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--blu-space-xs);
+}
+
+.progress-spinner ::ng-deep circle {
+    stroke: var(--blu-color-brand) !important;
+    stroke-linecap: round;
+}
+
+.ai-feedback-content {
+    display: flex;
+    width: var(--blu-width-full);
+}
+
+.ai-feedback-progress {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ai-feedback-progress-number {
+    position: absolute;
+    top: 24px;
+}

@@ -1,0 +1,1 @@
+export const ASSETS_TO_QUALIFY = 10;

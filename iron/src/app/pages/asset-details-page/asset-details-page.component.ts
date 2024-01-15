@@ -121,7 +121,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
     let finalName = '';
 
     if(asset.assetType) {
-      finalName += asset.assetType + ' - ';
+      finalName += this.capitalizeFirstLetter(asset.assetType) + ' - ';
     }
 
     if(asset.assetName) {
@@ -138,4 +138,8 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   private getDisplayWorth(asset: Asset): string {
     return '$' + (asset?.curTotalValue ?? 0).toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
   }
+
+  private capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 }

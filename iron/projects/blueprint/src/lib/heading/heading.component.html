@@ -14,24 +14,38 @@
     [size]="subheadingSize">
     {{ subheading }}
   </blu-text>
-  <span
-    class="blu-heading"
+  <div class="blu-heading-row"
     [ngClass]="{
-      'blu-heading-xs': size === 'xs',
-      'blu-heading-s': size === 's',
-      'blu-heading-m': size === 'm',
-      'blu-heading-l': size === 'l',
-      'blu-heading-bold': bold,
-      'blu-heading-success': feedback === 'success',
-      'blu-heading-error': feedback === 'error',
-      'blu-heading-primary': type === 'primary',
-      'blu-heading-secondary': type === 'secondary',
-      'blu-heading-tertiary': type === 'tertiary',
-      'blu-heading-number': isNumber,
+      'blu-heading-gap-xs': size === 'xs',
+      'blu-heading-gap-s': size === 's',
+      'blu-heading-gap-m': size === 'm',
+      'blu-heading-gap-l': size === 'l',
     }"
   >
-    <ng-content></ng-content>
-  </span>
+    <span
+      class="blu-heading"
+      [ngClass]="{
+        'blu-heading-xs': size === 'xs',
+        'blu-heading-s': size === 's',
+        'blu-heading-m': size === 'm',
+        'blu-heading-l': size === 'l',
+        'blu-heading-bold': bold,
+        'blu-heading-success': feedback === 'success',
+        'blu-heading-error': feedback === 'error',
+        'blu-heading-primary': type === 'primary',
+        'blu-heading-secondary': type === 'secondary',
+        'blu-heading-tertiary': type === 'tertiary',
+        'blu-heading-number': isNumber,
+      }"
+    >
+      <ng-content></ng-content>
+    </span>
+    <blu-tag type="info" class="ms-2" *ngIf="tagText">
+      <blu-text type="info" weight="bold" size="s">
+          {{ tagText }}
+      </blu-text>
+    </blu-tag>
+  </div>
   <blu-text
     *ngIf="subheading && subheadingPosition === 'bottom'"
     class="blu-heading-sub"

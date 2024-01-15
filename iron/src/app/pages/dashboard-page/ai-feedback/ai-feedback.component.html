@@ -1,0 +1,41 @@
+<blu-modal>
+    <div class="ai-feedback-wrapper">
+    <blu-heading size="s" tagType="special" tagText="New!">
+            Portfolio Feedback
+    </blu-heading>
+    <div class="row mt-3">
+        <div class="col-3 ai-feedback-progress">
+            <mat-progress-spinner
+                class="progress-spinner mb-2"
+                mode="determinate"
+                [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
+                strokeWidth="5"
+                diameter="75"
+            ></mat-progress-spinner>
+            <blu-text size="l" weight="bold" type="success" class="ai-feedback-progress-number">
+                {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
+            </blu-text>
+            <blu-text class="text-center" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
+                Qualifying assets
+            </blu-text>
+        </div>
+        <div class="col-9">
+            <div class="ai-feedback-description mb-3">
+                <blu-text type="secondary">
+                    After you have tracked more than {{ASSETS_TO_QUALIFY}} assets, our AI algorithm will be able to provide general feedback on your asset allocation, diversification, and possible places for improvement.
+                </blu-text>
+            </div>
+            <blu-button [fullWidth]="true" [disabled]="!shouldQualify()" (click)="shouldQualify() ? onGetFeedback() : null">
+                Get AI feedback
+            </blu-button>
+            <div class="mt-1">
+                <blu-text type="secondary" size="s">
+                    <blu-link>
+                        Legal disclaimer
+                    </blu-link>
+                </blu-text>
+            </div>
+        </div>
+    </div>
+</div>
+</blu-modal>

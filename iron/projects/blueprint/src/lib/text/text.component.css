@@ -1,5 +1,6 @@
 .blu-text {
   font: var(--blu-font-primary);
+  display: flex;
 }
 
 .blu-text-bold {
@@ -9,6 +10,7 @@
 .blu-text-s {
   font-size: var(--blu-font-size-xs);
   line-height: var(--blu-line-height-xs);
+  padding: 5px 0;
 }
 
 .blu-text-s {
@@ -56,4 +58,9 @@
 
 .blu-text-capitalize {
   text-transform: capitalize;
+}
+
+.blu-text-tooltip {
+  margin-left: var(--blu-margin-xs);
+  padding-bottom: var(--blu-padding-xs);
 }

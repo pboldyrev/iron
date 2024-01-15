@@ -16,4 +16,7 @@
   }"
 >
   <ng-content></ng-content>
+  <div class="blu-text-tooltip" *ngIf="tooltip">
+    <blu-icon name="question" size="12" [matTooltip]="tooltip" matTooltipClass="blu-tooltip"></blu-icon>
+  </div>
 </span>

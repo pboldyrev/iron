@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { BluIcon } from '../icon/icon.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'blu-text',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BluIcon, MatTooltipModule],
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.css'],
 })
@@ -14,4 +16,5 @@ export class BluText {
   @Input() weight: 'normal' | 'bold' = 'normal';
   @Input() capitalize = false;
   @Input() isNumber = false;
+  @Input() tooltip = "";
 }

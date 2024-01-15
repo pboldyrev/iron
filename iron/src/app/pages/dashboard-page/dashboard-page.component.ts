@@ -22,11 +22,12 @@ import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
 import { LoadingStateComponent } from 'src/app/loading-state/loading-state.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AiFeedbackComponent } from './ai-feedback/ai-feedback.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, FooterComponent, LoadingStateComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, FooterComponent, LoadingStateComponent, AiFeedbackComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
