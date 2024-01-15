@@ -52,17 +52,14 @@
 
 .blu-heading-gap-s {
   line-height: var(--blu-line-height-heading-s);
-  margin-bottom: var(--blu-margin-xs);
 }
 
 .blu-heading-gap-m {
   line-height: var(--blu-line-height-heading-m);
-  margin-bottom: var(--blu-margin-s);
 }
 
 .blu-heading-gap-l {
   line-height: var(--blu-line-height-heading-l);
-  margin-bottom: var(--blu-margin-m);
 }
 
 .blu-heading-xs {

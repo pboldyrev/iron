@@ -76,7 +76,7 @@
                     class="dashboard-loader-wrapper"
                 ></app-loading-state>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="((assets$ | async) ?? []).length > 0">
                 <app-ai-feedback
                     [assets]="(assets$ | async) ?? []"
                 ></app-ai-feedback>

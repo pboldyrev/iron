@@ -29,6 +29,8 @@ export type BluIconName =
   | 'trash'
   | 'backArrow'
   | 'question'
+  | 'collapse'
+  | 'show'
   | 'plus';
 
 export const BluToIconMap = {
@@ -55,5 +57,7 @@ export const BluToIconMap = {
   cd: 'heroClock',
   trash: 'heroTrash',
   backArrow: 'heroArrowLeft',
-  question: 'octQuestion'
+  question: 'octQuestion',
+  collapse: 'heroEyeSlash',
+  show: 'heroEye',
 };

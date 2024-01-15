@@ -31,6 +31,8 @@ import {
   heroArrowTrendingUp,
   heroArrowTrendingDown,
   heroCurrencyDollar,
+  heroEyeSlash,
+  heroEye,
 } from '@ng-icons/heroicons/outline';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -71,6 +73,8 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroArrowTrendingUp,
       heroArrowTrendingDown,
       heroCurrencyDollar,
+      heroEyeSlash,
+      heroEye,
     }),
   ],
 })
