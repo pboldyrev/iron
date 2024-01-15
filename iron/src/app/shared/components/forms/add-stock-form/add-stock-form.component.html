@@ -18,7 +18,8 @@
             initValue="1"
             [fullWidth]="true"
             [feedbackType]="FeedbackType.ERROR" 
-            label="Units"
+            [label]="TEXTS.UNITS_LABEL"
+            [tooltip]="TEXTS.UNITS_TOOLTIP"
             [required]="true"
             [disabled]="(isLoading$ | async) ?? false || !isAdd"
             #units
