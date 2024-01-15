@@ -67,7 +67,7 @@ export class AddStockFormComponent implements AfterContentChecked {
     return {
       ticker: ticker,
       initTimestamp: purchaseDateObj.valueOf(),
-      curUnits: parseInt(units)
+      initUnits: parseInt(units),
     };
   }
 }

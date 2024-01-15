@@ -32,9 +32,9 @@
     [isAdd]="isAdd"
     #customForm
 ></app-add-cash-form>
-<div class="row g-3">
+<div class="row g-3 pt-3">
     <ng-container *ngIf="isAdd else isUpdate">
-        <div class="col-md-4 order-md-1 order-2 pt-3">
+        <div class="col-md-4 order-md-1 order-2">
             <blu-button 
                 [fullWidth]="true" 
                 type="secondary" 
@@ -42,7 +42,7 @@
                 iconName="backArrow"
             >{{ TEXTS.BTN_BACK }}</blu-button>
         </div>
-        <div class="col-md-8 order-md-2 order-1 pt-3">
+        <div class="col-md-8 order-md-2 order-1">
             <blu-button
                 [fullWidth]="true" 
                 type="primary"
@@ -54,7 +54,7 @@
         </div>
     </ng-container>
     <ng-template #isUpdate>
-        <div class="col-12 pt-3">
+        <div class="col-12">
             <blu-button
                 [fullWidth]="true" 
                 type="primary" 

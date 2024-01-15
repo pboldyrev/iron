@@ -27,6 +27,8 @@ export type VehicleAttributes = {
 
 export type StockAttributes = {
   ticker?: string;
+  initUnits?: number,
+  initTimestamp?: number,
 }
 
 export type CashAttributes = {

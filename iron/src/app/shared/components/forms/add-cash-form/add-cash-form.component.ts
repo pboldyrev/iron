@@ -17,7 +17,6 @@ export class AddCashFormComponent implements AfterContentChecked {
   @ViewChild('assetName') assetNameInput!: BluInput;
   @ViewChild('appreciationRate') appreciationRateInput!: BluInput;
   @ViewChild('curValue') curValueInput!: BluInput;
-  @ViewChild('units') unitsInput!: BluInput;
 
   @Input() asset$!: Observable<Asset>;
   @Input() isLoading$ = new BehaviorSubject<boolean>(false);
@@ -49,15 +48,15 @@ export class AddCashFormComponent implements AfterContentChecked {
     const assetName = this.assetNameInput.validate();
     const appreciationRate = this.appreciationRateInput.validate();
     const curValue = this.isAdd ? this.curValueInput.validate() : ''
-    const units = this.unitsInput.validate();
 
-    if(!assetName || !appreciationRate || !units) {
+    if(!assetName || !appreciationRate) {
       return {};
     }
 
     let assetObj: Asset = {
       assetName: assetName,
       appreciationRate: parseFloat(appreciationRate),
+      curUnits: 1,
     };
 
     if(this.isAdd) {

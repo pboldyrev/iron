@@ -1,57 +1,37 @@
 <div class="row g-3">
-    <div class="col-md-8">
-        <div class="add-custom-input">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.LABEL_NAME"
-                [required]="true"
-                [disabled]="(isLoading$ | async) ?? false"
-                type="TEXT"
-                #assetName
-            ></blu-input>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="add-custom-input">
-            <blu-input
-                type="INTEGER"
-                initValue="1"
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                label="Units"
-                [required]="true"
-                [disabled]="(isLoading$ | async) ?? false"
-                #units
-            ></blu-input>
-        </div>
+    <div class="col-md-12">
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.LABEL_NAME"
+            [required]="true"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="TEXT"
+            #assetName
+        ></blu-input>
     </div>
     <div class="col-md-6">
-        <div class="add-custom-input">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.LABEL_APPRECIATION"
-                [required]="true"
-                placeholder="ex. 0.15"
-                [disabled]="(isLoading$ | async) ?? false"
-                [tooltip]="TEXTS.TOOLTIP_APPRECIATION"
-                type="NUMBER"
-                #appreciationRate
-            ></blu-input>
-        </div>
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.LABEL_APPRECIATION"
+            [required]="true"
+            placeholder="ex: 0.05"
+            [disabled]="(isLoading$ | async) ?? false"
+            [tooltip]="TEXTS.TOOLTIP_APPRECIATION"
+            type="NUMBER"
+            #appreciationRate
+        ></blu-input>
     </div>
     <div class="col-md-6" *ngIf="isAdd">
-        <div class="add-custom-input">
-            <blu-input 
-                [fullWidth]="true"
-                [feedbackType]="FeedbackType.ERROR" 
-                [label]="TEXTS.LABEL_CUR_VALUE"
-                [required]="false"
-                [disabled]="(isLoading$ | async) ?? false"
-                type="NUMBER"
-                #curValue
-            ></blu-input>
-        </div>
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.LABEL_CUR_VALUE"
+            [required]="true"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="CURRENCY"
+            #curValue
+        ></blu-input>
     </div>
 </div>
