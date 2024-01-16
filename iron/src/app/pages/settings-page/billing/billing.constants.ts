@@ -1,4 +1,4 @@
-import { PlanOption } from "../../../billing-option/billing-option.component";
+import { PlanOption } from "./billing-option/billing-option.component";
 
 export const PLAN_OPTIONS: PlanOption[] = [
     {

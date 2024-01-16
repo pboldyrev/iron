@@ -6,7 +6,7 @@ import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { PLAN_OPTIONS } from './billing.constants';
-import { BillingOptionComponent, PlanOption } from '../../../billing-option/billing-option.component';
+import { BillingOptionComponent, PlanOption } from './billing-option/billing-option.component';
 import { TEXTS } from './billing.strings';
 
 @Component({
