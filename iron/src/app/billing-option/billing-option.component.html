@@ -2,6 +2,11 @@
     <blu-heading size="m" [bold]="true" [subheading]="plan.name" subheadingPosition="top">
         {{ plan.price }}
     </blu-heading>
+    <blu-tag *ngIf="plan.tag" type="info" class="mt-1">
+        <blu-text type="info" class="p-1">
+            {{ plan.tag }}
+        </blu-text>
+    </blu-tag>
     <div class="billing-option-features mt-3">
         <ng-container *ngFor="let benefit of plan.benefits">
             <blu-text type="secondary">
@@ -9,7 +14,7 @@
             </blu-text>
         </ng-container>
     </div>
-    <blu-button type="primary" [fullWidth]="true" *ngIf="plan.link" class="mt-3" (click)="onUpgradeClicked(plan.link)">
+    <blu-button *ngIf="plan.link" type="primary" [fullWidth]="true" class="mt-3" (click)="onUpgradeClicked(plan.link)">
         {{ TEXTS.BTN_UPGRADE }}
     </blu-button>
 </blu-modal>

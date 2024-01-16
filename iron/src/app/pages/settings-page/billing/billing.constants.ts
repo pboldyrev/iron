@@ -1,4 +1,4 @@
-import { PlanOption } from "./billing-option/billing-option.component";
+import { PlanOption } from "../../../billing-option/billing-option.component";
 
 export const PLAN_OPTIONS: PlanOption[] = [
     {
@@ -10,6 +10,7 @@ export const PLAN_OPTIONS: PlanOption[] = [
             "Weekly automatic asset value updates"
         ],
         selected: false,
+        tag: "",
     },
     {
         name: "Premium Monthly",
@@ -22,6 +23,7 @@ export const PLAN_OPTIONS: PlanOption[] = [
             "No commitments, cancel any time"
         ],
         selected: false,
+        tag: "",
     },
     {
         name: "Premium Yearly",
@@ -34,5 +36,6 @@ export const PLAN_OPTIONS: PlanOption[] = [
             "No commitments, cancel any time"
         ],
         selected: false,
+        tag: "Best value",
     },
 ]
