@@ -4,7 +4,8 @@ export const TEXTS = {
   INVALID_CREDENTIALS: 'Invalid credentials.',
   UNKNWON_LOGIN_ERROR: 'Something went wrong. Please try again!',
   INCORRECT_CODE: 'This one time code is incorrect.',
-  HEADLINE: 'Privacy-first financial automation tool, powered by AI.',
+  HEADLINE: 'Finacle is a privacy-first asset tracking tool, powered by AI.',
+  SUBHEADLINE: 'Get a clear view into your past, present, and future net worth with the same level of privacy as a spreadsheet.',
 };
 
 export const LABELS = {
