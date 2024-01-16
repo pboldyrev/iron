@@ -41,6 +41,7 @@
 
 .blu-button:hover {
   cursor: pointer;
+  scale: 0.98;
   transition: 0.2s;
 }
 

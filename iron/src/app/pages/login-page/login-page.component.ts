@@ -19,6 +19,8 @@ import { AnalyticsService } from 'src/app/shared/services/analytics.service';
 import { ANALYTICS } from 'src/app/shared/constants/constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-login-page',
@@ -33,6 +35,8 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
     BluText,
     BluModal,
     BluValidationFeedback,
+    BluLink,
+    MatTooltipModule,
   ],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
