@@ -130,7 +130,7 @@ export class ValueHistoryComponent {
           timestamp: (new Date(date)).valueOf(),
           units: parseInt(units),
           totalValue: 0,
-        })
+        }, this.isLoading$)
       })
     ).subscribe();
   }
