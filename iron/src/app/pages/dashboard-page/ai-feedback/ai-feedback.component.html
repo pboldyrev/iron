@@ -13,12 +13,12 @@ In exchange for using the Site, you agree not to hold Finacle, its affiliates or
 </blu-popup>
 <blu-modal>
     <div class="ai-feedback-wrapper">
-        <div class="ai-feedback-heading">
+        <div class="ai-feedback-heading" (click)="onToggleDetails()">
             <blu-heading size="s" tagType="special" tagText="New">
                     Portfolio Feedback
             </blu-heading>
-            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails" (click)="onToggleDetails()"></blu-button>
-            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails" (click)="onToggleDetails()"></blu-button>
+            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
+            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
         </div>
         <div class="row mt-4" *ngIf="showDetails">
             <div class="col-3 ai-feedback-progress">
@@ -42,7 +42,7 @@ In exchange for using the Site, you agree not to hold Finacle, its affiliates or
                         After you add more than {{ASSETS_TO_QUALIFY}} assets, our AI algorithm will be able to provide general feedback on your asset allocation, diversification, and possible places for improvement.
                     </blu-text>
                 </div>
-                <blu-button [fullWidth]="true" [disabled]="!shouldQualify()" (click)="shouldQualify() ? onGetFeedback() : null">
+                <blu-button [fullWidth]="true" [hidden]="!shouldQualify()" (click)="shouldQualify() ? onGetFeedback() : null">
                     Get AI feedback
                 </blu-button>
                 <div class="mt-1">

@@ -107,6 +107,15 @@ export class AddAssetFormComponent {
           return this.dataService.putAsset$(assetPayload, initValue, this.isLoading$);
         }
 
+        if (this.assetType === AssetType.Cash) {
+          const initValue: AssetValue = {
+            timestamp: customAttributes.initTimestamp ?? 0,
+            totalValue: customAttributes.initTotalValue ?? 0,
+            units: 1,
+          };
+          return this.dataService.putAsset$(assetPayload, initValue, this.isLoading$);
+        }
+
         return this.dataService.putAsset$(assetPayload, null, this.isLoading$);
       
       }),

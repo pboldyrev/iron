@@ -56,11 +56,11 @@ export class AddCashFormComponent implements AfterContentChecked {
     let assetObj: Asset = {
       assetName: assetName,
       appreciationRate: parseFloat(appreciationRate),
-      curUnits: 1,
     };
 
     if(this.isAdd) {
-      assetObj.curTotalValue = parseFloat(curValue);
+      assetObj.initTotalValue = parseFloat(curValue);
+      assetObj.initTimestamp = new Date(new Date().toDateString()).valueOf();
     }
     
     return assetObj;

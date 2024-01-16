@@ -44,7 +44,7 @@ export class ValueHistoryComponent {
   
   @Input() assetValues = [] as AssetValue[];
   @Input() assetId = "";
-  @Input() assetType = AssetType.Stock;
+  @Input() asset$ = new BehaviorSubject<Asset>({});
   @Input() isLoading$= new BehaviorSubject<boolean>(false);
 
   public FeedbackType = FeedbackType;
@@ -52,14 +52,24 @@ export class ValueHistoryComponent {
   public TEXTS = TEXTS;
   public DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
 
-  showValueHistory = this.assetType === AssetType.Cash;
   historyChart: Chart | null = null;
+  showValueHistory = false;
+  allowValueHistory = false;
+  isAutomaticallyTracked = false;
 
   constructor(
     private dataService: DataService,
     private toastService: ToastService,
     private chartService: ChartService,
   ) {}
+
+  ngOnInit() {
+    this.asset$.subscribe((asset: Asset) => {
+      this.showValueHistory = asset.assetType === AssetType.Cash;
+      this.allowValueHistory = asset.assetType !== AssetType.Stock;
+      this.isAutomaticallyTracked = asset.assetType !== AssetType.Cash;
+    });
+  }
 
   public updateChart(data: AssetValue[]): void {
     if(this.historyChart) {
@@ -72,7 +82,9 @@ export class ValueHistoryComponent {
   }
 
   public toggleValueHistory(): void {
-    this.showValueHistory = !this.showValueHistory;
+    if(this.allowValueHistory) {
+      this.showValueHistory = !this.showValueHistory;
+    }
   }
 
   public onAddEntry(): void {

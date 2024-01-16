@@ -16,5 +16,5 @@ export const TEXTS = {
     LABEL_TRACKED: "This asset is tracked automatically",
     LINK_HIDE: "Hide table",
     WANT_TO: "Want to ",
-    LINK_MODIFY: "modify values manually",
+    LINK_MODIFY: "modify the values",
 }

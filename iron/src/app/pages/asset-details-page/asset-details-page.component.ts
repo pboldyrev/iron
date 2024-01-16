@@ -49,12 +49,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   
   displayAssetName = "";
   displayAssetValue = "";
-  showManualEntry = false;
-
-  showValueHistory$ = this.asset$.pipe(
-    take(1),
-    map((asset: Asset) => asset.assetType === AssetType.Cash)
-  );
 
   constructor(
     private navigationService: NavigationService,
