@@ -1,7 +1,48 @@
 <div class="value-history-chart-wrapper">
     <canvas id="detailChart">{{ historyChart }}</canvas>
 </div>
-<div class="mb-3" *ngIf="showValueHistory">
+<blu-modal *ngIf="assetType === AssetType.Stock">
+    <div class="row g-3">
+        <div class="col-6 col-md-4">
+            <blu-select
+                [label]="TEXTS.LABEL_STOCK_ACTION"
+                [options]="STOCK_OPTIONS" 
+                [selected]="STOCK_OPTIONS[0]"
+                [required]="true"
+                #stockAction
+            ></blu-select>
+        </div>
+        <div class="col-6 col-md-4">
+            <blu-input
+                [label]="TEXTS.LABEL_UNITS"
+                type="INTEGER"
+                [fullWidth]="true"
+                [required]="true"
+                #stockActionUnits
+            >
+            </blu-input>
+        </div>
+        <div class="col-12 col-md-4">
+            <blu-input
+                [label]="TEXTS.LABEL_DATE"
+                type="DATE"
+                [fullWidth]="true"
+                [required]="true"
+                #stockActionDate
+            >
+            </blu-input>
+        </div>
+        <div class="col-12">
+            <blu-button
+                type="primary"
+                [fullWidth]="true"
+            >
+                Submit action
+            </blu-button>
+        </div>
+    </div>
+</blu-modal>
+<div *ngIf="showValueHistory">
     <mat-table #table [dataSource]="assetValues">
         <ng-container matColumnDef="date">
             <mat-header-cell *matHeaderCellDef>
@@ -87,7 +128,7 @@
         <mat-footer-row *matFooterRowDef="DISPLAYED_COLUMNS"></mat-footer-row>
     </mat-table>
 </div>
-<div class="value-history-footer">
+<div class="value-history-footer mt-3">
     <blu-label
         *ngIf="isAutomaticallyTracked"
         class="asset-details-page-tooltip"

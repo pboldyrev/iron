@@ -19,11 +19,12 @@ import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DISPLAYED_COLUMNS } from './value-history.constants';
+import { DISPLAYED_COLUMNS, STOCK_OPTIONS } from './value-history.constants';
 import { BluLabel } from 'projects/blueprint/src/lib/label/label.component';
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
+import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 
 export type ValueChange = {
   amount?: number,
@@ -34,7 +35,7 @@ export type ValueChange = {
 @Component({
   selector: 'app-value-history',
   standalone: true,
-  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink],
+  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect],
   templateUrl: './value-history.component.html',
   styleUrl: './value-history.component.scss'
 })
@@ -47,15 +48,18 @@ export class ValueHistoryComponent {
   @Input() asset$ = new BehaviorSubject<Asset>({});
   @Input() isLoading$= new BehaviorSubject<boolean>(false);
 
-  public FeedbackType = FeedbackType;
-  public AssetType = AssetType;
-  public TEXTS = TEXTS;
-  public DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
+  FeedbackType = FeedbackType;
+  AssetType = AssetType;
+  TEXTS = TEXTS;
+  DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
+  STOCK_OPTIONS = STOCK_OPTIONS;
+
 
   historyChart: Chart | null = null;
   showValueHistory = false;
   allowValueHistory = false;
   isAutomaticallyTracked = false;
+  assetType = AssetType.Cash;
 
   constructor(
     private dataService: DataService,
@@ -68,6 +72,7 @@ export class ValueHistoryComponent {
       this.showValueHistory = asset.assetType === AssetType.Cash;
       this.allowValueHistory = asset.assetType !== AssetType.Stock;
       this.isAutomaticallyTracked = asset.assetType !== AssetType.Cash;
+      this.assetType = asset.assetType ?? AssetType.Cash;
     });
   }
 
