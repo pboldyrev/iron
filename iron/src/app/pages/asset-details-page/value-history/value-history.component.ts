@@ -42,6 +42,8 @@ export type ValueChange = {
 export class ValueHistoryComponent {
   @ViewChild('value') valueInput!: BluInput;
   @ViewChild('date') dateInput!: BluInput;
+  @ViewChild('stockActionDate') stockDateInput!: BluInput;
+  @ViewChild('stockActionUnits') stockUnitsInput!: BluInput;
   
   @Input() assetValues = [] as AssetValue[];
   @Input() assetId = "";
@@ -111,6 +113,26 @@ export class ValueHistoryComponent {
         console.log(error);
       }
     })
+  }
+
+  onStockUnitsUpdate(): void {
+    const date = this.stockDateInput.validate();
+    const units = this.stockUnitsInput.validate();
+
+    if(!this.stockDateInput.isValid || !this.stockUnitsInput.isValid) {
+      return;
+    }
+
+    this.asset$.pipe(
+      take(1),
+      mergeMap((asset: Asset) => {
+        return this.dataService.putAssetValue$(asset.assetId ?? "", {
+          timestamp: (new Date(date)).valueOf(),
+          units: parseInt(units),
+          totalValue: 0,
+        })
+      })
+    ).subscribe();
   }
 
   public onDeleteEntry(entryToDelete: AssetValue): void {

@@ -3,16 +3,7 @@
 </div>
 <blu-modal *ngIf="assetType === AssetType.Stock">
     <div class="row g-3">
-        <div class="col-6 col-md-4">
-            <blu-select
-                [label]="TEXTS.LABEL_STOCK_ACTION"
-                [options]="STOCK_OPTIONS" 
-                [selected]="STOCK_OPTIONS[0]"
-                [required]="true"
-                #stockAction
-            ></blu-select>
-        </div>
-        <div class="col-6 col-md-4">
+        <div class="col-6">
             <blu-input
                 [label]="TEXTS.LABEL_UNITS"
                 type="INTEGER"
@@ -22,7 +13,7 @@
             >
             </blu-input>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-6">
             <blu-input
                 [label]="TEXTS.LABEL_DATE"
                 type="DATE"
@@ -36,8 +27,9 @@
             <blu-button
                 type="primary"
                 [fullWidth]="true"
+                (click)="onStockUnitsUpdate()"
             >
-                Submit action
+                {{ TEXTS.BTN_SUBMIT_STOCK }}
             </blu-button>
         </div>
     </div>
