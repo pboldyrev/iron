@@ -133,7 +133,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
     return isValid;
   }
 
-  public onSwitchToCustom(): void {
-    this.navigationService.navigate('/add/custom');
+  public onSwitchToCash(): void {
+    this.navigationService.navigate('/add/cash');
   }
 }

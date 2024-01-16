@@ -32,12 +32,14 @@
 }
 
 .login-main-wrapper {
+  background-image: url(./../../../assets/background/login.png);
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: var(--blu-height-full);
+  height: 100vh;
+  min-height: 100%;
   width: var(--blu-width-full);
   padding: var(--blu-padding-4xl);
 }

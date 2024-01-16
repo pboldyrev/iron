@@ -61,6 +61,11 @@
   color: var(--blu-color-primary);
 }
 
+.blu-button-inverse {
+  background-color: var(--blu-color-primary);
+  color: var(--blu-color-brand);
+}
+
 .blu-button-none {
   background-color: var(--blu-background-blank);
   border: none;

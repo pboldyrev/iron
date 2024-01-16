@@ -4,6 +4,7 @@ export const TEXTS = {
   INVALID_CREDENTIALS: 'Invalid credentials.',
   UNKNWON_LOGIN_ERROR: 'Something went wrong. Please try again!',
   INCORRECT_CODE: 'This one time code is incorrect.',
+  HEADLINE: 'Privacy-first financial automation tool, powered by AI.',
 };
 
 export const LABELS = {

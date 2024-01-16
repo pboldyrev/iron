@@ -5,8 +5,8 @@ export const TEXTS = {
     NICKNAME_LABEL: "Nickname",
     DATE_LABEL: "Purchase date",
     PRICE_LABEL: "Purchase price",
-    SWITCH: "track via a custom asset",
-    OR: "...or ",
+    SWITCH: "track via a cash asset",
+    OR: "...or",
 }
 
 export const TOOLTIPS = {

@@ -161,4 +161,8 @@ export class LoginPageComponent {
     this.phoneNumber = 0;
     this.methodId = '';
   }
+
+  onViewFeatures(): void {
+    alert("Not implemented yet!");
+  }
 }
