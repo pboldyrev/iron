@@ -1,0 +1,15 @@
+<blu-modal [borderColor]="plan.selected ? 'brand' : 'normal'">
+    <blu-heading size="m" [bold]="true" [subheading]="plan.name" subheadingPosition="top">
+        {{ plan.price }}
+    </blu-heading>
+    <div class="billing-option-features mt-3">
+        <ng-container *ngFor="let benefit of plan.benefits">
+            <blu-text type="secondary">
+                <blu-icon name="check" class="me-2"></blu-icon>{{ benefit }}
+            </blu-text>
+        </ng-container>
+    </div>
+    <blu-button type="primary" [fullWidth]="true" *ngIf="plan.link" class="mt-3" (click)="onUpgradeClicked(plan.link)">
+        {{ TEXTS.BTN_UPGRADE }}
+    </blu-button>
+</blu-modal>

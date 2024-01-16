@@ -1,0 +1,9 @@
+<div class="row g-3">
+    <ng-container *ngFor="let plan of getPlanOptions()">
+        <div class="col-12 col-md-4">
+            <app-billing-option
+                [plan]="plan"
+            ></app-billing-option>
+        </div>
+    </ng-container>
+</div>

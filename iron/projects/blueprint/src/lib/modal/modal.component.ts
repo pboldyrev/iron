@@ -19,4 +19,5 @@ export class BluModal {
   @Input() padding: 's' | 'm' | 'l' | 'xl' = 'l';
   @Input() titleTooltip: string = '';
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
+  @Input() borderColor: 'brand' | 'normal' = 'normal';
 }

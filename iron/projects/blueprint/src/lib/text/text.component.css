@@ -1,6 +1,7 @@
 .blu-text {
   font: var(--blu-font-primary);
   display: flex;
+  align-items: center;
 }
 
 .blu-text-bold {

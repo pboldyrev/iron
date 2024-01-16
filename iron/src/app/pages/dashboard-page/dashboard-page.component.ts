@@ -16,7 +16,6 @@ import { BehaviorSubject, Observable, filter, map, mergeMap, of, skip, take, tap
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { ASSET_TABLE_COLS } from './dashboard-page.constants';
-import { FooterComponent } from 'src/app/footer/footer.component';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
@@ -27,7 +26,7 @@ import { AiFeedbackComponent } from './ai-feedback/ai-feedback.component';
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, FooterComponent, LoadingStateComponent, AiFeedbackComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })

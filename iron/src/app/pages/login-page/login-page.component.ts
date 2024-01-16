@@ -18,7 +18,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AnalyticsService } from 'src/app/shared/services/analytics.service';
 import { ANALYTICS } from 'src/app/shared/constants/constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { FooterComponent } from 'src/app/footer/footer.component';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 
 @Component({
@@ -34,7 +33,6 @@ import { NavigationService } from 'src/app/shared/services/navigation-service.se
     BluText,
     BluModal,
     BluValidationFeedback,
-    FooterComponent
   ],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],

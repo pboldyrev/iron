@@ -12,11 +12,12 @@ import { ConfirmationPopupComponent } from 'src/app/shared/components/confirmati
 import { DataService } from 'src/app/shared/services/data.service';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { BillingComponent } from './billing/billing.component';
 
 @Component({
   selector: 'app-settings-page',
   standalone: true,
-  imports: [CommonModule, BluModal, BluButton, BluHeading, BluText, BluLink, MatTabsModule, MatTableModule, ConfirmationPopupComponent],
+  imports: [CommonModule, BluModal, BluButton, BluHeading, BluText, BluLink, MatTabsModule, MatTableModule, ConfirmationPopupComponent, BillingComponent],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss'
 })

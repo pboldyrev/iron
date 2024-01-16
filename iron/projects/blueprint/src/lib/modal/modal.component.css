@@ -8,6 +8,10 @@
   height: fit-content;
 }
 
+.modal-brand {
+  border-color: var(--blu-color-brand);
+}
+
 .modal-heading {
   text-align: start;
   margin-bottom: var(--blu-space-l);
