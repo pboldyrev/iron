@@ -41,6 +41,8 @@ export class AddAssetFormComponent {
   @Input() asset$ = of({} as Asset);
   @Input() isLoading$ = new BehaviorSubject<boolean>(false);
 
+  submitDisabled = false;
+
   public AssetType = AssetType;
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
@@ -69,6 +71,7 @@ export class AddAssetFormComponent {
 
   public onSubmit(): void {
     this.isLoading$.next(true);
+    this.submitDisabled = true;
 
     const customAttributes = this.getSubForm()?.onSubmit() ?? {};
     const account = this.accountInput.validate();
@@ -155,6 +158,7 @@ export class AddAssetFormComponent {
 
   private onSaveSuccess(asset: Asset): void {
     this.isLoading$.next(false);
+    this.submitDisabled = false;
     
     if(this.isAdd){
       this.navigationService.navigate('asset/' + asset.assetId);
@@ -166,6 +170,7 @@ export class AddAssetFormComponent {
 
   private onSaveError(err: HttpErrorResponse): void {
     this.isLoading$.next(false);
+    this.submitDisabled = false;
 
     if(this.isAdd){
       if(this.assetType === AssetType.Vehicle && err.status === 400) {

@@ -46,7 +46,8 @@
             <blu-button
                 [fullWidth]="true" 
                 type="primary"
-                (click)="onSubmit()"
+                (click)="submitDisabled ? null : onSubmit()"
+                [disabled]="submitDisabled"
             >
                 <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
                 {{ TEXTS.BTN_ADD }}
@@ -58,7 +59,7 @@
             <blu-button
                 [fullWidth]="true" 
                 type="primary" 
-                (click)="onSubmit()"
+                (click)="submitDisabled ? null : onSubmit()"
             >
                 <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
                 {{ TEXTS.BTN_UPDATE }}
