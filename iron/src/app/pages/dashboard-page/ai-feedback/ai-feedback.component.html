@@ -21,20 +21,37 @@ In exchange for using the Site, you agree not to hold Finacle, its affiliates or
             <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
         </div>
         <div class="row mt-4" *ngIf="showDetails">
-            <div class="col-12 mb-3 mb-sm-0 col-sm-3 ai-feedback-progress">
-                <mat-progress-spinner
-                    class="progress-spinner mb-2"
-                    mode="determinate"
-                    [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
-                    strokeWidth="5"
-                    diameter="75"
-                ></mat-progress-spinner>
-                <blu-text size="l" weight="bold" type="success" class="ai-feedback-progress-number">
-                    {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
-                </blu-text>
-                <blu-text class="text-center" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
-                    Qualifying assets
-                </blu-text>
+            <div class="col-12 mb-3 mb-sm-0 col-sm-3">
+                <div class="d-none d-sm-flex ai-feedback-progress">
+                    <mat-progress-spinner
+                        class="progress-spinner mb-2"
+                        mode="determinate"
+                        [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
+                        strokeWidth="5"
+                        diameter="75"
+                    ></mat-progress-spinner>
+                    <blu-text size="l" weight="bold" type="success" class="ai-feedback-progress-number">
+                        {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
+                    </blu-text>
+                    <blu-text class="text-center" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
+                        Qualifying assets
+                    </blu-text>
+                </div>
+                <div class="d-flex d-sm-none ai-feedback-progress px-5">
+                    <blu-text size="l" weight="bold" type="success">
+                        {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
+                    </blu-text>
+                    <blu-text class="text-center mb-2" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
+                        Qualifying assets
+                    </blu-text>
+                    <mat-progress-bar
+                        class="mb-2"
+                        mode="determinate"
+                        [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
+                        strokeWidth="5"
+                        diameter="75"
+                    ></mat-progress-bar>
+                </div>
             </div>
             <div class="col-12 col-sm-9">
                 <div class="ai-feedback-description mb-3">

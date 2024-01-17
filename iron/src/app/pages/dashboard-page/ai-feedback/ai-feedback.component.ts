@@ -12,11 +12,12 @@ import { ASSETS_TO_QUALIFY } from './ai-feedback.constants';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-ai-feedback',
   standalone: true,
-  imports: [CommonModule, BluModal, BluLink, BluButton, BluText, BluLabel, BluHeading, BluTag, MatProgressSpinnerModule, BluPopup],
+  imports: [CommonModule, BluModal, BluLink, BluButton, BluText, BluLabel, BluHeading, BluTag, MatProgressSpinnerModule, BluPopup, MatProgressBarModule],
   templateUrl: './ai-feedback.component.html',
   styleUrl: './ai-feedback.component.scss'
 })
