@@ -15,7 +15,7 @@ export const PLAN_OPTIONS: PlanOption[] = [
     {
         name: "Premium Monthly",
         price: "$3.99/mo.",
-        link: "",
+        link: "/settings",
         benefits: [
             "Unlimited assets",
             "Daily automatic asset value updates",

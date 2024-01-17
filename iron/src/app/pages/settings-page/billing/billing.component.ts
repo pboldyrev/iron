@@ -8,6 +8,8 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { PLAN_OPTIONS } from './billing.constants';
 import { BillingOptionComponent, PlanOption } from './billing-option/billing-option.component';
 import { TEXTS } from './billing.strings';
+import { cloneDeep } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-billing',
@@ -20,15 +22,28 @@ export class BillingComponent {
   PLAN_OPTIONS = PLAN_OPTIONS;
   TEXTS = TEXTS;
 
-  getPlanOptions(): PlanOption[] {
-    // getCurrentUserPlan returns Premium Monthly
-    const currentPlan = "Premium Monthly";
+  planOptions = cloneDeep(PLAN_OPTIONS);
 
-    return PLAN_OPTIONS.map((option: PlanOption) => {
-      if(option.name === currentPlan) {
-        option.selected = true;
+  ngOnInit() {
+    // getCurrentUserPlan returns Premium Monthly
+    this.onOptionSelected(PLAN_OPTIONS[1]);
+  }
+
+  onOptionSelected(selectedOption: PlanOption): void {
+    for(let i = 0; i < PLAN_OPTIONS.length; ++i) {
+      let curOption = this.planOptions[i];
+
+      if(curOption.name === selectedOption.name) {
+        curOption.selected = true;
+        curOption.link = "";
+        curOption.tag = TEXTS.TAG_CURRENT;
+      } else {
+        curOption.selected = false;
+        curOption.link = PLAN_OPTIONS[i].link;
+        curOption.tag = PLAN_OPTIONS[i].tag;
       }
-      return option;
-    })
+
+      this.planOptions[i] = curOption;
+    }
   }
 }
