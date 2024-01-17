@@ -3,6 +3,7 @@
         <div class="col">
             <blu-select
                 [label]="TEXTS.LABEL_ACCOUNT"
+                [selected]="accountOptions[0]"
                 [required]="true"
                 [options]="accountOptions"
                 [disabled]="(isLoading$ | async) ?? false"
@@ -55,15 +56,13 @@
         </div>
     </ng-container>
     <ng-template #isUpdate>
-        <div class="col-12">
-            <blu-button
-                [fullWidth]="true" 
-                type="primary" 
-                (click)="submitDisabled ? null : onSubmit()"
-            >
-                <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
-                {{ TEXTS.BTN_UPDATE }}
-            </blu-button>
-        </div>
+        <blu-button
+            [fullWidth]="true" 
+            type="primary" 
+            (click)="submitDisabled ? null : onSubmit()"
+        >
+            <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
+            {{ TEXTS.BTN_UPDATE }}
+        </blu-button>
     </ng-template>
 </div>

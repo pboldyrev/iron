@@ -78,7 +78,7 @@
 }
 
 .blu-button-tertiary:hover {
-  color: var(--blu-color-brand);
+  color: var(--blu-color-tertiary);
 }
 
 .blu-button-inverse {

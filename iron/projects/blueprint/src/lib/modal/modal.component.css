@@ -4,7 +4,7 @@
   background-color: var(--blu-background-secondary);
 }
 
-.modal-content {
+.modal-content-stretch {
   height: var(--blu-height-full);
 }
 

@@ -21,4 +21,5 @@ export class BluModal {
   @Input() borderColor: 'brand' | 'normal' = 'normal';
   @Input() fullWidth = false;
   @Input() fullHeight = false;
+  @Input() stretchToFill = false;
 }

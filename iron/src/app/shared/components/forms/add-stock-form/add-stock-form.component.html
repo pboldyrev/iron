@@ -12,9 +12,8 @@
             #ticker
         ></blu-input>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isAdd">
         <blu-input
-            *ngIf="isAdd"
             type="INTEGER"
             initValue="1"
             [fullWidth]="true"
@@ -26,9 +25,8 @@
             #units
         ></blu-input>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isAdd">
         <blu-input
-            *ngIf="isAdd"
             [fullWidth]="true"
             [feedbackType]="FeedbackType.ERROR" 
             [label]="TEXTS.DATE_LABEL"

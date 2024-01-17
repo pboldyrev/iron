@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Input } from '@angular/core';
+import { AfterContentInit, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FeedbackType } from '../common/constants';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -7,13 +7,15 @@ import { FEEDBACK_STRINGS } from 'src/app/shared/constants/strings';
 import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
 import { FormsModule } from '@angular/forms';
 import { BluIcon } from '../icon/icon.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'blu-select',
   standalone: true,
-  imports: [CommonModule, BluLabel, BluValidationFeedback, FormsModule, BluIcon],
+  imports: [CommonModule, BluLabel, BluValidationFeedback, FormsModule, BluIcon, MatSelectModule],
   templateUrl: './select.component.html',
-  styleUrl: './select.component.css'
+  styleUrl: './select.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class BluSelect implements AfterContentInit {
   @Input() options!: string[];
