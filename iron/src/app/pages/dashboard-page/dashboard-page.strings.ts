@@ -8,4 +8,5 @@ export const TEXTS = {
     TOOLTIP_SETTINGS: "Settings page",
     TOOLTIP_CTA: "Add asset",
     TOOLTIP_LOG_OUT: "Log out",
+    TOOLTIP_FEEDBACK: "Provide beta feedback",
 }

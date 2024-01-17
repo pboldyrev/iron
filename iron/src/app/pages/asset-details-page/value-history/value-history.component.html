@@ -34,7 +34,7 @@
         </div>
     </div>
 </blu-modal>
-<div *ngIf="showValueHistory">
+<div *ngIf="showValueHistory" class="value-history-table">
     <mat-table #table [dataSource]="assetValues">
         <ng-container matColumnDef="date">
             <mat-header-cell *matHeaderCellDef>

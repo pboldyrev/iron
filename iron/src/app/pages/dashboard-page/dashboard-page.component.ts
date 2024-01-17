@@ -22,12 +22,11 @@ import { ChartService } from 'src/app/shared/services/chart.service';
 import { LoadingStateComponent } from 'src/app/shared/components/loading-state/loading-state.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AiFeedbackComponent } from './ai-feedback/ai-feedback.component';
-import { HelpFeedbackComponent } from 'src/app/shared/components/help-feedback/help-feedback.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, HelpFeedbackComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
@@ -87,6 +86,10 @@ export class DashboardPageComponent implements AfterContentInit {
 
   onConfirmLogOut(): void {
     this.authService.signOut();
+  }
+
+  onFeedback(): void {
+    location.href = "mailto:feedback@finacle.app?subject=Finacle app feedback"
   }
 
   private fetchAssets(): void {

@@ -34,26 +34,36 @@
   color: var(--blu-color-primary);
 }
 
+.blu-button-primary:hover {
+  border: 1px solid var(--blu-color-primary);
+}
+
+.blu-button-secondary:hover{
+  border: 1px solid var(--blu-color-tertiary);
+}
+
 .blu-button-error {
   background-color: var(--blu-color-error);
   color: var(--blu-color-primary);
 }
 
+.blu-button-error:hover {
+  border: 1px solid var(--blu-color-error);
+}
+
 .blu-button-info {
   background-color: var(--blu-color-info-background);
+  border: var(--blu-border-info-inactive);
   color: var(--blu-color-info);
+}
+
+.blu-button-info:hover {
+  border: 1px solid var(--blu-color-info);
 }
 
 .blu-button:hover {
   cursor: pointer;
-  scale: 0.98;
   transition: 0.2s;
-}
-
-.blu-button:active {
-  cursor: pointer;
-  transition: 0.5s;
-  scale: 0.9;
 }
 
 .blu-button-secondary {
@@ -65,6 +75,10 @@
 .blu-button-tertiary {
   background-color: rgba(0, 0, 0, 0);
   color: var(--blu-color-primary);
+}
+
+.blu-button-tertiary:hover {
+  color: var(--blu-color-brand);
 }
 
 .blu-button-inverse {

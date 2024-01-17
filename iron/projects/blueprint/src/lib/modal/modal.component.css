@@ -5,7 +5,7 @@
 }
 
 .modal-content {
-  height: fit-content;
+  height: var(--blu-height-full);
 }
 
 .modal-brand {

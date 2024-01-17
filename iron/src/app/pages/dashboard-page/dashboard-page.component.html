@@ -68,6 +68,13 @@
                     (click)="onLogOut()" 
                     [tooltip]="TEXTS.TOOLTIP_LOG_OUT"
                 ></blu-button>
+                <blu-button 
+                    type="info" 
+                    [iconOnly]="true" 
+                    iconName="help" 
+                    (click)="onFeedback()" 
+                    [tooltip]="TEXTS.TOOLTIP_FEEDBACK"
+                ></blu-button>
             </div>
         </div>
         <div class="row g-3">
@@ -89,7 +96,6 @@
                     #assetTable
                 ></app-asset-table>
             </div>
-            <app-help-feedback></app-help-feedback>
         </div>
     </div>
 </div>

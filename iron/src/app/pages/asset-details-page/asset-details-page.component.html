@@ -10,7 +10,7 @@
                         {{ TEXTS.BTN_BACK }}
                 </blu-button>
                 <blu-button 
-                    *ngIf="(asset$ | async)?.assetType !== AssetType.Cash"
+                    *ngIf="(asset$ | async)?.assetType !== AssetType.Cash && (isComponentLoaded$ | async)"
                     type="secondary" 
                     [iconOnly]="true" 
                     iconName="spinner" 
@@ -29,14 +29,14 @@
                 {{ displayAssetValue }}
             </blu-heading>
             <div 
-                *ngIf="(isValuesLoading$ | async) || (isAssetLoading$ | async)" 
+                *ngIf="!(isComponentLoaded$ | async)" 
                 class="asset-details-loading-wrapper"
             >
                 <app-loading-state></app-loading-state>
             </div>
             <mat-tab-group 
                 [dynamicHeight]="true"
-                [hidden]="(isValuesLoading$ | async) || (isAssetLoading$ | async)"
+                [hidden]="!(isComponentLoaded$ | async)"
                 (selectedTabChange)="onTabClick($event)"
             >
                 <mat-tab [label]="TEXTS.TAB_HISTORICAL">

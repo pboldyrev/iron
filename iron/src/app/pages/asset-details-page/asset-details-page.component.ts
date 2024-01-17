@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';  
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
-import { BehaviorSubject, Observable, Subject, filter, last, map, mergeMap, of, skip, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, last, map, mergeMap, of, skip, take, takeUntil } from 'rxjs';
 import { DataService } from '../../shared/services/data.service';
 import { Asset, AssetType, AssetValue } from '../../shared/constants/constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
@@ -44,8 +44,14 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   asset$ = new BehaviorSubject<Asset>({});
   assetId = "";
   assetValues$ = new BehaviorSubject<AssetValue[]>([]);
+  
   isValuesLoading$ = new BehaviorSubject<boolean>(false);
   isAssetLoading$ = new BehaviorSubject<boolean>(false);
+  isComponentLoaded$ = combineLatest(([this.isValuesLoading$, this.isAssetLoading$])).pipe(
+    map(([isValuesLoading, isAssetLoading]) => {
+      return !isValuesLoading && !isAssetLoading;
+    })
+  )
   
   displayAssetName = "";
   displayAssetValue = "";

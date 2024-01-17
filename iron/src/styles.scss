@@ -114,6 +114,7 @@ html {
   --blu-color-success: #51946e;
   --blu-color-success-background: #183118;
   --blu-color-info: #4676d6;
+  --blu-color-info-inactive: #344b66;
   --blu-color-info-background: #1c2837;
   --blu-color-error: #c43528;
   --blu-color-error-background: #301818;
@@ -138,6 +139,7 @@ html {
   --blu-border-success: 1px solid var(--blu-color-success);
   --blu-border-error: 1px solid var(--blu-color-error);
   --blu-border-info: 1px solid var(--blu-color-info);
+  --blu-border-info-inactive: 1px solid var(--blu-color-info-inactive);
 
   // FONT WEIGHT
   --blu-font-weight-bold: 700;

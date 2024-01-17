@@ -6,10 +6,15 @@
     margin-bottom: var(--blu-margin-xl);
 }
 
+.value-history-table {
+    overflow-x: auto;
+}
+
 .mat-column-value {
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    min-width: var(--blu-width-xxl);
 }
 
 .mat-column-date {

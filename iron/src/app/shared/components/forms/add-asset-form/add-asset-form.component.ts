@@ -56,6 +56,12 @@ export class AddAssetFormComponent {
     private toastService: ToastService,
   ){}
 
+  ngOnInit() {
+    this.isLoading$.subscribe((isLoading: boolean) => {
+      this.submitDisabled = isLoading;
+    });
+  }
+
   ngAfterContentInit() {
     if(this.isAdd === false || this.isContentSet) {
       return;
@@ -71,7 +77,6 @@ export class AddAssetFormComponent {
 
   public onSubmit(): void {
     this.isLoading$.next(true);
-    this.submitDisabled = true;
 
     const customAttributes = this.getSubForm()?.onSubmit() ?? {};
     const account = this.accountInput.validate();
@@ -151,7 +156,6 @@ export class AddAssetFormComponent {
   ) {
     const isValid =  !!account && Object.keys(customAttributes).length !== 0;
     if(!isValid) {
-      this.submitDisabled = false;
       this.isLoading$.next(false);
     }
     return isValid;
@@ -159,7 +163,6 @@ export class AddAssetFormComponent {
 
   private onSaveSuccess(asset: Asset): void {
     this.isLoading$.next(false);
-    this.submitDisabled = false;
     
     if(this.isAdd){
       this.navigationService.navigate('asset/' + asset.assetId);
@@ -171,7 +174,6 @@ export class AddAssetFormComponent {
 
   private onSaveError(err: HttpErrorResponse): void {
     this.isLoading$.next(false);
-    this.submitDisabled = false;
 
     if(this.isAdd){
       if(this.assetType === AssetType.Vehicle && err.status === 400) {
