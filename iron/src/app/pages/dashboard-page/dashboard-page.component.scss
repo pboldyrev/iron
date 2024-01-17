@@ -44,10 +44,12 @@
 @media screen and (max-width: 991px) {
     .dashboard-wrapper {
         height: fit-content;
+        overflow-y: hidden;
     }
     .dashboard-side-wrapper {
         border: none;
         height: 75vh;
+        overflow-y: hidden;
     }
     .dashboard-content-wrapper {
         height: fit-content;
