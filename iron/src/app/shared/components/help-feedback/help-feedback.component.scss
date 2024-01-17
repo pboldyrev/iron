@@ -1,22 +1,4 @@
 .help-feedback-wrapper {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 999;
-}
-
-.help-feedback-content {
-    background-color: var(--blu-color-info-background);
-    border-radius: var(--blu-radius-m);
-    transition: 0.2s;
-    border: 1px solid var(--blu-color-info-background);
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
-}
-
-// Animate the size, outside
-.help-feedback-content:hover, 
-.help-feedback-content:focus {
-    box-shadow: var(--blu-color-info) 0px 0px 24px;
-    border: 1px solid var(--blu-color-info);
-    transition: 0.2s;
+    width: fit-content;
+    height: fit-content;
 }

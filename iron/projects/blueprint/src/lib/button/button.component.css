@@ -34,9 +34,14 @@
   color: var(--blu-color-primary);
 }
 
-.blu-button-danger {
+.blu-button-error {
   background-color: var(--blu-color-error);
   color: var(--blu-color-primary);
+}
+
+.blu-button-info {
+  background-color: var(--blu-color-info-background);
+  color: var(--blu-color-info);
 }
 
 .blu-button:hover {
