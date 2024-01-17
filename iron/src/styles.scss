@@ -112,11 +112,11 @@ html {
   --blu-color-tertiary-hover: #fafafa;
 
   --blu-color-success: #51946e;
-  --blu-color-success-background: #1b3c1b;
+  --blu-color-success-background: #284f28;
   --blu-color-info: #4676d6;
-  --blu-color-info-background: #1b2a3c;
+  --blu-color-info-background: #2c3e55;
   --blu-color-error: #c43528;
-  --blu-color-error-background: #3c1b1b;
+  --blu-color-error-background: #442222;
 
   --blu-color-text-primary: var(--blu-color-primary);
   --blu-color-text-secondary: var(--blu-color-secondary);
@@ -189,13 +189,7 @@ html {
   .mat-mdc-snack-bar-container .mdc-snackbar__surface {
     background-color: rgba(0, 0, 0, 0);
     margin-bottom: var(--blu-margin-xl);
-    box-shadow:
-      0 2.8px 2.2px rgba(0, 0, 0, 0.25),
-      0 6.7px 5.3px rgba(0, 0, 0, 0.25),
-      0 12.5px 10px rgba(0, 0, 0, 0.06),
-      0 22.3px 17.9px rgba(0, 0, 0, 0.25),
-      0 41.8px 33.4px rgba(0, 0, 0, 0.25),
-      0 100px 80px rgba(0, 0, 0, 0.25);
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
   }
   
   .mat-mdc-snack-bar-label,
@@ -254,10 +248,7 @@ html {
     font: var(--blu-font-primary);
     color: var(--blu-color-primary);
     font-size: var(--blu-font-size-s);
-    box-shadow:
-      0 2.8px 2.2px rgba(0, 0, 0, 0.25),
-      0 6.7px 5.3px rgba(0, 0, 0, 0.25),
-      0 12.5px 10px rgba(0, 0, 0, 0.06);
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
   }
 
   input::-webkit-outer-spin-button,
