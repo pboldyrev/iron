@@ -188,8 +188,13 @@ html {
 
   .mat-mdc-snack-bar-container .mdc-snackbar__surface {
     background-color: rgba(0, 0, 0, 0);
-    margin-bottom: var(--blu-margin-xl);
+    margin-bottom: var(--blu-margin-l);
+    max-width: 75vw;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+  }
+
+  .cdk-overlay-pane {
+    max-width: 90%;
   }
   
   .mat-mdc-snack-bar-label,

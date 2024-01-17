@@ -47,5 +47,9 @@
     }
     .dashboard-side-wrapper {
         border: none;
+        height: 75vh;
+    }
+    .dashboard-content-wrapper {
+        height: fit-content;
     }
 }
