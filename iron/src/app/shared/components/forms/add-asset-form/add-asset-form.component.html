@@ -58,7 +58,8 @@
     <ng-template #isUpdate>
         <blu-button
             [fullWidth]="true" 
-            type="primary" 
+            type="primary"
+            [disabled]="submitDisabled"
             (click)="submitDisabled ? null : onSubmit()"
         >
             <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>

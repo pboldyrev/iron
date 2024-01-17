@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 export enum USER_PREFERENCES {
   ShowPortfolioFeedbackDetails = 1,
   ShowValueHistory = 2,
+  ShowAccountSummaryDetails = 3,
 }
 
 @Injectable({

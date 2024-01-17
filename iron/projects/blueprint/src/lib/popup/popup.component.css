@@ -11,6 +11,7 @@
 }
 
 .blu-popup-content {
+  z-index: 1001;
   background-color: var(--blu-background-secondary);
   padding: var(--blu-padding-xxl);
   height: fit-content;

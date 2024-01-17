@@ -249,6 +249,19 @@ html {
   .mat-mdc-tab-header {
     border-bottom: var(--blu-border-tertiary);
   }
+
+  .mdc-linear-progress {
+    border-radius: var(--blu-radius-m);
+  }
+
+  .mat-mdc-progress-bar {
+      --mdc-linear-progress-active-indicator-color: var(--blu-color-brand);
+  }
+
+  --mdc-linear-progress-active-indicator-height: 7px;
+  --mdc-linear-progress-track-height: 7px;
+  --mdc-linear-progress-track-shape: var(--blu-radius-xs);
+
   
   .mat-mdc-tooltip .mdc-tooltip__surface {
     background-color: var(--blu-background-tertiary);

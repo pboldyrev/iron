@@ -1,0 +1,27 @@
+<blu-modal>
+    <div class="account-summary-header" (click)="onToggleDetails()">
+        <blu-heading size="s">
+                Account summary
+        </blu-heading>
+        <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
+        <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
+    </div>
+    <div *ngIf="showDetails" class="mt-3">
+        <ng-container *ngFor="let summary of acountSummaries">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <mat-progress-bar
+                        mode="determinate"
+                        [value]="summary.percentageAssets"
+                    ></mat-progress-bar>
+                </div>
+                <div class="col-3 d-flex">
+                    <blu-text type="primary" class="me-2">{{summary.name}}</blu-text>
+                </div>
+                <div class="col-3">
+                    <blu-text type="primary" weight="bold" [isNumber]="true">{{summary.assetValue.toFixed(2) | displayCurrency}}</blu-text>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</blu-modal>

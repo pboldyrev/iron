@@ -19,18 +19,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    --mdc-linear-progress-active-indicator-height: 7px;
-    --mdc-linear-progress-track-height: 7px;
-    --mdc-linear-progress-track-shape: var(--blu-radius-m);
-}
-
-.mdc-linear-progress {
-    border-radius: var(--blu-radius-m);
-}
-
-.mat-mdc-progress-bar {
-    --mdc-linear-progress-active-indicator-color: var(--blu-color-brand);
 }
 
 .ai-feedback-progress-number {

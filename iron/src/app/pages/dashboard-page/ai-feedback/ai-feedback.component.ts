@@ -40,7 +40,7 @@ export class AiFeedbackComponent {
   onToggleDetails(): void {
     let newPreference = !this.showDetails;
     this.showDetails = newPreference;
-    this.preferencesService.setPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails, newPreference.toString())
+    this.preferencesService.setPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails, newPreference.toString());
   }
 
   onGetFeedback(): void {

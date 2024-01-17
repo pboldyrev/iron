@@ -3,7 +3,7 @@
     size="l"
     #legalDisclaimer
 >
-    <blu-text type="primary">
+    <blu-text type="secondary">
     The Content is for informational purposes only, you should not construe any such information or other material as legal, tax, investment, financial, or other advice. Nothing contained on our Site constitutes a solicitation, recommendation, endorsement, or offer by Finacle or any third party service provider to buy or sell any securities or other financial instruments in this or in in any other jurisdiction in which such solicitation or offer would be unlawful under the securities laws of such jurisdiction.
     <br> <br>
     All Content on this site is information of a general nature and does not address the circumstances of any particular individual or entity. Nothing in the Site constitutes professional and/or financial advice, nor does any information on the Site constitute a comprehensive or complete statement of the matters discussed or the law relating thereto. Finacle is not a fiduciary by virtue of any person’s use of or access to the Site or Content. You alone assume the sole responsibility of evaluating the merits and risks associated with the use of any information or other Content on the Site before making any decisions based on such information or other Content.
@@ -12,63 +12,61 @@
     </blu-text>
 </blu-popup>
 <blu-modal>
-    <div class="ai-feedback-wrapper">
-        <div class="ai-feedback-heading" (click)="onToggleDetails()">
-            <blu-heading size="s" tagType="special" tagText="New">
-                    Portfolio feedback
-            </blu-heading>
-            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
-            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
-        </div>
-        <div class="row mt-4" *ngIf="showDetails">
-            <div class="col-12 mb-3 mb-sm-0 col-sm-3">
-                <div class="d-none d-sm-flex ai-feedback-progress">
-                    <mat-progress-spinner
-                        class="progress-spinner mb-2"
-                        mode="determinate"
-                        [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
-                        strokeWidth="5"
-                        diameter="75"
-                    ></mat-progress-spinner>
-                    <blu-text size="l" weight="bold" type="success" class="ai-feedback-progress-number">
-                        {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
-                    </blu-text>
-                    <blu-text class="text-center" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
-                        Qualifying assets
-                    </blu-text>
-                </div>
-                <div class="d-flex d-sm-none ai-feedback-progress px-5">
-                    <blu-text size="l" weight="bold" type="success">
-                        {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
-                    </blu-text>
-                    <blu-text class="text-center mb-2" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
-                        Qualifying assets
-                    </blu-text>
-                    <mat-progress-bar
-                        class="mb-2"
-                        mode="determinate"
-                        [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
-                        strokeWidth="5"
-                        diameter="75"
-                    ></mat-progress-bar>
-                </div>
+    <div class="ai-feedback-heading" (click)="onToggleDetails()">
+        <blu-heading size="s" tagType="info" tagText="New">
+                Portfolio feedback
+        </blu-heading>
+        <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
+        <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
+    </div>
+    <div class="row mt-4" *ngIf="showDetails">
+        <div class="col-12 mb-3 mb-sm-0 col-sm-3">
+            <div class="d-none d-sm-flex ai-feedback-progress">
+                <mat-progress-spinner
+                    class="progress-spinner mb-2"
+                    mode="determinate"
+                    [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
+                    strokeWidth="5"
+                    diameter="75"
+                ></mat-progress-spinner>
+                <blu-text size="l" weight="bold" type="success" class="ai-feedback-progress-number">
+                    {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
+                </blu-text>
+                <blu-text class="text-center" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
+                    Qualifying assets
+                </blu-text>
             </div>
-            <div class="col-12 col-sm-9">
-                <div class="ai-feedback-description mb-3">
-                    <blu-text type="secondary">
-                        After you add more than {{ASSETS_TO_QUALIFY}} assets, our AI algorithm will be able to provide general feedback on your asset allocation, diversification, and possible places for improvement.
-                    </blu-text>
-                </div>
-                <blu-button [fullWidth]="true" [hidden]="!shouldQualify()" (click)="shouldQualify() ? onGetFeedback() : null">
-                    Get AI feedback
-                </blu-button>
-                <div class="mt-1">
-                    <blu-text type="secondary" size="s">
-                        <blu-link (click)="onShowLegalDisclaimer()">
-                            Legal disclaimer
-                        </blu-link>
-                    </blu-text>
-                </div>
+            <div class="d-flex d-sm-none ai-feedback-progress px-5">
+                <blu-text size="l" weight="bold" type="success">
+                    {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
+                </blu-text>
+                <blu-text class="text-center mb-2" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
+                    Qualifying assets
+                </blu-text>
+                <mat-progress-bar
+                    class="mb-2"
+                    mode="determinate"
+                    [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
+                    strokeWidth="5"
+                    diameter="75"
+                ></mat-progress-bar>
+            </div>
+        </div>
+        <div class="col-12 col-sm-9">
+            <div class="ai-feedback-description mb-3">
+                <blu-text type="secondary">
+                    After you add more than {{ASSETS_TO_QUALIFY}} assets, our AI algorithm will be able to provide general feedback on your asset allocation, diversification, and possible places for improvement.
+                </blu-text>
+            </div>
+            <blu-button [fullWidth]="true" [hidden]="!shouldQualify()" (click)="shouldQualify() ? onGetFeedback() : null">
+                Get AI feedback
+            </blu-button>
+            <div class="mt-1">
+                <blu-text type="secondary" size="s">
+                    <blu-link (click)="onShowLegalDisclaimer()">
+                        Legal disclaimer
+                    </blu-link>
+                </blu-text>
             </div>
         </div>
     </div>
