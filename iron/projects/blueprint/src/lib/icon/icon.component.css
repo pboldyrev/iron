@@ -14,6 +14,10 @@
   color: var(--blu-color-success);
 }
 
+.blu-icon-info {
+  color: var(--blu-color-info);
+}
+
 .blu-icon-error {
   color: var(--blu-color-error);
 }

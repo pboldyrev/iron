@@ -34,7 +34,7 @@
               (keydown.enter)='onSendCode()'
               #inviteCodeInput
             ></blu-input>
-            <blu-button type="primary" [fullWidth]="true" (click)="onSendCode()">
+            <blu-button type="primary" [fullWidth]="true" (click)="isSendCodeSubmitting ? null : onSendCode()" [disabled]="isSendCodeSubmitting">
               <blu-spinner *ngIf="isSendCodeSubmitting" [inlineSpace]="true"></blu-spinner>
               {{ BTN_TEXTS.LOGIN }}
             </blu-button>
@@ -59,7 +59,7 @@
             >
               {{ error$ | async }}
             </blu-validation-feedback>
-            <blu-button type="primary" [fullWidth]="true" (click)="onConfirmCode()">
+            <blu-button type="primary" [fullWidth]="true" (click)="isCheckTokenSubmitting ? null : onConfirmCode()" [disabled]="isCheckTokenSubmitting">
               <blu-spinner *ngIf="isCheckTokenSubmitting" [inlineSpace]="true"></blu-spinner>
               {{ BTN_TEXTS.SUBMIT_CODE }}
             </blu-button>

@@ -5,11 +5,11 @@ import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { Asset, AssetValue } from '../shared/constants/constants';
+import { Asset, AssetValue } from '../../../shared/constants/constants';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { Chart } from 'chart.js';
-import { ChartService } from '../shared/services/chart.service';
+import { ChartService } from '../../../shared/services/chart.service';
 
 @Component({
   selector: 'app-future-projection',

@@ -8,10 +8,6 @@ import { AssetValue } from '../constants/constants';
 export class ChartService {
 
   public getOptions(data: AssetValue[]): ChartConfiguration  {
-    let xAxis, yAxis;
-
-    [xAxis, yAxis] = this.getAxisData(data);
-
     return {
       type: 'line',
       data: this.getDataSet(data),
@@ -57,7 +53,7 @@ export class ChartService {
         scales: {
           x: {
             ticks: {
-              display: true,
+              display: false,
               autoSkip: true,
               maxRotation: 0,
               autoSkipPadding: 20,
@@ -128,7 +124,7 @@ export class ChartService {
           },
           data: yAxis,
           spanGaps: true,
-          tension: 0,
+          tension: 0.5,
           borderWidth: () => {
             if(xAxis.length > 1) {
               return 2;
@@ -147,13 +143,7 @@ export class ChartService {
           pointBorderColor: this.getBorderColor(data),
           pointBackgroundColor: this.getBorderColor(data),
           fill: true,
-          backgroundColor: (context: any) => {
-            const ctx = context.chart.ctx;
-            const gradient = ctx.createLinearGradient(0, 0, 0, 340);
-            gradient.addColorStop(0, this.getBorderColor(data));
-            gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-            return gradient;
-          },
+          backgroundColor: this.getBackgroundColor(data),
         }
       ],
     }
@@ -168,6 +158,18 @@ export class ChartService {
       return "#c43528";
     } else {
       return "#095d3b";
+    }
+  }
+
+  public getBackgroundColor(data: AssetValue[]): string {
+    let xAxis, yAxis;
+
+    [xAxis, yAxis] = this.getAxisData(data);
+
+    if(yAxis[0] > yAxis[yAxis.length-1]) {
+      return "#301818";
+    } else {
+      return "#183118";
     }
   }
 

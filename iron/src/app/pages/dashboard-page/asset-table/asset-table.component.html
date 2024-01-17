@@ -9,23 +9,23 @@
   (confirmed)="onDeleteAssetConfirmed()"
   #deleteConfirmPopup
 ></app-confirmation-popup>
-<div class="asset-table-wrapper">
-    <div class="asset-table-heading px-4 pt-3">
+<blu-modal [fullWidth]="true" [fullHeight]="true">
+    <div class="asset-table-heading mb-3 p-3 p-sm-4">
         <blu-heading size="s">
             Assets
         </blu-heading>
-        <blu-select
+        <!-- <blu-select
             *ngIf="((assets$ | async) ?? []).length > 0"
             size="s"
             label="Timeframe"
             [options]="TIMEFRAMES"
             [selected]="TIMEFRAMES[TIMEFRAMES.length - 1]"
-        ></blu-select>
+        ></blu-select> -->
     </div>
     <div *ngIf="((assets$ | async) ?? []).length === 0" class="px-4 py-3">
         <blu-text type="secondary">No assets added yet... <blu-link class="ms-1" (click)="onAddAsset()">Add one?</blu-link></blu-text>
     </div>
-    <div class="asset-table-data">
+    <div class="asset-table-data pb-3">
     <table 
         mat-table
         *ngIf="((assets$ | async) ?? []).length > 0" 
@@ -140,4 +140,4 @@
         <mat-footer-row *matFooterRowDef="columns"></mat-footer-row>
     </table>
 </div>
-</div>
+</blu-modal>

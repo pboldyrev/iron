@@ -17,6 +17,7 @@ export class BluButton {
   @Input() iconOnly = false;
   @Input() iconSize = "16";
   @Input() fullWidth = false;
+  @Input() iconType: 'info' | 'error' | 'success' | null = null;
   @Input() tooltip = '';
   @Input() disabled = false;
 }

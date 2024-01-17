@@ -33,6 +33,7 @@ import {
   heroCurrencyDollar,
   heroEyeSlash,
   heroEye,
+  heroChatBubbleOvalLeft,
 } from '@ng-icons/heroicons/outline';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -75,6 +76,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroCurrencyDollar,
       heroEyeSlash,
       heroEye,
+      heroChatBubbleOvalLeft,
     }),
   ],
 })
@@ -82,7 +84,7 @@ export class BluIcon {
   @Input() name!: BluIconName;
 
   @Input() size: string = '16';
-  @Input() type: 'success' | 'error' | null = null;
+  @Input() type: 'success' | 'error' | 'info' | null = null;
 
   public bluToIconMap = BluToIconMap;
 }

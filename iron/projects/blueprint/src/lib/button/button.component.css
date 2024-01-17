@@ -84,15 +84,16 @@
 }
 
 .blu-button-disabled {
-  cursor: not-allowed;
+  cursor: auto;
   opacity: 0.5;
 }
 
 .blu-button-disabled:hover {
-  cursor: not-allowed;
+  cursor: auto;
+  scale: 1;
 }
 
 .blu-button-disabled:active {
-  cursor: not-allowed;
+  cursor: auto;
   scale: 1;
 }

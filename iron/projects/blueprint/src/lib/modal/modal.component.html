@@ -1,6 +1,10 @@
-<div class="modal-content p-3 p-sm-4" [ngClass]="{
+<div class="modal-content py-3 py-sm-4" [ngClass]="{
   'modal-outline': outline,
   'modal-brand': borderColor === 'brand',
+  'px-0': fullWidth,
+  'py-0': fullHeight,
+  'px-3 px-sm-4': !fullWidth,
+  'py-3 py-sm-4': !fullHeight,
 }">
   <blu-heading
     *ngIf="title != ''"

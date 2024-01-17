@@ -22,8 +22,8 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
-import { LoadingStateComponent } from 'src/app/loading-state/loading-state.component';
-import { FutureProjectionComponent } from 'src/app/future-projection/future-projection.component';
+import { LoadingStateComponent } from 'src/app/shared/components/loading-state/loading-state.component';
+import { FutureProjectionComponent } from 'src/app/pages/asset-details-page/future-projection/future-projection.component';
 import { TEXTS } from './asset-details-page.strings';
 
 @Component({

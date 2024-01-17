@@ -31,6 +31,7 @@ export type BluIconName =
   | 'question'
   | 'collapse'
   | 'show'
+  | 'help'
   | 'plus';
 
 export const BluToIconMap = {
@@ -60,4 +61,5 @@ export const BluToIconMap = {
   question: 'octQuestion',
   collapse: 'heroEyeSlash',
   show: 'heroEye',
+  help: 'heroChatBubbleOvalLeft',
 };

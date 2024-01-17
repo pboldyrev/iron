@@ -16,8 +16,9 @@ export class BluModal {
   @Input() subtitle: string = '';
   @Input() boldTitle: boolean = false;
   @Input() outline: boolean = true;
-  @Input() padding: 's' | 'm' | 'l' | 'xl' = 'l';
   @Input() titleTooltip: string = '';
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
   @Input() borderColor: 'brand' | 'normal' = 'normal';
+  @Input() fullWidth = false;
+  @Input() fullHeight = false;
 }

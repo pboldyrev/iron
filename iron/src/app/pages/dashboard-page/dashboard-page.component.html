@@ -18,13 +18,14 @@
     class="row dashboard-wrapper m-0" 
     [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)"
 >
-    <div class="col-lg-5 col-sm-12 p-0">
-        <div class="dashboard-side-wrapper p-4 p-md-5">
+    <div class="col-lg-5 col-12 p-0">
+        <div class="dashboard-side-wrapper">
             <app-loading-state
                 *ngIf="(isNetworthLoading$ | async)"
                 class="dashboard-loader-wrapper"
             ></app-loading-state>
             <div 
+                class="p-4 p-md-5"
                 [hidden]="(isNetworthLoading$ | async)"
             >
                 <app-networth
@@ -35,14 +36,14 @@
                 ></app-value-change>
             </div>
             <div 
-                class="dashboard-networth-chart-wrapper mt-4"
+                class="dashboard-networth-chart-wrapper px-3 pb-2"
                 [hidden]="(isNetworthLoading$ | async)"
             >
                 <canvas id="dashboardChart">{{ dashboardChart }}</canvas>
             </div>
         </div>
     </div>
-    <div class="col-lg-7 col-sm-12 px-2 px-sm-3 px-md-5 py-4 dashboard-content-wrapper">
+    <div class="col-lg-7 col-12 px-2 px-sm-3 px-md-5 py-4 dashboard-content-wrapper">
         <div class="row">
             <div class="col-12 dashboard-actions-wrapper pb-4">
                 <blu-button 

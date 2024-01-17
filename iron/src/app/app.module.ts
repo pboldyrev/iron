@@ -9,6 +9,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouteReuseStrategy } from '@angular/router';
 import { DefaultRouteReuseStrategy } from './route-reuse-strategy';
 import { FormsModule } from '@angular/forms';
+import { HelpFeedbackComponent } from './shared/components/help-feedback/help-feedback.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     NgChartsModule,
     MatSnackBarModule,
     FormsModule,
+    HelpFeedbackComponent,
   ],
   bootstrap: [AppComponent],
   providers: [

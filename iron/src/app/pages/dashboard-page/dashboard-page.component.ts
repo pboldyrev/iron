@@ -10,7 +10,7 @@ import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { AssetTableColumn, AssetTableComponent } from './asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';
-import { AddAssetPopupComponent } from 'src/app/add-asset-selection/add-asset-popup/add-asset-popup.component';
+import { AddAssetPopupComponent } from 'src/app/pages/add-asset-page/add-asset-selection/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
 import { BehaviorSubject, Observable, filter, map, mergeMap, of, skip, take, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
@@ -19,7 +19,7 @@ import { ASSET_TABLE_COLS } from './dashboard-page.constants';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
-import { LoadingStateComponent } from 'src/app/loading-state/loading-state.component';
+import { LoadingStateComponent } from 'src/app/shared/components/loading-state/loading-state.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AiFeedbackComponent } from './ai-feedback/ai-feedback.component';
 
