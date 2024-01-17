@@ -25,6 +25,7 @@ import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
+import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 
 export type ValueChange = {
   amount?: number,
@@ -56,7 +57,6 @@ export class ValueHistoryComponent {
   DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
   STOCK_OPTIONS = STOCK_OPTIONS;
 
-
   historyChart: Chart | null = null;
   showValueHistory = false;
   allowValueHistory = false;
@@ -67,6 +67,7 @@ export class ValueHistoryComponent {
     private dataService: DataService,
     private toastService: ToastService,
     private chartService: ChartService,
+    private preferenceService: PreferencesService,
   ) {}
 
   ngOnInit() {
@@ -75,6 +76,11 @@ export class ValueHistoryComponent {
       this.allowValueHistory = asset.assetType !== AssetType.Stock;
       this.isAutomaticallyTracked = asset.assetType !== AssetType.Cash;
       this.assetType = asset.assetType ?? AssetType.Cash;
+
+      const userHistoryOption = this.preferenceService.getPreference(USER_PREFERENCES.ShowValueHistory + '-' + this.assetId);
+      if(userHistoryOption) {
+        this.showValueHistory = userHistoryOption === "true";
+      }
     });
   }
 
@@ -91,6 +97,7 @@ export class ValueHistoryComponent {
   public toggleValueHistory(): void {
     if(this.allowValueHistory) {
       this.showValueHistory = !this.showValueHistory;
+      this.preferenceService.setPreference(USER_PREFERENCES.ShowValueHistory + '-' + this.assetId, this.showValueHistory ? 'true' : 'false');
     }
   }
 
@@ -102,7 +109,21 @@ export class ValueHistoryComponent {
       return;
     }
 
-    this.addEntry$(valueInput, dateInput).subscribe({
+    let dateInputTimestamp = new Date((new Date(dateInput)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf()
+    let startTime = dateInputTimestamp - 43199999;
+    let endTime = dateInputTimestamp + 43199999;
+
+    let matchingTimes = this.assetValues
+      .filter((assetValue: AssetValue) => {
+        return assetValue.timestamp >= startTime && assetValue.timestamp <= endTime;
+      }).map((asset: AssetValue) => asset.timestamp);
+
+    if(matchingTimes.length > 0) {
+      dateInputTimestamp = matchingTimes[0];
+    }
+
+    this.addEntry$(valueInput, dateInputTimestamp)
+    .subscribe({
       next: (timestamp: string) => {
         this.toastService.showToast("Successfully added the entry for " + new Date(timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
         this.valueInput.clearValueAndValidators();
@@ -113,6 +134,20 @@ export class ValueHistoryComponent {
         console.log(error);
       }
     })
+  }
+
+  private deleteDuplicateTimes$(timestamps: number[]): Observable<string[]> | null {
+    if(timestamps.length === 0) {
+      return null;
+    }
+
+    let deletions = [] as Observable<string>[];
+
+    timestamps.forEach((time: number) => {
+      deletions.push(this.dataService.deleteAssetValue$(this.assetId, time));
+    })
+
+    return combineLatest(deletions);
   }
 
   onStockUnitsUpdate(): void {
@@ -146,9 +181,9 @@ export class ValueHistoryComponent {
     return (new Date(ms)).toLocaleDateString('en-US', {timeZone: 'UTC'});
   }
 
-  private addEntry$(value: string, date: string): Observable<string> {
+  private addEntry$(value: string, timestamp: number): Observable<string> {
     const newValue: AssetValue = {
-      timestamp: new Date((new Date(date)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf(),
+      timestamp: timestamp,
       totalValue: parseFloat(value),
       units: 1,
     };

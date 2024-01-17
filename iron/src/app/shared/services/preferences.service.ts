@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 export enum USER_PREFERENCES {
   ShowPortfolioFeedbackDetails = 1,
+  ShowValueHistory = 2,
 }
 
 @Injectable({
@@ -12,7 +13,7 @@ export class PreferencesService {
 
   constructor() { }
 
-  getPreference(preference: USER_PREFERENCES): string | undefined {
+  getPreference(preference: USER_PREFERENCES | string): string | undefined {
     let preferences = JSON.parse(localStorage.getItem('user_preferences') ?? "{}");
 
     if(!preferences) {
@@ -26,7 +27,7 @@ export class PreferencesService {
     return preferences[preference];
   }
 
-  setPreference(preference: USER_PREFERENCES, value: string): void {
+  setPreference(preference: USER_PREFERENCES | string, value: string): void {
     let preferences = JSON.parse(localStorage.getItem('user_preferences') ?? "{}");
 
     if(!preferences) {
