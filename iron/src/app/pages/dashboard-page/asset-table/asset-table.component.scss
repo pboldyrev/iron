@@ -2,7 +2,6 @@
     background-color: var(--blu-background-secondary);
     border-radius: var(--blu-radius-m);
     border: var(--blu-border-tertiary);
-    overflow: auto;
 }
 
 .mat-column-initValue,
@@ -22,6 +21,21 @@
 .mat-column-curValue,
 .mat-column-initValue {
     text-overflow: ellipsis;
+}
+
+.mat-column-type {
+    min-width: 110px;
+}
+
+.mat-column-asset,
+.mat-column-curValue,
+.mat-column-initValue {
+    min-width: 125px;
+}
+
+.asset-table-data {
+    width: 100%;
+    overflow: auto;
 }
 
 .mat-column-change {

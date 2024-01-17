@@ -26,19 +26,3 @@
     color: var(--blu-color-tertiary);
   }
 }
-
-.modal-padding-s {
-  padding: var(--blu-padding-m);
-}
-
-.modal-padding-m {
-  padding: var(--blu-padding-xl);
-}
-
-.modal-padding-l {
-  padding: var(--blu-padding-xxl);
-}
-
-.modal-padding-xl {
-  padding: var(--blu-padding-4xl);
-}

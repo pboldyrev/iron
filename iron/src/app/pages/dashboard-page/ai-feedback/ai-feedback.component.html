@@ -21,7 +21,7 @@ In exchange for using the Site, you agree not to hold Finacle, its affiliates or
             <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
         </div>
         <div class="row mt-4" *ngIf="showDetails">
-            <div class="col-3 ai-feedback-progress">
+            <div class="col-12 mb-3 mb-sm-0 col-sm-3 ai-feedback-progress">
                 <mat-progress-spinner
                     class="progress-spinner mb-2"
                     mode="determinate"
@@ -36,7 +36,7 @@ In exchange for using the Site, you agree not to hold Finacle, its affiliates or
                     Qualifying assets
                 </blu-text>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-sm-9">
                 <div class="ai-feedback-description mb-3">
                     <blu-text type="secondary">
                         After you add more than {{ASSETS_TO_QUALIFY}} assets, our AI algorithm will be able to provide general feedback on your asset allocation, diversification, and possible places for improvement.
