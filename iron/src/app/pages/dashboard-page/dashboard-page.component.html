@@ -9,11 +9,11 @@
 <app-add-asset-popup
     #addAssetPopup
 ></app-add-asset-popup>
-<app-loading-state
-    *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)"
-    class="dashboard-loader-wrapper"
-></app-loading-state>
-
+<div class="dashboard-loader-full-page" *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)">
+    <app-loading-state
+        class="dashboard-loader-wrapper"
+    ></app-loading-state>
+</div>
 <div 
     class="row dashboard-wrapper m-0" 
     [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)"

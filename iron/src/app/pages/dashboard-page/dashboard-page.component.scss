@@ -4,6 +4,11 @@
     overflow-x: hidden;
 }
 
+.dashboard-loader-full-page {
+    height: 100vh;
+    width: 100vw;
+}
+
 .dashboard-side-wrapper {
     background-color: var(--blu-background-secondary);
     width: var(--blu-width-full);
