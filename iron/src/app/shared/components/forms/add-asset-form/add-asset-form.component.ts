@@ -151,6 +151,7 @@ export class AddAssetFormComponent {
   ) {
     const isValid =  !!account && Object.keys(customAttributes).length !== 0;
     if(!isValid) {
+      this.submitDisabled = false;
       this.isLoading$.next(false);
     }
     return isValid;
