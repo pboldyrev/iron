@@ -58,6 +58,7 @@ export class AccountSummaryComponent {
       newAccountSummary.percentageAssets = (newAccountSummary.assetValue / totalValue) * 100;
 
       this.acountSummaries.push(newAccountSummary);
+      this.acountSummaries.sort((a, b) => b.assetValue - a.assetValue);
     });
   }
 
