@@ -81,10 +81,10 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
   ],
 })
 export class BluIcon {
-  @Input() name!: BluIconName;
+  @Input() name!: BluIconName | string;
 
   @Input() size: string = '16';
-  @Input() type: 'success' | 'error' | 'info' | null = null;
+  @Input() type: 'success' | 'error' | 'info' | 'primary' | null = null;
 
   public bluToIconMap = BluToIconMap;
 }

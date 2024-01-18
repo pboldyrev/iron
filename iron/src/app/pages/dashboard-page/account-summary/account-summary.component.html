@@ -1,25 +1,63 @@
-<blu-modal>
-    <div class="account-summary-header" (click)="onToggleDetails()">
-        <blu-heading size="s">
-                Assets by account
-        </blu-heading>
-        <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
-        <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
-    </div>
-    <div *ngIf="showDetails">
-        <ng-container *ngFor="let summary of acountSummaries">
-            <div class="row align-items-center mt-3">
-                <div class="account-summary-line col-12 mb-2">
-                    <mat-progress-bar
-                        mode="determinate"
-                        [value]="summary.percentageAssets"
-                    ></mat-progress-bar>
-                    <blu-text class="account-summary-bar-text" weight="bold">{{summary.assetValue.toFixed(2)| displayCurrency}}</blu-text>
+<div class="row g-3">
+<div class="col-12 col-sm-6">
+    <blu-modal>
+        <div class="account-summary-header" (click)="onToggleAccountDetails()">
+            <blu-heading size="s">
+                    Account summary
+            </blu-heading>
+            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showAccountDetails"></blu-button>
+            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showAccountDetails"></blu-button>
+        </div>
+        <div *ngIf="showAccountDetails">
+            <ng-container *ngFor="let summary of acountSummaries">
+                <div class="row align-items-center mt-3">
+                    <div class="col-12 d-flex">
+                        <blu-text type="primary" class="me-1">{{summary.name}}</blu-text>
+                    </div>
+                    <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue.toFixed(2)| displayCurrency">
+                        <mat-progress-bar
+                            mode="determinate"
+                            [value]="summary.percentageAssets"
+                        ></mat-progress-bar>
+                        <div class="account-summary-bar-text">
+                            <blu-text weight="bold" [isNumber]="true">{{summary.percentageAssets.toFixed(2)}}%</blu-text>
+                            <blu-text size="s">of net worth</blu-text>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-12 d-flex">
-                    <blu-text type="primary" class="me-2">{{summary.name}}</blu-text>
+            </ng-container>
+        </div>
+    </blu-modal>
+</div>
+<div class="col-12 col-sm-6">
+    <blu-modal>
+        <div class="account-summary-header" (click)="onTogglTypeDetails()">
+            <blu-heading size="s">
+                    Type summary
+            </blu-heading>
+            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showTypeDetails"></blu-button>
+            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showTypeDetails"></blu-button>
+        </div>
+        <div *ngIf="showTypeDetails">
+            <ng-container *ngFor="let summary of typeSummaries">
+                <div class="row align-items-center mt-3">
+                    <div class="col-12 d-flex account-summary-title ">
+                        <blu-icon class="me-2" size="20" type="primary" [name]="summary.name"></blu-icon>
+                        <blu-text type="primary">{{summary.name}}</blu-text>
+                    </div>
+                    <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue.toFixed(2)| displayCurrency">
+                        <mat-progress-bar
+                            mode="determinate"
+                            [value]="summary.percentageAssets"
+                        ></mat-progress-bar>
+                        <div class="account-summary-bar-text">
+                            <blu-text weight="bold" [isNumber]="true">{{summary.percentageAssets.toFixed(2)}}%</blu-text>
+                            <blu-text size="s">of net worth</blu-text>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </ng-container>
-    </div>
-</blu-modal>
+            </ng-container>
+        </div>
+    </blu-modal>
+</div>
+</div>

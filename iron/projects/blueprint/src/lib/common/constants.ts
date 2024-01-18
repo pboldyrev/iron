@@ -32,9 +32,10 @@ export type BluIconName =
   | 'collapse'
   | 'show'
   | 'help'
-  | 'plus';
+  | 'plus'
+  | any;
 
-export const BluToIconMap = {
+export const BluToIconMap: {[index: string]:any} = {
   check: 'octCheck',
   info: 'octInfo',
   xCircle: 'octXCircle',

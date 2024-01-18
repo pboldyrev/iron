@@ -119,6 +119,10 @@ export class LoginPageComponent {
   }
 
   public onConfirmCode(): void {
+    if(this.isCheckTokenSubmitting) {
+      return;
+    }
+
     this.error$.next('');
     this.isCheckTokenSubmitting = true;
 

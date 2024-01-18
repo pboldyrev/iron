@@ -25,12 +25,12 @@
                 <mat-progress-spinner
                     class="progress-spinner mb-2"
                     mode="determinate"
-                    [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
+                    [value]="numQualifyingAssets / ASSETS_TO_QUALIFY * 100"
                     strokeWidth="5"
                     diameter="75"
                 ></mat-progress-spinner>
                 <blu-text size="l" weight="bold" type="success" class="ai-feedback-progress-number">
-                    {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
+                    {{numQualifyingAssets}} / {{ASSETS_TO_QUALIFY}}
                 </blu-text>
                 <blu-text class="text-center" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
                     Qualifying assets
@@ -38,7 +38,7 @@
             </div>
             <div class="d-flex d-sm-none ai-feedback-progress px-5">
                 <blu-text size="l" weight="bold" type="success">
-                    {{getNumQualifyingAssets() }} / {{ASSETS_TO_QUALIFY}}
+                    {{numQualifyingAssets }} / {{ASSETS_TO_QUALIFY}}
                 </blu-text>
                 <blu-text class="text-center mb-2" size="s" type="secondary" tooltip="Number of assets that are tracked automatically by Finacle.">
                     Qualifying assets
@@ -46,7 +46,7 @@
                 <mat-progress-bar
                     class="mb-2"
                     mode="determinate"
-                    [value]="getNumQualifyingAssets() / ASSETS_TO_QUALIFY * 100"
+                    [value]="numQualifyingAssets / ASSETS_TO_QUALIFY * 100"
                     strokeWidth="5"
                     diameter="75"
                 ></mat-progress-bar>
@@ -58,7 +58,7 @@
                     After you add more than {{ASSETS_TO_QUALIFY}} assets, our AI algorithm will be able to provide general feedback on your asset allocation, diversification, and possible places for improvement.
                 </blu-text>
             </div>
-            <blu-button [fullWidth]="true" [hidden]="!shouldQualify()" (click)="shouldQualify() ? onGetFeedback() : null">
+            <blu-button [fullWidth]="true" [hidden]="!shouldQualify" (click)="shouldQualify ? onGetFeedback() : null">
                 Get AI feedback
             </blu-button>
             <div class="mt-1">

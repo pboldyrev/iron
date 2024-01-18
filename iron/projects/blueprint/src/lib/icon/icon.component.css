@@ -21,3 +21,7 @@
 .blu-icon-error {
   color: var(--blu-color-error);
 }
+
+.blu-icon-primary {
+  color: var(--blu-color-primary);
+}

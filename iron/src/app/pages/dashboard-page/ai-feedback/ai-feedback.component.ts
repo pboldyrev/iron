@@ -13,6 +13,7 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-ai-feedback',
@@ -23,15 +24,31 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 })
 export class AiFeedbackComponent {
   @ViewChild("legalDisclaimer") legalDisclaimer!: BluPopup;
-  @Input() assets = [] as Asset[];
+  @Input() assets$ = new BehaviorSubject<Asset[]>([]);
 
   ASSETS_TO_QUALIFY = ASSETS_TO_QUALIFY;
 
   showDetails = this.preferencesService.getPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails) === "true" ?? true;
+  numQualifyingAssets = 0;
+  shouldQualify = this.numQualifyingAssets >= ASSETS_TO_QUALIFY;
 
   constructor(
     private preferencesService: PreferencesService,
   ) {}
+
+  ngOnInit() {
+    this.assets$.subscribe((assets: Asset[]) => {
+      let numAssets = 0;
+
+      assets.forEach((asset: Asset) => {
+        if(asset.assetType !== AssetType.Cash) {
+          numAssets++;
+        }
+      });
+  
+      this.numQualifyingAssets = numAssets >= ASSETS_TO_QUALIFY ? ASSETS_TO_QUALIFY : numAssets;
+    });
+  }
 
   onShowLegalDisclaimer(): void {
     this.legalDisclaimer.show();
@@ -45,22 +62,5 @@ export class AiFeedbackComponent {
 
   onGetFeedback(): void {
     alert("This hasn't been implemented yet!");
-  }
-
-  getNumQualifyingAssets(): number {
-    let numAssets = 0;
-
-    this.assets.forEach((asset: Asset) => {
-      if(asset.assetType !== AssetType.Cash) {
-        numAssets++;
-      }
-    });
-
-    return numAssets >= ASSETS_TO_QUALIFY ? ASSETS_TO_QUALIFY : numAssets;
-  }
-
-  shouldQualify(): boolean {
-    let numAssets = this.getNumQualifyingAssets();
-    return numAssets >= ASSETS_TO_QUALIFY;
   }
 }

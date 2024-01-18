@@ -85,12 +85,12 @@
             </div>
             <div class="col-12" *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
                 <app-ai-feedback
-                    [assets]="(assets$ | async) ?? []"
+                    [assets$]="assets$"
                 ></app-ai-feedback>
             </div>
-            <div class="col-6" *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
+            <div *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
                 <app-account-summary
-                    [assets]="(assets$ | async) ?? []"
+                    [assets$]="assets$"
                 ></app-account-summary>
             </div>
             <div class="col-12" [hidden]="(isAssetsLoading$ | async)">

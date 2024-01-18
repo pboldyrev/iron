@@ -4,6 +4,7 @@ export enum USER_PREFERENCES {
   ShowPortfolioFeedbackDetails = 1,
   ShowValueHistory = 2,
   ShowAccountSummaryDetails = 3,
+  ShowTypeSummaryDetails = 4,
 }
 
 @Injectable({
