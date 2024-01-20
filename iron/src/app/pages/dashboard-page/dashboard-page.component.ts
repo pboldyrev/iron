@@ -23,6 +23,7 @@ import { LoadingStateComponent } from 'src/app/shared/components/loading-state/l
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AiFeedbackComponent } from './ai-feedback/ai-feedback.component';
 import { AccountSummaryComponent } from './account-summary/account-summary.component';
+import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -46,6 +47,7 @@ export class DashboardPageComponent implements AfterContentInit {
 
   public assets$ = new BehaviorSubject([] as Asset[]);
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
+  public showAnalytics = this.preferencesService.getPreference(USER_PREFERENCES.ShowAnalytics) === "true" ?? true;
 
   dashboardChart!: Chart;
 
@@ -54,6 +56,7 @@ export class DashboardPageComponent implements AfterContentInit {
     private dataService: DataService,
     private navigationService: NavigationService,
     private chartService: ChartService,
+    private preferencesService: PreferencesService,
   ) {
     this.fetchNetWorth();
     this.fetchAssets();
@@ -91,6 +94,11 @@ export class DashboardPageComponent implements AfterContentInit {
 
   onFeedback(): void {
     location.href = "mailto:feedback@finacle.app?subject=Finacle app feedback"
+  }
+
+  onToggleAnalytics(): void {
+    this.showAnalytics = !this.showAnalytics;
+    this.preferencesService.setPreference(USER_PREFERENCES.ShowAnalytics, this.showAnalytics.toString());
   }
 
   private fetchAssets(): void {

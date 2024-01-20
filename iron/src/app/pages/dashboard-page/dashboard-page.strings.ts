@@ -9,4 +9,7 @@ export const TEXTS = {
     TOOLTIP_CTA: "Add asset",
     TOOLTIP_LOG_OUT: "Log out",
     TOOLTIP_FEEDBACK: "Provide beta feedback",
+    SHOW_CTA_END: "analytics",
+    SHOW_CTA: "Show",
+    HIDE_CTA: "Hide",
 }

@@ -78,28 +78,35 @@
             </div>
         </div>
         <div class="row g-2 g-sm-3">
-            <div class="col-12" *ngIf="(isAssetsLoading$ | async)">
-                <app-loading-state
-                    class="dashboard-loader-wrapper"
-                ></app-loading-state>
-            </div>
-            <div class="col-12" *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
-                <app-ai-feedback
-                    [assets$]="assets$"
-                ></app-ai-feedback>
-            </div>
-            <div *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
-                <app-account-summary
-                    [assets$]="assets$"
-                ></app-account-summary>
-            </div>
-            <div class="col-12" [hidden]="(isAssetsLoading$ | async)">
+             <div class="col-12" [hidden]="(isAssetsLoading$ | async)">
                 <app-asset-table
                     [columns]="assetTableColumns"
                     [assets$]="assets$"
                     [loadingIndicator$]="isAssetsLoading$"
                     #assetTable
                 ></app-asset-table>
+            </div>
+            <div class="col-12" *ngIf="((assets$ | async) ?? []).length > 0 && showAnalytics" [hidden]="(isAssetsLoading$ | async)">
+                <app-ai-feedback
+                    [assets$]="assets$"
+                ></app-ai-feedback>
+            </div>
+            <div *ngIf="((assets$ | async) ?? []).length > 0 && showAnalytics" [hidden]="(isAssetsLoading$ | async)">
+                <app-account-summary
+                    [assets$]="assets$"
+                ></app-account-summary>
+            </div>
+            <div class="col-12" *ngIf="(isAssetsLoading$ | async)">
+                <app-loading-state
+                    class="dashboard-loader-wrapper"
+                ></app-loading-state>
+            </div>
+            <div class="col-12 d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
+                <blu-button type="secondary" [iconName]="showAnalytics ? 'collapse' : 'show'" (click)="onToggleAnalytics()">
+                    <span *ngIf="!showAnalytics">{{ TEXTS.SHOW_CTA }}</span>
+                    <span *ngIf="showAnalytics">{{ TEXTS.HIDE_CTA }}</span>
+                    <span class="ps-1">{{ TEXTS.SHOW_CTA_END }}</span>
+                </blu-button>
             </div>
         </div>
     </div>
