@@ -7,6 +7,7 @@
             <blu-input
                 [label]="TEXTS.LABEL_UNITS"
                 type="INTEGER"
+                [feedbackType]="FeedbackType.ERROR"
                 [fullWidth]="true"
                 [required]="true"
                 #stockActionUnits
@@ -17,6 +18,7 @@
             <blu-input
                 [label]="TEXTS.LABEL_DATE"
                 type="DATE"
+                [feedbackType]="FeedbackType.ERROR"
                 [fullWidth]="true"
                 [required]="true"
                 #stockActionDate

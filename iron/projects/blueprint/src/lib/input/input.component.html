@@ -30,5 +30,5 @@
   (input)="updateValue($event)"
 />
 <blu-validation-feedback *ngIf="!isValid && appearance !== 'cell'" [type]="feedbackType">
-    {{ customFeedback ? customFeedback : FEEDBACK_STRINGS[feedbackType][type] }}
+    {{ customFeedback ? customFeedback : FEEDBACK_STRINGS[type] }}
 </blu-validation-feedback>

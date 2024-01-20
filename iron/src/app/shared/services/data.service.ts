@@ -7,6 +7,7 @@ import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { AnalyticsService } from './analytics.service';
 import { environment } from 'src/environments';
+import { SYMBOLS } from 'src/assets/data/valid_symbols';
 
 @Injectable({
   providedIn: 'root'

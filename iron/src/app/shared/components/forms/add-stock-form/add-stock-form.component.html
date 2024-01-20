@@ -12,7 +12,7 @@
             #ticker
         ></blu-input>
     </div>
-    <div class="col-md-6" *ngIf="isAdd">
+    <div class="col-md-6" [hidden]="!isAdd">
         <blu-input
             type="INTEGER"
             initValue="1"
@@ -25,7 +25,7 @@
             #units
         ></blu-input>
     </div>
-    <div class="col-md-6" *ngIf="isAdd">
+    <div class="col-md-6" [hidden]="!isAdd">
         <blu-input
             [fullWidth]="true"
             [feedbackType]="FeedbackType.ERROR" 

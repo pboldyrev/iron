@@ -7,7 +7,7 @@ export const REGEX = {
   VIN: new RegExp('[(A-H|J-N|P|R-Z|0-9)]{17,}'),
   PHONE: new RegExp('^[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$'),
   INTEGER: new RegExp('^[1-9]+[0-9]*$'),
-  DATE: new RegExp('^[0-9]{4,}-[0-9]{2,}-[0-9]{2,}$'),
+  DATE: new RegExp('^.+$'),
   NOT_REQUIRED: new RegExp(''),
 };
 

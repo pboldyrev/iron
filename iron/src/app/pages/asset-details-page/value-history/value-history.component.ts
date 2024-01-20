@@ -136,20 +136,6 @@ export class ValueHistoryComponent {
     })
   }
 
-  private deleteDuplicateTimes$(timestamps: number[]): Observable<string[]> | null {
-    if(timestamps.length === 0) {
-      return null;
-    }
-
-    let deletions = [] as Observable<string>[];
-
-    timestamps.forEach((time: number) => {
-      deletions.push(this.dataService.deleteAssetValue$(this.assetId, time));
-    })
-
-    return combineLatest(deletions);
-  }
-
   onStockUnitsUpdate(): void {
     const date = this.stockDateInput.validate();
     const units = this.stockUnitsInput.validate();

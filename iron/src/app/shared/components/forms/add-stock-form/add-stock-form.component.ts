@@ -5,7 +5,7 @@ import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { BehaviorSubject, Observable, combineLatest, map, of, take } from 'rxjs';
 import { Asset } from 'src/app/shared/constants/constants';
 import { TEXTS } from './add-stock-form.strings';
-import { NavigationService } from 'src/app/shared/services/navigation-service.service';
+import { SYMBOLS } from 'src/assets/data/valid_symbols';
 
 @Component({
   selector: 'app-add-stock-form',
@@ -25,7 +25,6 @@ export class AddStockFormComponent implements AfterContentChecked {
 
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
-
   private isContentSet = false;
   
   ngAfterContentChecked() {
@@ -38,6 +37,10 @@ export class AddStockFormComponent implements AfterContentChecked {
         this.tickerInput.value = asset.ticker;
         this.isContentSet = true;
       }
+      if(asset.initTimestamp && this.purchaseDateInput) {
+        this.purchaseDateInput.value = asset.initTimestamp.toString();
+        this.isContentSet = true;
+      }
     });
   }
 
@@ -46,7 +49,7 @@ export class AddStockFormComponent implements AfterContentChecked {
     const purchaseDate = this.purchaseDateInput.validate();
     const units = this.unitsInput.validate();
 
-    const purchaseDateObj = new Date(purchaseDate);
+    const purchaseDateObj = new Date(parseInt(purchaseDate));
         
     if(purchaseDateObj.getFullYear() < 1900) {
       this.purchaseDateInput.isValid = false;
@@ -57,6 +60,12 @@ export class AddStockFormComponent implements AfterContentChecked {
     if(purchaseDateObj > new Date()) {
       this.purchaseDateInput.isValid = false;
       this.purchaseDateInput.customFeedback = "We do not support future purchases.";
+      return {};
+    }
+
+    if(!SYMBOLS.includes(ticker)) {
+      this.tickerInput.isValid = false;
+      this.tickerInput.customFeedback = "We do not support this ticker."
       return {};
     }
 
