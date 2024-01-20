@@ -42,7 +42,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent {
-  @ViewChild('phoneInput') phoneInput!: BluInput;
+  @ViewChild('emailInput') emailInput!: BluInput;
   @ViewChild('codeInput') codeInput!: BluInput;
   @ViewChild('inviteCodeInput') inviteCodeInput!: BluInput;
 
@@ -57,8 +57,9 @@ export class LoginPageComponent {
   public error$ = new BehaviorSubject<string>('');
   public showOTPDialog = false;
 
-  private methodId: string = '';
-  private phoneNumber: number = 0;
+  private methodId = '';
+  private phoneNumber = 0;
+  private email = '';
 
   constructor(
     private authService: AuthService,
@@ -76,10 +77,10 @@ export class LoginPageComponent {
     this.clearAuth();
     this.isSendCodeSubmitting = true;
 
-    const phone = this.phoneInput.validate();
+    const email = this.emailInput.validate();
     const inviteCode = this.inviteCodeInput.validate();
 
-    if (!phone) {
+    if (!email) {
       this.isSendCodeSubmitting = false;
       return;
     }
@@ -90,9 +91,9 @@ export class LoginPageComponent {
       return;
     }
 
-    this.phoneNumber = parseInt(phone);
+    this.email = email;
 
-    this.authService.submitPhoneNumber$(this.phoneNumber).subscribe({
+    this.authService.submitEmail$(this.email).subscribe({
       next: (methodId: string) => {
         if(methodId === 'invalidInviteCode') {
           this.inviteCodeInput.isValid = false;
@@ -111,7 +112,7 @@ export class LoginPageComponent {
         this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);
       },
       error: () => {
-        this.phoneInput.customFeedback = TEXTS.UNKNWON_LOGIN_ERROR;
+        this.emailInput.customFeedback = TEXTS.UNKNWON_LOGIN_ERROR;
         this.isSendCodeSubmitting = false;
         this.analyticsService.track(ANALYTICS.LOGIN_PHONE_FAILED);
       },
@@ -134,8 +135,8 @@ export class LoginPageComponent {
       return;
     }
 
-    this.authService.checkPhoneCode$(
-      this.methodId, this.phoneNumber, code
+    this.authService.checkEmailCode$(
+      this.methodId, this.email, code
     ).subscribe({
       next: () => {
         this.navigationService.navigate('/dashboard');
@@ -165,6 +166,7 @@ export class LoginPageComponent {
 
   private clearAuth(): void {
     this.phoneNumber = 0;
+    this.email = '';
     this.methodId = '';
   }
 

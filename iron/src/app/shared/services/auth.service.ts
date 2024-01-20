@@ -39,6 +39,47 @@ export class AuthService {
     )
   }
 
+  public submitEmail$(
+    email: string,
+  ): Observable<string> {
+    return this.httpClient.post(
+      environment.berry + "sendEmailCode",
+      {
+        email: email
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    ).pipe(
+      map((data: any) => {
+        return data.method_id;
+      })
+    )
+  }
+
+  public checkEmailCode$(
+    methodId: string,
+    email: string,
+    code: string,
+  ): Observable<boolean> {
+    return this.httpClient.post(
+      environment.berry + "checkEmailCode",
+      {
+        email: email,
+        method_id: methodId,
+        otp: code
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+      }
+    ).pipe(
+      map((data: any) => {
+        localStorage.setItem('sessionToken', data.sessionToken);
+        return true;
+      })
+    )
+  }
+
   public checkPhoneCode$(
     methodId: string,
     phoneNumber: number,

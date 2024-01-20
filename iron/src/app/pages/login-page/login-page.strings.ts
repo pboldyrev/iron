@@ -9,14 +9,14 @@ export const TEXTS = {
 };
 
 export const LABELS = {
-  PHONE: "Phone number",
+  EMAIL: "Email",
   BETA: "Invite code",
   OTP: "One time code",
 }
 
 export const TOOLTIPS = {
   BETA: "Finacle is currently in Alpha. We are only accepting a small number of users. Please email hello@finacle.app if you would like access.",
-  PHONE: "We do not store your phone number in our database. It is used to generate a random session token that identifies you.",
+  EMAIL: "",
   OTP: "This is a 6 digit numerical code sent to the provided phone number.",
 }
 

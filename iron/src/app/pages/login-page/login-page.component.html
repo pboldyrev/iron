@@ -13,15 +13,15 @@
           </blu-heading>
           <ng-container *ngIf="!showOTPDialog else OTPDialog">
             <blu-input
-              [label]="LABELS.PHONE"
+              [label]="LABELS.EMAIL"
               [required]="true"
               [fullWidth]="true"
               [feedbackType]="FeedbackType.ERROR"
-              [tooltip]="TOOLTIPS.PHONE"
-              [maxChars]="10"
-              type="NUMBER"
+              [tooltip]="TOOLTIPS.EMAIL"
+              [maxChars]="100"
+              type="EMAIL"
               (keydown.enter)='onSendCode()'
-              #phoneInput
+              #emailInput
             ></blu-input>
             <blu-input
               [label]="LABELS.BETA"
