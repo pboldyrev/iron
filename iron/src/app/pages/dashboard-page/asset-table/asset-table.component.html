@@ -48,7 +48,7 @@
                 {{ TEXTS.TYPE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                <blu-text type="primary" [capitalize]="true">{{asset.assetType}}</blu-text>
+                <blu-icon [name]="asset.assetType" class="me-2" size="20"></blu-icon><blu-text type="primary" [capitalize]="true">{{asset.assetType}}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
             </mat-footer-cell>

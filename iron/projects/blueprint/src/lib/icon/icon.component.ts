@@ -35,6 +35,9 @@ import {
   heroEye,
   heroChatBubbleOvalLeft,
 } from '@ng-icons/heroicons/outline';
+import {
+  lucideCar,
+} from '@ng-icons/lucide';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
@@ -77,6 +80,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroEyeSlash,
       heroEye,
       heroChatBubbleOvalLeft,
+      lucideCar,
     }),
   ],
 })

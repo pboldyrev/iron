@@ -32,6 +32,7 @@ export type BluIconName =
   | 'collapse'
   | 'show'
   | 'help'
+  | 'lucideCar'
   | 'plus'
   | any;
 
@@ -51,7 +52,7 @@ export const BluToIconMap: {[index: string]:any} = {
   chevronDown: 'heroArrowTrendingDown',
   kebab: 'octKebabHorizontal',
   lock: 'octLock',
-  vehicle: 'heroRocketLaunch',
+  vehicle: 'lucideCar',
   stock: 'heroBuildingLibrary',
   savings: 'heroBanknotes',
   cash: 'heroCurrencyDollar',

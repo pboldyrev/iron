@@ -45,6 +45,7 @@ export class ValueHistoryComponent {
   @ViewChild('date') dateInput!: BluInput;
   @ViewChild('stockActionDate') stockDateInput!: BluInput;
   @ViewChild('stockActionUnits') stockUnitsInput!: BluInput;
+  @ViewChild('stockActionType') stockActionTypeInput!: BluInput;
   
   @Input() assetValues = [] as AssetValue[];
   @Input() assetId = "";
@@ -101,6 +102,22 @@ export class ValueHistoryComponent {
     }
   }
 
+  private getMatchingTimestampIfExists(input: number): number {
+    let startTime = input - 43199999;
+    let endTime = input + 43199999;
+
+    let matchingTimes = this.assetValues
+      .filter((assetValue: AssetValue) => {
+        return assetValue.timestamp >= startTime && assetValue.timestamp <= endTime;
+      }).map((asset: AssetValue) => asset.timestamp);
+
+    if(matchingTimes.length > 0) {
+      return matchingTimes[0];
+    }
+
+    return input;
+  }
+
   public onAddEntry(): void {
     const valueInput = this.valueInput.validate();
     const dateInput = this.dateInput.validate();
@@ -109,18 +126,8 @@ export class ValueHistoryComponent {
       return;
     }
 
-    let dateInputTimestamp = new Date((new Date(dateInput)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf()
-    let startTime = dateInputTimestamp - 43199999;
-    let endTime = dateInputTimestamp + 43199999;
-
-    let matchingTimes = this.assetValues
-      .filter((assetValue: AssetValue) => {
-        return assetValue.timestamp >= startTime && assetValue.timestamp <= endTime;
-      }).map((asset: AssetValue) => asset.timestamp);
-
-    if(matchingTimes.length > 0) {
-      dateInputTimestamp = matchingTimes[0];
-    }
+    let dateInputTimestamp = new Date((new Date(dateInput)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf();
+    dateInputTimestamp = this.getMatchingTimestampIfExists(dateInputTimestamp);
 
     this.addEntry$(valueInput, dateInputTimestamp)
     .subscribe({
@@ -136,11 +143,38 @@ export class ValueHistoryComponent {
     })
   }
 
+  private getMostRecentUnits(timestamp: number): number {
+    let units = 0;
+    this.assetValues.forEach((assetValue: AssetValue) => {
+      if(assetValue.timestamp <= timestamp) {
+        units = assetValue.units;
+      }
+    });
+    return units;
+  }
+
   onStockUnitsUpdate(): void {
     const date = this.stockDateInput.validate();
-    const units = this.stockUnitsInput.validate();
+    const units = parseInt(this.stockUnitsInput.validate());
+    const type = this.stockActionTypeInput.validate();
 
-    if(!this.stockDateInput.isValid || !this.stockUnitsInput.isValid) {
+    if(!this.stockDateInput.isValid || !this.stockUnitsInput.isValid || !this.stockActionTypeInput.isValid) {
+      return;
+    }
+
+    let dateInputTimestamp = new Date((new Date(date)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf();
+    dateInputTimestamp = this.getMatchingTimestampIfExists(dateInputTimestamp);
+
+    let unitsToSet = this.getMostRecentUnits(dateInputTimestamp);
+
+    if(type === STOCK_OPTIONS[0]) {
+      unitsToSet += units;
+    } else {
+      unitsToSet -= units;
+    }
+
+    if(unitsToSet < 0) {
+      this.toastService.showToast("You may not own negative units", FeedbackType.ERROR);
       return;
     }
 
@@ -149,7 +183,7 @@ export class ValueHistoryComponent {
       mergeMap((asset: Asset) => {
         return this.dataService.putAssetValue$(asset.assetId ?? "", {
           timestamp: (new Date(date)).valueOf(),
-          units: parseInt(units),
+          units: unitsToSet,
           totalValue: 0,
         }, this.isLoading$)
       })

@@ -3,7 +3,17 @@
 </div>
 <blu-modal *ngIf="assetType === AssetType.Stock">
     <div class="row g-3">
-        <div class="col-6">
+        <div class="col-3">
+            <blu-select
+                [label]="TEXTS.LABEL_STOCK_ACTION"
+                [options]="STOCK_OPTIONS"
+                [selected]="STOCK_OPTIONS[0]"
+                [required]="true"
+                #stockActionType
+            >
+            </blu-select>
+        </div>
+        <div class="col-4">
             <blu-input
                 [label]="TEXTS.LABEL_UNITS"
                 type="INTEGER"
@@ -14,7 +24,7 @@
             >
             </blu-input>
         </div>
-        <div class="col-6">
+        <div class="col-5">
             <blu-input
                 [label]="TEXTS.LABEL_DATE"
                 type="DATE"
