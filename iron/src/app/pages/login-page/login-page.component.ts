@@ -145,7 +145,7 @@ export class LoginPageComponent {
         this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_CODE);
       },
       error: (error: HttpErrorResponse) => {
-        if(error.status === 400) {
+        if(error.status === 404) {
           this.error$.next(TEXTS.INCORRECT_CODE);
         } else {
           this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
@@ -168,6 +168,7 @@ export class LoginPageComponent {
     this.phoneNumber = 0;
     this.email = '';
     this.methodId = '';
+    this.error$.next('');
   }
 
   onViewFeatures(): void {
