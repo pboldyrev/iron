@@ -46,7 +46,7 @@ export class AddAssetFormComponent {
   public AssetType = AssetType;
   public FeedbackType = FeedbackType;
   public TEXTS = TEXTS;
-  public accountOptions: string[] = ['Taxable', 'Non-Taxable', 'Other'];
+  public accountOptions: string[] = ['Taxable', 'Non-Taxable', 'Retirement', '401k', 'Roth 401k', 'IRA', 'Roth IRA', 'HSA', 'Other'];
 
   private isContentSet = false;
 
