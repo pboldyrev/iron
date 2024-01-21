@@ -7,6 +7,7 @@ export const TEXTS = {
     FEEDBACK_FAILED_TO_SAVE: "Failed to add value, please try again.",
     ADD_VALUE_BTN: "Add value",
     COL_DATE: "Date",
+    COL_UNITS: "Units",
     COL_VALUE: "Value",
     PLACEHOLDER_VALUE: "Enter value",
     BTN_DELETE: "Delete",

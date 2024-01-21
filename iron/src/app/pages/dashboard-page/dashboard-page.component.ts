@@ -24,11 +24,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AiFeedbackComponent } from './ai-feedback/ai-feedback.component';
 import { AccountSummaryComponent } from './account-summary/account-summary.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
+import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
+import { ErrorStateComponent } from 'src/app/shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent],
+  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
@@ -48,6 +50,7 @@ export class DashboardPageComponent implements AfterContentInit {
   public assets$ = new BehaviorSubject([] as Asset[]);
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
   public showAnalytics = this.preferencesService.getPreference(USER_PREFERENCES.ShowAnalytics) === "true" ?? true;
+  public loadingFailed = false;
 
   dashboardChart!: Chart;
 
@@ -107,7 +110,11 @@ export class DashboardPageComponent implements AfterContentInit {
       map((assets: Asset[]) => {
         this.assets$.next(assets);
       }),
-    ).subscribe();
+    ).subscribe({
+      error: () => {
+        this.loadingFailed = true;
+      }
+    });
   }
 
   private fetchNetWorth(): void {

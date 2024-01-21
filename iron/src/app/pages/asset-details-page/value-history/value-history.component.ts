@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Input, Output, ViewChild } from '@angular/core';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { TEXTS } from './value-history.strings';
 import { MatTableModule } from '@angular/material/table';
@@ -41,7 +41,7 @@ export type ValueChange = {
     styleUrl: './value-history.component.scss',
     imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect, DisplayIntegerPipe]
 })
-export class ValueHistoryComponent {
+export class ValueHistoryComponent implements AfterContentInit {
   @ViewChild('value') valueInput!: BluInput;
   @ViewChild('date') dateInput!: BluInput;
   @ViewChild('stockActionDate') stockDateInput!: BluInput;
@@ -49,7 +49,7 @@ export class ValueHistoryComponent {
   @ViewChild('stockActionType') stockActionTypeInput!: BluInput;
   
   @Input() assetValues$ = new BehaviorSubject<AssetValue[]>([]);
-  @Input() assetId = "";
+  @Input() assetId!: string;
   @Input() asset$ = new BehaviorSubject<Asset>({});
   @Input() isLoading$= new BehaviorSubject<boolean>(false);
 
@@ -62,6 +62,8 @@ export class ValueHistoryComponent {
 
   historyChart: Chart | null = null;
   showValueHistory = false;
+  showStockUnitChanges = true;
+
   allowValueHistory = false;
   isAutomaticallyTracked = false;
   stockUnitChanges$ = new BehaviorSubject<AssetValue[]>([]);
@@ -70,7 +72,7 @@ export class ValueHistoryComponent {
     private dataService: DataService,
     private toastService: ToastService,
     private chartService: ChartService,
-    private preferenceService: PreferencesService,
+    private preferencesService: PreferencesService,
   ) {}
 
   ngOnInit() {
@@ -79,7 +81,7 @@ export class ValueHistoryComponent {
       this.allowValueHistory = asset.assetType !== AssetType.Stock;
       this.isAutomaticallyTracked = asset.assetType !== AssetType.Cash;
 
-      const userHistoryOption = this.preferenceService.getPreference(USER_PREFERENCES.ShowValueHistory + '-' + this.assetId);
+      const userHistoryOption = this.preferencesService.getPreference(USER_PREFERENCES.ShowValueHistory + '-' + this.assetId);
       if(userHistoryOption) {
         this.showValueHistory = userHistoryOption === "true";
       }
@@ -92,6 +94,10 @@ export class ValueHistoryComponent {
     ).subscribe(([asset, assetValues]: [Asset, AssetValue[]]) => {
       this.stockUnitChanges$.next(assetValues);
     });
+  }
+
+  ngAfterContentInit() {
+    this.showStockUnitChanges = this.preferencesService.getPreference(USER_PREFERENCES.ShowStockUnitChange + '-' + this.assetId) === "true" ?? true;
   }
 
   private getChangesInUnits$(): Observable<AssetValue[]> {
@@ -129,7 +135,7 @@ export class ValueHistoryComponent {
   public toggleValueHistory(): void {
     if(this.allowValueHistory) {
       this.showValueHistory = !this.showValueHistory;
-      this.preferenceService.setPreference(USER_PREFERENCES.ShowValueHistory + '-' + this.assetId, this.showValueHistory ? 'true' : 'false');
+      this.preferencesService.setPreference(USER_PREFERENCES.ShowValueHistory + '-' + this.assetId, this.showValueHistory ? 'true' : 'false');
     }
   }
 
@@ -287,5 +293,10 @@ export class ValueHistoryComponent {
         return input;
       })
     )
+  }
+
+  onToggleStockUnitChanges(): void {
+    this.showStockUnitChanges = !this.showStockUnitChanges;
+    this.preferencesService.setPreference(USER_PREFERENCES.ShowStockUnitChange + '-' + this.assetId, this.showStockUnitChanges.toString())
   }
 }
