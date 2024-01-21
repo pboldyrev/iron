@@ -19,13 +19,14 @@ import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DISPLAYED_COLUMNS, STOCK_OPTIONS } from './value-history.constants';
+import { DISPLAYED_COLUMNS_STOCK_UNITS, DISPLAYED_COLUMNS_VALUE_HISTORY, STOCK_OPTIONS } from './value-history.constants';
 import { BluLabel } from 'projects/blueprint/src/lib/label/label.component';
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
 import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
+import { DisplayIntegerPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-integer";
 
 export type ValueChange = {
   amount?: number,
@@ -34,11 +35,11 @@ export type ValueChange = {
 }
 
 @Component({
-  selector: 'app-value-history',
-  standalone: true,
-  imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect],
-  templateUrl: './value-history.component.html',
-  styleUrl: './value-history.component.scss'
+    selector: 'app-value-history',
+    standalone: true,
+    templateUrl: './value-history.component.html',
+    styleUrl: './value-history.component.scss',
+    imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect, DisplayIntegerPipe]
 })
 export class ValueHistoryComponent {
   @ViewChild('value') valueInput!: BluInput;
@@ -47,7 +48,7 @@ export class ValueHistoryComponent {
   @ViewChild('stockActionUnits') stockUnitsInput!: BluInput;
   @ViewChild('stockActionType') stockActionTypeInput!: BluInput;
   
-  @Input() assetValues = [] as AssetValue[];
+  @Input() assetValues$ = new BehaviorSubject<AssetValue[]>([]);
   @Input() assetId = "";
   @Input() asset$ = new BehaviorSubject<Asset>({});
   @Input() isLoading$= new BehaviorSubject<boolean>(false);
@@ -55,14 +56,15 @@ export class ValueHistoryComponent {
   FeedbackType = FeedbackType;
   AssetType = AssetType;
   TEXTS = TEXTS;
-  DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
+  DISPLAYED_COLUMNS_VALUE_HISTORY = DISPLAYED_COLUMNS_VALUE_HISTORY;
+  DISPLAYED_COLUMNS_STOCK_UNITS = DISPLAYED_COLUMNS_STOCK_UNITS;
   STOCK_OPTIONS = STOCK_OPTIONS;
 
   historyChart: Chart | null = null;
   showValueHistory = false;
   allowValueHistory = false;
   isAutomaticallyTracked = false;
-  assetType = AssetType.Cash;
+  stockUnitChanges$ = new BehaviorSubject<AssetValue[]>([]);
 
   constructor(
     private dataService: DataService,
@@ -76,13 +78,42 @@ export class ValueHistoryComponent {
       this.showValueHistory = asset.assetType === AssetType.Cash;
       this.allowValueHistory = asset.assetType !== AssetType.Stock;
       this.isAutomaticallyTracked = asset.assetType !== AssetType.Cash;
-      this.assetType = asset.assetType ?? AssetType.Cash;
 
       const userHistoryOption = this.preferenceService.getPreference(USER_PREFERENCES.ShowValueHistory + '-' + this.assetId);
       if(userHistoryOption) {
         this.showValueHistory = userHistoryOption === "true";
       }
     });
+    combineLatest([
+      this.asset$,
+      this.getChangesInUnits$()
+    ]).pipe(
+      filter(([asset, assetValues]: [Asset, AssetValue[]]) => asset.assetType === AssetType.Stock)
+    ).subscribe(([asset, assetValues]: [Asset, AssetValue[]]) => {
+      this.stockUnitChanges$.next(assetValues);
+    });
+  }
+
+  private getChangesInUnits$(): Observable<AssetValue[]> {
+    return this.assetValues$.pipe(
+      map((assetValues: AssetValue[]) => {
+        if(assetValues.length === 0) {
+          return [];
+        }
+
+        let unitChanges = [assetValues[0]];
+        let curUnits = unitChanges[0].units;
+
+        assetValues.forEach((assetValue: AssetValue) => {
+          if(assetValue.units !== curUnits) {
+            unitChanges.push(assetValue);
+            curUnits = assetValue.units;
+          }
+        });
+
+        return unitChanges;
+      })
+    )
   }
 
   public updateChart(data: AssetValue[]): void {
@@ -102,22 +133,6 @@ export class ValueHistoryComponent {
     }
   }
 
-  private getMatchingTimestampIfExists(input: number): number {
-    let startTime = input - 43199999;
-    let endTime = input + 43199999;
-
-    let matchingTimes = this.assetValues
-      .filter((assetValue: AssetValue) => {
-        return assetValue.timestamp >= startTime && assetValue.timestamp <= endTime;
-      }).map((asset: AssetValue) => asset.timestamp);
-
-    if(matchingTimes.length > 0) {
-      return matchingTimes[0];
-    }
-
-    return input;
-  }
-
   public onAddEntry(): void {
     const valueInput = this.valueInput.validate();
     const dateInput = this.dateInput.validate();
@@ -127,10 +142,11 @@ export class ValueHistoryComponent {
     }
 
     let dateInputTimestamp = new Date((new Date(dateInput)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf();
-    dateInputTimestamp = this.getMatchingTimestampIfExists(dateInputTimestamp);
-
-    this.addEntry$(valueInput, dateInputTimestamp)
-    .subscribe({
+    this.getMatchingTimestampIfExists$(dateInputTimestamp).pipe(
+      mergeMap((finalTimestamp: number) => {
+        return this.addEntry$(valueInput, finalTimestamp);
+      })
+    ).subscribe({
       next: (timestamp: string) => {
         this.toastService.showToast("Successfully added the entry for " + new Date(timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
         this.valueInput.clearValueAndValidators();
@@ -143,16 +159,6 @@ export class ValueHistoryComponent {
     })
   }
 
-  private getMostRecentUnits(timestamp: number): number {
-    let units = 0;
-    this.assetValues.forEach((assetValue: AssetValue) => {
-      if(assetValue.timestamp <= timestamp) {
-        units = assetValue.units;
-      }
-    });
-    return units;
-  }
-
   onStockUnitsUpdate(): void {
     const date = this.stockDateInput.validate();
     const units = parseInt(this.stockUnitsInput.validate());
@@ -163,30 +169,41 @@ export class ValueHistoryComponent {
     }
 
     let dateInputTimestamp = new Date((new Date(date)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf();
-    dateInputTimestamp = this.getMatchingTimestampIfExists(dateInputTimestamp);
+    let finalTimestamp: number;
+    let finalUnits: number;
 
-    let unitsToSet = this.getMostRecentUnits(dateInputTimestamp);
-
-    if(type === STOCK_OPTIONS[0]) {
-      unitsToSet += units;
-    } else {
-      unitsToSet -= units;
-    }
-
-    if(unitsToSet < 0) {
-      this.toastService.showToast("You may not own negative units", FeedbackType.ERROR);
-      return;
-    }
-
-    this.asset$.pipe(
+    this.getMatchingTimestampIfExists$(dateInputTimestamp).pipe(
+      take(1),
+      mergeMap((timestamp: number) => {
+        finalTimestamp = timestamp;
+        return this.getMostRecentUnits$(timestamp);
+      }),
+      map((unitsToSet: number) => {
+        if(type === STOCK_OPTIONS[0]) {
+          unitsToSet += units;
+        } else {
+          unitsToSet -= units;
+        }
+        finalUnits = unitsToSet;
+      }),
+      filter(() => {
+        if(finalUnits < 0) {
+          this.toastService.showToast("You may not own negative units", FeedbackType.ERROR);
+          return false;
+        }
+        return true;
+      }),
+      mergeMap(() => {
+        return this.asset$;
+      }),
       take(1),
       mergeMap((asset: Asset) => {
         return this.dataService.putAssetValue$(asset.assetId ?? "", {
-          timestamp: (new Date(date)).valueOf(),
-          units: unitsToSet,
+          timestamp: finalTimestamp,
+          units: finalUnits,
           totalValue: 0,
         }, this.isLoading$)
-      })
+      }),
     ).subscribe();
   }
 
@@ -235,5 +252,40 @@ export class ValueHistoryComponent {
       this.toastService.showToast("We only support assets with history after Jan 1, 1950.", FeedbackType.ERROR);
     }
     return selectedDate <= curDate && selectedDate > minDate;
+  }
+
+  private getMostRecentUnits$(timestamp: number): Observable<number> {
+    return this.assetValues$.pipe(
+      take(1),
+      map((assetValues: AssetValue[]) => {
+        let units = 0;
+        assetValues.forEach((assetValue: AssetValue) => {
+          if(assetValue.timestamp <= timestamp) {
+            units = assetValue.units;
+          }
+        });
+        return units;
+      })
+    );
+  }
+
+  private getMatchingTimestampIfExists$(input: number): Observable<number> {
+    let startTime = input - 43199999;
+    let endTime = input + 43199999;
+
+    return this.assetValues$.pipe(
+      take(1),
+      map((assetValues: AssetValue[]) => {
+        let matchingTimes = assetValues.filter((assetValue: AssetValue) => {
+          return assetValue.timestamp >= startTime && assetValue.timestamp <= endTime;
+        }).map((asset: AssetValue) => asset.timestamp);
+  
+        if(matchingTimes.length > 0) {
+          return matchingTimes[0];
+        }
+    
+        return input;
+      })
+    )
   }
 }

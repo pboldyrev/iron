@@ -41,10 +41,10 @@
             >
                 <mat-tab [label]="TEXTS.TAB_HISTORICAL">
                     <app-value-history
-                        [assetValues]="(assetValues$ | async) ?? []"
+                        [asset$]="asset$"
+                        [assetValues$]="assetValues$"
                         [assetId]="assetId"
                         [isLoading$]="isValuesLoading$"
-                        [asset$]="asset$"
                         #valueHistory
                     ></app-value-history>
                 </mat-tab>
