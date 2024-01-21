@@ -27,6 +27,7 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 import { DisplayIntegerPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-integer";
+import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
 
 export type ValueChange = {
   amount?: number,
@@ -39,7 +40,7 @@ export type ValueChange = {
     standalone: true,
     templateUrl: './value-history.component.html',
     styleUrl: './value-history.component.scss',
-    imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect, DisplayIntegerPipe]
+    imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect, DisplayIntegerPipe, DisplayCurrencyPipe]
 })
 export class ValueHistoryComponent implements AfterContentInit {
   @ViewChild('value') valueInput!: BluInput;
@@ -273,6 +274,37 @@ export class ValueHistoryComponent implements AfterContentInit {
         return units;
       })
     );
+  }
+
+  private getMostRecentValue$(timestamp: number): Observable<number> {
+    return this.assetValues$.pipe(
+      take(1),
+      map((assetValues: AssetValue[]) => {
+        let value = 0;
+        assetValues.forEach((assetValue: AssetValue) => {
+          if(assetValue.timestamp <= timestamp) {
+            value = assetValue.totalValue;
+          }
+        });
+        return value;
+      })
+    );
+  }
+
+  getUnitChangeSince$(assetValue: AssetValue): Observable<number> {
+    return this.getMostRecentUnits$(assetValue.timestamp - 1).pipe(
+      map((recentUnits: number) => {
+        return (assetValue.units - recentUnits);
+      })
+    )
+  }
+
+  getValueChangeSince$(assetValue: AssetValue): Observable<number> {
+    return this.getMostRecentValue$(assetValue.timestamp - 1).pipe(
+      map((recentValue: number) => {
+        return (assetValue.totalValue - recentValue);
+      })
+    )
   }
 
   private getMatchingTimestampIfExists$(input: number): Observable<number> {

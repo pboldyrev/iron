@@ -91,6 +91,14 @@
                 <blu-text type="primary">
                     {{entry?.units}}
                 </blu-text>
+                <blu-tag 
+                    *ngIf="((getUnitChangeSince$(entry) | async) ?? 0) !== 0"
+                    class="ms-3"
+                    [type]="((getUnitChangeSince$(entry) | async) ?? 0) < 0 ? 'error' : 'success'"
+                >
+                    <span *ngIf="((getUnitChangeSince$(entry) | async) ?? 0) > 0">+</span>
+                    {{ getUnitChangeSince$(entry) | async }}
+                </blu-tag>
             </mat-cell>
         </ng-container>
 
@@ -119,7 +127,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
                 <blu-text type="primary">
-                    {{ getDateString(entry?.timestamp ?? 0) }}
+                    {{ getDateString(entry.timestamp) }}
                 </blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
@@ -140,8 +148,16 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
                 <blu-text type="primary" [isNumber]="true">
-                    ${{entry?.totalValue?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? 0}}
+                    ${{entry.totalValue.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? 0}}
                 </blu-text>
+                <blu-tag 
+                    *ngIf="((getValueChangeSince$(entry) | async) ?? 0) !== 0"
+                    class="ms-3"
+                    [type]="((getValueChangeSince$(entry) | async) ?? 0) < 0 ? 'error' : 'success'"
+                >
+                    <span *ngIf="((getValueChangeSince$(entry) | async) ?? 0) > 0">+</span>
+                    {{ ((getValueChangeSince$(entry) | async) ?? 0).toFixed(2) | displayCurrency}}
+                </blu-tag>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-input 
