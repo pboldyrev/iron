@@ -98,7 +98,7 @@
         <mat-row *matRowDef="let row; columns: DISPLAYED_COLUMNS_STOCK_UNITS;"></mat-row>
     </mat-table>
 </div>
-<div class="d-flex justify-content-center mt-3">
+<div class="d-flex justify-content-center mt-3" *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Stock">
     <blu-button 
         [iconName]="showStockUnitChanges 
             ? 'collapse' 
