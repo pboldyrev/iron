@@ -40,6 +40,7 @@
             <blu-input
                 [label]="TEXTS.LABEL_UNITS"
                 type="INTEGER"
+                [placeholder]="TEXTS.UNITS_PLACEHOLDER"
                 [feedbackType]="FeedbackType.ERROR"
                 [fullWidth]="true"
                 [required]="true"
@@ -105,9 +106,9 @@
         type="secondary" 
         (click)="onToggleStockUnitChanges()"
     >
-        <span *ngIf="!showStockUnitChanges">Show</span>
-        <span *ngIf="showStockUnitChanges">Hide</span> 
-        <span class="ms-1">unit changes</span>
+        <span *ngIf="!showStockUnitChanges">{{ TEXTS.SHOW }}</span>
+        <span *ngIf="showStockUnitChanges">{{ TEXTS.HIDE }}</span> 
+        <span class="ms-1">{{ TEXTS.UNIT_CHANGES }}</span>
     </blu-button>
 </div>
 <div *ngIf="showValueHistory" class="value-history-table">

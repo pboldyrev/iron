@@ -22,4 +22,8 @@ export const TEXTS = {
     LINK_HIDE: "Hide table",
     WANT_TO: "Want to ",
     LINK_MODIFY: "modify the values",
+    SHOW: "Show",
+    HIDE: "Hide",
+    UNIT_CHANGES: "unit changes",
+    UNITS_PLACEHOLDER: "ex: 1",
 }
