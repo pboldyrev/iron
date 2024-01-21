@@ -11,6 +11,7 @@ import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BehaviorSubject } from 'rxjs';
 import { Asset } from 'src/app/shared/constants/constants';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
+import { DisplayPercentPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
 
 export type GroupSummary = {
   name: string,
@@ -19,11 +20,11 @@ export type GroupSummary = {
 }
 
 @Component({
-  selector: 'app-account-summary',
-  standalone: true,
-  imports: [CommonModule, BluModal, MatProgressBarModule, MatTooltipModule, BluIcon, BluHeading, BluButton, DisplayCurrencyPipe, BluText],
-  templateUrl: './account-summary.component.html',
-  styleUrl: './account-summary.component.scss'
+    selector: 'app-account-summary',
+    standalone: true,
+    templateUrl: './account-summary.component.html',
+    styleUrl: './account-summary.component.scss',
+    imports: [CommonModule, BluModal, MatProgressBarModule, MatTooltipModule, BluIcon, BluHeading, BluButton, DisplayCurrencyPipe, BluText, DisplayPercentPipe]
 })
 export class AccountSummaryComponent {
   @Input() assets$ = new BehaviorSubject<Asset[]>([]);

@@ -13,6 +13,11 @@
     type="secondary"
     [size]="subheadingSize">
     {{ subheading }}
+    <blu-tag type="info" class="ms-2" *ngIf="subheadingTagText">
+      <blu-text type="info" size="s">
+          {{ subheadingTagText }}
+      </blu-text>
+    </blu-tag>
   </blu-text>
   <div class="blu-heading-row"
     [ngClass]="{

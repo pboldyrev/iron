@@ -20,7 +20,7 @@
                                 [value]="summary.percentageAssets"
                             ></mat-progress-bar>
                             <div class="account-summary-bar-text">
-                                <blu-text weight="bold" [isNumber]="true">{{summary.percentageAssets.toFixed(2)}}%</blu-text>
+                                <blu-text weight="bold" [isNumber]="true">{{ summary.percentageAssets | displayPercent }}</blu-text>
                                 <blu-text size="s">of net worth</blu-text>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                 [value]="summary.percentageAssets"
                             ></mat-progress-bar>
                             <div class="account-summary-bar-text">
-                                <blu-text weight="bold" [isNumber]="true">{{summary.percentageAssets.toFixed(2)}}%</blu-text>
+                                <blu-text weight="bold" [isNumber]="true">{{ summary.percentageAssets | displayPercent }}</blu-text>
                                 <blu-text size="s">of net worth</blu-text>
                             </div>
                         </div>

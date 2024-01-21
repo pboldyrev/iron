@@ -8,7 +8,7 @@ export class DisplayPercentPipe implements PipeTransform {
 
   transform(value: number | null | undefined, ...args: unknown[]): string {
     if(!value) {
-      return '0.00%';
+      return '0%';
     }
 
     let valueAsString;
