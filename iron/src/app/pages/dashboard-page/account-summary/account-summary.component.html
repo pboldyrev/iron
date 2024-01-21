@@ -14,7 +14,7 @@
                         <div class="col-12 d-flex">
                             <blu-text type="primary" class="me-1">{{summary.name}}</blu-text>
                         </div>
-                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue.toFixed(2)| displayCurrency">
+                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue | displayCurrency">
                             <mat-progress-bar
                                 mode="determinate"
                                 [value]="summary.percentageAssets"
@@ -45,7 +45,7 @@
                             <blu-icon class="me-2" size="18" type="primary" [name]="summary.name"></blu-icon>
                             <blu-text type="primary">{{summary.name}}</blu-text>
                         </div>
-                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue.toFixed(2)| displayCurrency">
+                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue| displayCurrency">
                             <mat-progress-bar
                                 mode="determinate"
                                 [value]="summary.percentageAssets"

@@ -89,15 +89,23 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
                 <blu-text type="primary">
-                    {{entry?.units}}
+                    {{entry.units.toString() | displayInteger}}
                 </blu-text>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="change">
+            <mat-header-cell *matHeaderCellDef>
+                {{ TEXTS.COL_CHANGE }}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let entry">
                 <blu-tag 
                     *ngIf="((getUnitChangeSince$(entry) | async) ?? 0) !== 0"
                     class="ms-3"
                     [type]="((getUnitChangeSince$(entry) | async) ?? 0) < 0 ? 'error' : 'success'"
                 >
                     <span *ngIf="((getUnitChangeSince$(entry) | async) ?? 0) > 0">+</span>
-                    {{ getUnitChangeSince$(entry) | async }}
+                    {{ ((getUnitChangeSince$(entry) | async) ?? 0).toString() | displayInteger }}
                 </blu-tag>
             </mat-cell>
         </ng-container>
@@ -156,7 +164,7 @@
                     [type]="((getValueChangeSince$(entry) | async) ?? 0) < 0 ? 'error' : 'success'"
                 >
                     <span *ngIf="((getValueChangeSince$(entry) | async) ?? 0) > 0">+</span>
-                    {{ ((getValueChangeSince$(entry) | async) ?? 0).toFixed(2) | displayCurrency}}
+                    {{ ((getValueChangeSince$(entry) | async) ?? 0) | displayCurrency}}
                 </blu-tag>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>

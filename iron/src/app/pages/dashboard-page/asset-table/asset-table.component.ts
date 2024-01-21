@@ -24,6 +24,7 @@ import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { TIMEFRAMES } from './asset-table.constants';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
+import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
 
 export type AssetTableColumn = 
   "account" | 
@@ -36,28 +37,29 @@ export type AssetTableColumn =
   "change";
 
 @Component({
-  selector: 'app-asset-table',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatTableModule, 
-    BluIcon,
-    BluText,
-    BluButton,
-    MatProgressBarModule,
-    BluTag,
-    MatMenuModule,
-    ConfirmationPopupComponent,
-    BluValidationFeedback,
-    BluLink,
-    AddAssetPopupComponent,
-    DisplayIntegerPipe,
-    BluHeading,
-    BluSelect,
-    BluModal
-  ],
-  templateUrl: './asset-table.component.html',
-  styleUrl: './asset-table.component.scss'
+    selector: 'app-asset-table',
+    standalone: true,
+    templateUrl: './asset-table.component.html',
+    styleUrl: './asset-table.component.scss',
+    imports: [
+        CommonModule,
+        MatTableModule,
+        BluIcon,
+        BluText,
+        BluButton,
+        MatProgressBarModule,
+        BluTag,
+        MatMenuModule,
+        ConfirmationPopupComponent,
+        BluValidationFeedback,
+        BluLink,
+        AddAssetPopupComponent,
+        DisplayIntegerPipe,
+        BluHeading,
+        BluSelect,
+        BluModal,
+        DisplayCurrencyPipe
+    ]
 })
 
 export class AssetTableComponent {

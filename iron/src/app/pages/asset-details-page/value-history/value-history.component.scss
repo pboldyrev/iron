@@ -16,6 +16,15 @@
     min-width: var(--blu-width-3xl);
 }
 
+.mat-column-change {
+    max-width: var(--blu-width-xl);
+}
+
+.mat-column-units {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .mat-column-date {
     min-width: var(--blu-width-xxl);
     width: 100%;

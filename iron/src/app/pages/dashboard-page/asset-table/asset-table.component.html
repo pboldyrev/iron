@@ -81,10 +81,10 @@
                 {{ TEXTS.INIT_VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                <blu-text [isNumber]="true">${{(asset.initTotalValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text [isNumber]="true">${{(asset.initTotalValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 0, minimumFractionDigits: 0}) }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" [isNumber]="true">${{ initTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text weight="bold" [isNumber]="true">${{ initTotal.toLocaleString('en-US', {maximumFractionDigits: 0, minimumFractionDigits: 0}) }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
@@ -93,10 +93,10 @@
                 {{ TEXTS.VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                <blu-text [isNumber]="true">${{(asset.curTotalValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text [isNumber]="true">{{(asset.curTotalValue ?? 0) | displayCurrency}}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" [isNumber]="true">${{ curTotal.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) }}</blu-text>
+                <blu-text weight="bold" [isNumber]="true">${{ curTotal.toLocaleString('en-US', {maximumFractionDigits: 0, minimumFractionDigits: 0}) }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
@@ -105,18 +105,24 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-align-left">
                 <blu-tag [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'">
-                    <div class="me-1">
-                        <blu-text [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(asset.initTotalValue, asset.curTotalValue).toString() | displayInteger }}%</blu-text>
-                    </div>
-                    <blu-icon [name]="asset.curTotalValue >= asset.initTotalValue ? 'chevronUp' : 'chevronDown'"></blu-icon>
+                    <blu-text 
+                        [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" 
+                        [isNumber]="true"
+                    >
+                        <span>{{asset.curTotalValue >= asset.initTotalValue ? '+' : '-'}}</span>
+                        {{ getPercentChange(asset.initTotalValue, asset.curTotalValue).toString() | displayInteger }}%
+                    </blu-text>
                 </blu-tag>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-tag [type]="curTotal >= initTotal ? 'success' : 'error'">
-                    <div class="me-1">
-                        <blu-text [type]="curTotal >= initTotal ? 'success' : 'error'" size="s" [isNumber]="true">{{ getPercentChange(initTotal, curTotal).toString() | displayInteger }}%</blu-text>
-                    </div>
-                    <blu-icon [name]="curTotal >= initTotal ? 'chevronUp' : 'chevronDown'"></blu-icon>
+                    <blu-text 
+                        [type]="curTotal >= initTotal ? 'success' : 'error'" size="s" 
+                        [isNumber]="true"
+                    >
+                        <span>{{curTotal >= initTotal ? '+' : '-'}}</span>
+                        {{ getPercentChange(initTotal, curTotal).toString() | displayInteger }}%
+                    </blu-text>
                 </blu-tag>
             </mat-footer-cell>
         </ng-container>

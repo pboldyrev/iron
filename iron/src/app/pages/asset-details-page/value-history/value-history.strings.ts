@@ -9,6 +9,7 @@ export const TEXTS = {
     COL_DATE: "Date",
     COL_UNITS: "Units",
     COL_SHARES: "Shares",
+    COL_CHANGE: "Change",
     COL_VALUE: "Value",
     PLACEHOLDER_VALUE: "Enter value",
     BTN_DELETE: "Delete",

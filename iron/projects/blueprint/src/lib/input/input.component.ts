@@ -82,4 +82,8 @@ export class BluInput {
     this.value = "";
     this.isValid = true;
   }
+
+  parseFloat(str: string): number {
+    return parseFloat(str);
+  }
 }
