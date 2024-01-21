@@ -9,11 +9,16 @@
     overflow-x: auto;
 }
 
+.mat-column-date {
+    min-width: 100px;
+    width: 100px;
+    max-width: 100px;
+}
+
 .mat-column-value {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    min-width: var(--blu-width-3xl);
 }
 
 .mat-column-change {

@@ -24,7 +24,7 @@
     (type === 'INTEGER') ? 
       (value | displayInteger) : 
       (type === 'CURRENCY') ?
-        (parseFloat(value) | displayCurrency) :
+        (parseCurrency(value) | displayCurrency) :
         (value)"
   [maxLength]="maxChars"
   (input)="updateValue($event)"

@@ -156,16 +156,8 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let entry">
                 <blu-text type="primary" [isNumber]="true">
-                    ${{entry.totalValue.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? 0}}
+                    {{entry.totalValue | displayCurrency}}
                 </blu-text>
-                <blu-tag 
-                    *ngIf="((getValueChangeSince$(entry) | async) ?? 0) !== 0"
-                    class="ms-3"
-                    [type]="((getValueChangeSince$(entry) | async) ?? 0) < 0 ? 'error' : 'success'"
-                >
-                    <span *ngIf="((getValueChangeSince$(entry) | async) ?? 0) > 0">+</span>
-                    {{ ((getValueChangeSince$(entry) | async) ?? 0) | displayCurrency}}
-                </blu-tag>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
                 <blu-input 

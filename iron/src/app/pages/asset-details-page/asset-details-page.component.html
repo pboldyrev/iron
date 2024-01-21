@@ -25,8 +25,9 @@
                 [subheading]="displayAssetName"
                 subheadingPosition="top"
                 [isNumber]="true"
+                *ngIf="(isComponentLoaded$ | async)" 
             >
-                {{ displayAssetValue }}
+                {{ ((asset$ | async) ?? {}).curTotalValue | displayCurrency }}
             </blu-heading>
             <div 
                 *ngIf="!(isComponentLoaded$ | async)" 

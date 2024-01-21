@@ -25,6 +25,7 @@ import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { TIMEFRAMES } from './asset-table.constants';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
+import { DisplayPercentPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
 
 export type AssetTableColumn = 
   "account" | 
@@ -58,7 +59,8 @@ export type AssetTableColumn =
         BluHeading,
         BluSelect,
         BluModal,
-        DisplayCurrencyPipe
+        DisplayCurrencyPipe,
+        DisplayPercentPipe
     ]
 })
 
@@ -127,9 +129,9 @@ export class AssetTableComponent {
       return 0;
     }
     if(init === 0) {
-      return 10000;
+      return NaN;
     }
-    return Math.abs(Math.round(((cur-init) / init) * 100));
+    return ((cur-init) / init) * 100;
   }
 
   public onAddAsset(): void {

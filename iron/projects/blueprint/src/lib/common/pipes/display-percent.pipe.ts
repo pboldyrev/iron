@@ -1,13 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'displayCurrency',
+  name: 'displayPercent',
   standalone: true
 })
-export class DisplayCurrencyPipe implements PipeTransform {
+export class DisplayPercentPipe implements PipeTransform {
+
   transform(value: number | null | undefined, ...args: unknown[]): string {
     if(!value) {
-      return '$0.00';
+      return '0.00%';
     }
 
     let valueAsString;
@@ -20,10 +21,11 @@ export class DisplayCurrencyPipe implements PipeTransform {
 
     if(valueAsString.charAt(0) === "-") {
       valueAsString = valueAsString.substring(1);
-      valueAsString = "-$" + valueAsString;
+      valueAsString = "-" + valueAsString + "%";
     } else {
-      valueAsString = "$" + valueAsString;
+      valueAsString = valueAsString + "%";
     }
     return valueAsString.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // add commas when needed
   }
+
 }

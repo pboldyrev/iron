@@ -81,10 +81,10 @@
                 {{ TEXTS.INIT_VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                <blu-text [isNumber]="true">${{(asset.initTotalValue ?? 0).toLocaleString('en-US', {maximumFractionDigits: 0, minimumFractionDigits: 0}) }}</blu-text>
+                <blu-text [isNumber]="true">{{ asset.initTotalValue | displayCurrency }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" [isNumber]="true">${{ initTotal.toLocaleString('en-US', {maximumFractionDigits: 0, minimumFractionDigits: 0}) }}</blu-text>
+                <blu-text weight="bold" [isNumber]="true">{{ initTotal | displayCurrency }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
@@ -93,10 +93,10 @@
                 {{ TEXTS.VALUE_TITLE }}
             </mat-header-cell>
             <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                <blu-text [isNumber]="true">{{(asset.curTotalValue ?? 0) | displayCurrency}}</blu-text>
+                <blu-text [isNumber]="true">{{ asset.curTotalValue | displayCurrency }}</blu-text>
             </mat-cell>
             <mat-footer-cell *matFooterCellDef>
-                <blu-text weight="bold" [isNumber]="true">${{ curTotal.toLocaleString('en-US', {maximumFractionDigits: 0, minimumFractionDigits: 0}) }}</blu-text>
+                <blu-text weight="bold" [isNumber]="true">{{ curTotal | displayCurrency }}</blu-text>
             </mat-footer-cell>
         </ng-container>
 
@@ -109,8 +109,7 @@
                         [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" 
                         [isNumber]="true"
                     >
-                        <span>{{asset.curTotalValue >= asset.initTotalValue ? '+' : '-'}}</span>
-                        {{ getPercentChange(asset.initTotalValue, asset.curTotalValue).toString() | displayInteger }}%
+                        {{ getPercentChange(asset.initTotalValue, asset.curTotalValue) | displayPercent }}
                     </blu-text>
                 </blu-tag>
             </mat-cell>
@@ -120,8 +119,7 @@
                         [type]="curTotal >= initTotal ? 'success' : 'error'" size="s" 
                         [isNumber]="true"
                     >
-                        <span>{{curTotal >= initTotal ? '+' : '-'}}</span>
-                        {{ getPercentChange(initTotal, curTotal).toString() | displayInteger }}%
+                        {{ getPercentChange(initTotal, curTotal) | displayPercent }}
                     </blu-text>
                 </blu-tag>
             </mat-footer-cell>

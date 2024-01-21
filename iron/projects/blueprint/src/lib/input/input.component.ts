@@ -54,11 +54,11 @@ export class BluInput {
 
   public removeFormatting(value: string) {
     if(this.type === "INTEGER") {
-      return value.replaceAll(/[^\d-]/g,'');
+      value = value.replaceAll(/[^\d-]/g,'');
     }
 
-    if(this.type === "CURRENCY") {
-      return value.replaceAll(/[^\d.-]/g,'');
+    if(this.type === "CURRENCY" || this.type === "NUMBER") {
+      value = value.replaceAll(/[^\d.-]/g,'');
     }
 
     return value;
@@ -83,7 +83,11 @@ export class BluInput {
     this.isValid = true;
   }
 
-  parseFloat(str: string): number {
+  parseCurrency(str: string): number {
+    if(str.charAt(0) === '$'){
+      str = str.slice(1);
+    }
+    str = str.replaceAll(/[^\d.]/g,''); // remove non-digits, minus float point
     return parseFloat(str);
   }
 }

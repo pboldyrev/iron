@@ -25,14 +25,15 @@ import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { LoadingStateComponent } from 'src/app/shared/components/loading-state/loading-state.component';
 import { FutureProjectionComponent } from 'src/app/pages/asset-details-page/future-projection/future-projection.component';
 import { TEXTS } from './asset-details-page.strings';
+import { DisplayCurrencyPipe } from "../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
 
 @Component({
-  selector: 'app-asset-details-page',
-  standalone: true,
-  imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect, LoadingStateComponent, FutureProjectionComponent],
-  templateUrl: './asset-details-page.component.html',
-  styleUrl: './asset-details-page.component.scss',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-asset-details-page',
+    standalone: true,
+    templateUrl: './asset-details-page.component.html',
+    styleUrl: './asset-details-page.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect, LoadingStateComponent, FutureProjectionComponent, DisplayCurrencyPipe]
 })
 export class AssetDetailsPageComponent implements AfterContentInit {
   @ViewChild("futureProjection") futureProjection!: FutureProjectionComponent;
@@ -54,7 +55,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   )
   
   displayAssetName = "";
-  displayAssetValue = "";
 
   constructor(
     private navigationService: NavigationService,
@@ -95,7 +95,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
       map((asset: Asset) => {
         this.asset$.next(asset);
         this.displayAssetName = this.getDisplayName(asset);
-        this.displayAssetValue = this.getDisplayWorth(asset);
       })
     ).subscribe();
   }
@@ -133,10 +132,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
     }
     
     return finalName;
-  }
-
-  private getDisplayWorth(asset: Asset): string {
-    return '$' + (asset?.curTotalValue ?? 0).toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
   }
 
   private capitalizeFirstLetter(str: string) {

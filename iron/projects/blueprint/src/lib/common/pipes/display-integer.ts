@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class DisplayIntegerPipe implements PipeTransform {
-  transform(value: string | null, ...args: unknown[]): string {
+  transform(value: string | null | undefined, ...args: unknown[]): string {
     if(!value) {
       return '';
     }

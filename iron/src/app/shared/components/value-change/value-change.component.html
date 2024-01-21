@@ -3,7 +3,10 @@
         <div class="value-change-content">
             <blu-text size="s" type="secondary">{{ timeframe.type }}:</blu-text>
             <blu-text [isNumber]="true" [type]="timeframe.value < 0 ? 'error' : 'success'">
-                {{ getDisplayString(timeframe) }}
+                {{ timeframe.value | displayCurrency }}
+                <span class="ms-1">
+                    ({{ timeframe.percent | displayPercent }})
+                </span>
             </blu-text>
         </div>
     </blu-text>

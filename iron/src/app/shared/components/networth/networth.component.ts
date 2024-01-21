@@ -10,6 +10,7 @@ import { BluPill } from 'projects/blueprint/src/lib/pill/pill.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
 
 export type TimeRangeOption = {
   selected: boolean,
@@ -17,23 +18,12 @@ export type TimeRangeOption = {
 }
 
 @Component({
-  selector: 'app-networth',
-  standalone: true,
-  imports: [CommonModule, BluHeading, BluSpinner, BluButton, BluPill, BluText, BluIcon, MatTooltipModule],
-  templateUrl: './networth.component.html',
-  styleUrl: './networth.component.scss'
+    selector: 'app-networth',
+    standalone: true,
+    templateUrl: './networth.component.html',
+    styleUrl: './networth.component.scss',
+    imports: [CommonModule, BluHeading, BluSpinner, BluButton, BluPill, BluText, BluIcon, MatTooltipModule, DisplayCurrencyPipe]
 })
 export class NetworthComponent {
   @Input() totalNetworth!: number;
-
-  public getNetworthString(): string {
-    let formattedValue = '$' + (this.totalNetworth?.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2}) ?? '0.00');
-    
-    if(formattedValue.charAt(1) === '-') {
-      formattedValue = formattedValue.replace('-', '');
-      formattedValue = '-' + formattedValue;
-    }
-    
-    return formattedValue;
-  }
 }
