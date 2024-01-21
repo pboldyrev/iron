@@ -33,19 +33,18 @@
         <blu-modal>
             <div class="account-summary-header" (click)="onTogglTypeDetails()">
                 <blu-heading size="s">
-                        Type summary
+                        Top assets
                 </blu-heading>
                 <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showTypeDetails"></blu-button>
                 <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showTypeDetails"></blu-button>
             </div>
             <div *ngIf="showTypeDetails">
-                <ng-container *ngFor="let summary of typeSummaries">
+                <ng-container *ngFor="let summary of topAssets">
                     <div class="row align-items-center mt-3">
                         <div class="col-12 d-flex account-summary-title ">
-                            <blu-icon class="me-2" size="18" type="primary" [name]="summary.name"></blu-icon>
                             <blu-text type="primary">{{summary.name}}</blu-text>
                         </div>
-                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue| displayCurrency">
+                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue | displayCurrency">
                             <mat-progress-bar
                                 mode="determinate"
                                 [value]="summary.percentageAssets"

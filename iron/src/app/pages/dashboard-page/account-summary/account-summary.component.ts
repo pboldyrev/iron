@@ -32,7 +32,7 @@ export class AccountSummaryComponent {
   showAccountDetails = this.preferencesService.getPreference(USER_PREFERENCES.ShowAccountSummaryDetails) === "true" ?? true;
   showTypeDetails = this.preferencesService.getPreference(USER_PREFERENCES.ShowTypeSummaryDetails) === "true" ?? true;
   acountSummaries = [] as GroupSummary[];
-  typeSummaries = [] as GroupSummary[];
+  topAssets = [] as GroupSummary[];
   
   constructor(
     private preferencesService: PreferencesService,
@@ -46,17 +46,14 @@ export class AccountSummaryComponent {
 
   private updateValues(assets: Asset[]) {
     this.acountSummaries = [];
-    this.typeSummaries = [];
+    this.topAssets = [];
       
     let accountNames = [] as string[];
-    let typeNames = [] as string[];
     let totalValue = 0;
+
     assets.forEach((asset: Asset) => {
       if(!accountNames.includes(asset.account ?? '')) {
         accountNames.push(asset.account ?? '');
-      }
-      if(!typeNames.includes(asset.assetType ?? '')) {
-        typeNames.push(asset.assetType ?? '');
       }
       totalValue += asset.curTotalValue ?? 0;
     });
@@ -80,23 +77,17 @@ export class AccountSummaryComponent {
       this.acountSummaries.sort((a, b) => b.assetValue - a.assetValue);
     });
 
-    typeNames.forEach((typeName: string) => {
-      let newAccountSummary: GroupSummary = {
-        name: typeName,
-        assetValue: 0,
-        percentageAssets: 0,
-      }
+    assets.sort((a, b) => {return (b.curTotalValue ?? 0) - (a.curTotalValue ?? 0)});
 
-      assets.forEach((asset: Asset) => {
-        if(asset.assetType === typeName) {
-          newAccountSummary.assetValue += (asset.curTotalValue ?? 0);
+    assets.forEach((asset: Asset) => {
+      if(this.topAssets.length < 5) {
+        let newTopAsset: GroupSummary = {
+          name: asset.assetType + ' - ' + asset.assetName ?? '',
+          assetValue: asset.curTotalValue ?? 0,
+          percentageAssets: (asset.curTotalValue ?? 0)/totalValue * 100,
         }
-      });
-
-      newAccountSummary.percentageAssets = (newAccountSummary.assetValue / totalValue) * 100;
-
-      this.typeSummaries.push(newAccountSummary);
-      this.typeSummaries.sort((a, b) => b.assetValue - a.assetValue);
+        this.topAssets.push(newTopAsset);
+      }
     });
   }
 
