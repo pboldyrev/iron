@@ -69,7 +69,7 @@ export class AssetTableComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
 
   @Input() columns!: AssetTableColumn[];
-  @Input() assets$!: BehaviorSubject<Asset[]>;
+  @Input() assets$!: Observable<Asset[]>;
   @Input() loadingIndicator$!: BehaviorSubject<boolean>
 
   public curTotal: number = 0;

@@ -12,7 +12,7 @@ import { ConfirmationPopupComponent } from '../../shared/components/confirmation
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/pages/add-asset-page/add-asset-selection/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
-import { BehaviorSubject, Observable, filter, map, mergeMap, of, skip, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of, skip, take, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { ASSET_TABLE_COLS } from './dashboard-page.constants';
@@ -47,7 +47,7 @@ export class DashboardPageComponent implements AfterContentInit {
   public networthTimeframes: ValueChange[] = [];
   public networthValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
-  public assets$ = new BehaviorSubject([] as Asset[]);
+  public assets$ = new Observable<Asset[]>();
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
   public showAnalytics = this.preferencesService.getPreference(USER_PREFERENCES.ShowAnalytics) === "true" ?? true;
   public loadingFailed = false;
@@ -108,7 +108,7 @@ export class DashboardPageComponent implements AfterContentInit {
     this.dataService.getAssets$(this.isAssetsLoading$).pipe(
       takeUntilDestroyed(),
       map((assets: Asset[]) => {
-        this.assets$.next(assets);
+        this.assets$ = of(assets);
       }),
     ).subscribe({
       error: () => {

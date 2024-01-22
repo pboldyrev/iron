@@ -1,15 +1,62 @@
 import { Injectable } from '@angular/core';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, ChartTypeRegistry } from 'chart.js';
 import { AssetValue } from '../constants/constants';
+import { GroupSummary } from 'src/app/pages/dashboard-page/account-summary/account-summary.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChartService {
-
-  public getOptions(data: AssetValue[]): ChartConfiguration  {
+  public getPieOptions(data: GroupSummary[]): ChartConfiguration {
     return {
-      type: 'line',
+      type: 'doughnut',
+      data: this.getDataSetPie(data),
+      options: {
+        responsive: true,
+        borderColor: '#e1e1e1',
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            backgroundColor: '#181818',
+            borderColor: '#363636',
+            borderWidth: 1,
+            displayColors: false,
+            bodyFont: {
+              family: 'Outfit'
+            },
+            titleFont: {
+              family: 'Outfit'
+            },
+            footerFont: {
+                family: 'Outfit'
+            },
+            callbacks: {
+              label: function(labelContent) {
+                let formattedValue = labelContent.formattedValue;
+                if(formattedValue.startsWith('-')) {
+                  formattedValue = formattedValue.replace('-', '');
+                  formattedValue = '-$' + formattedValue;
+                } else {
+                  formattedValue = '$' + formattedValue;
+                }
+                return formattedValue;
+              }
+            },
+          }
+        },
+        hover: {
+          intersect: true,
+        },
+      }
+    }
+  }
+
+  public getOptions(data: AssetValue[], type: string = 'line'): ChartConfiguration {
+    return {
+      type: type as keyof ChartTypeRegistry,
       data: this.getDataSet(data),
       options: {
         responsive: true,
@@ -144,6 +191,47 @@ export class ChartService {
           pointBackgroundColor: this.getBorderColor(data),
           fill: true,
           backgroundColor: this.getBackgroundColor(data),
+        }
+      ],
+    }
+  }
+
+  public getDataSetPie(data: GroupSummary[]) {
+    let valueData = data.map((summary: GroupSummary) => summary.assetValue);
+
+    return {
+      labels: data.map((summary: GroupSummary) => summary.name), 
+      datasets: [
+        {
+          backgroundColor: [
+            '#0b8457',
+            '#075e3e',
+            '#05422c',
+            '#043523',
+            '#032116',
+          ],
+          animation: {
+            duration: 0,
+          },
+          data: valueData,
+          spanGaps: true,
+          tension: 0.5,
+          borderWidth: () => {
+            if(valueData.length > 1) {
+              return 2;
+            }
+            return 0;
+          },
+          borderJoinStyle: "round",
+          pointRadius: () => {
+            if(valueData.length > 1) {
+              return 0;
+            }
+            return 5;
+          },
+          pointHitRadius: 20,
+          pointHoverRadius: 5,
+          fill: true,
         }
       ],
     }

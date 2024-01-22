@@ -1,62 +1,34 @@
-<div class="row g-2 g-sm-3">
-    <div class="col-12 col-sm-6">
-        <blu-modal>
-            <div class="account-summary-header" (click)="onToggleAccountDetails()">
+<div class="row g-3">
+    <blu-modal class="col-6">
+            <div class="account-summary-header" (click)="onToggleTopHoldings()">
                 <blu-heading size="s">
-                        Account summary
+                        Asset diversification
                 </blu-heading>
-                <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showAccountDetails"></blu-button>
-                <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showAccountDetails"></blu-button>
+                <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showTopHoldings"></blu-button>
+                <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showTopHoldings"></blu-button>
             </div>
-            <div *ngIf="showAccountDetails">
-                <ng-container *ngFor="let summary of acountSummaries">
-                    <div class="row align-items-center mt-3">
-                        <div class="col-12 d-flex">
-                            <blu-text type="primary" class="me-1">{{summary.name}}</blu-text>
-                        </div>
-                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue | displayCurrency">
-                            <mat-progress-bar
-                                mode="determinate"
-                                [value]="summary.percentageAssets"
-                            ></mat-progress-bar>
-                            <div class="account-summary-bar-text">
-                                <blu-text weight="bold" [isNumber]="true">{{ summary.percentageAssets | displayPercent }}</blu-text>
-                                <blu-text size="s">of net worth</blu-text>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
+            <div class="position-relative" [hidden]="!showTopHoldings">
+                <div class="account-summary-chart mt-3">
+                    <canvas id="assetSummaryChart">{{ assetSummaryChart }}</canvas>
+                </div>
+                <div class="account-summary-chart-text">
+                    <blu-heading type="primary" size="m" [bold]="true" [center]="true" subheading="Assets">
+                        {{ ((assets$ | async) ?? []).length }}
+                    </blu-heading>
+                </div>
             </div>
-        </blu-modal>
-    </div>
-    <div class="col-12 col-sm-6">
-        <blu-modal>
-            <div class="account-summary-header" (click)="onTogglTypeDetails()">
-                <blu-heading size="s">
-                        Top assets
-                </blu-heading>
-                <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showTypeDetails"></blu-button>
-                <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showTypeDetails"></blu-button>
-            </div>
-            <div *ngIf="showTypeDetails">
-                <ng-container *ngFor="let summary of topAssets">
-                    <div class="row align-items-center mt-3">
-                        <div class="col-12 d-flex account-summary-title ">
-                            <blu-text type="primary">{{summary.name}}</blu-text>
-                        </div>
-                        <div class="account-summary-line col-12 mt-2" [matTooltip]="summary.assetValue | displayCurrency">
-                            <mat-progress-bar
-                                mode="determinate"
-                                [value]="summary.percentageAssets"
-                            ></mat-progress-bar>
-                            <div class="account-summary-bar-text">
-                                <blu-text weight="bold" [isNumber]="true">{{ summary.percentageAssets | displayPercent }}</blu-text>
-                                <blu-text size="s">of net worth</blu-text>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-            </div>
-        </blu-modal>
-    </div>
+    </blu-modal>
+    <blu-modal class="col-6">
+        <div class="account-summary-header" (click)="onToggleBiggestMovers()">
+            <blu-heading size="s">
+                    Biggest movers
+            </blu-heading>
+            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showBiggestMovers"></blu-button>
+            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showBiggestMovers"></blu-button>
+        </div>
+        <div [hidden]="!showBiggestMovers">
+            <blu-text type="primary">Not added yet!</blu-text>
+        </div>
+</blu-modal>
 </div>
+

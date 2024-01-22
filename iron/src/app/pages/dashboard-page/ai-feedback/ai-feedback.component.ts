@@ -13,7 +13,7 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ai-feedback',
@@ -24,13 +24,13 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AiFeedbackComponent {
   @ViewChild("legalDisclaimer") legalDisclaimer!: BluPopup;
-  @Input() assets$ = new BehaviorSubject<Asset[]>([]);
+  @Input() assets$ = new Observable<Asset[]>();
 
   ASSETS_TO_QUALIFY = ASSETS_TO_QUALIFY;
 
   showDetails = this.preferencesService.getPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails) === "true" ?? true;
   numQualifyingAssets = 0;
-  shouldQualify = this.numQualifyingAssets >= ASSETS_TO_QUALIFY;
+  shouldQualify = false;
 
   constructor(
     private preferencesService: PreferencesService,
@@ -41,12 +41,11 @@ export class AiFeedbackComponent {
       let numAssets = 0;
 
       assets.forEach((asset: Asset) => {
-        if(asset.assetType !== AssetType.Cash) {
-          numAssets++;
-        }
+        numAssets++;
       });
   
       this.numQualifyingAssets = numAssets >= ASSETS_TO_QUALIFY ? ASSETS_TO_QUALIFY : numAssets;
+      this.shouldQualify = this.numQualifyingAssets >= ASSETS_TO_QUALIFY;
     });
   }
 

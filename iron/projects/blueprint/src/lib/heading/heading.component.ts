@@ -22,4 +22,5 @@ export class BluHeading {
   @Input() tagType: 'success' | 'error' | 'info' = 'info';
   @Input() tagText = "";
   @Input() subheadingTagText = "";
+  @Input() center = false;
 }
