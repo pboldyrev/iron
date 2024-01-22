@@ -1,7 +1,11 @@
 <div class="billing-option-wrapper">
-    <blu-modal [borderColor]="plan.selected ? 'brand' : 'normal'" [stretchToFill]="true">
+    <blu-modal [borderColor]="!isLoading && plan.selected ? 'brand' : 'normal'" [stretchToFill]="true">
         <div class="billing-option-content">
-            <div>
+            <div *ngIf="isLoading" class="d-flex flex-column billing-option-loading">
+                <app-skeleton-loader-text size="s"></app-skeleton-loader-text>
+                <app-skeleton-loader-text size="l" [height]="50" curved="l" class="my-2"></app-skeleton-loader-text>
+            </div>
+            <div *ngIf="!isLoading" class="d-flex flex-column">
                 <blu-heading size="m" [bold]="true" [subheading]="PlanNameToDisplay[plan.name]" subheadingPosition="top">
                     {{ plan.price }}
                 </blu-heading>
@@ -24,11 +28,11 @@
                         </blu-text>
                     </ng-container>
                 </div>
+                <blu-button *ngIf="plan.canSelect" [disabled]="upgradeClicked" type="primary" [fullWidth]="true" class="mt-3" (click)="upgradeClicked ? null : onUpgradeClicked()">
+                    <blu-spinner *ngIf="upgradeClicked" [inlineSpace]="true"></blu-spinner>
+                    {{ TEXTS.BTN_UPGRADE }}
+                </blu-button>
             </div>
-            <blu-button *ngIf="plan.canSelect" [disabled]="isLoading" type="primary" [fullWidth]="true" class="mt-3" (click)="isLoading ? null : onUpgradeClicked()">
-                <blu-spinner *ngIf="isLoading" [inlineSpace]="true"></blu-spinner>
-                {{ TEXTS.BTN_UPGRADE }}
-            </blu-button>
         </div>
     </blu-modal>
 </div>

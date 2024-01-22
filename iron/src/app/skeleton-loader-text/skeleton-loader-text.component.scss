@@ -29,6 +29,13 @@
     animation-name: placeHolderShimmer-l;
 }
 
+.skeleton-loader-xl {
+    width: 300px;
+    background-size: 300px 20px;
+    animation-name: placeHolderShimmer-xl;
+}
+
+
 .skeleton-loader-curved-s {
     border-radius: var(--blu-radius-s);
 }
@@ -39,6 +46,10 @@
 
 .skeleton-loader-curved-l {
     border-radius: var(--blu-radius-l);
+}
+
+.skeleton-loader-curved-xl {
+    border-radius: var(--blu-radius-xl);
 }
 
 @keyframes placeHolderShimmer-s {
@@ -65,5 +76,14 @@
     }
     100% {
         background-position: 200px 0
+    }
+}
+
+@keyframes placeHolderShimmer-xl {
+    0% {
+        background-position: -300px 0
+    }
+    100% {
+        background-position: 300px 0
     }
 }

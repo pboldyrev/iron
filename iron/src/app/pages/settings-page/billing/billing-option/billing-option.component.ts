@@ -11,6 +11,7 @@ import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PlanName, PlanNameToDisplay } from '../billing.constants';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
+import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skeleton-loader-text.component';
 
 export type PlanOption = {
   name: PlanName,
@@ -24,21 +25,22 @@ export type PlanOption = {
 @Component({
   selector: 'app-billing-option',
   standalone: true,
-  imports: [CommonModule, BluModal, BluHeading, BluText, BluButton, BluIcon, BluTag, BluSpinner],
+  imports: [CommonModule, BluModal, BluHeading, BluText, BluButton, BluIcon, BluTag, BluSpinner, SkeletonLoaderTextComponent],
   templateUrl: './billing-option.component.html',
   styleUrl: './billing-option.component.scss'
 })
 export class BillingOptionComponent {
   @Input() plan!: PlanOption;
+  @Input() isLoading: boolean | null = false;
   @Output() optionSelected = new EventEmitter();
 
   TEXTS = TEXTS;
   PlanNameToDisplay = PlanNameToDisplay;
 
-  isLoading = false;
+  upgradeClicked = false;
 
   onUpgradeClicked(): void {
-    this.isLoading = true;
+    this.upgradeClicked = true;
     this.optionSelected.emit();
   }
 }

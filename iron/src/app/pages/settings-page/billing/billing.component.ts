@@ -10,11 +10,12 @@ import { BillingOptionComponent, PlanOption } from './billing-option/billing-opt
 import { TEXTS } from './billing.strings';
 import { cloneDeep } from 'lodash';
 import { DataService } from 'src/app/shared/services/data.service';
+import { LoadingStateComponent } from 'src/app/shared/components/loading-state/loading-state.component';
 
 @Component({
   selector: 'app-billing',
   standalone: true,
-  imports: [CommonModule, BluModal, BluButton, BluHeading, BluText, BluIcon, BillingOptionComponent],
+  imports: [CommonModule, BluModal, BluButton, BluHeading, BluText, BluIcon, BillingOptionComponent, LoadingStateComponent],
   templateUrl: './billing.component.html',
   styleUrl: './billing.component.scss'
 })
@@ -24,11 +25,14 @@ export class BillingComponent {
 
   planOptions = cloneDeep(PLAN_OPTIONS);
 
+  isLoading = false;
+
   constructor(
     private dataService: DataService,
   ) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.dataService.getUser$().subscribe((data: any) => {
       if(data.user.plan === "free") {
         this.planOptions[0].selected = true;
@@ -39,7 +43,9 @@ export class BillingComponent {
       } else if(data.user.plan === "annually") {
         this.planOptions[2].selected = true;
         this.planOptions[2].canSelect = false;
+        this.planOptions[1].canSelect = false;
       }
+      this.isLoading = false;
     });
   }
 

@@ -1,8 +1,9 @@
 <div class="row g-3">
     <ng-container *ngFor="let plan of planOptions">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6 col-lg-4">
             <app-billing-option
                 [plan]="plan"
+                [isLoading]="isLoading"
                 (optionSelected)="onOptionSelected(plan)"
             ></app-billing-option>
         </div>

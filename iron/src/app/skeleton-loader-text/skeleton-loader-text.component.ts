@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './skeleton-loader-text.component.scss'
 })
 export class SkeletonLoaderTextComponent {
-  @Input() size: "s" | "m" | "l" = "m";
+  @Input() size: "s" | "m" | "l" | "xl" = "m";
   @Input() height = 18;
-  @Input() curved: "s" | "m" | "l" = "s";
+  @Input() curved: "s" | "m" | "l" | "xl" = "s";
 }
