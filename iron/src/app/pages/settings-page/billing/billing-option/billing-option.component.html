@@ -1,38 +1,38 @@
 <div class="billing-option-wrapper">
     <blu-modal [borderColor]="!isLoading && plan.selected ? 'brand' : 'normal'" [stretchToFill]="true">
-        <div class="billing-option-content">
             <div *ngIf="isLoading" class="d-flex flex-column billing-option-loading">
                 <app-skeleton-loader-text size="s"></app-skeleton-loader-text>
                 <app-skeleton-loader-text size="l" [height]="50" curved="l" class="my-2"></app-skeleton-loader-text>
             </div>
-            <div *ngIf="!isLoading" class="d-flex flex-column">
-                <blu-heading size="m" [bold]="true" [subheading]="PlanNameToDisplay[plan.name]" subheadingPosition="top">
-                    {{ plan.price }}
-                </blu-heading>
-                <div class="mt-2">
-                    <blu-tag *ngIf="plan.tag && plan.canSelect && !plan.selected" type="info">
-                        <blu-text type="info" class="p-1">
-                            {{ plan.tag }}
-                        </blu-text>
-                    </blu-tag>
-                    <blu-tag *ngIf="plan.selected" type="success">
-                        <blu-text type="success" class="p-1">
-                            {{ TEXTS.CURRENT_PLAN }}
-                        </blu-text>
-                    </blu-tag>
-                </div>
-                <div class="billing-option-features mt-3">
-                    <ng-container *ngFor="let benefit of plan.benefits">
-                        <blu-text type="secondary">
-                            <blu-icon name="check" class="me-2"></blu-icon>{{ benefit }}
-                        </blu-text>
-                    </ng-container>
+            <div *ngIf="!isLoading" class="d-flex flex-column billing-option-content">
+                <div>
+                    <blu-heading size="m" [bold]="true" [subheading]="PlanNameToDisplay[plan.name]" subheadingPosition="top">
+                        {{ plan.price }}
+                    </blu-heading>
+                    <div class="mt-2">
+                        <blu-tag *ngIf="plan.tag && plan.canSelect && !plan.selected" type="info">
+                            <blu-text type="info" class="p-1">
+                                {{ plan.tag }}
+                            </blu-text>
+                        </blu-tag>
+                        <blu-tag *ngIf="plan.selected" type="success">
+                            <blu-text type="success" class="p-1">
+                                {{ TEXTS.CURRENT_PLAN }}
+                            </blu-text>
+                        </blu-tag>
+                    </div>
+                    <div class="billing-option-features mt-3">
+                        <ng-container *ngFor="let benefit of plan.benefits">
+                            <blu-text type="secondary">
+                                <blu-icon name="check" class="me-2"></blu-icon>{{ benefit }}
+                            </blu-text>
+                        </ng-container>
+                    </div>
                 </div>
                 <blu-button *ngIf="plan.canSelect" [disabled]="upgradeClicked" type="primary" [fullWidth]="true" class="mt-3" (click)="upgradeClicked ? null : onUpgradeClicked()">
                     <blu-spinner *ngIf="upgradeClicked" [inlineSpace]="true"></blu-spinner>
                     {{ TEXTS.BTN_UPGRADE }}
                 </blu-button>
             </div>
-        </div>
     </blu-modal>
 </div>
