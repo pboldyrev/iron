@@ -3,6 +3,10 @@
     [ngClass]="{
         'skeleton-loader-s': size === 's',
         'skeleton-loader-m': size === 'm',
-        'skeleton-loader-l': size === 'l'
+        'skeleton-loader-l': size === 'l',
+        'skeleton-loader-curved-s': curved === 's',
+        'skeleton-loader-curved-m': curved === 'm',
+        'skeleton-loader-curved-l': curved === 'l',
     }"
+    [style]="'height: ' + height.toString() + 'px;'"
 ></div>

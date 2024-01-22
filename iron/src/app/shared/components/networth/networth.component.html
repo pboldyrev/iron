@@ -1,14 +1,21 @@
 <div class="networth-wrapper">
     <blu-heading [isNumber]="true" size="l" [bold]="true" subheading="Net Worth" subheadingPosition="top">
-        <div class="networth-tooltip-wrapper">
-            {{ totalNetworth | displayCurrency }} 
-            <span class="networth-tooltip">
-                <blu-icon 
-                    *ngIf="totalNetworth === 0" 
-                    matTooltip="You can add assets using the Add button" 
-                    name="question"
-                ></blu-icon>
-            </span>
-        </div>
+            <app-skeleton-loader-text 
+                *ngIf="isLoading"
+                size="l"
+                curved="l"
+                class="d-flex my-2"
+                [height]="50"
+            ></app-skeleton-loader-text>
+            <div *ngIf="!isLoading" class="networth-tooltip-wrapper">
+                {{ totalNetworth | displayCurrency }} 
+                <span class="networth-tooltip">
+                    <blu-icon 
+                        *ngIf="totalNetworth === 0" 
+                        matTooltip="You can add assets using the Add button" 
+                        name="question"
+                    ></blu-icon>
+                </span>
+            </div>
     </blu-heading>
 </div>

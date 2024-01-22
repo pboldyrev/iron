@@ -7,9 +7,7 @@
     background-color: var(--blu-color-secondary);
     background: linear-gradient(to right, var(--blu-background-secondary) 8%, var(--blu-background-tertiary) 18%, var(--blu-background-primary) 33%);
     background-size: 75px 20px;
-    height: 18px;
     position: relative;
-    border-radius: var(--blu-radius-s);
     opacity: 0.8;
     border: var(--blu-border-tertiary);
 }
@@ -29,6 +27,18 @@
     width: 200px;
     background-size: 200px 20px;
     animation-name: placeHolderShimmer-l;
+}
+
+.skeleton-loader-curved-s {
+    border-radius: var(--blu-radius-s);
+}
+
+.skeleton-loader-curved-m {
+    border-radius: var(--blu-radius-m);
+}
+
+.skeleton-loader-curved-l {
+    border-radius: var(--blu-radius-l);
 }
 
 @keyframes placeHolderShimmer-s {

@@ -9,30 +9,21 @@
 <app-add-asset-popup
     #addAssetPopup
 ></app-add-asset-popup>
-<div class="dashboard-loader-full-page" *ngIf="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)">
-    <app-loading-state
-        class="dashboard-loader-wrapper"
-    ></app-loading-state>
-</div>
 <div 
     class="row dashboard-wrapper m-0" 
-    [hidden]="(isNetworthLoading$ | async) && (isAssetsLoading$ | async)"
 >
     <div class="col-lg-5 col-12 p-0">
         <div class="dashboard-side-wrapper">
-            <app-loading-state
-                *ngIf="(isNetworthLoading$ | async)"
-                class="dashboard-loader-wrapper"
-            ></app-loading-state>
             <div 
                 class="p-4 p-md-5"
-                [hidden]="(isNetworthLoading$ | async)"
             >
                 <app-networth
                     [totalNetworth]="totalNetworth"
+                    [isLoading]="isNetworthLoading$ | async"
                 ></app-networth>
                 <app-value-change
                     [timeframes]="networthTimeframes"
+                    [isLoading]="isNetworthLoading$ | async"
                 ></app-value-change>
             </div>
             <div 
@@ -80,6 +71,10 @@
         <app-error-state *ngIf="loadingFailed; else mainContent"></app-error-state>
         <ng-template #mainContent>
             <div class="row g-2 g-sm-3">
+                <app-loading-state
+                    *ngIf="(isAssetsLoading$ | async)"
+                    class="mt-5 dashboard-loader-wrapper"
+                ></app-loading-state>
                 <div class="col-12" [hidden]="(isAssetsLoading$ | async)">
                     <app-asset-table
                         [columns]="assetTableColumns"
@@ -97,11 +92,6 @@
                     <app-account-summary
                         [assets$]="assets$"
                     ></app-account-summary>
-                </div>
-                <div class="col-12" *ngIf="(isAssetsLoading$ | async)">
-                    <app-loading-state
-                        class="dashboard-loader-wrapper"
-                    ></app-loading-state>
                 </div>
                 <div class="col-12 d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length > 0 && !(isAssetsLoading$ | async)">
                     <blu-button type="secondary" [iconName]="showAnalytics ? 'collapse' : 'show'" (click)="onToggleAnalytics()">

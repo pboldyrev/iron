@@ -23,7 +23,7 @@
             </div>
             <div class="col-8 account-details-plan-name">
                 <app-skeleton-loader-text size="s" *ngIf="isLoading"></app-skeleton-loader-text>
-                <blu-text *ngIf="!isLoading">{{planName}}</blu-text>
+                <blu-text *ngIf="!isLoading">{{ PlanNameToDisplay[planName] }}</blu-text>
             </div>
         </div>
         <div class="row g-0 mt-2 align-items-center">

@@ -1,13 +1,27 @@
-<ng-container *ngFor="let timeframe of timeframes">
-    <blu-text type="secondary">
-        <div class="value-change-content">
-            <blu-text size="s" type="secondary">{{ timeframe.type }}:</blu-text>
-            <blu-text [isNumber]="true" [type]="timeframe.value < 0 ? 'error' : 'success'">
-                {{ timeframe.value | displayCurrency }}
-                <span class="ms-1">
-                    ({{ timeframe.percent | displayPercent }})
-                </span>
-            </blu-text>
-        </div>
-    </blu-text>
-</ng-container>
+<div *ngIf="isLoading">
+    <div class="d-flex">
+        <app-skeleton-loader-text size="s"></app-skeleton-loader-text>
+        <blu-text type="secondary">:</blu-text>
+        <app-skeleton-loader-text size="m" class="ms-1"></app-skeleton-loader-text>
+    </div>
+    <div class="d-flex mt-2">
+        <app-skeleton-loader-text size="s"></app-skeleton-loader-text>
+        <blu-text type="secondary">:</blu-text>
+        <app-skeleton-loader-text size="m" class="ms-1"></app-skeleton-loader-text>
+    </div>
+</div>
+<div *ngIf="!isLoading">
+    <ng-container *ngFor="let timeframe of timeframes">
+        <blu-text type="secondary">
+            <div class="value-change-content">
+                <blu-text size="s" type="secondary">{{ timeframe.type }}:</blu-text>
+                <blu-text [isNumber]="true" [type]="timeframe.value < 0 ? 'error' : 'success'">
+                    {{ timeframe.value | displayCurrency }}
+                    <span class="ms-1">
+                        ({{ timeframe.percent | displayPercent }})
+                    </span>
+                </blu-text>
+            </div>
+        </blu-text>
+    </ng-container>
+</div>

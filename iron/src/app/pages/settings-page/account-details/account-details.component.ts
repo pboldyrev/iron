@@ -7,6 +7,7 @@ import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { DataService } from 'src/app/shared/services/data.service';
 import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skeleton-loader-text.component';
+import { PlanName, PlanNameToDisplay } from '../billing/billing.constants';
 
 @Component({
   selector: 'app-account-details',
@@ -16,11 +17,13 @@ import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skelet
   styleUrl: './account-details.component.scss'
 })
 export class AccountDetailsComponent {
-  planName = "";
+  planName: PlanName = PlanName.Free;
   userEmail = "";
   planExpiresAt = "";
 
   isLoading = false;
+  
+  PlanNameToDisplay = PlanNameToDisplay;
 
   constructor(
     private dataService: DataService,

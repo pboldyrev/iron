@@ -10,4 +10,6 @@ import { Component, Input } from '@angular/core';
 })
 export class SkeletonLoaderTextComponent {
   @Input() size: "s" | "m" | "l" = "m";
+  @Input() height = 18;
+  @Input() curved: "s" | "m" | "l" = "s";
 }

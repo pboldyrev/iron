@@ -26,6 +26,7 @@ import { LoadingStateComponent } from 'src/app/shared/components/loading-state/l
 import { FutureProjectionComponent } from 'src/app/pages/asset-details-page/future-projection/future-projection.component';
 import { TEXTS } from './asset-details-page.strings';
 import { DisplayCurrencyPipe } from "../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
+import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skeleton-loader-text.component';
 
 @Component({
     selector: 'app-asset-details-page',
@@ -33,7 +34,7 @@ import { DisplayCurrencyPipe } from "../../../../projects/blueprint/src/lib/comm
     templateUrl: './asset-details-page.component.html',
     styleUrl: './asset-details-page.component.scss',
     encapsulation: ViewEncapsulation.None,
-    imports: [CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect, LoadingStateComponent, FutureProjectionComponent, DisplayCurrencyPipe]
+    imports: [SkeletonLoaderTextComponent, CommonModule, ValueHistoryComponent, MatTabsModule, BluButton, BluModal, BluSpinner, MatProgressBarModule, AssetMoreDetailsComponent, BluSpinner, BluHeading, BluText, BluLabel, BluLink, BluInput, BluSelect, LoadingStateComponent, FutureProjectionComponent, DisplayCurrencyPipe]
 })
 export class AssetDetailsPageComponent implements AfterContentInit {
   @ViewChild("futureProjection") futureProjection!: FutureProjectionComponent;
@@ -48,7 +49,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   
   isValuesLoading$ = new BehaviorSubject<boolean>(false);
   isAssetLoading$ = new BehaviorSubject<boolean>(false);
-  isComponentLoaded$ = combineLatest(([this.isValuesLoading$, this.isAssetLoading$])).pipe(
+  isLoading$ = combineLatest(([this.isValuesLoading$, this.isAssetLoading$])).pipe(
     map(([isValuesLoading, isAssetLoading]) => {
       return !isValuesLoading && !isAssetLoading;
     })

@@ -26,11 +26,12 @@ import { AccountSummaryComponent } from './account-summary/account-summary.compo
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { ErrorStateComponent } from 'src/app/shared/components/error-state/error-state.component';
+import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skeleton-loader-text.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent],
+  imports: [CommonModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
