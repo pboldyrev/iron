@@ -26,8 +26,6 @@ export class SettingsPageComponent {
 
   constructor(
     private navigationService: NavigationService,
-    private dataService: DataService,
-    private toastService: ToastService,
   ){}
 
   public onBack(): void {

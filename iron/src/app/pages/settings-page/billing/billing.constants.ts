@@ -7,7 +7,7 @@ export const PLAN_OPTIONS: PlanOption[] = [
         link: "/settings",
         benefits: [
             "Up to 5 assets",
-            "Weekly automatic asset value updates"
+            "Daily automatic asset value updates"
         ],
         selected: false,
         tag: "",
