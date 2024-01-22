@@ -49,7 +49,7 @@ export class AddStockFormComponent implements AfterContentChecked {
     const purchaseDate = this.purchaseDateInput.validate();
     const units = this.unitsInput.validate();
 
-    const purchaseDateObj = new Date(parseInt(purchaseDate));
+    const purchaseDateObj = new Date(purchaseDate);
         
     if(purchaseDateObj.getFullYear() < 1900) {
       this.purchaseDateInput.isValid = false;
