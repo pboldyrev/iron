@@ -27,17 +27,18 @@ import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/pr
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { ErrorStateComponent } from 'src/app/shared/components/error-state/error-state.component';
 import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skeleton-loader-text.component';
+import { DashboardTopBarComponent } from './dashboard-top-bar/dashboard-top-bar.component';
+import { EmptyStateComponent } from './empty-state/empty-state.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent],
+  imports: [CommonModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent, DashboardTopBarComponent, EmptyStateComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
 export class DashboardPageComponent implements AfterContentInit {
-  @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
-  @ViewChild('logOutConfirmPopup') logOutConfirmPopup!: ConfirmationPopupComponent;
+  @ViewChild('topBar') topBar!: DashboardTopBarComponent;
   @ViewChild('assetTable') assetTable!: AssetTableComponent;
   
   public TEXTS = TEXTS;
@@ -80,29 +81,13 @@ export class DashboardPageComponent implements AfterContentInit {
     });
   }
 
-  onAddAsset(): void {
-    this.addAssetPopup.show();
-  }
-
-  onSettings(): void {
-    this.navigationService.navigate('/settings');
-  }
-
-  onLogOut(): void {
-    this.logOutConfirmPopup.show();
-  }
-
-  onConfirmLogOut(): void {
-    this.authService.signOut();
-  }
-
-  onFeedback(): void {
-    location.href = "mailto:feedback@finacle.app?subject=Finacle app feedback"
-  }
-
   onToggleAnalytics(): void {
     this.showAnalytics = !this.showAnalytics;
     this.preferencesService.setPreference(USER_PREFERENCES.ShowAnalytics, this.showAnalytics.toString());
+  }
+
+  onAddAsset(): void {
+    this.topBar.onAddAsset();
   }
 
   private fetchAssets(): void {

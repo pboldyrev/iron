@@ -1,7 +1,21 @@
 .dashboard-wrapper {
-    width: 100vw;
     min-height: var(--blu-height-full);
     overflow-x: hidden;
+}
+
+.dashboard-side-wrapper {
+    background-color: var(--blu-background-secondary);
+    height: 100vh;
+    border-right: var(--blu-border-tertiary);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-networth-chart {
+    height: 80%;
+    display: flex;
+    align-items: center;
 }
 
 .dashboard-loader-full-page {
@@ -9,27 +23,9 @@
     width: 100vw;
 }
 
-.dashboard-side-wrapper {
-    background-color: var(--blu-background-secondary);
-    width: var(--blu-width-full);
-    height: 100vh;
-    position: relative;
-    justify-self: flex-start;
-    display: flex;
-    flex-direction: column;
-    border-right: var(--blu-border-tertiary);
-    overflow-y: auto;
-}
-
 .dashboard-content-wrapper {
     height: 100vh;
     overflow-x: hidden;
-}
-
-.dashboard-actions-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--blu-space-s);
 }
 
 .dashboard-networth-chart-wrapper {

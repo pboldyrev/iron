@@ -35,7 +35,7 @@
 }
 
 .blu-button-primary:hover {
-  border: 1px solid var(--blu-color-primary);
+  border: 1px solid var(--blu-color-brand-highlight);
 }
 
 .blu-button-secondary:hover{

@@ -1,73 +1,28 @@
-<app-confirmation-popup
-  [title]="TEXTS.LOGOUT_TITLE"
-  [subtitle]="TEXTS.LOGOUT_SUBTITLE"
-  [confirmText]="TEXTS.LOGOUT_CTA"
-  size="m"
-  (confirmed)="onConfirmLogOut()"
-  #logOutConfirmPopup
-></app-confirmation-popup>
-<app-add-asset-popup
-    #addAssetPopup
-></app-add-asset-popup>
-<div 
-    class="row dashboard-wrapper m-0" 
->
-    <div class="col-lg-5 col-12 p-0">
-        <div class="dashboard-side-wrapper">
-            <div 
-                class="p-4 p-md-5"
-            >
-                <app-networth
-                    [totalNetworth]="totalNetworth"
-                    [isLoading]="isNetworthLoading$ | async"
-                ></app-networth>
-                <app-value-change
-                    [timeframes]="networthTimeframes"
-                    [isLoading]="isNetworthLoading$ | async"
-                ></app-value-change>
-            </div>
-            <div 
-                class="dashboard-networth-chart-wrapper px-3 pb-2"
-                [hidden]="(isNetworthLoading$ | async)"
-            >
-                <canvas id="dashboardChart">{{ dashboardChart }}</canvas>
-            </div>
+<div class="dashboard-wrapper row m-0">
+    <div class="dashboard-side-wrapper col-lg-5 col-12 pb-4">
+        <div class="p-4 p-md-5">
+            <app-networth
+                [totalNetworth]="totalNetworth"
+                [isLoading]="isNetworthLoading$ | async"
+            ></app-networth>
+            <app-value-change
+                [timeframes]="networthTimeframes"
+                [isLoading]="isNetworthLoading$ | async"
+            ></app-value-change>
+        </div>
+        <div class="dashboard-networth-chart" [hidden]="(isNetworthLoading$ | async)">
+            <empty-state 
+                *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
+                (addBtnClicked)="onAddAsset()"
+            ></empty-state>
+            <canvas 
+                [hidden]="((assets$ | async) ?? []).length < 1" 
+                id="dashboardChart"
+            >{{ dashboardChart }}</canvas>
         </div>
     </div>
     <div class="col-lg-7 col-12 px-2 px-sm-3 px-md-5 py-4 dashboard-content-wrapper">
-        <div class="row">
-            <div class="col-12 dashboard-actions-wrapper pb-4">
-                <blu-button 
-                    type="primary" 
-                    iconName="plus" 
-                    (click)="onAddAsset()" 
-                    [tooltip]="TEXTS.TOOLTIP_CTA"
-                >
-                    {{ TEXTS.BTN_PRIMARY_CTA }}
-                </blu-button>
-                <blu-button 
-                    type="secondary" 
-                    [iconOnly]="true" 
-                    iconName="gear" 
-                    (click)="onSettings()" 
-                    [tooltip]="TEXTS.TOOLTIP_SETTINGS"
-                ></blu-button>
-                <blu-button 
-                    type="secondary" 
-                    [iconOnly]="true" 
-                    iconName="signOut" 
-                    (click)="onLogOut()" 
-                    [tooltip]="TEXTS.TOOLTIP_LOG_OUT"
-                ></blu-button>
-                <blu-button 
-                    type="info" 
-                    [iconOnly]="true" 
-                    iconName="help" 
-                    (click)="onFeedback()" 
-                    [tooltip]="TEXTS.TOOLTIP_FEEDBACK"
-                ></blu-button>
-            </div>
-        </div>
+        <dashboard-top-bar #topBar></dashboard-top-bar>
         <app-error-state *ngIf="loadingFailed; else mainContent"></app-error-state>
         <ng-template #mainContent>
             <div class="row g-2 g-sm-3">

@@ -44,7 +44,7 @@
         </blu-heading>
         <div class="row g-0 mt-3 align-items-center">
             <div class="col-sm-4">
-                <blu-text type="secondary" tooltip="This will permanently delete all account data. This action is not reversible. If you have an active subscription, please contact us (feedback@finacle.app) for a pro-rated refund.">Delete account</blu-text>
+                <blu-text type="secondary" tooltip="This will permanently delete all account data. This action is not reversible and we will not be able to recover your account.">Delete account</blu-text>
             </div>
             <div class="col-sm-8 account-details-plan-name mt-2 mt-sm-0">
                 <blu-button type="error" (click)="confirmedDelete === 3 ? null : onDeleteAccount()" [disabled]="confirmedDelete === 3">

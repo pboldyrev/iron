@@ -1,0 +1,39 @@
+<app-add-asset-popup
+    #addAssetPopup
+></app-add-asset-popup>
+<div class="row">
+    <div class="col-12 pb-4 d-flex justify-content-end">
+        <blu-button
+            class="pe-2"
+            type="primary" 
+            iconName="plus" 
+            (click)="onAddAsset()" 
+            [tooltip]="TEXTS.TOOLTIP_CTA"
+        >
+            {{ TEXTS.BTN_PRIMARY_CTA }}
+        </blu-button>
+        <blu-button
+            class="pe-2"
+            type="info" 
+            [iconOnly]="true" 
+            iconName="help" 
+            (click)="onFeedback()" 
+            [tooltip]="TEXTS.TOOLTIP_FEEDBACK"
+        ></blu-button>
+        <blu-button
+            class="pe-2"
+            type="secondary" 
+            [iconOnly]="true" 
+            iconName="gear" 
+            (click)="onSettings()" 
+            [tooltip]="TEXTS.TOOLTIP_SETTINGS"
+        ></blu-button>
+        <blu-button
+            type="secondary" 
+            [iconOnly]="true" 
+            iconName="signOut" 
+            (click)="onLogOut()" 
+            [tooltip]="TEXTS.TOOLTIP_LOG_OUT"
+        ></blu-button>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+.empty-state-wrapper {
+    max-width: var(--blu-width-4xl);
+    display: flex;
+    justify-content: center;
+}
+
+.empty-state-content {
+    width: 95%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
