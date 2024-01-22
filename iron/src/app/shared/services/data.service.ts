@@ -327,6 +327,27 @@ export class DataService {
     )
   }
 
+  public getUser$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.httpPost("getUser").pipe(
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        }
+      })
+    )
+  }
+
   private fetchUserAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
     if (loadingIndicator) {
       loadingIndicator.next(true);

@@ -1,0 +1,36 @@
+<blu-modal>
+    <blu-heading type="primary" size="s">
+        Login details
+    </blu-heading>
+    <div class="row g-0 mt-3 align-items-center">
+        <div class="col-4">
+            <blu-text type="secondary">Account email</blu-text>
+        </div>
+        <div class="col-8">
+            <blu-text>{{userEmail}}</blu-text>
+        </div>
+    </div>
+</blu-modal>
+<div class="mt-3">
+    <blu-modal>
+        <blu-heading type="primary" size="s">
+            Plan details
+        </blu-heading>
+        <div class="row g-0 mt-3 align-items-center">
+            <div class="col-4">
+                <blu-text type="secondary">Current plan</blu-text>
+            </div>
+            <div class="col-8 account-details-plan-name">
+                <blu-text>{{planName}}</blu-text>
+            </div>
+        </div>
+        <div class="row g-0 mt-2 align-items-center">
+            <div class="col-4">
+                <blu-text type="secondary">Plan expires</blu-text>
+            </div>
+            <div class="col-8">
+                <blu-text>{{planExpiresAt}}</blu-text>
+            </div>
+        </div>
+    </blu-modal>
+</div>

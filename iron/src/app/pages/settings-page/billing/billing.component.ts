@@ -10,6 +10,7 @@ import { BillingOptionComponent, PlanOption } from './billing-option/billing-opt
 import { TEXTS } from './billing.strings';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-billing',
@@ -24,9 +25,20 @@ export class BillingComponent {
 
   planOptions = cloneDeep(PLAN_OPTIONS);
 
+  constructor(
+    private dataService: DataService,
+  ) {}
+
   ngOnInit() {
-    // getCurrentUserPlan returns Premium Monthly
-    this.onOptionSelected(PLAN_OPTIONS[1]);
+    this.dataService.getUser$().subscribe((data: any) => {
+      if(data.user.plan === "free") {
+        this.onOptionSelected(PLAN_OPTIONS[0]);
+      } else if(data.user.plan === "monthly") {
+        this.onOptionSelected(PLAN_OPTIONS[1]);
+      } else if(data.user.plan === "annually") {
+        this.onOptionSelected(PLAN_OPTIONS[2]);
+      }
+    });
   }
 
   onOptionSelected(selectedOption: PlanOption): void {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ChartConfiguration, ChartTypeRegistry } from 'chart.js';
 import { AssetValue } from '../constants/constants';
 import { GroupSummary } from 'src/app/pages/dashboard-page/account-summary/account-summary.component';
+import { DisplayPercentPipe } from 'projects/blueprint/src/lib/common/pipes/display-percent.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -198,9 +199,9 @@ export class ChartService {
 
   public getDataSetPie(data: GroupSummary[]) {
     let valueData = data.map((summary: GroupSummary) => summary.assetValue);
-
+    let percentPipe = new DisplayPercentPipe();
     return {
-      labels: data.map((summary: GroupSummary) => summary.name), 
+      labels: data.map((summary: GroupSummary) => summary.name + '\n' + percentPipe.transform(summary.percentageAssets) + ' of net worth'), 
       datasets: [
         {
           backgroundColor: [
