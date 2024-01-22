@@ -17,7 +17,7 @@ export class BluHeading {
   @Input() bold = false;
   @Input() feedback: 'success' | 'error' | null = null;
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
-  @Input() type: 'primary' | 'secondary' | 'tertiary' = 'primary';
+  @Input() type: 'primary' | 'secondary' | 'tertiary' | 'error' = 'primary';
   @Input() isNumber = false;
   @Input() tagType: 'success' | 'error' | 'info' = 'info';
   @Input() tagText = "";

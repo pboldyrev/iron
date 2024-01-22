@@ -37,3 +37,23 @@
         </div>
     </blu-modal>
 </div>
+<div class="mt-3">
+    <blu-modal borderColor="error">
+        <blu-heading type="primary" feedback="error" size="s">
+            Danger zone
+        </blu-heading>
+        <div class="row g-0 mt-3 align-items-center">
+            <div class="col-4">
+                <blu-text type="secondary" tooltip="This will permanently delete all account data. This action is not reversible. If you have an active subscription, please contact us (feedback@finacle.app) for a pro-rated refund.">Delete account</blu-text>
+            </div>
+            <div class="col-8 account-details-plan-name">
+                <blu-button type="error" (click)="confirmedDelete === 3 ? null : onDeleteAccount()" [disabled]="confirmedDelete === 3">
+                    <blu-spinner *ngIf="confirmedDelete === 3" [inlineSpace]="true"></blu-spinner>
+                    <span *ngIf="confirmedDelete === 0">Permanently delete account</span>
+                    <span *ngIf="confirmedDelete === 1">Are you sure?</span>
+                    <span *ngIf="confirmedDelete >= 2">This is the final confirmation</span>
+                </blu-button>
+            </div>
+        </div>
+    </blu-modal>
+</div>

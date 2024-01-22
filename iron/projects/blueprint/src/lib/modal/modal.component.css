@@ -12,6 +12,10 @@
   border-color: var(--blu-color-brand);
 }
 
+.modal-error {
+  border-color: var(--blu-color-error);
+}
+
 .modal-heading {
   text-align: start;
   margin-bottom: var(--blu-space-l);
