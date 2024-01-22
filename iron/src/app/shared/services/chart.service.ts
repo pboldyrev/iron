@@ -171,7 +171,7 @@ export class ChartService {
           },
           data: yAxis,
           spanGaps: true,
-          tension: 0.5,
+          tension: 0,
           borderWidth: () => {
             if(xAxis.length > 1) {
               return 2;
