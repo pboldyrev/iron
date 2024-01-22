@@ -9,4 +9,5 @@ export const FEEDBACK_STRINGS = {
   INTEGER: 'Please enter a valid integer.',
   NOT_REQUIRED: 'This field is not required.',
   DATE: 'Please enter a valid date.',
+  PERCENT: 'Please enter a valid percentage.',
 };

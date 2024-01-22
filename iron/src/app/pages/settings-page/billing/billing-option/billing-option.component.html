@@ -2,16 +2,16 @@
     <blu-modal [borderColor]="plan.selected ? 'brand' : 'normal'" [stretchToFill]="true">
         <div class="billing-option-content">
             <div>
-                <blu-heading size="m" [bold]="true" [subheading]="plan.name" subheadingPosition="top">
+                <blu-heading size="m" [bold]="true" [subheading]="PlanNameToDisplay[plan.name]" subheadingPosition="top">
                     {{ plan.price }}
                 </blu-heading>
                 <div class="mt-2">
-                    <blu-tag *ngIf="plan.tag && plan.link" type="info">
+                    <blu-tag *ngIf="plan.tag && plan.canSelect && !plan.selected" type="info">
                         <blu-text type="info" class="p-1">
                             {{ plan.tag }}
                         </blu-text>
                     </blu-tag>
-                    <blu-tag *ngIf="!plan.link" type="success">
+                    <blu-tag *ngIf="plan.selected" type="success">
                         <blu-text type="success" class="p-1">
                             {{ TEXTS.CURRENT_PLAN }}
                         </blu-text>
@@ -25,7 +25,8 @@
                     </ng-container>
                 </div>
             </div>
-            <blu-button *ngIf="plan.link" type="primary" [fullWidth]="true" class="mt-3" (click)="onUpgradeClicked()">
+            <blu-button *ngIf="plan.canSelect" [disabled]="isLoading" type="primary" [fullWidth]="true" class="mt-3" (click)="isLoading ? null : onUpgradeClicked()">
+                <blu-spinner *ngIf="isLoading" [inlineSpace]="true"></blu-spinner>
                 {{ TEXTS.BTN_UPGRADE }}
             </blu-button>
         </div>

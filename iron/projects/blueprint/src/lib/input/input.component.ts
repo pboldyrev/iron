@@ -10,13 +10,14 @@ import { FEEDBACK_STRINGS } from 'src/app/shared/constants/strings';
 import { BluLabel } from '../label/label.component';
 import { DisplayIntegerPipe } from "../common/pipes/display-integer";
 import { DisplayCurrencyPipe } from "../common/pipes/display-currency.pipe";
+import { DisplayPercentPipe } from "../common/pipes/display-percent.pipe";
 
 @Component({
     selector: 'blu-input',
     standalone: true,
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.css'],
-    imports: [CommonModule, BluValidationFeedback, BluText, BluLabel, DisplayIntegerPipe, DisplayCurrencyPipe]
+    imports: [CommonModule, BluValidationFeedback, BluText, BluLabel, DisplayIntegerPipe, DisplayCurrencyPipe, DisplayPercentPipe]
 })
 export class BluInput {
   @Input() type!: InputType;

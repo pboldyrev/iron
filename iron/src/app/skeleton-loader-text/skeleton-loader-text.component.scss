@@ -1,0 +1,59 @@
+
+.skeleton-loader {
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    background-color: var(--blu-color-secondary);
+    background: linear-gradient(to right, var(--blu-background-secondary) 8%, var(--blu-background-tertiary) 18%, var(--blu-background-primary) 33%);
+    background-size: 75px 20px;
+    height: 18px;
+    position: relative;
+    border-radius: var(--blu-radius-s);
+    opacity: 0.8;
+    border: var(--blu-border-tertiary);
+}
+
+.skeleton-loader-s {
+    width: 75px;
+    animation-name: placeHolderShimmer-s;
+}
+
+.skeleton-loader-m {
+    width: 100px;
+    background-size: 100px 20px;
+    animation-name: placeHolderShimmer-m;
+}
+
+.skeleton-loader-l {
+    width: 200px;
+    background-size: 200px 20px;
+    animation-name: placeHolderShimmer-l;
+}
+
+@keyframes placeHolderShimmer-s {
+    0% {
+        background-position: -75px 0
+    }
+    100% {
+        background-position: 75px 0
+    }
+}
+
+@keyframes placeHolderShimmer-m {
+    0% {
+        background-position: -100px 0
+    }
+    100% {
+        background-position: 100px 0
+    }
+}
+
+@keyframes placeHolderShimmer-l {
+    0% {
+        background-position: -200px 0
+    }
+    100% {
+        background-position: 200px 0
+    }
+}

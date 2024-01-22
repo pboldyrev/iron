@@ -1,10 +1,22 @@
 import { PlanOption } from "./billing-option/billing-option.component";
 
+export enum PlanName {
+    Free = "free",
+    Monthly = "monthly",
+    Annually = "annually",
+}
+
+export const PlanNameToDisplay = {
+    "free": "Basic",
+    "monthly": "Premium Monthly",
+    "annually": "Premium Annually",
+}
+
 export const PLAN_OPTIONS: PlanOption[] = [
     {
-        name: "Basic",
+        name: PlanName.Free,
         price: "Free",
-        link: "/settings",
+        canSelect: false,
         benefits: [
             "Up to 5 assets",
             "Daily automatic asset value updates"
@@ -13,9 +25,9 @@ export const PLAN_OPTIONS: PlanOption[] = [
         tag: "",
     },
     {
-        name: "Premium Monthly",
+        name: PlanName.Monthly,
         price: "$3.99/mo.",
-        link: "/settings",
+        canSelect: true,
         benefits: [
             "Unlimited assets",
             "Daily automatic asset value updates",
@@ -26,9 +38,9 @@ export const PLAN_OPTIONS: PlanOption[] = [
         tag: "",
     },
     {
-        name: "Premium Yearly",
+        name: PlanName.Annually,
         price: "$29.99/yr.",
-        link: "/settings",
+        canSelect: true,
         benefits: [
             "Unlimited assets",
             "Daily automatic asset value updates",

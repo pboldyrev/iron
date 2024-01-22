@@ -25,7 +25,9 @@
       (value | displayInteger) : 
       (type === 'CURRENCY') ?
         (parseCurrency(value) | displayCurrency) :
-        (value)"
+        (type === 'PERCENT') ?
+          (parseCurrency(value) | displayPercent) : 
+          (value)"
   [maxLength]="maxChars"
   (input)="updateValue($event)"
 />

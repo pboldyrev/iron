@@ -9,7 +9,6 @@ import { PLAN_OPTIONS } from './billing.constants';
 import { BillingOptionComponent, PlanOption } from './billing-option/billing-option.component';
 import { TEXTS } from './billing.strings';
 import { cloneDeep } from 'lodash';
-import { BehaviorSubject } from 'rxjs';
 import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
@@ -32,30 +31,21 @@ export class BillingComponent {
   ngOnInit() {
     this.dataService.getUser$().subscribe((data: any) => {
       if(data.user.plan === "free") {
-        this.onOptionSelected(PLAN_OPTIONS[0]);
+        this.planOptions[0].selected = true;
+        this.planOptions[0].canSelect = false;
       } else if(data.user.plan === "monthly") {
-        this.onOptionSelected(PLAN_OPTIONS[1]);
+        this.planOptions[1].selected = true;
+        this.planOptions[1].canSelect = false;
       } else if(data.user.plan === "annually") {
-        this.onOptionSelected(PLAN_OPTIONS[2]);
+        this.planOptions[2].selected = true;
+        this.planOptions[2].canSelect = false;
       }
     });
   }
 
   onOptionSelected(selectedOption: PlanOption): void {
-    for(let i = 0; i < PLAN_OPTIONS.length; ++i) {
-      let curOption = this.planOptions[i];
-
-      if(curOption.name === selectedOption.name) {
-        curOption.selected = true;
-        curOption.link = "";
-        curOption.tag = TEXTS.TAG_CURRENT;
-      } else {
-        curOption.selected = false;
-        curOption.link = PLAN_OPTIONS[i].link;
-        curOption.tag = PLAN_OPTIONS[i].tag;
-      }
-
-      this.planOptions[i] = curOption;
-    }
+    this.dataService.createStripeCheckoutSession$(selectedOption.name).subscribe((data: any) => {
+      location.href = data.url;
+    });
   }
 }

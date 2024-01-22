@@ -52,7 +52,7 @@ export class AssetDetailsPageComponent implements AfterContentInit {
     map(([isValuesLoading, isAssetLoading]) => {
       return !isValuesLoading && !isAssetLoading;
     })
-  )
+  );
   
   displayAssetName = "";
 

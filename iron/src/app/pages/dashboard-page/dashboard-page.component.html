@@ -103,7 +103,7 @@
                         class="dashboard-loader-wrapper"
                     ></app-loading-state>
                 </div>
-                <div class="col-12 d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
+                <div class="col-12 d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length > 0 && !(isAssetsLoading$ | async)">
                     <blu-button type="secondary" [iconName]="showAnalytics ? 'collapse' : 'show'" (click)="onToggleAnalytics()">
                         <span *ngIf="!showAnalytics">{{ TEXTS.SHOW_CTA }}</span>
                         <span *ngIf="showAnalytics">{{ TEXTS.HIDE_CTA }}</span>

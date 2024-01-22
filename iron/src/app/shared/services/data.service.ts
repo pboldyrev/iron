@@ -8,6 +8,7 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { AnalyticsService } from './analytics.service';
 import { environment } from 'src/environments';
 import { SYMBOLS } from 'src/assets/data/valid_symbols';
+import { PlanName } from 'src/app/pages/settings-page/billing/billing.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -346,6 +347,16 @@ export class DataService {
         }
       })
     )
+  }
+
+  public createStripeCheckoutSession$(planName: PlanName): Observable<Asset> {
+    const payload = {
+      plan: planName,
+      successUrl: "https://finacle.app/success/" + planName,
+      cancelUrl: "https://finacle.app/settings",
+    }
+
+    return this.httpPost("createStripeCheckoutSession", payload);
   }
 
   private fetchUserAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {

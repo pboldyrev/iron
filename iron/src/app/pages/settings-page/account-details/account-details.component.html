@@ -7,7 +7,8 @@
             <blu-text type="secondary">Account email</blu-text>
         </div>
         <div class="col-8">
-            <blu-text>{{userEmail}}</blu-text>
+            <app-skeleton-loader-text size="l" *ngIf="isLoading"></app-skeleton-loader-text>
+            <blu-text *ngIf="!isLoading">{{userEmail}}</blu-text>
         </div>
     </div>
 </blu-modal>
@@ -21,7 +22,8 @@
                 <blu-text type="secondary">Current plan</blu-text>
             </div>
             <div class="col-8 account-details-plan-name">
-                <blu-text>{{planName}}</blu-text>
+                <app-skeleton-loader-text size="s" *ngIf="isLoading"></app-skeleton-loader-text>
+                <blu-text *ngIf="!isLoading">{{planName}}</blu-text>
             </div>
         </div>
         <div class="row g-0 mt-2 align-items-center">
@@ -29,7 +31,8 @@
                 <blu-text type="secondary">Plan expires</blu-text>
             </div>
             <div class="col-8">
-                <blu-text>{{planExpiresAt}}</blu-text>
+                <app-skeleton-loader-text size="m" *ngIf="isLoading"></app-skeleton-loader-text>
+                <blu-text *ngIf="!isLoading">{{planExpiresAt}}</blu-text>
             </div>
         </div>
     </blu-modal>

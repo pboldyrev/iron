@@ -9,11 +9,13 @@ import { TEXTS } from './billing-option.strings';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { PlanName, PlanNameToDisplay } from '../billing.constants';
+import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 
 export type PlanOption = {
-  name: string,
+  name: PlanName,
   price: string,
-  link: string,
+  canSelect: boolean,
   benefits: string[],
   selected: boolean,
   tag: string,
@@ -22,7 +24,7 @@ export type PlanOption = {
 @Component({
   selector: 'app-billing-option',
   standalone: true,
-  imports: [CommonModule, BluModal, BluHeading, BluText, BluButton, BluIcon, BluTag],
+  imports: [CommonModule, BluModal, BluHeading, BluText, BluButton, BluIcon, BluTag, BluSpinner],
   templateUrl: './billing-option.component.html',
   styleUrl: './billing-option.component.scss'
 })
@@ -31,13 +33,12 @@ export class BillingOptionComponent {
   @Output() optionSelected = new EventEmitter();
 
   TEXTS = TEXTS;
-  showConfirmation = false;
+  PlanNameToDisplay = PlanNameToDisplay;
 
-  constructor(
-    private navigationService: NavigationService,
-  ){}
+  isLoading = false;
 
   onUpgradeClicked(): void {
+    this.isLoading = true;
     this.optionSelected.emit();
   }
 }
