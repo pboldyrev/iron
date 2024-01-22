@@ -58,7 +58,6 @@ export class LoginPageComponent {
   public showOTPDialog = false;
 
   private methodId = '';
-  private phoneNumber = 0;
   private email = '';
 
   constructor(
@@ -165,7 +164,6 @@ export class LoginPageComponent {
   }
 
   private clearAuth(): void {
-    this.phoneNumber = 0;
     this.email = '';
     this.methodId = '';
     this.error$.next('');

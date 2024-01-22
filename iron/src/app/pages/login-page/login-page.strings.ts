@@ -17,7 +17,7 @@ export const LABELS = {
 export const TOOLTIPS = {
   BETA: "Finacle is currently in Alpha. We are only accepting a small number of users. Please email hello@finacle.app if you would like access.",
   EMAIL: "",
-  OTP: "This is a 6 digit numerical code sent to the provided phone number.",
+  OTP: "This is a 6 digit numerical code sent to the provided email.",
 }
 
 export const BTN_TEXTS = {
