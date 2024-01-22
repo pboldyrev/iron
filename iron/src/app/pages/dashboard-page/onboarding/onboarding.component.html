@@ -1,0 +1,39 @@
+<blu-modal *ngIf="((assets$ | async) ?? []).length < 10">
+    <div class="onboarding-wrapper">
+        <div class="onboarding-content">
+            <blu-heading size="s" class="mb-2" subheading="Continue adding assets and loans to your account. As you add them, you will see new features and widgets on the dashboard.">
+                Unlock the full power of Finacle
+            </blu-heading>
+            <div class="onboarding-progress-bar-wrapper pt-4">
+                <mat-progress-bar
+                    class="mt-5"
+                    mode="determinate"
+                    [value]="((assets$ | async) ?? []).length / 20 * 100"
+                ></mat-progress-bar>
+                <span 
+                    *ngIf="showFirstStep"
+                    class="onboarding-progress-tick-wrapper first-tick ps-2 pb-3"
+                >
+                    <span class="onboarding-progress-tick">
+                        <span>Charts</span>
+                        <blu-text type="secondary" size="s">1 asset</blu-text>
+                    </span>
+                </span>
+                <span 
+                    *ngIf="showSecondStep"
+                    class="onboarding-progress-tick-wrapper second-tick ps-2 pb-3"
+                >
+                    <span class="onboarding-progress-tick">Portfolio summaries</span>
+                    <blu-text type="secondary" size="s">3 assets</blu-text>
+                </span>
+                <span 
+                    *ngIf="showThirdStep"
+                    class="onboarding-progress-tick-wrapper third-tick ps-2 pb-3"
+                >
+                    <span class="onboarding-progress-tick">AI Feedback</span>
+                    <blu-text type="secondary" size="s">10 assets</blu-text>
+                </span>
+            </div>
+        </div>
+    </div>
+</blu-modal>

@@ -29,11 +29,14 @@ import { ErrorStateComponent } from 'src/app/shared/components/error-state/error
 import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skeleton-loader-text.component';
 import { DashboardTopBarComponent } from './dashboard-top-bar/dashboard-top-bar.component';
 import { EmptyStateComponent } from './empty-state/empty-state.component';
+import { BluBanner } from 'projects/blueprint/src/lib/banner/banner.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { OnboardingComponent } from './onboarding/onboarding.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent, DashboardTopBarComponent, EmptyStateComponent],
+  imports: [CommonModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent, DashboardTopBarComponent, EmptyStateComponent, BluBanner, OnboardingComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })

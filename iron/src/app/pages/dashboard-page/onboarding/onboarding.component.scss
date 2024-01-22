@@ -1,0 +1,38 @@
+.onboarding-wrapper {
+    width: var(--blu-width-full);
+}
+
+.onboarding-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.onboarding-progress-bar-wrapper {
+    position: relative;
+}
+
+.onboarding-progress-tick-wrapper {
+    position: absolute;
+    top: 15px;
+    border-left: 2px solid var(--blu-color-brand);
+}
+
+.first-tick {
+    left: 5%;
+}
+
+.second-tick {
+    left: 15%;
+}
+
+.third-tick {
+    left: 70%;
+}
+
+.onboarding-progress-tick {
+    font: var(--blu-font-primary);
+    color: var(--blu-color-text-primary);
+    line-height: 0px;
+    padding: 0px;
+    line-height: 0 !important;
+}

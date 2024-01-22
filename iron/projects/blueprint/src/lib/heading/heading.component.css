@@ -85,3 +85,7 @@
 .blu-heading-error {
   color: var(--blu-color-error);
 }
+
+.blu-heading-info {
+  color: var(--blu-color-info);
+}

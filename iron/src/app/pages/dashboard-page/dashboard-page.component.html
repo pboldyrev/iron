@@ -1,5 +1,5 @@
 <div class="dashboard-wrapper row m-0">
-    <div class="dashboard-side-wrapper col-lg-5 col-12 pb-4">
+    <div class="dashboard-side-wrapper col-lg-5 col-12 pb-2">
         <div class="p-4 p-md-5">
             <app-networth
                 [totalNetworth]="totalNetworth"
@@ -28,7 +28,8 @@
         <ng-template #mainContent>
                 <app-loading-state *ngIf="(isAssetsLoading$ | async); else loadedContent" class="dashboard-loader-wrapper"></app-loading-state>
                 <ng-template #loadedContent>
-                    <div class="row g-2 g-sm-3 justify-content-center">
+                    <div class="row g-2 g-sm-3">
+                        <onboarding [assets$]="assets$"></onboarding>
                         <empty-state
                             class="mt-5 d-flex justify-content-center"
                             *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
@@ -36,7 +37,7 @@
                             (addBtnClicked)="onAddAsset()"
                         ></empty-state>
                         <app-ai-feedback
-                            *ngIf="((assets$ | async) ?? []).length > 0"
+                            *ngIf="((assets$ | async) ?? []).length >= 10"
                             [assets$]="assets$"
                         ></app-ai-feedback>
                         <app-asset-table
@@ -47,7 +48,7 @@
                             #assetTable
                         ></app-asset-table>
                         <app-account-summary
-                            *ngIf="((assets$ | async) ?? []).length > 0 && showAnalytics"
+                            *ngIf="((assets$ | async) ?? []).length >= 3 && showAnalytics"
                             [assets$]="assets$"
                         ></app-account-summary>
                         <div class="d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length > 1">

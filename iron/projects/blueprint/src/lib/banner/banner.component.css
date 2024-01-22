@@ -1,0 +1,11 @@
+.blu-banner-wrapper {
+    border-radius: var(--blu-radius-m);
+    width: var(--blu-width-full);
+    display: flex;
+    flex-direction: column;
+}
+
+/* .blu-banner-info {
+    background-color: var(--blu-color-info-background);
+    border: var(--blu-border-info);
+} */

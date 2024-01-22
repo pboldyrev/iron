@@ -15,7 +15,7 @@ export class BluHeading {
   @Input() subheadingSize: 'xs' | 's' | 'm' | 'l' = 'm';
   @Input() subheading = '';
   @Input() bold = false;
-  @Input() feedback: 'success' | 'error' | null = null;
+  @Input() feedback: 'info' | 'success' | 'error' | null = null;
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
   @Input() type: 'primary' | 'secondary' | 'tertiary' | 'error' = 'primary';
   @Input() isNumber = false;
