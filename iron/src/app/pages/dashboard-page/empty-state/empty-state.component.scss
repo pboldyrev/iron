@@ -1,11 +1,12 @@
 .empty-state-wrapper {
+    width: 100%;
     max-width: var(--blu-width-4xl);
     display: flex;
     justify-content: center;
 }
 
 .empty-state-content {
-    width: 95%;
+    width: 90%;
     flex-direction: column;
     display: flex;
     align-items: center;

@@ -12,6 +12,7 @@ import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
 import { SkeletonLoaderTextComponent } from 'src/app/skeleton-loader-text/skeleton-loader-text.component';
+import { TEXTS } from './networth.strings';
 
 export type TimeRangeOption = {
   selected: boolean,
@@ -28,4 +29,6 @@ export type TimeRangeOption = {
 export class NetworthComponent {
   @Input() totalNetworth!: number;
   @Input() isLoading: boolean | null = false;
+
+  TEXTS = TEXTS;
 }
