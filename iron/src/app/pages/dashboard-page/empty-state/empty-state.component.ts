@@ -13,6 +13,7 @@ import { TEXTS } from './empty-state.strings';
   styleUrl: './empty-state.component.scss'
 })
 export class EmptyStateComponent {
+  @Input() variation: 1 | 2 = 1;
   @Output() addBtnClicked = new EventEmitter();
 
   TEXTS = TEXTS;

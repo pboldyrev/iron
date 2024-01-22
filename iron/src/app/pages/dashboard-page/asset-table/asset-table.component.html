@@ -22,9 +22,6 @@
             [selected]="TIMEFRAMES[TIMEFRAMES.length - 1]"
         ></blu-select> -->
     </div>
-    <div *ngIf="((assets$ | async) ?? []).length === 0" class="px-4 py-3">
-        <blu-text type="secondary">No assets added yet... <blu-link class="ms-1" (click)="onAddAsset()">Add one?</blu-link></blu-text>
-    </div>
     <div class="asset-table-data pb-3">
     <table 
         mat-table

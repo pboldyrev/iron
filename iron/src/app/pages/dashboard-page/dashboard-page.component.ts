@@ -12,7 +12,7 @@ import { ConfirmationPopupComponent } from '../../shared/components/confirmation
 import { AuthService } from '../../shared/services/auth.service';
 import { AddAssetPopupComponent } from 'src/app/pages/add-asset-page/add-asset-selection/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
-import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of, skip, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of, skip, startWith, take, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { ASSET_TABLE_COLS } from './dashboard-page.constants';

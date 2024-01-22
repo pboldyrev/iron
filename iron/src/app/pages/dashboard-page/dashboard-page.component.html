@@ -13,6 +13,7 @@
         <div class="dashboard-networth-chart" [hidden]="(isNetworthLoading$ | async)">
             <empty-state 
                 *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
+                [variation]="1"
                 (addBtnClicked)="onAddAsset()"
             ></empty-state>
             <canvas 
@@ -21,41 +22,43 @@
             >{{ dashboardChart }}</canvas>
         </div>
     </div>
-    <div class="col-lg-7 col-12 px-2 px-sm-3 px-md-5 py-4 dashboard-content-wrapper">
+    <div class="dashboard-content-wrapper col-lg-7 col-12 px-2 px-md-5 py-4">
         <dashboard-top-bar #topBar></dashboard-top-bar>
         <app-error-state *ngIf="loadingFailed; else mainContent"></app-error-state>
         <ng-template #mainContent>
-            <div class="row g-2 g-sm-3">
-                <app-loading-state
-                    *ngIf="(isAssetsLoading$ | async)"
-                    class="mt-5 dashboard-loader-wrapper"
-                ></app-loading-state>
-                <div class="col-12" *ngIf="((assets$ | async) ?? []).length > 0" [hidden]="(isAssetsLoading$ | async)">
-                    <app-ai-feedback
-                        [assets$]="assets$"
-                    ></app-ai-feedback>
-                </div>
-                <div class="col-12" [hidden]="(isAssetsLoading$ | async)">
-                    <app-asset-table
-                        [columns]="assetTableColumns"
-                        [assets$]="assets$"
-                        [loadingIndicator$]="isAssetsLoading$"
-                        #assetTable
-                    ></app-asset-table>
-                </div>
-                <div *ngIf="((assets$ | async) ?? []).length > 0 && showAnalytics" [hidden]="(isAssetsLoading$ | async)">
-                    <app-account-summary
-                        [assets$]="assets$"
-                    ></app-account-summary>
-                </div>
-                <div class="col-12 d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length > 1 && !(isAssetsLoading$ | async)">
-                    <blu-button type="secondary" [iconName]="showAnalytics ? 'collapse' : 'show'" (click)="onToggleAnalytics()">
-                        <span *ngIf="!showAnalytics">{{ TEXTS.SHOW_CTA }}</span>
-                        <span *ngIf="showAnalytics">{{ TEXTS.HIDE_CTA }}</span>
-                        <span class="ps-1">{{ TEXTS.SHOW_CTA_END }}</span>
-                    </blu-button>
-                </div>
-            </div>
+                <app-loading-state *ngIf="(isAssetsLoading$ | async); else loadedContent" class="dashboard-loader-wrapper"></app-loading-state>
+                <ng-template #loadedContent>
+                    <div class="row g-2 g-sm-3 justify-content-center">
+                        <empty-state
+                            class="mt-5 d-flex justify-content-center"
+                            *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
+                            [variation]="2"
+                            (addBtnClicked)="onAddAsset()"
+                        ></empty-state>
+                        <app-ai-feedback
+                            *ngIf="((assets$ | async) ?? []).length > 0"
+                            [assets$]="assets$"
+                        ></app-ai-feedback>
+                        <app-asset-table
+                            *ngIf="((assets$ | async) ?? []).length > 0"
+                            [columns]="assetTableColumns"
+                            [assets$]="assets$"
+                            [loadingIndicator$]="isAssetsLoading$"
+                            #assetTable
+                        ></app-asset-table>
+                        <app-account-summary
+                            *ngIf="((assets$ | async) ?? []).length > 0 && showAnalytics"
+                            [assets$]="assets$"
+                        ></app-account-summary>
+                        <div class="d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length > 1">
+                            <blu-button type="secondary" [iconName]="showAnalytics ? 'collapse' : 'show'" (click)="onToggleAnalytics()">
+                                <span *ngIf="!showAnalytics">{{ TEXTS.SHOW_CTA }}</span>
+                                <span *ngIf="showAnalytics">{{ TEXTS.HIDE_CTA }}</span>
+                                <span class="ps-1">{{ TEXTS.SHOW_CTA_END }}</span>
+                            </blu-button>
+                        </div>
+                    </div>
+                </ng-template>
         </ng-template>
     </div>
 </div>
