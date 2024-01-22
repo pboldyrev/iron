@@ -50,8 +50,7 @@
                 </mat-tab>
                 <mat-tab [label]="TEXTS.TAB_PROJECTION"
                     *ngIf="!(isValuesLoading$ | async) && 
-                        ((asset$ | async)?.assetType === AssetType.Vehicle || 
-                        (asset$ | async)?.assetType === AssetType.Cash)"
+                        ((asset$ | async)?.assetType === AssetType.Vehicle)"
                     >
                     <app-future-projection
                         [assetName]="(asset$ | async)?.assetName ?? ''"
