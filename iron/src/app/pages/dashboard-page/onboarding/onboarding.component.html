@@ -1,10 +1,26 @@
 <blu-modal *ngIf="((assets$ | async) ?? []).length < 10">
     <div class="onboarding-wrapper">
         <div class="onboarding-content">
-            <blu-heading size="s" class="mb-2" subheading="Continue adding assets and loans to your account. As you add them, you will see new features and widgets on the dashboard.">
-                Unlock the full power of Finacle
-            </blu-heading>
-            <div class="onboarding-progress-bar-wrapper pt-4">
+            <div 
+                class="onboarding-heading" 
+                [ngClass]="{
+                    'align-items-center': !showDetails,
+                    'align-items-start': showDetails
+                }"
+                (click)="onToggleDetails()">
+                <blu-heading 
+                    size="s" 
+                    [ngClass]="{
+                        'mb-2': showDetails
+                    }" 
+                    [subheading]="showDetails ? TEXTS.SUBTITLE : ''"
+                >
+                    {{ TEXTS.TITLE }}
+                </blu-heading>
+                <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
+                <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
+            </div>
+            <div class="onboarding-progress-bar-wrapper pt-4" *ngIf="showDetails">
                 <mat-progress-bar
                     class="mt-5"
                     mode="determinate"
@@ -15,23 +31,27 @@
                     class="onboarding-progress-tick-wrapper first-tick ps-2 pb-3"
                 >
                     <span class="onboarding-progress-tick">
-                        <span>Charts</span>
-                        <blu-text type="secondary" size="s">1 asset</blu-text>
+                        {{ TEXTS.GOAL_1 }}
+                        <blu-text type="secondary" size="s">{{ TEXTS.GOAL_1_COUNT }}</blu-text>
                     </span>
                 </span>
                 <span 
                     *ngIf="showSecondStep"
                     class="onboarding-progress-tick-wrapper second-tick ps-2 pb-3"
                 >
-                    <span class="onboarding-progress-tick">Portfolio summaries</span>
-                    <blu-text type="secondary" size="s">3 assets</blu-text>
+                    <span class="onboarding-progress-tick">
+                        {{ TEXTS.GOAL_2 }}
+                        <blu-text type="secondary" size="s">{{ TEXTS.GOAL_2_COUNT }}</blu-text>
+                    </span>
                 </span>
                 <span 
                     *ngIf="showThirdStep"
                     class="onboarding-progress-tick-wrapper third-tick ps-2 pb-3"
                 >
-                    <span class="onboarding-progress-tick">AI Feedback</span>
-                    <blu-text type="secondary" size="s">10 assets</blu-text>
+                    <span class="onboarding-progress-tick">
+                        {{ TEXTS.GOAL_3 }}
+                        <blu-text type="secondary" size="s">{{ TEXTS.GOAL_3_COUNT }}</blu-text>
+                    </span>
                 </span>
             </div>
         </div>

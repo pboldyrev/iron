@@ -9,6 +9,7 @@ export enum USER_PREFERENCES {
   ShowStockUnitChange = 6,
   ShowTopHoldings = 7,
   showBiggestMovers = 8,
+  ShowOnboarding = 9,
 }
 
 @Injectable({

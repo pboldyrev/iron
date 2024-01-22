@@ -13,9 +13,7 @@
 </blu-popup>
 <blu-modal>
     <div class="ai-feedback-heading" (click)="onToggleDetails()">
-        <blu-heading size="s" tagType="info" tagText="New">
-                Portfolio feedback
-        </blu-heading>
+        <blu-heading size="s">Portfolio feedback</blu-heading>
         <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
         <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
     </div>
