@@ -211,7 +211,10 @@ export class ValueHistoryComponent implements AfterContentInit {
           totalValue: 0,
         }, this.isLoading$)
       }),
-    ).subscribe();
+    ).subscribe(() => {
+      this.stockUnitsInput.clearValueAndValidators();
+      this.stockDateInput.clearValueAndValidators();
+    });
   }
 
   public onDeleteEntry(entryToDelete: AssetValue): void {

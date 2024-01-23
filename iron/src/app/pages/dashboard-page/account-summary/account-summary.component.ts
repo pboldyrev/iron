@@ -30,12 +30,12 @@ export type GroupSummary = {
 })
 export class AccountSummaryComponent {
   @ViewChild('assetSummaryChart') assetSummaryChart!: Chart;
+  @ViewChild('accountSummaryChart') accountSummaryChart!: Chart;
   @Input() assets$!: Observable<Asset[]>;
   
   showTopHoldings = this.preferencesService.getPreference(USER_PREFERENCES.ShowTopHoldings) === "true" ?? true;
-  showBiggestMovers = this.preferencesService.getPreference(USER_PREFERENCES.showBiggestMovers) === "true" ?? true;
+  showAccountSummary = this.preferencesService.getPreference(USER_PREFERENCES.ShowAccountSummary) === "true" ?? true;
   acountSummaries = [] as GroupSummary[];
-  topAssets = [] as GroupSummary[];
   
   constructor(
     private preferencesService: PreferencesService,
@@ -45,12 +45,20 @@ export class AccountSummaryComponent {
   ngOnInit() {
     this.assets$.pipe(delay(0)).subscribe((data: Asset[]) => {
       let assetValues = this.getTopAssets(data);
+      this.acountSummaries = this.getTopAccounts(data);
 
       if(this.assetSummaryChart) {
         this.assetSummaryChart.data = this.chartService.getDataSetPie(assetValues);
         this.assetSummaryChart.update();
       } else {
         this.assetSummaryChart = new Chart('assetSummaryChart', this.chartService.getPieOptions(assetValues));
+      }
+
+      if(this.accountSummaryChart) {
+        this.accountSummaryChart.data = this.chartService.getDataSetPie(this.acountSummaries);
+        this.accountSummaryChart.update();
+      } else {
+        this.accountSummaryChart = new Chart('accountSummaryChart', this.chartService.getPieOptions(this.acountSummaries));
       }
     });
   }
@@ -111,55 +119,48 @@ export class AccountSummaryComponent {
     return topAssets.slice(0, 5);
   }
 
-  private capitalizeFirstLetter(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  private getTopAccounts(assets: Asset[]): GroupSummary[] {
+    let topAccounts = [] as GroupSummary[];
 
-  private updateValues(assets: Asset[]) {
-    this.acountSummaries = [];
-    this.topAssets = [];
-      
-    let accountNames = [] as string[];
     let totalValue = 0;
-
     assets.forEach((asset: Asset) => {
-      if(!accountNames.includes(asset.account ?? '')) {
-        accountNames.push(asset.account ?? '');
-      }
       totalValue += asset.curTotalValue ?? 0;
-    });
-
-    accountNames.forEach((accountName: string) => {
-      let newAccountSummary: GroupSummary = {
-        name: accountName,
-        assetValue: 0,
-        percentageAssets: 0,
-      }
-
-      assets.forEach((asset: Asset) => {
-        if(asset.account === accountName) {
-          newAccountSummary.assetValue += (asset.curTotalValue ?? 0);
-        }
-      });
-
-      newAccountSummary.percentageAssets = (newAccountSummary.assetValue / totalValue) * 100;
-
-      this.acountSummaries.push(newAccountSummary);
-      this.acountSummaries.sort((a, b) => b.assetValue - a.assetValue);
     });
 
     assets.sort((a, b) => {return (b.curTotalValue ?? 0) - (a.curTotalValue ?? 0)});
 
     assets.forEach((asset: Asset) => {
-      if(this.topAssets.length < 5) {
-        let newTopAsset: GroupSummary = {
-          name: asset.assetType + ' - ' + asset.assetName ?? '',
-          assetValue: asset.curTotalValue ?? 0,
-          percentageAssets: (asset.curTotalValue ?? 0)/totalValue * 100,
+      let newAccountSummary: GroupSummary = {
+        name: this.capitalizeFirstLetter(asset.account ?? ''),
+        assetValue: 0,
+        percentageAssets: 0,
+      }
+      let accountExists = false;
+      topAccounts.forEach((account: GroupSummary) => {
+        if(account.name === asset.account) {
+          accountExists = true;
         }
-        this.topAssets.push(newTopAsset);
+      });
+
+      if(!accountExists) {
+        topAccounts.push(newAccountSummary);
       }
     });
+
+    assets.forEach((asset: Asset) => {
+      topAccounts.forEach((account: GroupSummary) => {
+        if(account.name === asset.account) {
+          account.assetValue += asset.curTotalValue ?? 0;
+          account.percentageAssets = account.assetValue / totalValue * 100;
+        }
+      });
+    });
+
+    return topAccounts;
+  }
+
+  private capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   onToggleTopHoldings(): void {
@@ -167,8 +168,8 @@ export class AccountSummaryComponent {
     this.preferencesService.setPreference(USER_PREFERENCES.ShowTopHoldings, this.showTopHoldings.toString());
   }
 
-  onToggleBiggestMovers(): void {
-    this.showBiggestMovers = !this.showBiggestMovers;
-    this.preferencesService.setPreference(USER_PREFERENCES.showBiggestMovers, this.showBiggestMovers.toString());
+  onToggleAccountSummary(): void {
+    this.showAccountSummary = !this.showAccountSummary;
+    this.preferencesService.setPreference(USER_PREFERENCES.ShowAccountSummary, this.showAccountSummary.toString());
   }
 }

@@ -8,7 +8,7 @@ export enum USER_PREFERENCES {
   ShowAnalytics = 5,
   ShowStockUnitChange = 6,
   ShowTopHoldings = 7,
-  showBiggestMovers = 8,
+  ShowAccountSummary = 8,
   ShowOnboarding = 9,
 }
 

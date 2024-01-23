@@ -7,7 +7,6 @@
   cursor: pointer;
   transition: 0.3s;
   width: 100%;
-  height: fit-content;
   border: var(--blu-border-tertiary);
   transition: 0.2s;
   box-sizing: border-box;
@@ -99,5 +98,5 @@
 }
 
 .mat-mdc-select-trigger {
-  padding: var(--blu-padding-l);
+  padding: calc(var(--blu-padding-l) - 2px);
 }

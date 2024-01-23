@@ -19,15 +19,22 @@
         </div>
     </blu-modal>
     <blu-modal class="col-6">
-        <div class="account-summary-header" (click)="onToggleBiggestMovers()">
+        <div class="account-summary-header" (click)="onToggleAccountSummary()">
             <blu-heading size="s">
-                    Biggest movers
+                    Account diversification
             </blu-heading>
-            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showBiggestMovers"></blu-button>
-            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showBiggestMovers"></blu-button>
+            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showAccountSummary"></blu-button>
+            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showAccountSummary"></blu-button>
         </div>
-        <div [hidden]="!showBiggestMovers">
-            <blu-text type="primary">Not added yet!</blu-text>
+        <div class="position-relative" [hidden]="!showAccountSummary">
+            <div class="account-summary-chart mt-3">
+                <canvas id="accountSummaryChart">{{ accountSummaryChart }}</canvas>
+            </div>
+            <div class="account-summary-chart-text">
+                <blu-heading type="primary" size="m" [bold]="true" [center]="true" subheading="Accounts">
+                    {{ acountSummaries.length }}
+                </blu-heading>
+            </div>
         </div>
 </blu-modal>
 </div>
