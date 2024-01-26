@@ -1,5 +1,5 @@
 <div class="row g-3" [hidden]="((assets$ | async) ?? []).length < 2">
-    <blu-modal class="col-6">
+    <blu-modal class="col-12 col-md-6">
         <div class="account-summary-header" (click)="onToggleTopHoldings()">
             <blu-heading size="s">
                     Asset diversification
@@ -18,7 +18,7 @@
             </div> -->
         </div>
     </blu-modal>
-    <blu-modal class="col-6">
+    <blu-modal class="col-12 col-md-6">
         <div class="account-summary-header" (click)="onToggleAccountSummary()">
             <blu-heading size="s">
                     Account diversification
