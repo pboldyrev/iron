@@ -4,33 +4,68 @@
   [required]="required && appearance !== 'cell'"
   [tooltip]="tooltip"
 ></blu-label>
-<input
-  id="blu-input"
-  class="blu-input"
-  [ngClass]="{
-    'blu-input-fullwidth': fullWidth,
-    'blu-input-feedback-error': !isValid && feedbackType === 'error',
-    'blu-input-feedback-info': !isValid && feedbackType === 'info',
-    'blu-input-feedback-success':
-      !isValid && feedbackType === 'success',
-    'blu-input-cell': appearance === 'cell',
-    'blu-input-rtl': direction === 'rtl',
-    'blu-feedback-shown': !isValid && appearance !== 'cell',
-  }"
-  [type]="(type === 'NUMBER' || type === 'VIN' || type === 'PHONE' || type === 'INTEGER') ? 'TEXT' : type"
-  [placeholder]="placeholder"
-  [disabled]="disabled"
-  [value]="
-    (type === 'INTEGER') ? 
-      (value | displayInteger) : 
-      (type === 'CURRENCY') ?
-        (parseCurrency(value) | displayCurrency) :
-        (type === 'PERCENT') ?
-          (parseCurrency(value) | displayPercent) : 
-          (value)"
-  [maxLength]="maxChars"
-  (input)="updateValue($event)"
-/>
+<div class="d-flex align-items-center">
+  <input
+    [hidden]="type === 'DATE'"
+    id="blu-input"
+    class="blu-input"
+    [ngClass]="{
+      'blu-input-fullwidth': fullWidth,
+      'blu-input-feedback-error': !isValid && feedbackType === 'error',
+      'blu-input-feedback-info': !isValid && feedbackType === 'info',
+      'blu-input-feedback-success':
+        !isValid && feedbackType === 'success',
+      'blu-input-cell': appearance === 'cell',
+      'blu-input-rtl': direction === 'rtl',
+      'blu-feedback-shown': !isValid && appearance !== 'cell',
+    }"
+    [type]="(type === 'NUMBER' || type === 'VIN' || type === 'PHONE' || type === 'INTEGER') ? 'TEXT' : type"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [value]="
+      (type === 'INTEGER') ? 
+        (value | displayInteger) : 
+        (type === 'CURRENCY') ?
+          (parseCurrency(value) | displayCurrency) :
+          (type === 'PERCENT') ?
+            (parseCurrency(value) | displayPercent) : 
+            (value)"
+    [maxLength]="maxChars"
+    (input)="updateValue($event)"
+  />
+  <input
+    [hidden]="type !== 'DATE'"
+    id="blu-input"
+    class="blu-input"
+    [ngClass]="{
+      'blu-input-fullwidth': fullWidth,
+      'blu-input-feedback-error': !isValid && feedbackType === 'error',
+      'blu-input-feedback-info': !isValid && feedbackType === 'info',
+      'blu-input-feedback-success':
+        !isValid && feedbackType === 'success',
+      'blu-input-cell': appearance === 'cell',
+      'blu-input-rtl': direction === 'rtl',
+      'blu-feedback-shown': !isValid && appearance !== 'cell',
+    }"
+    matInput
+    [matDatepicker]="picker"
+    [type]="(type === 'NUMBER' || type === 'VIN' || type === 'PHONE' || type === 'INTEGER') ? 'TEXT' : type === 'DATE' ? null : type"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [value]="
+      (type === 'INTEGER') ? 
+        (value | displayInteger) : 
+        (type === 'CURRENCY') ?
+          (parseCurrency(value) | displayCurrency) :
+          (type === 'PERCENT') ?
+            (parseCurrency(value) | displayPercent) : 
+            (value)"
+    [maxLength]="maxChars"
+    (dateChange)="updateValue($event)"
+  />
+  <mat-datepicker-toggle [hidden]="type !== 'DATE'" matSuffix [for]="picker" [disableRipple]="true"></mat-datepicker-toggle>
+  <mat-datepicker [hidden]="type !== 'DATE'" #picker></mat-datepicker>
+</div>
 <blu-validation-feedback *ngIf="!isValid && appearance !== 'cell'" [type]="feedbackType">
     {{ customFeedback ? customFeedback : FEEDBACK_STRINGS[type] }}
 </blu-validation-feedback>

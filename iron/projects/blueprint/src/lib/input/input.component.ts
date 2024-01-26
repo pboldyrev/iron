@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable, map, mergeMap, of, take, takeUntil } from 'rxjs';
 import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
@@ -11,13 +11,16 @@ import { BluLabel } from '../label/label.component';
 import { DisplayIntegerPipe } from "../common/pipes/display-integer";
 import { DisplayCurrencyPipe } from "../common/pipes/display-currency.pipe";
 import { DisplayPercentPipe } from "../common/pipes/display-percent.pipe";
+import { MatDatepickerModule, } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
     selector: 'blu-input',
     standalone: true,
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.css'],
-    imports: [CommonModule, BluValidationFeedback, BluText, BluLabel, DisplayIntegerPipe, DisplayCurrencyPipe, DisplayPercentPipe]
+    providers: [MatDatepickerModule],
+    imports: [CommonModule,  MatDatepickerModule, MatNativeDateModule, BluValidationFeedback, BluText, BluLabel, DisplayIntegerPipe, DisplayCurrencyPipe, DisplayPercentPipe]
 })
 export class BluInput {
   @Input() type!: InputType;

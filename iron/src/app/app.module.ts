@@ -9,6 +9,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouteReuseStrategy } from '@angular/router';
 import { DefaultRouteReuseStrategy } from './route-reuse-strategy';
 import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     NgChartsModule,
     MatSnackBarModule,
     FormsModule,
+    MatNativeDateModule
   ],
   bootstrap: [AppComponent],
   providers: [
