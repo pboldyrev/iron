@@ -3,19 +3,21 @@ import { Component, ViewChild } from '@angular/core';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { TEXTS } from './dashboard-top-bar.strings';
 import { ConfirmationPopupComponent } from 'src/app/shared/components/confirmation-popup/confirmation-popup.component';
-import { AddAssetPopupComponent } from '../../add-asset-page/add-asset-selection/add-asset-popup/add-asset-popup.component';
+import { AddAssetPopupComponent } from './add-asset-popup/add-asset-popup.component';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ImportAssetsPopupComponent } from 'src/app/pages/dashboard-page/dashboard-top-bar/import-assets-popup/import-assets-popup.component';
 
 @Component({
   selector: 'dashboard-top-bar',
   standalone: true,
-  imports: [CommonModule, BluButton, ConfirmationPopupComponent, AddAssetPopupComponent],
+  imports: [CommonModule, BluButton, ConfirmationPopupComponent, AddAssetPopupComponent, ImportAssetsPopupComponent],
   templateUrl: './dashboard-top-bar.component.html',
   styleUrl: './dashboard-top-bar.component.scss'
 })
 export class DashboardTopBarComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
+  @ViewChild('importAssetsPopup') importAssetsPopup!: ImportAssetsPopupComponent;
 
   TEXTS = TEXTS;
 
@@ -23,6 +25,10 @@ export class DashboardTopBarComponent {
     private navigationService: NavigationService,
     private authService: AuthService,
   ){}
+
+  onImportAsset(): void {
+    this.importAssetsPopup.show();
+  }
 
   onAddAsset(): void {
     this.addAssetPopup.show();

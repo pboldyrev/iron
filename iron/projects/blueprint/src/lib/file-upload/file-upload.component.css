@@ -1,0 +1,10 @@
+.file-upload-wrapper {
+    border: 1px dashed var(--blu-color-secondary);
+    background-color: var(--blu-background-primary);
+    border-radius: var(--blu-radius-m);
+}
+
+.file-upload-content {
+    display: flex;
+    align-items: center;
+}

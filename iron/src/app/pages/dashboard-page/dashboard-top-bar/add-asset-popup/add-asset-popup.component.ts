@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
-import { AddAssetSelectionComponent } from '../add-asset-selection.component';
+import { AddAssetSelectionComponent } from '../../../add-asset-page/add-asset-selection/add-asset-selection.component';
 
 @Component({
   selector: 'app-add-asset-popup',

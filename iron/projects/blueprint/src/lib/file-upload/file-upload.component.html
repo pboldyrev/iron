@@ -1,0 +1,9 @@
+<div class="file-upload-wrapper" (click)="fileUpload.click()">
+    <div class="file-upload-content p-5">
+        <blu-icon name="selectFile" type="primary" size="35" class="me-2"></blu-icon>
+        <blu-heading size="s" subheading="Drag and drop your file, or click to upload">
+            Upload file
+        </blu-heading>
+    </div>
+</div>
+<input hidden type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>

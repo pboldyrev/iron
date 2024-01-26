@@ -10,7 +10,7 @@ import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { AssetTableColumn, AssetTableComponent } from './asset-table/asset-table.component';
 import { ConfirmationPopupComponent } from '../../shared/components/confirmation-popup/confirmation-popup.component';
 import { AuthService } from '../../shared/services/auth.service';
-import { AddAssetPopupComponent } from 'src/app/pages/add-asset-page/add-asset-selection/add-asset-popup/add-asset-popup.component';
+import { AddAssetPopupComponent } from 'src/app/pages/dashboard-page/dashboard-top-bar/add-asset-popup/add-asset-popup.component';
 import { DataService } from 'src/app/shared/services/data.service';
 import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of, skip, startWith, take, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';

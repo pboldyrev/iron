@@ -34,10 +34,14 @@ import {
   heroEyeSlash,
   heroEye,
   heroChatBubbleOvalLeft,
+  heroDocumentArrowUp,
 } from '@ng-icons/heroicons/outline';
 import {
   lucideCar,
 } from '@ng-icons/lucide';
+import {
+  circumFileOn,
+} from '@ng-icons/circum-icons'
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
@@ -81,11 +85,13 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroEye,
       heroChatBubbleOvalLeft,
       lucideCar,
+      heroDocumentArrowUp,
+      circumFileOn,
     }),
   ],
 })
 export class BluIcon {
-  @Input() name!: BluIconName | string;
+  @Input() name!: BluIconName;
 
   @Input() size: string = '16';
   @Input() type: 'success' | 'error' | 'info' | 'primary' | null = null;

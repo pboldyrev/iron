@@ -1,0 +1,14 @@
+<blu-popup
+  title="Import assets"
+  size="l"
+  #importAssetsPopup
+>
+    <div class="import-assets-popup-wrapper">
+        <blu-heading size="xs" class="mb-2">1. Download & fill out the template</blu-heading>
+        <blu-text type="secondary">You can find the CSV template file below. Please follow the instructions in the downloaded file to ensure a successful import!</blu-text>
+        <blu-button type="primary" class="mt-2" (click)="onDownloadTemplate()">Download asset template</blu-button>
+        <blu-heading size="xs" class="mt-3 mb-2">2. Upload the completed template</blu-heading>
+        <blu-text type="secondary" class="mb-4">Drag and drop the completed template below or click to select the file.</blu-text>
+        <blu-file-upload (fileUploaded)="onFileUploaded($event)"></blu-file-upload>
+    </div>
+</blu-popup>

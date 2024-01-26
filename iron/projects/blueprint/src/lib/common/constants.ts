@@ -34,7 +34,9 @@ export type BluIconName =
   | 'help'
   | 'lucideCar'
   | 'plus'
-  | any;
+  | 'heroDocumentArrowUp'
+  | 'selectFile'
+  | string;
 
 export const BluToIconMap: {[index: string]:any} = {
   check: 'octCheck',
@@ -64,4 +66,6 @@ export const BluToIconMap: {[index: string]:any} = {
   collapse: 'heroEyeSlash',
   show: 'heroEye',
   help: 'heroChatBubbleOvalLeft',
+  upload: 'heroDocumentArrowUp',
+  selectFile: 'circumFileOn',
 };

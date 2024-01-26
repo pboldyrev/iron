@@ -1,8 +1,19 @@
 <app-add-asset-popup
     #addAssetPopup
 ></app-add-asset-popup>
+<import-assets-popup
+    #importAssetsPopup
+></import-assets-popup>
 <div class="row">
     <div class="col-12 pb-4 d-flex justify-content-end">
+        <blu-button
+            class="pe-2"
+            type="info" 
+            [iconOnly]="true" 
+            iconName="help" 
+            (click)="onFeedback()" 
+            [tooltip]="TEXTS.TOOLTIP_FEEDBACK"
+        ></blu-button>
         <blu-button
             class="pe-2"
             type="primary" 
@@ -13,12 +24,12 @@
         </blu-button>
         <blu-button
             class="pe-2"
-            type="info" 
-            [iconOnly]="true" 
-            iconName="help" 
-            (click)="onFeedback()" 
-            [tooltip]="TEXTS.TOOLTIP_FEEDBACK"
-        ></blu-button>
+            type="secondary" 
+            iconName="upload" 
+            (click)="onImportAsset()" 
+        >
+            {{ TEXTS.BTN_IMPORT_CTA }}
+        </blu-button>
         <blu-button
             class="pe-2"
             type="secondary" 
