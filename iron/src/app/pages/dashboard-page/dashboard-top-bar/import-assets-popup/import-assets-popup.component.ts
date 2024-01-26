@@ -7,11 +7,16 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { TEMPLATE } from './import-assets-popup.constants';
-import { Asset, AssetType } from 'src/app/shared/constants/constants';
+import { Asset, AssetType, REGEX } from 'src/app/shared/constants/constants';
 import { Papa } from 'ngx-papaparse';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { DisplayDatePipe } from "../../../../../../projects/blueprint/src/lib/common/pipes/display-date.pipe";
 import { SYMBOLS } from 'src/assets/data/valid_symbols';
+import { RegexService } from 'src/app/shared/services/regex.service';
+import { Observable, combineLatest, take, tap } from 'rxjs';
+import { DataService } from 'src/app/shared/services/data.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 
 @Component({
     selector: 'import-assets-popup',
@@ -26,13 +31,18 @@ export class ImportAssetsPopupComponent {
   AssetType = AssetType;
 
   showConfirm = false;
-  uploadComplete = false;
+  showUpload = false;
   curRow = 1;
+  hasErrors = false;
+  isImportLoading = false;
   
   extractedAssets = [] as { asset: Asset, errors: string[] }[];
   
   constructor(
     private papa: Papa,
+    private regexService: RegexService,
+    private dataService: DataService,
+    private toastService: ToastService,
   ){}
 
   public show(): void {
@@ -46,9 +56,10 @@ export class ImportAssetsPopupComponent {
 
   private reset(): void {
     this.showConfirm = false;
-    this.uploadComplete = false;
+    this.showUpload = false;
     this.curRow = 1;
     this.extractedAssets = [];
+    this.hasErrors = false;
   }
 
   onDownloadTemplate(): void {
@@ -58,6 +69,40 @@ export class ImportAssetsPopupComponent {
     link.href = data;
     link.download = 'finacle_template';
     link.click();
+  }
+
+  onCompleteImport(): void {
+    this.showUpload = true;
+
+    if(!this.extractedAssets || this.extractedAssets.length === 0) {
+      return;
+    }
+
+    this.isImportLoading = true;
+
+    let assetsToImport$ = [] as Observable<any>[];
+
+    this.extractedAssets.map(asset => asset.asset).forEach((asset: Asset) => {
+      assetsToImport$.push(this.dataService.putAsset$
+        (asset, 
+        {
+          timestamp: asset.initTimestamp ?? 0,
+          totalValue: asset.initTotalValue ?? 0,
+          units: asset.initUnits ?? 0, 
+        }, null));
+    });
+
+    combineLatest(assetsToImport$).pipe(
+      take(1),
+      tap({
+        error: () => {
+          this.toastService.showToast("There was an issue with importing your assets.", FeedbackType.ERROR);
+        },
+        next: () => {
+          this.isImportLoading = false;
+        }
+      })
+    ).subscribe();
   }
 
   onFileUploaded(fileContent: string): void {
@@ -76,6 +121,23 @@ export class ImportAssetsPopupComponent {
       if(extractedAsset.assetType === AssetType.Stock) {
         extractedAsset.ticker = this.getTicker(row, errors);
         extractedAsset.initUnits = this.getInitialShares(row, errors);
+      }
+
+      if(extractedAsset.assetType === AssetType.Vehicle) {
+        extractedAsset.initTotalValue = this.getPurchasePrice(row, errors);
+        extractedAsset.mileage = this.getMileage(row, errors);
+        extractedAsset.vin = this.getVIN(row, errors);
+        extractedAsset.nickName = this.getNickname(row, errors);
+      }
+
+      if(extractedAsset.assetType === AssetType.Cash) {
+        extractedAsset.assetName = this.getCashAccountName(row, errors);
+        extractedAsset.curTotalValue = this.getCurrentValue(row, errors);
+        extractedAsset.appreciationRate = this.getAPY(row, errors);
+      }
+
+      if(errors.length > 0) {
+        this.hasErrors = true;
       }
 
       this.extractedAssets.push({
@@ -136,11 +198,78 @@ export class ImportAssetsPopupComponent {
   private getInitialShares(row: any, errors: string[]): number | undefined {
     let rawShares = (row[4] as string).trim();
 
-    if(parseInt(rawShares)) {
+    if(this.regexService.isValidString(rawShares, "INTEGER")) {
       return parseInt(rawShares);
     }
 
     errors.push("Could not parse number of shares: " + rawShares);
+    return undefined;
+  }
+
+  private getPurchasePrice(row: any, errors: string[]): number | undefined {
+    let rawPrice = (row[5] as string).trim();
+
+    if(this.regexService.isValidString(rawPrice, "NUMBER")) {
+      return parseFloat(rawPrice);
+    }
+
+    errors.push("Could not parse purchase price: " + rawPrice);
+    return undefined;
+  }
+
+  private getMileage(row: any, errors: string[]): number | undefined {
+    let rawMileage = (row[6] as string).trim();
+
+    if(this.regexService.isValidString(rawMileage, "INTEGER")) {
+      return parseInt(rawMileage);
+    }
+
+    errors.push("Could not parse mileage: " + rawMileage);
+    return undefined;
+  }
+
+  private getVIN(row: any, errors: string[]): string | undefined {
+    let rawVIN = (row[7] as string).trim().toUpperCase();
+
+    if(this.regexService.isValidString(rawVIN, "VIN")) {
+      return rawVIN;
+    }
+
+    errors.push("This VIN is invalid: " + rawVIN);
+    return undefined;
+  }
+
+  private getNickname(row: any, errors: string[]): string {
+    let rawNickname = (row[8] as string).trim();
+
+    return rawNickname;
+  }
+
+  private getCashAccountName(row: any, errors: string[]): string {
+    let rawCashName = (row[9] as string).trim();
+
+    return rawCashName;
+  }
+
+  private getCurrentValue(row: any, errors: string[]): number | undefined {
+    let rawCashValue = (row[10] as string).trim();
+    
+    if(this.regexService.isValidString(rawCashValue, "NUMBER")) {
+      return parseFloat(rawCashValue);
+    }
+
+    errors.push("Could not parse current value: " + rawCashValue);
+    return undefined;
+  }
+
+  private getAPY(row: any, errors: string[]): number | undefined {
+    let rawAPY = (row[11] as string).trim();
+    
+    if(this.regexService.isValidString(rawAPY, "NUMBER")) {
+      return parseFloat(rawAPY);
+    }
+
+    errors.push("Could not parse APY: " + rawAPY);
     return undefined;
   }
 }

@@ -36,7 +36,7 @@ export class BluFileUpload {
 
   private loadAndEmitContent(files: File[]): void {
     const file = files[0] as File;
-    if(!file) {
+    if(!file || file.type != 'text/csv') {
       return;
     }
     let fileUploaded = this.fileUploaded;

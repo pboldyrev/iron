@@ -1,4 +1,4 @@
-<div class="row g-0" [hidden]="((assets$ | async) ?? []).length < 2">
+<div class="row g-2 g-sm-3" [hidden]="((assets$ | async) ?? []).length < 2">
     <blu-modal class="col-12 col-md-6">
         <div class="account-summary-header" (click)="onToggleTopHoldings()">
             <blu-heading size="s">
