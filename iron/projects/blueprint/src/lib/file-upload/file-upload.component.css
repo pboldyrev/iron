@@ -2,6 +2,7 @@
     border: 1px dashed var(--blu-color-secondary);
     background-color: var(--blu-background-primary);
     border-radius: var(--blu-radius-m);
+    cursor: pointer;
 }
 
 .file-upload-content {

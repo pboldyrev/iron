@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { BluButton } from '../button/button.component';
@@ -18,13 +18,13 @@ export class BluPopup {
   @Input() title: string = '';
   @Input() subtitle: string = '';
 
-  @Output() closed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  @Output() closed = new EventEmitter();
 
   public show$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   public hide(): void {
     this.show$.next(false);
-    this.closed$.next(true);
+    this.closed.emit();
   }
 
   public show(): void {

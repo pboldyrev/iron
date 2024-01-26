@@ -15,7 +15,7 @@ export class BluButton {
   @Input() type: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'none' | 'error' | 'inverse' | 'info' = 'primary';
   @Input() iconName: BluIconName | null = null;
   @Input() iconOnly = false;
-  @Input() iconSize = "16";
+  @Input() iconSize = "18";
   @Input() fullWidth = false;
   @Input() iconType: 'info' | 'error' | 'success' | null = null;
   @Input() tooltip = '';
