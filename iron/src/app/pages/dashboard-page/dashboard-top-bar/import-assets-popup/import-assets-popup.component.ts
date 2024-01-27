@@ -13,17 +13,18 @@ import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { DisplayDatePipe } from "../../../../../../projects/blueprint/src/lib/common/pipes/display-date.pipe";
 import { SYMBOLS } from 'src/assets/data/valid_symbols';
 import { RegexService } from 'src/app/shared/services/regex.service';
-import { Observable, combineLatest, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, take, tap } from 'rxjs';
 import { DataService } from 'src/app/shared/services/data.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'import-assets-popup',
     standalone: true,
     templateUrl: './import-assets-popup.component.html',
     styleUrl: './import-assets-popup.component.scss',
-    imports: [CommonModule, BluModal, BluPopup, BluFileUpload, BluText, BluLink, BluHeading, BluButton, DisplayDatePipe]
+    imports: [CommonModule, MatProgressBarModule, BluModal, BluPopup, BluFileUpload, BluText, BluLink, BluHeading, BluButton, DisplayDatePipe]
 })
 export class ImportAssetsPopupComponent {
   @ViewChild('importAssetsPopup') importAssetsPopup!: BluPopup;
@@ -35,6 +36,7 @@ export class ImportAssetsPopupComponent {
   curRow = 1;
   hasErrors = false;
   isImportLoading = false;
+  importObservables$ = [] as BehaviorSubject<boolean>[];
   
   extractedAssets = [] as { asset: Asset, errors: string[] }[];
   
@@ -45,12 +47,34 @@ export class ImportAssetsPopupComponent {
     private toastService: ToastService,
   ){}
 
+  getTotalImported$(): Observable<number> {
+    return combineLatest(this.importObservables$).pipe(
+      take(1),
+      map((observables: boolean[]) => {
+        return observables.length;
+      }),
+    )
+  }
+
+  getSuccessfulImports$(): Observable<number> {
+    return combineLatest(this.importObservables$).pipe(
+      map((observables: boolean[]) => {
+        let num = 0;
+        observables.forEach((obs: boolean) => {
+          if(!obs) {
+            num++;
+          }
+        });
+        return num;
+      }),
+    )
+  }
+
   public show(): void {
     this.importAssetsPopup.show();
   }
 
   public hide(): void {
-    this.importAssetsPopup.hide();
     this.reset();
   }
 
@@ -60,6 +84,7 @@ export class ImportAssetsPopupComponent {
     this.curRow = 1;
     this.extractedAssets = [];
     this.hasErrors = false;
+    this.importAssetsPopup.hide();
   }
 
   onDownloadTemplate(): void {
@@ -83,13 +108,17 @@ export class ImportAssetsPopupComponent {
     let assetsToImport$ = [] as Observable<any>[];
 
     this.extractedAssets.map(asset => asset.asset).forEach((asset: Asset) => {
+      let importObservable$ = new BehaviorSubject<boolean>(false);
+      this.importObservables$.push(importObservable$);
       assetsToImport$.push(this.dataService.putAsset$
         (asset, 
         {
           timestamp: asset.initTimestamp ?? 0,
           totalValue: asset.initTotalValue ?? 0,
           units: asset.initUnits ?? 0, 
-        }, null));
+        }, 
+        importObservable$, 
+        false));
     });
 
     combineLatest(assetsToImport$).pipe(
@@ -100,6 +129,8 @@ export class ImportAssetsPopupComponent {
         },
         next: () => {
           this.isImportLoading = false;
+          this.dataService.dataChanged$.next(true);
+          this.reset();
         }
       })
     ).subscribe();

@@ -129,8 +129,7 @@
             Complete import
         </blu-button>
     </div>
-    <div class="import-assets-popup-wrapper" *ngIf="!showConfirm && showUpload">
-        <blu-text *ngIf="isImportLoading">Loading...</blu-text>
-        <blu-text *ngIf="!isImportLoading">Complete!!!</blu-text>
+    <div class="import-assets-popup-wrapper" *ngIf="showConfirm && showUpload">
+        <mat-progress-bar mode="determinate" [value]="((getSuccessfulImports$() | async) ?? 0) / ((getTotalImported$() | async) ?? 1) * 100"></mat-progress-bar>
     </div>
 </blu-popup>

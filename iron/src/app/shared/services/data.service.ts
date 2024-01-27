@@ -228,7 +228,7 @@ export class DataService {
     )
   }
 
-  public putAsset$(asset: Asset, initialValue: AssetValue | null, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+  public putAsset$(asset: Asset, initialValue: AssetValue | null, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {
     if(loadingIndicator) {
       loadingIndicator.next(true);
     }
@@ -248,7 +248,9 @@ export class DataService {
 
     return this.httpPost("putAsset", assetPayload).pipe(
       map((data: any) => {
-        this.dataChanged$.next(true);
+        if(updateData) {
+          this.dataChanged$.next(true);
+        }
         return data?.asset ?? {} as Asset;
       }),
       tap({
