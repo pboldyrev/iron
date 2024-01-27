@@ -130,6 +130,11 @@
         </blu-button>
     </div>
     <div class="import-assets-popup-wrapper" *ngIf="showConfirm && showUpload">
-        <mat-progress-bar mode="determinate" [value]="((getSuccessfulImports$() | async) ?? 0) / ((getTotalImported$() | async) ?? 1) * 100"></mat-progress-bar>
+        <div class="import-assets-popup-progress py-4">
+            <mat-progress-bar class="w-75" mode="determinate" [value]="((getSuccessfulImports$() | async) ?? 0) / ((getTotalImported$() | async) ?? 1) * 100"></mat-progress-bar>
+            <blu-heading class="mt-4" size="xs">Importing assets ({{(((getSuccessfulImports$() | async) ?? 0) / ((getTotalImported$() | async) ?? 1) * 100).toFixed(2)}}%)</blu-heading>
+            <blu-text class="mt-1" type="primary">About {{(((getTotalImported$() | async) ?? 0) - ((getSuccessfulImports$() | async) ?? 0)) * 3}} seconds left</blu-text>
+            <blu-text class="w-75 mt-2" type="secondary">Please do not refresh the page to ensure a successful import. This process may take up to a minute.</blu-text>
+        </div>
     </div>
 </blu-popup>
