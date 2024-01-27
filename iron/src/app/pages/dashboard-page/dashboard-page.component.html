@@ -36,17 +36,21 @@
                             [variation]="2"
                             (addBtnClicked)="onAddAsset()"
                         ></empty-state>
+                        <ng-container *ngFor="let accountAssets of (assetsByAccount$ | async)">
+                            <app-asset-table
+                                *ngIf="((assets$ | async) ?? []).length > 0"
+                                [tableTitle]="accountAssets.key"
+                                [columns]="assetTableColumns"
+                                [assets$]="assets$"
+                                [displayAssets]="accountAssets.values"
+                                [loadingIndicator$]="isAssetsLoading$"
+                                #assetTable
+                            ></app-asset-table>
+                        </ng-container>
                         <app-ai-feedback
                             *ngIf="((assets$ | async) ?? []).length >= 10"
                             [assets$]="assets$"
                         ></app-ai-feedback>
-                        <app-asset-table
-                            *ngIf="((assets$ | async) ?? []).length > 0"
-                            [columns]="assetTableColumns"
-                            [assets$]="assets$"
-                            [loadingIndicator$]="isAssetsLoading$"
-                            #assetTable
-                        ></app-asset-table>
                         <app-account-summary
                             *ngIf="((assets$ | async) ?? []).length >= 3 && showAnalytics"
                             [assets$]="assets$"

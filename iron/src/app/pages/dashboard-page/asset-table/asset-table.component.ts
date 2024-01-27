@@ -26,6 +26,7 @@ import { TIMEFRAMES } from './asset-table.constants';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
 import { DisplayPercentPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
+import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 
 export type AssetTableColumn = 
   "account" | 
@@ -65,17 +66,19 @@ export type AssetTableColumn =
 })
 
 export class AssetTableComponent {
-  @ViewChild('deleteConfirmPopup') deleteConfirmPopup!: ConfirmationPopupComponent;
-  @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
-
   @Input() columns!: AssetTableColumn[];
   @Input() assets$!: Observable<Asset[]>;
   @Input() loadingIndicator$!: BehaviorSubject<boolean>
+  @Input() tableTitle = "";
+  @Input() displayAssets: Asset[] = [];
+
+  public preferenceName = '';
 
   public curTotal: number = 0;
   public initTotal: number = 0;
 
-  public assetToDelete: Asset | undefined;
+  public showData = true;
+
   public TEXTS = TEXTS;
   public TIMEFRAMES = TIMEFRAMES;
   public FeedbackType = FeedbackType;
@@ -84,18 +87,21 @@ export class AssetTableComponent {
     private dataService: DataService,
     private navigationService: NavigationService,
     private toastService: ToastService,
+    private preferencesService: PreferencesService,
   ){}
 
   ngOnInit() {
     this.assets$.subscribe((assets: Asset[]) => {
-      this.updateTotals(assets);
+      this.updateTotals();
     });
+    this.preferenceName = USER_PREFERENCES.ShowAccountData + '-' + this.tableTitle.replaceAll(' ', '');
+    this.showData =  this.preferencesService.getPreference(this.preferenceName) === "true" ?? true;
   }
 
-  public updateTotals(assets: Asset[]): void {
+  public updateTotals(): void {
     let curTotal = 0;
     let initTotal = 0;
-    assets.forEach((asset: Asset) => {
+    this.displayAssets.forEach((asset: Asset) => {
       curTotal += asset.curTotalValue ?? 0;
       initTotal += asset.initTotalValue ?? 0;
     });
@@ -104,24 +110,13 @@ export class AssetTableComponent {
   }
 
   public onDeleteAsset(asset: Asset): void {
-    this.deleteConfirmPopup.show();
-    this.assetToDelete = asset;
+    this.dataService.deleteAsset$(asset.assetId ?? "", this.loadingIndicator$).subscribe(() => {
+      this.toastService.showToast("Successfully deleted " + asset.assetName, FeedbackType.SUCCESS);
+    });
   }
 
   public onDetailsAsset(asset: Asset): void {
     this.navigationService.navigate('/asset/' + asset.assetId);
-  }
-
-  public onDeleteAssetConfirmed() {
-    if(!this.assetToDelete || !this.assetToDelete.assetId) {
-      this.toastService.showToast("This asset does not exist", FeedbackType.ERROR);
-      return;
-    }
-
-    this.dataService.deleteAsset$(this.assetToDelete.assetId, this.loadingIndicator$).subscribe(() => {
-      this.toastService.showToast("Successfully deleted " + this.assetToDelete?.assetName, FeedbackType.SUCCESS);
-      this.assetToDelete = undefined;
-    });
   }
 
   public getPercentChange(init: number, cur: number): number {
@@ -134,8 +129,9 @@ export class AssetTableComponent {
     return ((cur-init) / init) * 100;
   }
 
-  public onAddAsset(): void {
-    this.addAssetPopup.show();
+  public onToggleShowData(): void {
+    this.showData = !this.showData;
+    this.preferencesService.setPreference(this.preferenceName, this.showData.toString());
   }
 
   public onPageReload() {

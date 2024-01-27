@@ -31,6 +31,7 @@ import { DashboardTopBarComponent } from './dashboard-top-bar/dashboard-top-bar.
 import { EmptyStateComponent } from './empty-state/empty-state.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { OnboardingComponent } from './onboarding/onboarding.component';
+import { Dictionary, groupBy } from 'lodash';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -56,12 +57,12 @@ export class DashboardPageComponent implements AfterContentInit {
   public showAnalytics = this.preferencesService.getPreference(USER_PREFERENCES.ShowAnalytics) === "true" ?? true;
   public loadingFailed = false;
 
+  public assetsByAccount$ = new Observable<any[]>();
+
   dashboardChart!: Chart;
 
   constructor(
-    private authService: AuthService,
     private dataService: DataService,
-    private navigationService: NavigationService,
     private chartService: ChartService,
     private preferencesService: PreferencesService,
   ) {
@@ -95,13 +96,41 @@ export class DashboardPageComponent implements AfterContentInit {
   private fetchAssets(): void {
     this.dataService.getAssets$(this.isAssetsLoading$).pipe(
       takeUntilDestroyed(),
-      map((assets: Asset[]) => {
+      tap((assets: Asset[]) => {
         this.assets$ = of(assets);
+        this.assetsByAccount$ = of(this.groupBy(assets, "account"));
       }),
     ).subscribe({
       error: () => {
         this.loadingFailed = true;
       }
+    });
+  }
+
+  private groupBy(arr: any[], prop: string): any[] {
+    let grouped = {} as any;
+    for (var i=0; i< arr.length; i++) {
+      var p = arr[i][prop];
+      if (!grouped[p]) { 
+        grouped[p] = []; 
+      }
+      grouped[p].push(arr[i]);
+    }
+    let returnGroup = [] as {key: string, values: Observable<any[]>}[];
+    Object.keys(grouped).forEach((key: string) => {
+      returnGroup.push({
+        key: key,
+        values: grouped[key],
+      });
+    });
+    return returnGroup.sort((a,b) => {
+      if (a.key < b.key) {
+      return -1;
+      }
+      if (a.key > b.key) {
+        return 1;
+      }
+      return 0;
     });
   }
 
