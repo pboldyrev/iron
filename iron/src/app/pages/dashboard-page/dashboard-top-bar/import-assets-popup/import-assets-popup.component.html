@@ -123,7 +123,7 @@
         <blu-button 
             [fullWidth]="true" 
             [disabled]="hasErrors" 
-            tooltip="Please fix the errors before importing"
+            [tooltip]="hasErrors ? 'Please fix the errors before importing' : ''"
             (click)="hasErrors ? null : onCompleteImport()"
         >
             Complete import

@@ -1,6 +1,6 @@
 export const TEXTS = {
-    TITLE: "Unlock the full power of Finacle",
-    SUBTITLE: "Continue adding assets and loans to your account. As you add them, you will see new features and widgets on the dashboard.",
+    TITLE: "Welcome to Finacle!",
+    SUBTITLE: "To unlock Finacle's features, continue adding assets and loans to your account. As you add them, you will see new features and widgets on the dashboard.",
     GOAL_1: "Charts",
     GOAL_1_COUNT: "1 asset",
     GOAL_2: "Portfolio summaries",

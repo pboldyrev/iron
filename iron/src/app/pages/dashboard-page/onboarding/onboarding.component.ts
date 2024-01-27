@@ -36,7 +36,7 @@ export class OnboardingComponent {
     this.assets$.subscribe((assets: Asset[]) => {
       this.showFirstStep = assets.length < 1;
       this.showSecondStep = assets.length >= 1 && assets.length < 3;
-      this.showThirdStep = assets.length >= 3 && assets.length < 10;
+      this.showThirdStep = assets.length >= 3 && assets.length <= 10;
     });
   }
 
