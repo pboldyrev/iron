@@ -94,7 +94,7 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let entry">
                     <blu-text type="primary">
-                        {{entry.units.toString() | displayInteger}}
+                        {{ entry.units.toString() }}
                     </blu-text>
                 </mat-cell>
             </ng-container>
@@ -110,7 +110,7 @@
                         [type]="((getUnitChangeSince$(entry) | async) ?? 0) < 0 ? 'error' : 'success'"
                     >
                         <span *ngIf="((getUnitChangeSince$(entry) | async) ?? 0) > 0">+</span>
-                        {{ ((getUnitChangeSince$(entry) | async) ?? 0).toString() | displayInteger }}
+                        {{ ((getUnitChangeSince$(entry) | async) ?? 0).toString() }}
                     </blu-tag>
                 </mat-cell>
             </ng-container>

@@ -229,8 +229,8 @@ export class ImportAssetsPopupComponent {
   private getInitialShares(row: any, errors: string[]): number | undefined {
     let rawShares = (row[4] as string).trim();
 
-    if(this.regexService.isValidString(rawShares, "INTEGER")) {
-      return parseInt(rawShares);
+    if(this.regexService.isValidString(rawShares, "NUMBER")) {
+      return parseFloat(rawShares);
     }
 
     errors.push("Could not parse number of shares: " + rawShares);
