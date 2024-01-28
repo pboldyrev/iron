@@ -13,6 +13,17 @@
         border-bottom-left-radius: var(--blu-radius-m);
         width: 50%;
     }
+
+    .mat-mdc-tab:first-of-type.mdc-tab--active {
+        border-color: var(--blu-color-text-primary) !important;
+        transition: 0.2s;
+    }
+
+    .mat-mdc-tab:last-of-type.mdc-tab--active {
+        border-left: var(--blu-border-tertiary) !important;
+        border-color: var(--blu-color-text-primary) !important;
+        transition: 0.2s;
+    }
     
     .mat-mdc-tab:last-of-type {
         background: var(--blu-background-secondary) !important;

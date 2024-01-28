@@ -1,25 +1,13 @@
-<blu-modal *ngIf="((assets$ | async) ?? []).length < 10">
+<blu-modal *ngIf="((assets$ | async) ?? []).length < 10" [outline]="true" borderColor="brand">
     <div class="onboarding-wrapper">
-        <div class="onboarding-content">
-            <div 
-                class="onboarding-heading" 
-                [ngClass]="{
-                    'align-items-center': !showDetails,
-                    'align-items-start': showDetails
-                }"
-                (click)="onToggleDetails()">
-                <blu-heading 
-                    size="s" 
-                    [ngClass]="{
-                        'mb-2': showDetails
-                    }" 
-                    [subheading]="showDetails ? TEXTS.SUBTITLE : ''"
-                >
+            <div class="onboarding-heading" (click)="onToggleDetails()">
+                <blu-heading size="s">
                     {{ TEXTS.TITLE }}
                 </blu-heading>
                 <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
                 <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
             </div>
+            <blu-text *ngIf="showDetails" type="secondary">{{TEXTS.SUBTITLE}}</blu-text>
             <div class="onboarding-progress-bar-wrapper pt-4" *ngIf="showDetails">
                 <mat-progress-bar
                     class="mt-5"
@@ -54,6 +42,5 @@
                     </span>
                 </span>
             </div>
-        </div>
     </div>
 </blu-modal>
