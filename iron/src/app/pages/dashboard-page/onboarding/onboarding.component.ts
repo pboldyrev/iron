@@ -24,7 +24,7 @@ export class OnboardingComponent {
   
   showStep = -1;
 
-  showDetails = this.preferencesService.getPreference(USER_PREFERENCES.ShowOnboarding) === "true" ?? true;
+  showDetails = (this.preferencesService.getPreference(USER_PREFERENCES.ShowOnboarding) ?? "true") === "true" ?? true;
 
   constructor(
     private preferencesService: PreferencesService,

@@ -20,4 +20,5 @@ export class BluButton {
   @Input() iconType: 'info' | 'error' | 'success' | null = null;
   @Input() tooltip = '';
   @Input() disabled = false;
+  @Input() slim = false;
 }

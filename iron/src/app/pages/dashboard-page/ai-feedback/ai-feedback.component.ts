@@ -28,7 +28,7 @@ export class AiFeedbackComponent {
 
   ASSETS_TO_QUALIFY = ASSETS_TO_QUALIFY;
 
-  showDetails = this.preferencesService.getPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails) === "true" ?? true;
+  showDetails = (this.preferencesService.getPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails) ?? "true") === "true" ?? true;
   numQualifyingAssets = 0;
   shouldQualify = false;
 

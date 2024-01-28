@@ -52,7 +52,7 @@ export class AddStockFormComponent implements AfterContentChecked {
     let purchaseDateObj;
 
     if(this.isAdd) {
-      purchaseDateObj = new Date(purchaseDate);
+      purchaseDateObj = new Date(new Date(purchaseDate).toLocaleDateString('en-US', {timeZone: 'UTC'}));
     } else {
       purchaseDateObj = new Date(parseInt(purchaseDate));
     }

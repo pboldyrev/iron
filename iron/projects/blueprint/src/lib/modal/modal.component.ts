@@ -17,8 +17,9 @@ export class BluModal {
   @Input() boldTitle: boolean = false;
   @Input() outline: boolean = true;
   @Input() titleTooltip: string = '';
+  @Input() type: 'normal' | 'info' = 'normal';
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
-  @Input() borderColor: 'brand' | 'normal' | 'error' = 'normal';
+  @Input() borderColor: 'brand' | 'normal' | 'error' | 'info' = 'normal';
   @Input() fullWidth = false;
   @Input() fullHeight = false;
   @Input() stretchToFill = false;

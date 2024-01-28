@@ -66,7 +66,7 @@ export class AddCashFormComponent implements AfterContentChecked {
 
     if(this.isAdd) {
       assetObj.initTotalValue = parseFloat(curValue);
-      assetObj.initTimestamp = new Date(new Date().toDateString()).valueOf();
+      assetObj.initTimestamp = new Date(new Date().toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf();
     }
     
     return assetObj;

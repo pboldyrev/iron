@@ -1,12 +1,13 @@
 <div class='modal-base' [ngClass]="{
   'modal-outline': outline,
   'modal-brand': borderColor === 'brand',
+  'modal-info': type === 'info',
   'modal-error': borderColor === 'error',
   'modal-content-stretch': stretchToFill,
   'px-0': fullWidth,
   'py-0': fullHeight,
-  'px-3 px-sm-4': !fullWidth,
-  'py-3 py-sm-4': !fullHeight,
+  'px-3': !fullWidth,
+  'py-3': !fullHeight,
 }">
   <blu-heading
     *ngIf="title != ''"

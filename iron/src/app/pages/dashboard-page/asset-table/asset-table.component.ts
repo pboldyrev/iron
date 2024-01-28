@@ -104,7 +104,7 @@ export class AssetTableComponent {
       this.updateTotals();
     });
     this.preferenceName = USER_PREFERENCES.ShowAccountData + '-' + this.tableTitle.replaceAll(' ', '');
-    this.showData =  this.preferencesService.getPreference(this.preferenceName) === "true" ?? true;
+    this.showData = (this.preferencesService.getPreference(this.preferenceName) ?? "true") === "true";
   }
 
   public updateTotals(): void {

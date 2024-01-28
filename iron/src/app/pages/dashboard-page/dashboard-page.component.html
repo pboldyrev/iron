@@ -26,7 +26,6 @@
         <dashboard-top-bar #topBar></dashboard-top-bar>
         <app-error-state *ngIf="loadingFailed; else mainContent"></app-error-state>
         <ng-template #mainContent>
-                <onboarding class="mb-2" *ngIf="(assets$ | async)" [assets$]="assets$"></onboarding>
                 <app-loading-state *ngIf="(isAssetsLoading$ | async); else loadedContent" class="dashboard-loader-wrapper"></app-loading-state>
                 <ng-template #loadedContent>
                     <mat-tab-group (selectedTabChange)="onTabChange($event)" *ngIf="((assets$ | async) ?? []).length > 0">
@@ -44,7 +43,7 @@
                                 </ng-container>
                             </div>
                         </mat-tab>
-                        <mat-tab label="Analytics">
+                        <mat-tab label="Analytics" *ngIf="((assets$ | async) ?? []).length >= 3">
                             <div class="row g-0 gy-2 mt-0">
                                 <app-ai-feedback
                                     *ngIf="((assets$ | async) ?? []).length >= 10"

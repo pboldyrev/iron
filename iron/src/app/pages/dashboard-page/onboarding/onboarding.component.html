@@ -1,5 +1,5 @@
-<blu-modal *ngIf="showStep !== -1" [outline]="true" borderColor="brand">
-    <div class="onboarding-wrapper">
+<blu-modal [fullHeight]="true" *ngIf="showStep !== -1" [outline]="true" type="info">
+    <div class="onboarding-wrapper py-2">
             <div class="onboarding-heading" (click)="onToggleDetails()">
                 <blu-heading size="s">
                     {{ TEXTS.TITLE }}
@@ -8,7 +8,7 @@
                 <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
             </div>
             <blu-text *ngIf="showDetails" type="secondary">{{ TEXTS.SUBTITLE }}</blu-text>
-            <div class="onboarding-progress-bar-wrapper pt-4" *ngIf="showDetails">
+            <div class="onboarding-progress-bar-wrapper pt-4 pb-3" *ngIf="showDetails">
                 <mat-progress-bar
                     class="mt-5"
                     mode="determinate"

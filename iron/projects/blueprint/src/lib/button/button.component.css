@@ -116,3 +116,7 @@
   cursor: auto;
   scale: 1;
 }
+
+.blu-button-slim {
+  padding: var(--blu-padding-s) var(--blu-padding-xl);
+}

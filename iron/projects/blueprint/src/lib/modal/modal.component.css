@@ -17,6 +17,11 @@
   border-color: var(--blu-color-brand);
 }
 
+.modal-info {
+  border-color: var(--blu-color-info);
+  background-color: var(--blu-color-info-background);
+}
+
 .modal-error {
   border-color: var(--blu-color-error);
 }

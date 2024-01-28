@@ -17,9 +17,11 @@
     --mdc-checkbox-selected-pressed-state-layer-color: rgba(0,0,0,0);
     --mdc-checkbox-selected-focus-state-layer-color: rgba(0,0,0,0);
     --mdc-checkbox-selected-icon-color: var(--blu-color-brand);
-    --mdc-checkbox-unselected-icon-color: var(--blu-color-tertiary);
+    --mdc-checkbox-unselected-icon-color: var(--blu-color-secondary);
     --mdc-checkbox-selected-focus-icon-color: var(--blu-color-brand);
     --mdc-checkbox-selected-hover-icon-color: var(--blu-color-brand);
+    --mdc-checkbox-unselected-focus-icon-color: var(--blu-color-tertiary);
+    --mdc-checkbox-unselected-hover-icon-color: var(--blu-color-tertiary);
 }
 
 .mat-column-initValue,
