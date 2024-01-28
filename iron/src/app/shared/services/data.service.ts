@@ -386,8 +386,8 @@ export class DataService {
     )
   }
 
-  public deleteAccount$(): Observable<void> {
-    return this.httpPost("deleteAccount");
+  public removeUser$(): Observable<void> {
+    return this.httpPost("removeUser");
   }
 
   public createStripeCheckoutSession$(planName: PlanName): Observable<Asset> {

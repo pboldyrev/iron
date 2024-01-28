@@ -164,7 +164,7 @@ export class AssetTableComponent {
       toArray(),
       tap({
         error: () => {
-          this.toastService.showToast("There was an issue with deleting your assets.", FeedbackType.ERROR);
+          this.isDeleteSelectedLoading = false;
         },
         next: () => {
           this.isDeleteSelectedLoading = false;

@@ -112,7 +112,6 @@ export class ImportAssetsPopupComponent {
         },
         error: () => {
           this.isImportLoading = false;
-          this.toastService.showToast("We had an issue with importing some assets, please try again!", FeedbackType.ERROR);
         }
       }
     );
