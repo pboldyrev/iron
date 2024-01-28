@@ -96,6 +96,8 @@ export class ImportAssetsPopupComponent {
     this.showUpload = true;
 
     if(!this.extractedAssets || this.extractedAssets.length === 0) {
+      this.reset();
+      this.importAssetsPopup.hide();
       return;
     }
 
