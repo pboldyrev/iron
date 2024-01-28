@@ -20,8 +20,9 @@
     --mdc-checkbox-unselected-icon-color: var(--blu-color-secondary);
     --mdc-checkbox-selected-focus-icon-color: var(--blu-color-brand);
     --mdc-checkbox-selected-hover-icon-color: var(--blu-color-brand);
-    --mdc-checkbox-unselected-focus-icon-color: var(--blu-color-tertiary);
-    --mdc-checkbox-unselected-hover-icon-color: var(--blu-color-tertiary);
+    --mdc-checkbox-selected-pressed-icon-color: var(--blu-color-brand);
+    --mdc-checkbox-unselected-focus-icon-color: var(--blu-color-secondary);
+    --mdc-checkbox-unselected-hover-icon-color: var(--blu-color-secondary);
 }
 
 .mat-column-initValue,
