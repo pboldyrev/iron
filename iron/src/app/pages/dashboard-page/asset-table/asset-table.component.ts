@@ -6,7 +6,7 @@ import { Asset } from '../../../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
-import { BehaviorSubject, Observable, combineLatest, filter, map, merge, mergeMap, of, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, concat, filter, map, merge, mergeMap, of, take, tap, toArray } from 'rxjs';
 import { DataService } from '../../../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
@@ -144,17 +144,33 @@ export class AssetTableComponent {
   }
 
   onDeleteSelected(): void {
-    let toBeDeleted = [] as Observable<Asset>[];
+    let toBeDeleted$ = [] as Observable<Asset>[];
     this.selection.selected.forEach((asset: Asset) => {
-      toBeDeleted.push(this.dataService.deleteAsset$(asset.assetId ?? '', null, false))
+      toBeDeleted$.push(this.dataService.deleteAsset$(asset.assetId ?? '', null, false))
     });
 
     this.isDeleteSelectedLoading = true;
-    combineLatest(toBeDeleted).pipe(
-      tap(() => {
-        this.isDeleteSelectedLoading = false;
-        this.dataService.dataChanged$.next(true);
-      }),
+
+    const batchSize = 9;
+    const groupedResponses: Observable<Asset>[][] = [];
+    
+    while(toBeDeleted$.length) {
+      groupedResponses.push(toBeDeleted$.splice(0, batchSize));
+    }
+    
+    concat(
+      ...groupedResponses.map((group) => merge(...group))
+    ).pipe(
+      toArray(),
+      tap({
+        error: () => {
+          this.toastService.showToast("There was an issue with deleting your assets.", FeedbackType.ERROR);
+        },
+        next: () => {
+          this.isDeleteSelectedLoading = false;
+          this.dataService.dataChanged$.next(true);
+        }
+      })
     ).subscribe();
   }
 

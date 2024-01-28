@@ -13,18 +13,19 @@ import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { DisplayDatePipe } from "../../../../../../projects/blueprint/src/lib/common/pipes/display-date.pipe";
 import { SYMBOLS } from 'src/assets/data/valid_symbols';
 import { RegexService } from 'src/app/shared/services/regex.service';
-import { BehaviorSubject, Observable, combineLatest, map, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, concat, map, merge, take, tap, toArray } from 'rxjs';
 import { DataService } from 'src/app/shared/services/data.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DisplayPercentPipe } from "../../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
 
 @Component({
     selector: 'import-assets-popup',
     standalone: true,
     templateUrl: './import-assets-popup.component.html',
     styleUrl: './import-assets-popup.component.scss',
-    imports: [CommonModule, MatProgressBarModule, BluModal, BluPopup, BluFileUpload, BluText, BluLink, BluHeading, BluButton, DisplayDatePipe]
+    imports: [CommonModule, MatProgressBarModule, BluModal, BluPopup, BluFileUpload, BluText, BluLink, BluHeading, BluButton, DisplayDatePipe, DisplayPercentPipe]
 })
 export class ImportAssetsPopupComponent {
   @ViewChild('importAssetsPopup') importAssetsPopup!: BluPopup;
@@ -74,17 +75,12 @@ export class ImportAssetsPopupComponent {
     this.importAssetsPopup.show();
   }
 
-  public hide(): void {
-    this.reset();
-  }
-
-  private reset(): void {
+  public reset(): void {
     this.showConfirm = false;
     this.showUpload = false;
     this.curRow = 1;
     this.extractedAssets = [];
     this.hasErrors = false;
-    this.importAssetsPopup.hide();
   }
 
   onDownloadTemplate(): void {
@@ -97,6 +93,10 @@ export class ImportAssetsPopupComponent {
   }
 
   onCompleteImport(): void {
+    if(this.showUpload) {
+      return;
+    }
+
     this.showUpload = true;
 
     if(!this.extractedAssets || this.extractedAssets.length === 0) {
@@ -104,25 +104,40 @@ export class ImportAssetsPopupComponent {
     }
 
     this.isImportLoading = true;
-
-    let assetsToImport$ = [] as Observable<any>[];
+    let assetsToImport = [] as Asset[];
 
     this.extractedAssets.map(asset => asset.asset).forEach((asset: Asset) => {
-      let importObservable$ = new BehaviorSubject<boolean>(false);
-      this.importObservables$.push(importObservable$);
-      assetsToImport$.push(this.dataService.putAsset$
-        (asset, 
-        {
-          timestamp: asset.initTimestamp ?? 0,
-          totalValue: asset.initTotalValue ?? 0,
-          units: asset.initUnits ?? 0, 
-        }, 
-        importObservable$, 
-        false));
+      assetsToImport.push(asset);
     });
 
-    combineLatest(assetsToImport$).pipe(
+    this.dataService.putAssets$(assetsToImport, this.importObservables$).subscribe(
+      {
+        next: () => {
+          this.isImportLoading = false;
+          this.reset();
+          this.importAssetsPopup.hide();
+        },
+        error: () => {
+          this.isImportLoading = false;
+          this.toastService.showToast("We had an issue with your import, please try again!", FeedbackType.ERROR);
+        }
+      }
+    );
+  }
+
+  private batchAndExecute(assetsToImport$: Observable<any>[]): void {
+    const batchSize = 10;
+    const groupedResponses: Observable<string>[][] = [];
+
+    while(assetsToImport$.length) {
+      groupedResponses.push(assetsToImport$.splice(0, batchSize));
+    }
+    
+    concat(
+      ...groupedResponses.map((group) => merge(...group))
+    ).pipe(
       take(1),
+      toArray(),
       tap({
         error: () => {
           this.toastService.showToast("There was an issue with importing your assets.", FeedbackType.ERROR);

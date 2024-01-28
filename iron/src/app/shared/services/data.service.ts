@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Asset, AssetType, AssetValue, ANALYTICS } from '../constants/constants';
-import { BehaviorSubject, Observable, combineLatest, delay, map, mergeMap, of, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, concat, delay, map, merge, mergeMap, of, take, tap, toArray } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
@@ -226,6 +226,39 @@ export class DataService {
         }
       })
     )
+  }
+
+  public putAssets$(assets: Asset[], tracker$: Observable<boolean>[] = []): Observable<Asset[]> {
+    let assetsToImport$ = [] as Observable<Asset>[];
+
+    assets.forEach((asset: Asset) => {
+      let importObservable$ = new BehaviorSubject<boolean>(false);
+      tracker$.push(importObservable$);
+      assetsToImport$.push(this.putAsset$
+        (asset, 
+        {
+          timestamp: asset.initTimestamp ?? 0,
+          totalValue: asset.initTotalValue ?? 0,
+          units: asset.initUnits ?? 0, 
+        }, 
+        importObservable$, 
+        false));
+    });
+    const batchSize = 9;
+    const groupedResponses: Observable<Asset>[][] = [];
+    
+    while(assetsToImport$.length) {
+      groupedResponses.push(assetsToImport$.splice(0, batchSize));
+    }
+    
+    return concat(
+      ...groupedResponses.map((group) => merge(...group))
+    ).pipe(
+      toArray(),
+      tap(() => {
+        this.dataChanged$.next(true);
+      })
+    );
   }
 
   public putAsset$(asset: Asset, initialValue: AssetValue | null, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {
