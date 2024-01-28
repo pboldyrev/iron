@@ -93,10 +93,6 @@ export class ImportAssetsPopupComponent {
   }
 
   onCompleteImport(): void {
-    if(this.showUpload) {
-      return;
-    }
-
     this.showUpload = true;
 
     if(!this.extractedAssets || this.extractedAssets.length === 0) {
@@ -104,15 +100,10 @@ export class ImportAssetsPopupComponent {
     }
 
     this.isImportLoading = true;
-    let assetsToImport = [] as Asset[];
-
-    this.extractedAssets.map(asset => asset.asset).forEach((asset: Asset) => {
-      assetsToImport.push(asset);
-    });
-
-    this.dataService.putAssets$(assetsToImport, this.importObservables$).subscribe(
+    this.dataService.putAssets$(this.extractedAssets.map(asset => asset.asset), this.importObservables$).subscribe(
       {
         next: () => {
+          this.toastService.showToast("Successfully imported " + this.extractedAssets.length + " assets!", FeedbackType.SUCCESS);
           this.reset();
           this.isImportLoading = false;
           this.importAssetsPopup.hide();
