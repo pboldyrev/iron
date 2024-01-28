@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild } from '@angular/core';
+import { Component, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -27,8 +27,12 @@ import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
 import { DisplayPercentPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 
 export type AssetTableColumn = 
+  "select" |
   "account" | 
   "type" | 
   "asset" | 
@@ -61,8 +65,10 @@ export type AssetTableColumn =
         BluSelect,
         BluModal,
         DisplayCurrencyPipe,
-        DisplayPercentPipe
-    ]
+        DisplayPercentPipe,
+        MatCheckboxModule,
+        BluSpinner,
+    ],
 })
 
 export class AssetTableComponent {
@@ -82,6 +88,9 @@ export class AssetTableComponent {
   public TEXTS = TEXTS;
   public TIMEFRAMES = TIMEFRAMES;
   public FeedbackType = FeedbackType;
+
+  selection = new SelectionModel<Asset>(true, []);
+  isDeleteSelectedLoading = false;
 
   constructor(
     private dataService: DataService,
@@ -134,7 +143,32 @@ export class AssetTableComponent {
     this.preferencesService.setPreference(this.preferenceName, this.showData.toString());
   }
 
-  public onPageReload() {
-    location.reload();
+  onDeleteSelected(): void {
+    let toBeDeleted = [] as Observable<Asset>[];
+    this.selection.selected.forEach((asset: Asset) => {
+      toBeDeleted.push(this.dataService.deleteAsset$(asset.assetId ?? '', null, false))
+    });
+
+    this.isDeleteSelectedLoading = true;
+    combineLatest(toBeDeleted).pipe(
+      tap(() => {
+        this.isDeleteSelectedLoading = false;
+        this.dataService.dataChanged$.next(true);
+      }),
+    ).subscribe();
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.displayAssets.length;
+    return numSelected == numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.displayAssets.forEach(row => this.selection.select(row));
   }
 }

@@ -26,21 +26,14 @@
         <dashboard-top-bar #topBar></dashboard-top-bar>
         <app-error-state *ngIf="loadingFailed; else mainContent"></app-error-state>
         <ng-template #mainContent>
+                <onboarding class="mb-2" *ngIf="(assets$ | async)" [assets$]="assets$"></onboarding>
                 <app-loading-state *ngIf="(isAssetsLoading$ | async); else loadedContent" class="dashboard-loader-wrapper"></app-loading-state>
                 <ng-template #loadedContent>
-                    <mat-tab-group [dynamicHeight]="true" (selectedTabChange)="onTabChange($event)">
+                    <mat-tab-group (selectedTabChange)="onTabChange($event)" *ngIf="((assets$ | async) ?? []).length > 0">
                         <mat-tab label="Assets">
-                            <div class="row g-0 gy-2">
-                                <onboarding *ngIf="(assets$ | async)" [assets$]="assets$"></onboarding>
-                                <empty-state
-                                    class="mt-5 d-flex justify-content-center"
-                                    *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
-                                    [variation]="2"
-                                    (addBtnClicked)="onAddAsset()"
-                                ></empty-state>
+                            <div class="row g-0 gy-2 pt-2">
                                 <ng-container *ngFor="let accountAssets of (assetsByAccount$ | async)">
                                     <app-asset-table
-                                        *ngIf="((assets$ | async) ?? []).length > 0"
                                         [tableTitle]="accountAssets.key"
                                         [columns]="assetTableColumns"
                                         [assets$]="assets$"

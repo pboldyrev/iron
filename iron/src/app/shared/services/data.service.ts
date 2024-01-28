@@ -305,14 +305,16 @@ export class DataService {
     )
   }
 
-  public deleteAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+  public deleteAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {
     if(loadingIndicator) {
       loadingIndicator.next(true);
     }
 
     return this.httpPost("removeAsset", {assetId: assetId}).pipe(
       map((data: any) => {
-        this.dataChanged$.next(true);
+        if(updateData) {
+          this.dataChanged$.next(true);
+        }
         return data?.asset ?? {} as Asset;
       }),
       tap({
