@@ -42,6 +42,9 @@ import {
 import {
   circumFileOn,
 } from '@ng-icons/circum-icons'
+import {
+  ionMenuOutline
+} from '@ng-icons/ionicons'
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
@@ -87,6 +90,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       lucideCar,
       heroDocumentArrowUp,
       circumFileOn,
+      ionMenuOutline,
     }),
   ],
 })

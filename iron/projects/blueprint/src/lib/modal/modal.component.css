@@ -1,9 +1,12 @@
-.modal-outline {
-  border: var(--blu-border-tertiary);
+.modal-base {
   border-radius: var(--blu-radius-m);
   background-color: var(--blu-background-secondary);
   display: flex;
   flex-direction: column;
+}
+
+.modal-outline {
+  border: var(--blu-border-tertiary);
 }
 
 .modal-content-stretch {

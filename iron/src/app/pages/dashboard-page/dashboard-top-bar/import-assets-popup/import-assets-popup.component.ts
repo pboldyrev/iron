@@ -163,7 +163,7 @@ export class ImportAssetsPopupComponent {
 
       if(extractedAsset.assetType === AssetType.Cash) {
         extractedAsset.assetName = this.getCashAccountName(row, errors);
-        extractedAsset.curTotalValue = this.getCurrentValue(row, errors);
+        extractedAsset.initTotalValue = this.getCurrentValue(row, errors);
         extractedAsset.appreciationRate = this.getAPY(row, errors);
       }
 

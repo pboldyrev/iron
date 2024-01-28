@@ -3,53 +3,63 @@ import { ChartConfiguration, ChartTypeRegistry } from 'chart.js';
 import { AssetValue } from '../constants/constants';
 import { GroupSummary } from 'src/app/pages/dashboard-page/account-summary/account-summary.component';
 import { DisplayPercentPipe } from 'projects/blueprint/src/lib/common/pipes/display-percent.pipe';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { DisplayCurrencyPipe } from 'projects/blueprint/src/lib/common/pipes/display-currency.pipe';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChartService {
   public getPieOptions(data: GroupSummary[]): ChartConfiguration {
+    let currencyPipe = new DisplayCurrencyPipe();
     return {
+      plugins: [ChartDataLabels],
       type: 'doughnut',
       data: this.getDataSetPie(data),
       options: {
         responsive: true,
-        borderColor: '#e1e1e1',
+        borderColor: "rgba(0,0,0,0)",
         maintainAspectRatio: false,
         plugins: {
+          datalabels: {
+            display: 'auto',
+            labels: {
+              name: {
+                align: 'top',
+                font: {
+                  family: 'Outfit',
+                  size: 14,
+                },
+                color: '#e1e1e1',
+                formatter: function(value, ctx: any) {
+                  return ctx.chart.data.labels[ctx.dataIndex];
+                }
+              },
+              value: {
+                align: 'bottom',
+                backgroundColor: function(ctx: any) {
+                  var value = ctx.dataset.data[ctx.dataIndex];
+                  return value > 50 ? '#e1e1e1' : null;
+                },
+                borderColor: '#e1e1e1',
+                borderWidth: 2,
+                borderRadius: 4,
+                color: function(ctx: any) {
+                  return ctx.dataset.backgroundColor
+                },
+                formatter: function(value) {
+                  return currencyPipe.transform(value);
+                },
+                padding: 4,
+            },
+          },
+        },
+          tooltip: {
+            filter: () => false,
+          },
           legend: {
             display: false,
           },
-          tooltip: {
-            backgroundColor: '#181818',
-            borderColor: '#363636',
-            borderWidth: 1,
-            displayColors: false,
-            bodyFont: {
-              family: 'Outfit'
-            },
-            titleFont: {
-              family: 'Outfit'
-            },
-            footerFont: {
-                family: 'Outfit'
-            },
-            callbacks: {
-              label: function(labelContent) {
-                let formattedValue = labelContent.formattedValue;
-                if(formattedValue.startsWith('-')) {
-                  formattedValue = formattedValue.replace('-', '');
-                  formattedValue = '-$' + formattedValue;
-                } else {
-                  formattedValue = '$' + formattedValue;
-                }
-                return formattedValue;
-              }
-            },
-          }
-        },
-        hover: {
-          intersect: true,
         },
       }
     }
@@ -199,9 +209,8 @@ export class ChartService {
 
   public getDataSetPie(data: GroupSummary[]) {
     let valueData = data.map((summary: GroupSummary) => summary.assetValue);
-    let percentPipe = new DisplayPercentPipe();
     return {
-      labels: data.map((summary: GroupSummary) => summary.name + '\n' + percentPipe.transform(summary.percentageAssets) + ' of net worth'), 
+      labels: data.map((summary: GroupSummary) => summary.name), 
       datasets: [
         {
           backgroundColor: [

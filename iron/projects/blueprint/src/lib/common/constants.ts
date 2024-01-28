@@ -14,6 +14,7 @@ export type BluIconName =
   | 'signIn'
   | 'signOut'
   | 'x'
+  | 'menu'
   | 'threeBars'
   | 'plus'
   | 'chevronUp'
@@ -68,4 +69,5 @@ export const BluToIconMap: {[index: string]:any} = {
   help: 'heroChatBubbleOvalLeft',
   upload: 'heroDocumentArrowUp',
   selectFile: 'circumFileOn',
+  menu: 'ionMenuOutline',
 };

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, Component, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NetworthComponent } from '../../shared/components/networth/networth.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
@@ -32,13 +32,15 @@ import { EmptyStateComponent } from './empty-state/empty-state.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { Dictionary, groupBy } from 'lodash';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent, DashboardTopBarComponent, EmptyStateComponent, OnboardingComponent],
+  imports: [CommonModule, MatTabsModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent, DashboardTopBarComponent, EmptyStateComponent, OnboardingComponent],
   templateUrl: './dashboard-page.component.html',
-  styleUrl: './dashboard-page.component.scss'
+  styleUrl: './dashboard-page.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class DashboardPageComponent implements AfterContentInit {
   @ViewChild('topBar') topBar!: DashboardTopBarComponent;
@@ -54,10 +56,10 @@ export class DashboardPageComponent implements AfterContentInit {
 
   public assets$ = new Observable<Asset[]>();
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
-  public showAnalytics = this.preferencesService.getPreference(USER_PREFERENCES.ShowAnalytics) === "true" ?? true;
   public loadingFailed = false;
 
   public assetsByAccount$ = new Observable<any[]>();
+  public analyticsTabClicked$ = new BehaviorSubject<boolean>(false);
 
   dashboardChart!: Chart;
 
@@ -84,9 +86,10 @@ export class DashboardPageComponent implements AfterContentInit {
     });
   }
 
-  onToggleAnalytics(): void {
-    this.showAnalytics = !this.showAnalytics;
-    this.preferencesService.setPreference(USER_PREFERENCES.ShowAnalytics, this.showAnalytics.toString());
+  onTabChange(tab: any): void {
+    if(tab.tab.textLabel === "Analytics") {
+      this.analyticsTabClicked$.next(true);
+    }
   }
 
   onAddAsset(): void {

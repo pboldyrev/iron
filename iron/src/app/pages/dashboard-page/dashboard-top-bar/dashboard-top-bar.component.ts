@@ -7,11 +7,14 @@ import { AddAssetPopupComponent } from './add-asset-popup/add-asset-popup.compon
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ImportAssetsPopupComponent } from 'src/app/pages/dashboard-page/dashboard-top-bar/import-assets-popup/import-assets-popup.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { BluText } from 'projects/blueprint/src/lib/text/text.component';
+import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 
 @Component({
   selector: 'dashboard-top-bar',
   standalone: true,
-  imports: [CommonModule, BluButton, ConfirmationPopupComponent, AddAssetPopupComponent, ImportAssetsPopupComponent],
+  imports: [CommonModule, BluIcon, MatMenuModule, BluText, BluButton, ConfirmationPopupComponent, AddAssetPopupComponent, ImportAssetsPopupComponent],
   templateUrl: './dashboard-top-bar.component.html',
   styleUrl: './dashboard-top-bar.component.scss'
 })

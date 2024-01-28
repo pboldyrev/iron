@@ -1,5 +1,5 @@
 <blu-modal [fullWidth]="true" [fullHeight]="true">
-    <div class="asset-table-heading px-4 py-2 py-sm-3" (click)="onToggleShowData()">
+    <div class="asset-table-heading px-3 px-sm-4 py-2 py-sm-3" (click)="onToggleShowData()">
         <div class="d-flex align-items-baseline">
             <blu-heading size="s">
                 {{ tableTitle }}
@@ -12,7 +12,7 @@
             <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showData"></blu-button>
         </div>
     </div>
-    <div class="asset-table-data pb-2" [hidden]="!showData">
+    <div class="asset-table-data mb-1" [hidden]="!showData">
         <table
             mat-table
             *ngIf="displayAssets.length > 0" 

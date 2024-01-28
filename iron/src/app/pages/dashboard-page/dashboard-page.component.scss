@@ -1,6 +1,35 @@
 .dashboard-wrapper {
     min-height: var(--blu-height-full);
     overflow-x: hidden;
+
+    .mat-mdc-tab-header {
+        border-bottom: none;
+    }
+    
+    .mat-mdc-tab:first-of-type {
+        background: var(--blu-background-secondary) !important;
+        border: var(--blu-border-tertiary) !important;
+        border-top-left-radius: var(--blu-radius-m);
+        border-bottom-left-radius: var(--blu-radius-m);
+        width: 50%;
+    }
+    
+    .mat-mdc-tab:last-of-type {
+        background: var(--blu-background-secondary) !important;
+        border: var(--blu-border-tertiary) !important;
+        border-left: none !important;
+        border-top-right-radius: var(--blu-radius-m);
+        border-bottom-right-radius: var(--blu-radius-m);
+        width: 50%;
+    }
+    
+    .mat-mdc-tab .mdc-tab-indicator__content--underline {
+        border-color: rgba(0,0,0,0) !important;
+    }
+
+    .mat-mdc-tab-body-wrapper {
+        margin-top: 0px;
+      }
 }
 
 .dashboard-side-wrapper {

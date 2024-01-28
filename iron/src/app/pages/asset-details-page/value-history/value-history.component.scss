@@ -5,6 +5,11 @@
     width: 100%;
 }
 
+.value-history-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
 .value-history-table {
     overflow-x: auto;
 }

@@ -8,14 +8,6 @@
     <div class="col-12 pb-4 d-flex justify-content-end">
         <blu-button
             class="pe-2"
-            type="info" 
-            [iconOnly]="true" 
-            iconName="help" 
-            (click)="onFeedback()" 
-            [tooltip]="TEXTS.TOOLTIP_FEEDBACK"
-        ></blu-button>
-        <blu-button
-            class="pe-2"
             type="primary" 
             iconName="plus" 
             (click)="onAddAsset()" 
@@ -25,25 +17,36 @@
         <blu-button
             class="pe-2"
             type="secondary" 
-            iconName="upload" 
-            (click)="onImportAsset()" 
+            iconName="menu" 
+            [iconOnly]="true"
+            [matMenuTriggerFor]="appMenu"
         >
-            {{ TEXTS.BTN_IMPORT_CTA }}
         </blu-button>
-        <blu-button
-            class="pe-2"
-            type="secondary" 
-            [iconOnly]="true" 
-            iconName="gear" 
-            (click)="onSettings()" 
-            [tooltip]="TEXTS.TOOLTIP_SETTINGS"
-        ></blu-button>
-        <blu-button
-            type="secondary" 
-            [iconOnly]="true" 
-            iconName="signOut" 
-            (click)="onLogOut()" 
-            [tooltip]="TEXTS.TOOLTIP_LOG_OUT"
-        ></blu-button>
+        <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
+            <div mat-menu-item class="d-flex" [disableRipple]="true" (click)="onFeedback()">
+                <div class="d-flex align-items-center">
+                    <blu-icon name="help" class="me-2"></blu-icon>
+                    <blu-text>{{ TEXTS.FEEDBACK_CTA }}</blu-text>
+                </div>
+            </div>
+            <div mat-menu-item [disableRipple]="true" (click)="onImportAsset()">
+                <div class="d-flex align-items-center">
+                    <blu-icon name="upload" class="me-2"></blu-icon>
+                    <blu-text>{{ TEXTS.IMPORT_CTA }}</blu-text>
+                </div>
+            </div>
+            <div mat-menu-item [disableRipple]="true" (click)="onSettings()">
+                <div class="d-flex align-items-center">
+                    <blu-icon name="gear" class="me-2"></blu-icon>
+                    <blu-text>{{ TEXTS.SETTINGS_CTA }}</blu-text>
+                </div>
+            </div>
+            <div mat-menu-item [disableRipple]="true" (click)="onLogOut()">
+                <div class="d-flex align-items-center">
+                    <blu-icon name="signOut" class="me-2" type="error"></blu-icon>
+                    <blu-text type="error">{{ TEXTS.LOG_OUT_CTA }}</blu-text>
+                </div>
+            </div>
+        </mat-menu>
     </div>
 </div>

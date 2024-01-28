@@ -1,41 +1,14 @@
-<div class="row g-2 g-sm-3" [hidden]="((assets$ | async) ?? []).length < 2">
-    <blu-modal class="col-12 col-md-6">
-        <div class="account-summary-header" (click)="onToggleTopHoldings()">
-            <blu-heading size="s">
-                    Asset diversification
-            </blu-heading>
-            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showTopHoldings"></blu-button>
-            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showTopHoldings"></blu-button>
+<blu-modal>
+    <div class="account-summary-header" (click)="onToggleTopHoldings()">
+        <blu-heading size="s">
+                Summaries
+        </blu-heading>
+        <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showTopHoldings"></blu-button>
+        <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showTopHoldings"></blu-button>
+    </div>
+    <div class="position-relative" [hidden]="!showTopHoldings">
+        <div class="account-summary-chart mt-3">
+            <canvas id="assetSummaryChart">{{ assetSummaryChart }}</canvas>
         </div>
-        <div class="position-relative" [hidden]="!showTopHoldings">
-            <div class="account-summary-chart mt-3">
-                <canvas id="assetSummaryChart">{{ assetSummaryChart }}</canvas>
-            </div>
-            <!-- <div class="account-summary-chart-text">
-                <blu-heading type="primary" size="m" [bold]="true" [center]="true" subheading="Assets">
-                    {{ ((assets$ | async) ?? []).length }}
-                </blu-heading>
-            </div> -->
-        </div>
-    </blu-modal>
-    <blu-modal class="col-12 col-md-6">
-        <div class="account-summary-header" (click)="onToggleAccountSummary()">
-            <blu-heading size="s">
-                    Account diversification
-            </blu-heading>
-            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showAccountSummary"></blu-button>
-            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showAccountSummary"></blu-button>
-        </div>
-        <div class="position-relative" [hidden]="!showAccountSummary">
-            <div class="account-summary-chart mt-3">
-                <canvas id="accountSummaryChart">{{ accountSummaryChart }}</canvas>
-            </div>
-            <!-- <div class="account-summary-chart-text">
-                <blu-heading type="primary" size="m" [bold]="true" [center]="true" subheading="Accounts">
-                    {{ acountSummaries.length }}
-                </blu-heading>
-            </div> -->
-        </div>
+    </div>
 </blu-modal>
-</div>
-

@@ -42,7 +42,7 @@ export type ValueChange = {
     styleUrl: './value-history.component.scss',
     imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect, DisplayIntegerPipe, DisplayCurrencyPipe]
 })
-export class ValueHistoryComponent implements AfterContentInit {
+export class ValueHistoryComponent {
   @ViewChild('value') valueInput!: BluInput;
   @ViewChild('date') dateInput!: BluInput;
   @ViewChild('stockActionDate') stockDateInput!: BluInput;
@@ -63,7 +63,6 @@ export class ValueHistoryComponent implements AfterContentInit {
 
   historyChart: Chart | null = null;
   showValueHistory = false;
-  showStockUnitChanges = true;
 
   allowValueHistory = false;
   isAutomaticallyTracked = false;
@@ -95,10 +94,6 @@ export class ValueHistoryComponent implements AfterContentInit {
     ).subscribe(([asset, assetValues]: [Asset, AssetValue[]]) => {
       this.stockUnitChanges$.next(assetValues);
     });
-  }
-
-  ngAfterContentInit() {
-    this.showStockUnitChanges = this.preferencesService.getPreference(USER_PREFERENCES.ShowStockUnitChange + '-' + this.assetId) === "true" ?? true;
   }
 
   private getChangesInUnits$(): Observable<AssetValue[]> {
@@ -168,7 +163,7 @@ export class ValueHistoryComponent implements AfterContentInit {
 
   onStockUnitsUpdate(): void {
     const date = this.stockDateInput.validate();
-    const units = parseInt(this.stockUnitsInput.validate());
+    const units = parseFloat(this.stockUnitsInput.validate());
     const type = this.stockActionTypeInput.validate();
 
     if(!this.stockDateInput.isValid || !this.stockUnitsInput.isValid || !this.stockActionTypeInput.isValid) {
@@ -328,10 +323,5 @@ export class ValueHistoryComponent implements AfterContentInit {
         return input;
       })
     )
-  }
-
-  onToggleStockUnitChanges(): void {
-    this.showStockUnitChanges = !this.showStockUnitChanges;
-    this.preferencesService.setPreference(USER_PREFERENCES.ShowStockUnitChange + '-' + this.assetId, this.showStockUnitChanges.toString())
   }
 }

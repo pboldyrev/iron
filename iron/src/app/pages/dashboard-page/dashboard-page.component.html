@@ -28,41 +28,43 @@
         <ng-template #mainContent>
                 <app-loading-state *ngIf="(isAssetsLoading$ | async); else loadedContent" class="dashboard-loader-wrapper"></app-loading-state>
                 <ng-template #loadedContent>
-                    <div class="row g-2 g-sm-3">
-                        <onboarding [assets$]="assets$"></onboarding>
-                        <empty-state
-                            class="mt-5 d-flex justify-content-center"
-                            *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
-                            [variation]="2"
-                            (addBtnClicked)="onAddAsset()"
-                        ></empty-state>
-                        <ng-container *ngFor="let accountAssets of (assetsByAccount$ | async)">
-                            <app-asset-table
-                                *ngIf="((assets$ | async) ?? []).length > 0"
-                                [tableTitle]="accountAssets.key"
-                                [columns]="assetTableColumns"
-                                [assets$]="assets$"
-                                [displayAssets]="accountAssets.values"
-                                [loadingIndicator$]="isAssetsLoading$"
-                                #assetTable
-                            ></app-asset-table>
-                        </ng-container>
-                        <app-ai-feedback
-                            *ngIf="((assets$ | async) ?? []).length >= 10"
-                            [assets$]="assets$"
-                        ></app-ai-feedback>
-                        <app-account-summary
-                            *ngIf="((assets$ | async) ?? []).length >= 3 && showAnalytics"
-                            [assets$]="assets$"
-                        ></app-account-summary>
-                        <div class="d-flex justify-content-center w-100" *ngIf="((assets$ | async) ?? []).length >= 3">
-                            <blu-button type="secondary" [iconName]="showAnalytics ? 'collapse' : 'show'" (click)="onToggleAnalytics()">
-                                <span *ngIf="!showAnalytics">{{ TEXTS.SHOW_CTA }}</span>
-                                <span *ngIf="showAnalytics">{{ TEXTS.HIDE_CTA }}</span>
-                                <span class="ps-1">{{ TEXTS.SHOW_CTA_END }}</span>
-                            </blu-button>
-                        </div>
-                    </div>
+                    <mat-tab-group [dynamicHeight]="true" (selectedTabChange)="onTabChange($event)">
+                        <mat-tab label="Assets">
+                            <div class="row g-0 gy-2">
+                                <onboarding *ngIf="(assets$ | async)" [assets$]="assets$"></onboarding>
+                                <empty-state
+                                    class="mt-5 d-flex justify-content-center"
+                                    *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
+                                    [variation]="2"
+                                    (addBtnClicked)="onAddAsset()"
+                                ></empty-state>
+                                <ng-container *ngFor="let accountAssets of (assetsByAccount$ | async)">
+                                    <app-asset-table
+                                        *ngIf="((assets$ | async) ?? []).length > 0"
+                                        [tableTitle]="accountAssets.key"
+                                        [columns]="assetTableColumns"
+                                        [assets$]="assets$"
+                                        [displayAssets]="accountAssets.values"
+                                        [loadingIndicator$]="isAssetsLoading$"
+                                        #assetTable
+                                    ></app-asset-table>
+                                </ng-container>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Analytics">
+                            <div class="row g-0 gy-2 mt-0">
+                                <app-ai-feedback
+                                    *ngIf="((assets$ | async) ?? []).length >= 10"
+                                    [assets$]="assets$"
+                                ></app-ai-feedback>
+                                <app-account-summary
+                                    *ngIf="((assets$ | async) ?? []).length >= 3"
+                                    [assets$]="assets$"
+                                    [renderChart$]="analyticsTabClicked$"
+                                ></app-account-summary>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
                 </ng-template>
         </ng-template>
     </div>
