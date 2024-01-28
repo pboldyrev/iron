@@ -63,7 +63,7 @@
     [maxLength]="maxChars"
     (dateChange)="updateValue($event)"
   />
-  <mat-datepicker-toggle [hidden]="type !== 'DATE'" matSuffix [for]="picker" [disableRipple]="true"></mat-datepicker-toggle>
+  <mat-datepicker-toggle class="ms-1" [hidden]="type !== 'DATE'" matSuffix [for]="picker" [disableRipple]="true"></mat-datepicker-toggle>
   <mat-datepicker [hidden]="type !== 'DATE'" #picker></mat-datepicker>
 </div>
 <blu-validation-feedback *ngIf="!isValid && appearance !== 'cell'" [type]="feedbackType">

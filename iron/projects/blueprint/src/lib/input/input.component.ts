@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable, map, mergeMap, of, take, takeUntil } from 'rxjs';
 import { BluValidationFeedback } from '../validation-popup/validation-feedback.component';
@@ -20,7 +20,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.css'],
     providers: [MatDatepickerModule],
-    imports: [CommonModule,  MatDatepickerModule, MatNativeDateModule, BluValidationFeedback, BluText, BluLabel, DisplayIntegerPipe, DisplayCurrencyPipe, DisplayPercentPipe]
+    imports: [CommonModule,  MatDatepickerModule, MatNativeDateModule, BluValidationFeedback, BluText, BluLabel, DisplayIntegerPipe, DisplayCurrencyPipe, DisplayPercentPipe],
+    encapsulation: ViewEncapsulation.None,
 })
 export class BluInput {
   @Input() type!: InputType;

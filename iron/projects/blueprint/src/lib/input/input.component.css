@@ -59,3 +59,12 @@
 .blu-feedback-shown {
   margin-bottom: var(--blu-space-s);
 }
+
+.mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+  border-radius: var(--blu-radius-m) !important;
+}
+
+.mat-mdc-icon-button {
+  font-size: 22px !important;
+  transition: 0.2s;
+}
