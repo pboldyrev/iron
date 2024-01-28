@@ -50,7 +50,7 @@
     matInput
     [matDatepicker]="picker"
     [type]="(type === 'NUMBER' || type === 'VIN' || type === 'PHONE' || type === 'INTEGER') ? 'TEXT' : type === 'DATE' ? null : type"
-    placeholder="dd/mm/yyyy"
+    placeholder="mm/dd/yyyy"
     [disabled]="disabled"
     [value]="
       (type === 'INTEGER') ? 
