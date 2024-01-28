@@ -4,7 +4,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
-import { Observable, of } from 'rxjs';
+import { Observable, filter, of } from 'rxjs';
 import { Asset } from 'src/app/shared/constants/constants';
 import { TEXTS } from './onboarding.strings';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
@@ -22,9 +22,7 @@ export class OnboardingComponent {
 
   TEXTS = TEXTS;
   
-  showFirstStep = false;
-  showSecondStep = false;
-  showThirdStep = false;
+  showStep = -1;
 
   showDetails = this.preferencesService.getPreference(USER_PREFERENCES.ShowOnboarding) === "true" ?? true;
 
@@ -33,10 +31,22 @@ export class OnboardingComponent {
   ){}
 
   ngOnInit() {
-    this.assets$.subscribe((assets: Asset[]) => {
-      this.showFirstStep = assets.length < 1;
-      this.showSecondStep = assets.length >= 1 && assets.length < 3;
-      this.showThirdStep = assets.length >= 3 && assets.length <= 10;
+    if(this.preferencesService.getPreference(USER_PREFERENCES.CompletedOnboarding) === "true") {
+      this.showStep = -1;
+      return;
+    }
+
+    this.assets$.pipe(
+      filter(() => this.preferencesService.getPreference(USER_PREFERENCES.CompletedOnboarding) !== "true")
+    ).subscribe((assets: Asset[]) => {
+      if(assets.length === 0) {
+        this.showStep = 1;
+      } else if(assets.length >= 1 && assets.length < 3) {
+        this.showStep = 2;
+      } else if(assets.length >=3 && assets.length <= 10) {
+        this.showStep = 3;
+        this.preferencesService.setPreference(USER_PREFERENCES.CompletedOnboarding, "true");
+      }
     });
   }
 

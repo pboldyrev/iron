@@ -1,4 +1,4 @@
-<blu-modal *ngIf="((assets$ | async) ?? []).length < 10" [outline]="true" borderColor="brand">
+<blu-modal *ngIf="" [outline]="true" borderColor="brand">
     <div class="onboarding-wrapper">
             <div class="onboarding-heading" (click)="onToggleDetails()">
                 <blu-heading size="s">
@@ -7,7 +7,7 @@
                 <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
                 <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
             </div>
-            <blu-text *ngIf="showDetails" type="secondary">{{TEXTS.SUBTITLE}}</blu-text>
+            <blu-text *ngIf="showDetails" type="secondary">{{ TEXTS.SUBTITLE }}</blu-text>
             <div class="onboarding-progress-bar-wrapper pt-4" *ngIf="showDetails">
                 <mat-progress-bar
                     class="mt-5"
@@ -15,7 +15,7 @@
                     [value]="((assets$ | async) ?? []).length / 20 * 100"
                 ></mat-progress-bar>
                 <span 
-                    *ngIf="showFirstStep"
+                    *ngIf="showStep === 1"
                     class="onboarding-progress-tick-wrapper first-tick ps-2 pb-3"
                 >
                     <span class="onboarding-progress-tick">
@@ -24,7 +24,7 @@
                     </span>
                 </span>
                 <span 
-                    *ngIf="showSecondStep"
+                    *ngIf="showStep === 2"
                     class="onboarding-progress-tick-wrapper second-tick ps-2 pb-3"
                 >
                     <span class="onboarding-progress-tick">
@@ -33,7 +33,7 @@
                     </span>
                 </span>
                 <span 
-                    *ngIf="showThirdStep"
+                    *ngIf="showStep === 3"
                     class="onboarding-progress-tick-wrapper third-tick ps-2 pb-3"
                 >
                     <span class="onboarding-progress-tick">
