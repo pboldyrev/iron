@@ -113,13 +113,13 @@ export class ImportAssetsPopupComponent {
     this.dataService.putAssets$(assetsToImport, this.importObservables$).subscribe(
       {
         next: () => {
-          this.isImportLoading = false;
           this.reset();
+          this.isImportLoading = false;
           this.importAssetsPopup.hide();
         },
         error: () => {
           this.isImportLoading = false;
-          this.toastService.showToast("We had an issue with your import, please try again!", FeedbackType.ERROR);
+          this.toastService.showToast("We had an issue with importing some assets, please try again!", FeedbackType.ERROR);
         }
       }
     );
