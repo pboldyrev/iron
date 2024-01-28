@@ -1,4 +1,4 @@
-<blu-modal *ngIf="" [outline]="true" borderColor="brand">
+<blu-modal *ngIf="showStep !== -1" [outline]="true" borderColor="brand">
     <div class="onboarding-wrapper">
             <div class="onboarding-heading" (click)="onToggleDetails()">
                 <blu-heading size="s">

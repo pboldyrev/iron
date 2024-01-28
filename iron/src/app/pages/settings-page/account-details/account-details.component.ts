@@ -58,8 +58,12 @@ export class AccountDetailsComponent {
       return;
     }
 
-    this.dataService.removeUser$().subscribe();
-    this.navigationService.navigate('/login');
-    this.toastService.showToast("Your account has been successfully deleted.", FeedbackType.SUCCESS);
+    this.dataService.removeUser$().subscribe(
+      () => {
+        localStorage.clear();
+        this.navigationService.navigate('/login');
+        this.toastService.showToast("Your account has been successfully deleted.", FeedbackType.SUCCESS);
+      }
+    );
   }
 }
