@@ -16,13 +16,15 @@
 
     .mat-mdc-tab:first-of-type.mdc-tab--active {
         border-color: var(--blu-color-text-primary) !important;
-        transition: 0.2s;
     }
 
     .mat-mdc-tab:last-of-type.mdc-tab--active {
         border-left: var(--blu-border-tertiary) !important;
         border-color: var(--blu-color-text-primary) !important;
-        transition: 0.2s;
+
+        .mat-mdc-tab:first-of-type {
+            border-right: 0px solid red;
+        }
     }
     
     .mat-mdc-tab:last-of-type {

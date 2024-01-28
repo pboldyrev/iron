@@ -15,7 +15,7 @@ export class BluModal {
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() boldTitle: boolean = false;
-  @Input() outline: boolean = false;
+  @Input() outline: boolean = true;
   @Input() titleTooltip: string = '';
   @Input() subheadingPosition: 'top' | 'bottom' = 'bottom';
   @Input() borderColor: 'brand' | 'normal' | 'error' = 'normal';
