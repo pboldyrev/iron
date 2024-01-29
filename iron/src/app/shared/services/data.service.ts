@@ -111,7 +111,7 @@ export class DataService {
       }),
       map((data: any) => {
         let totalValues = data?.totalValues ?? [];
-        return this.addTodaysValueIfMissing(totalValues);
+        return totalValues;
       }),
       tap({
         next: () => {
