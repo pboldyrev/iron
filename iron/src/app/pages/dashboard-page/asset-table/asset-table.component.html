@@ -61,7 +61,7 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="asset" sticky>
+            <ng-container matColumnDef="asset">
                 <mat-header-cell *matHeaderCellDef>
                     {{ TEXTS.ASSET_TITLE }}
                 </mat-header-cell>
@@ -132,7 +132,7 @@
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="columns;"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="columns; sticky: true"></mat-header-row>
             <mat-row *matRowDef="let row; columns: columns;"></mat-row>
             <mat-row *matFooterRowDef="footerColumns; sticky: true"></mat-row>
         </table>
