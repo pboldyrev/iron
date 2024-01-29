@@ -178,11 +178,7 @@ export class AddAssetFormComponent {
     if(this.isAdd){
       if(this.assetType === AssetType.Vehicle && err.status === 400) {
         this.toastService.showToast("We do not support this VIN", FeedbackType.ERROR);
-      } else {
-        this.toastService.showToast("There was an issue with adding this asset", FeedbackType.ERROR);
       }
-    } else {
-      this.toastService.showToast("There was an issue with updating this asset", FeedbackType.ERROR);
     }
   }
 

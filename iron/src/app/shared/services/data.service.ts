@@ -438,9 +438,8 @@ export class DataService {
       tap(({
         next: () => {},
         error: (err: HttpErrorResponse) => {
-          if(err.error?.error?.includes("No user found with sessionToken")) {
-            this.authService.signOut();
-            this.toastService.showToast("Your session has expired, please log in again", FeedbackType.ERROR);
+          if(err.error?.error){
+            this.toastService.showToast(err.error.error, FeedbackType.ERROR);
           } else {
             this.toastService.showToast("Something went wrong, please try again", FeedbackType.ERROR);
           }
