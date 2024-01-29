@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { TEXTS } from './dashboard-top-bar.strings';
 import { ConfirmationPopupComponent } from 'src/app/shared/components/confirmation-popup/confirmation-popup.component';
@@ -10,6 +10,7 @@ import { ImportAssetsPopupComponent } from 'src/app/pages/dashboard-page/dashboa
 import { MatMenuModule } from '@angular/material/menu';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
+import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 
 @Component({
   selector: 'dashboard-top-bar',
@@ -22,12 +23,27 @@ export class DashboardTopBarComponent {
   @ViewChild('addAssetPopup') addAssetPopup!: AddAssetPopupComponent;
   @ViewChild('importAssetsPopup') importAssetsPopup!: ImportAssetsPopupComponent;
 
+  @Output() showSidebar = new EventEmitter<boolean>();
+
   TEXTS = TEXTS;
+
+  isSidebarShown = (this.preferencesService.getPreference(USER_PREFERENCES.ShowSidebar) ?? 'true') === 'true';
 
   constructor(
     private navigationService: NavigationService,
     private authService: AuthService,
+    private preferencesService: PreferencesService,
   ){}
+
+  onCollapseSidebar(): void {
+    this.showSidebar.emit(false);
+    this.isSidebarShown = false;
+  }
+
+  onShowSidebar(): void {
+    this.showSidebar.emit(true);
+    this.isSidebarShown = true;
+  }
 
   onImportAsset(): void {
     this.importAssetsPopup.show();

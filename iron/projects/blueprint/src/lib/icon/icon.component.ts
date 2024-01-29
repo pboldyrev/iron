@@ -35,6 +35,9 @@ import {
   heroEye,
   heroChatBubbleOvalLeft,
   heroDocumentArrowUp,
+  heroArrowLeftOnRectangle,
+  heroArrowRightOnRectangle,
+  heroPower,
 } from '@ng-icons/heroicons/outline';
 import {
   lucideCar,
@@ -91,6 +94,9 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroDocumentArrowUp,
       circumFileOn,
       ionMenuOutline,
+      heroArrowLeftOnRectangle,
+      heroArrowRightOnRectangle,
+      heroPower,
     }),
   ],
 })

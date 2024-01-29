@@ -37,6 +37,8 @@ export type BluIconName =
   | 'plus'
   | 'heroDocumentArrowUp'
   | 'selectFile'
+  | 'sideCollapse'
+  | 'heroPower'
   | string;
 
 export const BluToIconMap: {[index: string]:any} = {
@@ -47,7 +49,7 @@ export const BluToIconMap: {[index: string]:any} = {
   gear: 'octGear',
   graph: 'octGraph',
   signIn: 'octSignIn',
-  signOut: 'octSignOut',
+  signOut: 'heroPower',
   x: 'octX',
   threeBars: 'octThreeBars',
   plus: 'octPlus',
@@ -70,4 +72,6 @@ export const BluToIconMap: {[index: string]:any} = {
   upload: 'heroDocumentArrowUp',
   selectFile: 'circumFileOn',
   menu: 'ionMenuOutline',
+  sideCollapse: 'heroArrowLeftOnRectangle',
+  sideExpand: 'heroArrowRightOnRectangle',
 };

@@ -5,8 +5,19 @@
     #importAssetsPopup
 ></import-assets-popup>
 <div class="row">
-    <div class="col-12 pb-4 d-flex justify-content-end">
-        <blu-button
+    <div class="col-12 pb-3 d-flex justify-content-between">
+        <div>
+            <blu-button
+                class="pe-2 d-none d-lg-block"
+                type="secondary" 
+                [iconName]="isSidebarShown ? 'sideCollapse' : 'sideExpand'" 
+                [iconOnly]="true"
+                [tooltip]="isSidebarShown ? TEXTS.TOOLTIP_COLLAPSE : TEXTS.TOOLTIP_SHOW"
+                (click)="isSidebarShown ? onCollapseSidebar() : onShowSidebar()" 
+            ></blu-button>
+        </div>
+        <div class="d-flex">
+            <blu-button
             class="pe-2"
             type="primary" 
             iconName="plus" 
@@ -22,31 +33,32 @@
             [matMenuTriggerFor]="appMenu"
         >
         </blu-button>
-        <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
-            <div mat-menu-item class="d-flex" [disableRipple]="true" (click)="onFeedback()">
-                <div class="d-flex align-items-center">
-                    <blu-icon name="help" class="me-2"></blu-icon>
-                    <blu-text>{{ TEXTS.FEEDBACK_CTA }}</blu-text>
+            <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
+                <div mat-menu-item class="d-flex" [disableRipple]="true" (click)="onFeedback()">
+                    <div class="d-flex align-items-center">
+                        <blu-icon name="help" class="me-2"></blu-icon>
+                        <blu-text>{{ TEXTS.FEEDBACK_CTA }}</blu-text>
+                    </div>
                 </div>
-            </div>
-            <div mat-menu-item [disableRipple]="true" (click)="onImportAsset()">
-                <div class="d-flex align-items-center">
-                    <blu-icon name="upload" class="me-2"></blu-icon>
-                    <blu-text>{{ TEXTS.IMPORT_CTA }}</blu-text>
+                <div mat-menu-item [disableRipple]="true" (click)="onImportAsset()">
+                    <div class="d-flex align-items-center">
+                        <blu-icon name="upload" class="me-2"></blu-icon>
+                        <blu-text>{{ TEXTS.IMPORT_CTA }}</blu-text>
+                    </div>
                 </div>
-            </div>
-            <div mat-menu-item [disableRipple]="true" (click)="onSettings()">
-                <div class="d-flex align-items-center">
-                    <blu-icon name="gear" class="me-2"></blu-icon>
-                    <blu-text>{{ TEXTS.SETTINGS_CTA }}</blu-text>
+                <div mat-menu-item [disableRipple]="true" (click)="onSettings()">
+                    <div class="d-flex align-items-center">
+                        <blu-icon name="gear" class="me-2"></blu-icon>
+                        <blu-text>{{ TEXTS.SETTINGS_CTA }}</blu-text>
+                    </div>
                 </div>
-            </div>
-            <div mat-menu-item [disableRipple]="true" (click)="onLogOut()">
-                <div class="d-flex align-items-center">
-                    <blu-icon name="signOut" class="me-2" type="error"></blu-icon>
-                    <blu-text type="error">{{ TEXTS.LOG_OUT_CTA }}</blu-text>
+                <div mat-menu-item [disableRipple]="true" (click)="onLogOut()">
+                    <div class="d-flex align-items-center">
+                        <blu-icon name="signOut" class="me-2" type="error"></blu-icon>
+                        <blu-text type="error">{{ TEXTS.LOG_OUT_CTA }}</blu-text>
+                    </div>
                 </div>
-            </div>
-        </mat-menu>
+            </mat-menu>
+        </div>
     </div>
 </div>

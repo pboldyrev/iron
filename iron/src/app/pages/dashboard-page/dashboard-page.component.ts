@@ -15,7 +15,7 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of, skip, startWith, take, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { ASSET_TABLE_COLS, ASSET_TABLE_FOOTER_COLS } from './dashboard-page.constants';
+import { ASSET_TABLE_COLS_COLLAPSED, ASSET_TABLE_COLS_EXPANDED, ASSET_TABLE_FOOTER_COLS } from './dashboard-page.constants';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
@@ -55,7 +55,7 @@ export class DashboardPageComponent implements AfterContentInit {
   public networthValues$: BehaviorSubject<AssetValue[]> = new BehaviorSubject<AssetValue[]>([]);
 
   public assets$ = new Observable<Asset[]>();
-  public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
+  public assetTableColumns: AssetTableColumn[] = [];
   public assetTableFooterColumns: AssetTableColumn[] = ASSET_TABLE_FOOTER_COLS;
   public loadingFailed = false;
 
@@ -64,12 +64,23 @@ export class DashboardPageComponent implements AfterContentInit {
 
   dashboardChart!: Chart;
 
+  showSidebar = (this.preferencesService.getPreference(USER_PREFERENCES.ShowSidebar) ?? 'true') === 'true';
+
   constructor(
     private dataService: DataService,
     private chartService: ChartService,
+    private preferencesService: PreferencesService,
   ) {
     this.fetchNetWorth();
     this.fetchAssets();
+  }
+
+  ngOnInit() {
+    if(this.showSidebar) {
+      this.assetTableColumns = ASSET_TABLE_COLS_COLLAPSED;
+    } else {
+      this.assetTableColumns = ASSET_TABLE_COLS_EXPANDED;
+    }
   }
 
   ngAfterContentInit() {
@@ -94,6 +105,17 @@ export class DashboardPageComponent implements AfterContentInit {
 
   onAddAsset(): void {
     this.topBar.onAddAsset();
+  }
+
+  onShowSidebar(show: boolean): void {
+    this.showSidebar = show;
+    this.preferencesService.setPreference(USER_PREFERENCES.ShowSidebar, this.showSidebar.toString());
+
+    if(this.showSidebar) {
+      this.assetTableColumns = ASSET_TABLE_COLS_COLLAPSED;
+    } else {
+      this.assetTableColumns = ASSET_TABLE_COLS_EXPANDED;
+    }
   }
 
   private fetchAssets(): void {

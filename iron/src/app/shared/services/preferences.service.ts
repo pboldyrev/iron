@@ -12,6 +12,7 @@ export enum USER_PREFERENCES {
   ShowOnboarding = 9,
   ShowAccountData = 10,
   CompletedOnboarding = 11,
+  ShowSidebar = 12,
 }
 
 @Injectable({
