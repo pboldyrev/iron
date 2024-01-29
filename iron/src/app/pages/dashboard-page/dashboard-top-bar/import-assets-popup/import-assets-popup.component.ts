@@ -111,36 +111,12 @@ export class ImportAssetsPopupComponent {
           this.importAssetsPopup.hide();
         },
         error: () => {
+          this.reset();
           this.isImportLoading = false;
+          this.importAssetsPopup.hide();
         }
       }
     );
-  }
-
-  private batchAndExecute(assetsToImport$: Observable<any>[]): void {
-    const batchSize = 10;
-    const groupedResponses: Observable<string>[][] = [];
-
-    while(assetsToImport$.length) {
-      groupedResponses.push(assetsToImport$.splice(0, batchSize));
-    }
-    
-    concat(
-      ...groupedResponses.map((group) => merge(...group))
-    ).pipe(
-      take(1),
-      toArray(),
-      tap({
-        error: () => {
-          this.toastService.showToast("There was an issue with importing your assets.", FeedbackType.ERROR);
-        },
-        next: () => {
-          this.isImportLoading = false;
-          this.dataService.dataChanged$.next(true);
-          this.reset();
-        }
-      })
-    ).subscribe();
   }
 
   onFileUploaded(fileContent: string): void {
