@@ -1,8 +1,12 @@
 .mat-mdc-cell,
 .mat-mdc-header-cell,
 .mat-mdc-footer-row {
-    background-color: var(--blu-background-secondary) !important;
     padding-left: var(--blu-padding-xs);
+}
+
+.mat-mdc-footer-cell {
+    border-top: var(--blu-border-tertiary);
+    padding-top: 5px;
 }
 
 .mat-column-select {
@@ -77,8 +81,7 @@
 .asset-table-heading {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
+    align-items: baseline;
 }
 
 .asset-table-edit-menu {

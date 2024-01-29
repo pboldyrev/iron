@@ -1,30 +1,6 @@
 .dashboard-wrapper {
     min-height: var(--blu-height-full);
     overflow-x: hidden;
-    
-    .mat-mdc-tab {
-        display: flex;
-        align-items: center;
-        min-height: none;
-        background: var(--blu-background-secondary) !important;
-        border: var(--blu-border-tertiary) !important;
-        border-radius: 250px;
-        height: fit-content !important;
-        padding: var(--blu-padding-m) var(--blu-padding-xl) !important;
-        margin-right: var(--blu-space-xs);
-    }
-
-    .mat-mdc-tab.mdc-tab--active {
-        border-color: var(--blu-color-brand) !important;
-    }
-    
-    .mat-mdc-tab .mdc-tab-indicator__content--underline {
-        border: none;
-    }
-
-    .mat-mdc-tab-body-wrapper {
-        margin-top: var(--blu-margin-xxs);
-    }
 }
 
 .dashboard-side-wrapper {
@@ -80,6 +56,7 @@
         overflow-y: hidden;
     }
     .dashboard-content-wrapper {
+        min-height: 100vh;
         height: fit-content;
         overflow-y: hidden;
     }

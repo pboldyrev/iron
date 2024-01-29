@@ -1,14 +1,14 @@
 <blu-modal>
-    <div class="account-summary-header" (click)="onToggleTopHoldings()">
-        <blu-heading size="s">
-                Summaries
-        </blu-heading>
-        <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showTopHoldings"></blu-button>
-        <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showTopHoldings"></blu-button>
-    </div>
-    <div class="position-relative" [hidden]="!showTopHoldings">
-        <div class="account-summary-chart mt-3">
-            <canvas id="assetSummaryChart">{{ assetSummaryChart }}</canvas>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="account-summary-chart">
+                <canvas id="assetSummaryChart">{{ assetSummaryChart }}</canvas>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="account-summary-chart">
+                <canvas id="accountSummaryChart">{{ accountSummaryChart }}</canvas>
+            </div>
         </div>
     </div>
 </blu-modal>

@@ -30,13 +30,11 @@ export type GroupSummary = {
 })
 export class AccountSummaryComponent {
   @ViewChild('assetSummaryChart') assetSummaryChart!: Chart;
+  @ViewChild('accountSummaryChart') accountSummaryChart!: Chart;
   @Input() assets$!: Observable<Asset[]>;
   @Input() renderChart$!: Observable<boolean>;
   
-  showTopHoldings = this.preferencesService.getPreference(USER_PREFERENCES.ShowTopHoldings) === "true" ?? true;
-  
   constructor(
-    private preferencesService: PreferencesService,
     private chartService: ChartService,
   ) {}
 
@@ -48,41 +46,60 @@ export class AccountSummaryComponent {
       delay(0),
       filter(([data, renderChart]: [Asset[], boolean]) => renderChart),
       tap(([data, renderChart]: [Asset[], boolean]) => {
-        let assetValues = this.getTopAssets(data);
+        let assetSummaryChartData = this.getAssetSummaryChartData(data);
+        let accountSummaryChartData = this.getAccountSummaryChartData(data);
 
         if(this.assetSummaryChart) {
-          this.assetSummaryChart.data = this.chartService.getDataSetPie(assetValues);
+          this.assetSummaryChart.data = this.chartService.getDataSetPie(assetSummaryChartData);
           this.assetSummaryChart.update();
         } else {
-          this.assetSummaryChart = new Chart('assetSummaryChart', this.chartService.getPieOptions(assetValues));
+          this.assetSummaryChart = new Chart('assetSummaryChart', this.chartService.getPieOptions(assetSummaryChartData));
+        }
+
+        if(this.accountSummaryChart) {
+          this.assetSummaryChart.data = this.chartService.getDataSetPie(accountSummaryChartData);
+          this.assetSummaryChart.update();
+        } else {
+          this.assetSummaryChart = new Chart('accountSummaryChart', this.chartService.getPieOptions(accountSummaryChartData));
         }
       })
     ).subscribe();
   }
 
-  private getTopAssets(assets: Asset[]): GroupSummary[] {
-    let topAssets = [] as GroupSummary[];
-
-    let totalValue = 0;
+  private getTotalCashValue(assets: Asset[]): number {
     let totalCash = 0;
     assets.forEach((asset: Asset) => {
-      totalValue += asset.curTotalValue ?? 0;
       if(asset.assetType === AssetType.Cash) {
         totalCash += asset.curTotalValue ?? 0;
       }
     });
+    return totalCash;
+  }
+
+  private getTotalValue(assets: Asset[]): number {
+    let totalValue = 0;
+    assets.forEach((asset: Asset) => {
+      totalValue += asset.curTotalValue ?? 0;
+    });
+    return totalValue;
+  }
+
+  private getAssetSummaryChartData(assets: Asset[]): GroupSummary[] {
+    let topAssets = [] as GroupSummary[];
+
+    let totalValue = this.getTotalValue(assets);
+    let totalCash = this.getTotalCashValue(assets);
 
     assets.sort((a, b) => {return (b.curTotalValue ?? 0) - (a.curTotalValue ?? 0)});
-
     assets.forEach((asset: Asset) => {
-      let newTopAsset: GroupSummary = {
+      if(asset.assetType === AssetType.Cash) {
+        return;
+      }
+      topAssets.push({
         name: asset.assetName ?? '',
         assetValue: asset.curTotalValue ?? 0,
         percentageAssets: (asset.curTotalValue ?? 0)/totalValue * 100,
-      }
-      if(asset.assetType !== AssetType.Cash) {
-        topAssets.push(newTopAsset);
-      }
+      });
     });
 
     topAssets.push({
@@ -109,15 +126,50 @@ export class AccountSummaryComponent {
       topAssets.push(otherAssets);
     }
 
-    topAssets.sort((a, b) => {
-      return b.assetValue - a.assetValue;
-    });
+    topAssets.sort((a, b) => { return b.assetValue - a.assetValue });
     
     return topAssets.slice(0, 5);
   }
 
-  onToggleTopHoldings(): void {
-    this.showTopHoldings = !this.showTopHoldings;
-    this.preferencesService.setPreference(USER_PREFERENCES.ShowTopHoldings, this.showTopHoldings.toString());
+  private getAccountSummaryChartData(assets: Asset[]): GroupSummary[] {
+    let topAccounts = [] as GroupSummary[];
+
+    let totalValue = this.getTotalValue(assets);
+
+    assets.sort((a, b) => {return (b.curTotalValue ?? 0) - (a.curTotalValue ?? 0)});
+    assets.forEach((asset: Asset) => {
+      let existingSummary = topAccounts.find((group: GroupSummary) => group.name === asset.account);
+      if(existingSummary) {
+        existingSummary.assetValue += asset.curTotalValue ?? 0;
+      } else {
+        topAccounts.push({
+          name: asset.account ?? '',
+          assetValue: asset.curTotalValue ?? 0,
+          percentageAssets: (asset.curTotalValue ?? 0)/totalValue * 100,
+        });
+      }
+    });
+
+    topAccounts.sort((a, b) => {return (b.assetValue ?? 0) - (a.assetValue ?? 0)});
+
+    if(topAccounts.length > 5) {
+      let otherAccounts: GroupSummary = {
+        name: "Other accounts",
+        assetValue: 0,
+        percentageAssets: 0,
+      }
+
+      topAccounts.slice(4).forEach((summary: GroupSummary) => {
+        otherAccounts.assetValue += summary.assetValue;
+      });
+
+      otherAccounts.percentageAssets = otherAccounts.assetValue / totalValue * 100;
+
+      topAccounts.push(otherAccounts);
+    }
+
+    topAccounts.sort((a, b) => { return b.assetValue - a.assetValue });
+    
+    return topAccounts.slice(0, 5);
   }
 }

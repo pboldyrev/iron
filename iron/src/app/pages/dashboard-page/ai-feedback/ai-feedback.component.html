@@ -12,13 +12,8 @@
     </blu-text>
 </blu-popup>
 <blu-modal>
-    <div class="ai-feedback-heading" (click)="onToggleDetails()">
-        <blu-heading size="s">Portfolio feedback</blu-heading>
-        <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
-        <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
-    </div>
-    <div class="row mt-4" *ngIf="showDetails">
-        <div class="col-12 mb-3 mb-sm-0 col-sm-3">
+    <div class="row mt-2">
+        <div class="col-12 mb-3 mb-sm-0 col-sm-3 d-block d-sm-flex justify-content-center align-items-center">
             <div class="d-none d-sm-flex ai-feedback-progress">
                 <mat-progress-spinner
                     class="progress-spinner mb-2"

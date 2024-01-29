@@ -19,13 +19,14 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DisplayPercentPipe } from "../../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
+import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 
 @Component({
     selector: 'import-assets-popup',
     standalone: true,
     templateUrl: './import-assets-popup.component.html',
     styleUrl: './import-assets-popup.component.scss',
-    imports: [CommonModule, MatProgressBarModule, BluModal, BluPopup, BluFileUpload, BluText, BluLink, BluHeading, BluButton, DisplayDatePipe, DisplayPercentPipe]
+    imports: [CommonModule, BluSpinner, MatProgressBarModule, BluModal, BluPopup, BluFileUpload, BluText, BluLink, BluHeading, BluButton, DisplayDatePipe, DisplayPercentPipe]
 })
 export class ImportAssetsPopupComponent {
   @ViewChild('importAssetsPopup') importAssetsPopup!: BluPopup;

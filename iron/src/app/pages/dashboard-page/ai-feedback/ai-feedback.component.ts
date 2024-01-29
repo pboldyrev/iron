@@ -28,13 +28,8 @@ export class AiFeedbackComponent {
 
   ASSETS_TO_QUALIFY = ASSETS_TO_QUALIFY;
 
-  showDetails = (this.preferencesService.getPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails) ?? "true") === "true" ?? true;
   numQualifyingAssets = 0;
   shouldQualify = false;
-
-  constructor(
-    private preferencesService: PreferencesService,
-  ) {}
 
   ngOnInit() {
     this.assets$.subscribe((assets: Asset[]) => {
@@ -51,12 +46,6 @@ export class AiFeedbackComponent {
 
   onShowLegalDisclaimer(): void {
     this.legalDisclaimer.show();
-  }
-
-  onToggleDetails(): void {
-    let newPreference = !this.showDetails;
-    this.showDetails = newPreference;
-    this.preferencesService.setPreference(USER_PREFERENCES.ShowPortfolioFeedbackDetails, newPreference.toString());
   }
 
   onGetFeedback(): void {

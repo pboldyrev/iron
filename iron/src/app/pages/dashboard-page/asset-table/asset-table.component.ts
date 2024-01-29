@@ -73,6 +73,7 @@ export type AssetTableColumn =
 
 export class AssetTableComponent {
   @Input() columns!: AssetTableColumn[];
+  @Input() footerColumns!: AssetTableColumn[];
   @Input() assets$!: Observable<Asset[]>;
   @Input() loadingIndicator$!: BehaviorSubject<boolean>
   @Input() tableTitle = "";
@@ -82,8 +83,6 @@ export class AssetTableComponent {
 
   public curTotal: number = 0;
   public initTotal: number = 0;
-
-  public showData = true;
 
   public TEXTS = TEXTS;
   public TIMEFRAMES = TIMEFRAMES;
@@ -103,8 +102,6 @@ export class AssetTableComponent {
     this.assets$.subscribe((assets: Asset[]) => {
       this.updateTotals();
     });
-    this.preferenceName = USER_PREFERENCES.ShowAccountData + '-' + this.tableTitle.replaceAll(' ', '');
-    this.showData = (this.preferencesService.getPreference(this.preferenceName) ?? "true") === "true";
   }
 
   public updateTotals(): void {
@@ -136,11 +133,6 @@ export class AssetTableComponent {
       return NaN;
     }
     return ((cur-init) / init) * 100;
-  }
-
-  public onToggleShowData(): void {
-    this.showData = !this.showData;
-    this.preferencesService.setPreference(this.preferenceName, this.showData.toString());
   }
 
   onDeleteSelected(): void {

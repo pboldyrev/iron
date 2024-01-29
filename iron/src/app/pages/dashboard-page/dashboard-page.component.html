@@ -35,6 +35,7 @@
                                     <app-asset-table
                                         [tableTitle]="accountAssets.key"
                                         [columns]="assetTableColumns"
+                                        [footerColumns]="assetTableFooterColumns"
                                         [assets$]="assets$"
                                         [displayAssets]="accountAssets.values"
                                         [loadingIndicator$]="isAssetsLoading$"

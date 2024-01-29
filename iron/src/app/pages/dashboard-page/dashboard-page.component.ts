@@ -15,7 +15,7 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { BehaviorSubject, Observable, Subject, filter, map, mergeMap, of, skip, startWith, take, tap } from 'rxjs';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
-import { ASSET_TABLE_COLS } from './dashboard-page.constants';
+import { ASSET_TABLE_COLS, ASSET_TABLE_FOOTER_COLS } from './dashboard-page.constants';
 import { NavigationService } from 'src/app/shared/services/navigation-service.service';
 import { Chart } from 'chart.js';
 import { ChartService } from 'src/app/shared/services/chart.service';
@@ -56,6 +56,7 @@ export class DashboardPageComponent implements AfterContentInit {
 
   public assets$ = new Observable<Asset[]>();
   public assetTableColumns: AssetTableColumn[] = ASSET_TABLE_COLS;
+  public assetTableFooterColumns: AssetTableColumn[] = ASSET_TABLE_FOOTER_COLS;
   public loadingFailed = false;
 
   public assetsByAccount$ = new Observable<any[]>();
@@ -66,7 +67,6 @@ export class DashboardPageComponent implements AfterContentInit {
   constructor(
     private dataService: DataService,
     private chartService: ChartService,
-    private preferencesService: PreferencesService,
   ) {
     this.fetchNetWorth();
     this.fetchAssets();

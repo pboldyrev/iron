@@ -1,32 +1,10 @@
 <blu-modal [fullWidth]="true" [fullHeight]="true" [outline]="true">
-    <div class="asset-table-heading px-3 px-sm-4 py-2 py-sm-3" (click)="selection.hasValue() ? null : onToggleShowData()">
-        <div class="d-flex align-items-baseline">
-            <blu-heading size="s">
-                {{ tableTitle }}
-            </blu-heading>
-            <blu-text class="ms-2" type="secondary">{{ displayAssets.length }} asset<span *ngIf="displayAssets.length > 1">s</span></blu-text>
-        </div>
-        <div class="d-flex align-items-center">
-            <blu-heading *ngIf="!selection.hasValue()"  type="secondary" class="me-2" size="xs" [isNumber]="true">{{ curTotal | displayCurrency }}</blu-heading>
-            <blu-button 
-                *ngIf="selection.hasValue()" 
-                type="error" 
-                class="mx-2" 
-                (click)="isDeleteSelectedLoading ? null : onDeleteSelected()" 
-                [disabled]="isDeleteSelectedLoading"
-                [slim]="true"
-            >
-                <blu-spinner 
-                    *ngIf="isDeleteSelectedLoading" 
-                    [inlineSpace]="true"
-                ></blu-spinner>
-                Delete ({{selection.selected.length}})
-            </blu-button>
-            <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showData"></blu-button>
-            <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showData"></blu-button>
-        </div>
+    <div class="asset-table-heading px-3 px-sm-4 py-3">
+        <blu-heading size="s">
+            {{ tableTitle }}
+        </blu-heading>
     </div>
-    <div class="asset-table-data mb-1" [hidden]="!showData">
+    <div class="asset-table-data mb-1">
         <table
             mat-table
             *ngIf="displayAssets.length > 0" 
@@ -77,6 +55,10 @@
                 <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
                     <blu-text type="primary">{{asset.assetName}} {{asset.nickName ? ' (' + asset.nickName + ')' : ''}}</blu-text>
                 </mat-cell>
+                <mat-footer-cell *matFooterCellDef>
+                    <blu-text type="secondary" class="me-2" size="xs">Count</blu-text>
+                    <blu-text [isNumber]="true" weight="bold">{{ displayAssets.length }}</blu-text>
+                </mat-footer-cell>
             </ng-container>
 
             <ng-container matColumnDef="units">
@@ -104,6 +86,10 @@
                 <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
                     <blu-text [isNumber]="true">{{ asset.curTotalValue | displayCurrency }}</blu-text>
                 </mat-cell>
+                <mat-footer-cell *matFooterCellDef>
+                    <blu-text type="secondary" class="me-2" size="xs">Total</blu-text>
+                    <blu-text [isNumber]="true" weight="bold">{{ curTotal | displayCurrency }}</blu-text>
+                </mat-footer-cell>
             </ng-container>
 
             <ng-container matColumnDef="change">
@@ -135,6 +121,7 @@
 
             <mat-header-row *matHeaderRowDef="columns;"></mat-header-row>
             <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+            <mat-row *matFooterRowDef="footerColumns; sticky: true"></mat-row>
         </table>
     </div>
 </blu-modal>
