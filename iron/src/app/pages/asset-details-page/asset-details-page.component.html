@@ -18,7 +18,7 @@
                     [tooltip]="TEXTS.TOOLTIP_REFRESH"
                 ></blu-button>
             </div>
-            <div class="d-flex flex-column" *ngIf="isAssetLoading$ | async">
+            <div class="d-flex flex-column mb-4" *ngIf="isAssetLoading$ | async">
                 <app-skeleton-loader-text size="m"></app-skeleton-loader-text>
                 <app-skeleton-loader-text size="l" curved="l" [height]="50" class="mt-2"></app-skeleton-loader-text>
             </div>

@@ -21,6 +21,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DisplayPercentPipe } from "../../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 
+export type ExtractedEntry = { 
+  importId: number,
+  asset: Asset, 
+  errors: string[]
+};
+
 @Component({
     selector: 'import-assets-popup',
     standalone: true,
@@ -40,7 +46,7 @@ export class ImportAssetsPopupComponent {
   isImportLoading = false;
   importObservables$ = [] as BehaviorSubject<boolean>[];
   
-  extractedAssets = [] as { asset: Asset, errors: string[] }[];
+  extractedAssets = [] as ExtractedEntry[];
   
   constructor(
     private papa: Papa,
@@ -84,6 +90,20 @@ export class ImportAssetsPopupComponent {
     this.hasErrors = false;
   }
 
+  private updateErrors(): void {
+    this.hasErrors = false;
+    this.extractedAssets.forEach((extractedEntry: ExtractedEntry) => {
+      if(extractedEntry.errors.length > 0) {
+        this.hasErrors = true;
+      }
+    });
+  }
+
+  onDeleteEntry(selectedEntry: ExtractedEntry): void {
+    this.extractedAssets = this.extractedAssets.filter((extractedEntry: ExtractedEntry) => extractedEntry !== selectedEntry);
+    this.updateErrors();
+  }
+
   onDownloadTemplate(): void {
     const newBlob = new Blob([TEMPLATE], { type: "text/csv" });
     const data = window.URL.createObjectURL(newBlob);
@@ -106,7 +126,7 @@ export class ImportAssetsPopupComponent {
     this.dataService.putAssets$(this.extractedAssets.map(asset => asset.asset), this.importObservables$).subscribe(
       {
         next: () => {
-          this.toastService.showToast("Successfully imported " + this.extractedAssets.length + " assets!", FeedbackType.SUCCESS);
+          this.toastService.showToast("Successfully imported " + this.extractedAssets.length + " asset" + (this.extractedAssets.length > 1 ? 's' : '') + '!', FeedbackType.SUCCESS);
           this.reset();
           this.isImportLoading = false;
           this.importAssetsPopup.hide();
@@ -156,6 +176,7 @@ export class ImportAssetsPopupComponent {
       }
 
       this.extractedAssets.push({
+        importId: this.curRow,
         asset: extractedAsset,
         errors: errors,
       });

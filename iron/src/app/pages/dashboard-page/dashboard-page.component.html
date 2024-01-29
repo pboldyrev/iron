@@ -30,7 +30,7 @@
                 <ng-template #loadedContent>
                     <mat-tab-group (selectedTabChange)="onTabChange($event)" *ngIf="((assets$ | async) ?? []).length > 0">
                         <mat-tab label="Assets">
-                            <div class="row g-0 gy-2 pt-2">
+                            <div class="row g-0 gy-2">
                                 <ng-container *ngFor="let accountAssets of (assetsByAccount$ | async)">
                                     <app-asset-table
                                         [tableTitle]="accountAssets.key"
@@ -45,7 +45,7 @@
                             </div>
                         </mat-tab>
                         <mat-tab label="Analytics" *ngIf="((assets$ | async) ?? []).length >= 3">
-                            <div class="row g-0 gy-2 mt-0">
+                            <div class="row g-0 gy-2">
                                 <app-ai-feedback
                                     *ngIf="((assets$ | async) ?? []).length >= 10"
                                     [assets$]="assets$"
