@@ -3,6 +3,19 @@
         <blu-heading size="s">
             {{ tableTitle }}
         </blu-heading>
+        <blu-button 
+                *ngIf="selection.hasValue()" 
+                type="error"  
+                (click)="isDeleteSelectedLoading ? null : onDeleteSelected()" 
+                [disabled]="isDeleteSelectedLoading"
+                [slim]="true"
+            >
+                <blu-spinner 
+                    *ngIf="isDeleteSelectedLoading" 
+                    [inlineSpace]="true"
+                ></blu-spinner>
+                Delete ({{selection.selected.length}})
+            </blu-button>
     </div>
     <div class="asset-table-data mb-1">
         <table
