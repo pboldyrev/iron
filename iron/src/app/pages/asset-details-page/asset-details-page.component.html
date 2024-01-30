@@ -37,7 +37,7 @@
                 [dynamicHeight]="true"
                 (selectedTabChange)="onTabClick($event)"
             >
-                <mat-tab [label]="TEXTS.TAB_HISTORICAL">
+                <mat-tab [label]="TEXTS.TAB_HISTORICAL" [disabled]="(isValuesLoading$ | async)">
                     <app-loading-state *ngIf="isValuesLoading$ | async" class="asset-details-loading-wrapper"></app-loading-state>
                     <app-value-history
                         [hidden]="(isValuesLoading$ | async)"
@@ -48,7 +48,7 @@
                         #valueHistory
                     ></app-value-history>
                 </mat-tab>
-                <mat-tab [label]="TEXTS.TAB_PROJECTION"
+                <mat-tab [label]="TEXTS.TAB_PROJECTION" [disabled]="(isValuesLoading$ | async)"
                     *ngIf="!(isValuesLoading$ | async) && 
                         ((asset$ | async)?.assetType === AssetType.Vehicle)"
                     >
@@ -58,7 +58,7 @@
                         #futureProjection
                     ></app-future-projection>
                 </mat-tab>
-                <mat-tab [label]="TEXTS.TAB_MORE_DETAILS">
+                <mat-tab [label]="TEXTS.TAB_MORE_DETAILS" [disabled]="(isValuesLoading$ | async)">
                     <app-loading-state *ngIf="isValuesLoading$ | async" class="asset-details-loading-wrapper"></app-loading-state>
                     <app-asset-more-details
                         *ngIf="!(isValuesLoading$ | async)"

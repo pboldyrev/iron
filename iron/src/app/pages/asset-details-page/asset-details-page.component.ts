@@ -79,7 +79,6 @@ export class AssetDetailsPageComponent implements AfterContentInit {
   onTabClick(tab: MatTabChangeEvent) {
     if(tab.tab.textLabel === TEXTS.TAB_HISTORICAL) {
       this.assetValues$.pipe(
-        skip(1),
         take(1)
       ).subscribe((data: AssetValue[]) => {
         this.valueHistory.updateChart(data);
