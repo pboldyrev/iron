@@ -75,7 +75,7 @@ export class BluInput {
         this.isValid = true;
         return value;
       }
-      if(this.regexService.isValidString(value, this.type)) {
+      if(value && this.regexService.isValidString(value, this.type)) {
         this.isValid = true;
         return value;
       }
