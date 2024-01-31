@@ -51,6 +51,7 @@ export class AddVehicleFormComponent implements AfterContentChecked {
       }
       if(asset.mileage && this.mileageInput) {
         this.mileageInput.value = asset.mileage.toString();
+        this.mileageInput.formatValue();
         this.isContentSet = true;
       }
       if(asset.initTimestamp && this.dateInput) {

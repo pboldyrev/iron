@@ -49,6 +49,7 @@ export class BluInput {
   ngOnInit() {
     if(this.initValue) {
       this.value = this.initValue;
+      this.formatValue();
     }
   }
 
@@ -81,7 +82,7 @@ export class BluInput {
       return "";
   }
 
-  onFocusOut(): void {
+  public formatValue(): void {
     let pipe: DisplayCurrencyPipe | DisplayIntegerPipe | DisplayPercentPipe;
     this.removeFormatting();
     switch (this.type) {

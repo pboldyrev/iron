@@ -35,10 +35,12 @@ export class AddCashFormComponent implements AfterContentChecked {
     this.asset$.subscribe((asset: Asset) => {
       if(asset.assetName && this.assetNameInput) {
         this.assetNameInput.value = asset.assetName;
+        this.assetNameInput.formatValue();
         this.isContentSet = true;
       }
       if(asset.appreciationRate && this.appreciationRateInput) {
         this.appreciationRateInput.value = asset.appreciationRate.toString();
+        this.appreciationRateInput.formatValue();
         this.isContentSet = true;
       }
     });

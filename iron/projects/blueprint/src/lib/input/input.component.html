@@ -24,7 +24,7 @@
     [disabled]="disabled"
     [value]="value"
     [maxLength]="maxChars"
-    (focusout)="onFocusOut()"
+    (focusout)="formatValue()"
     (input)="updateValue($event)"
   />
   <input
