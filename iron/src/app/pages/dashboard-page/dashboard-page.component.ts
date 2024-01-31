@@ -3,7 +3,6 @@ import { AfterContentInit, Component, ViewChild, ViewEncapsulation } from '@angu
 import { NetworthComponent } from '../../shared/components/networth/networth.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
-import { TEXTS } from './dashboard-page.strings';
 import { Asset, AssetType, AssetValue, ValueChange } from '../../shared/constants/constants';
 import { ValueChangeComponent } from '../../shared/components/value-change/value-change.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
@@ -46,7 +45,6 @@ export class DashboardPageComponent implements AfterContentInit {
   @ViewChild('topBar') topBar!: DashboardTopBarComponent;
   @ViewChild('assetTable') assetTable!: AssetTableComponent;
   
-  public TEXTS = TEXTS;
   public isNetworthLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isAssetsLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 

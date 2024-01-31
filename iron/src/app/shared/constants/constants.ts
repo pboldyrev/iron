@@ -54,6 +54,7 @@ export enum AssetType {
   Stock = 'stock',
   Vehicle = 'vehicle',
   Cash = 'cash',
+  Loan = 'loan',
 }
 
 export const TypeToDisplayName = {

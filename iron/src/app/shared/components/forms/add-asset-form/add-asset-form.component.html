@@ -51,7 +51,7 @@
                 [disabled]="submitDisabled"
             >
                 <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
-                {{ TEXTS.BTN_ADD }}
+                {{ assetType === AssetType.Loan ? TEXTS.BTN_ADD_LOAN : TEXTS.BTN_ADD_ASSET }}
             </blu-button>
         </div>
     </ng-container>

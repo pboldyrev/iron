@@ -38,7 +38,7 @@ export type BluIconName =
   | 'heroDocumentArrowUp'
   | 'selectFile'
   | 'sideCollapse'
-  | 'heroPower'
+  | 'loan'
   | string;
 
 export const BluToIconMap: {[index: string]:any} = {
@@ -74,4 +74,5 @@ export const BluToIconMap: {[index: string]:any} = {
   menu: 'ionMenuOutline',
   sideCollapse: 'heroArrowLeftOnRectangle',
   sideExpand: 'heroArrowRightOnRectangle',
+  loan: 'iconoirPiggyBank',
 };

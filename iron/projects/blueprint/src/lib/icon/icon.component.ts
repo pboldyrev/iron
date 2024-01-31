@@ -44,10 +44,13 @@ import {
 } from '@ng-icons/lucide';
 import {
   circumFileOn,
-} from '@ng-icons/circum-icons'
+} from '@ng-icons/circum-icons';
 import {
   ionMenuOutline
-} from '@ng-icons/ionicons'
+} from '@ng-icons/ionicons';
+import {
+  iconoirPiggyBank
+} from '@ng-icons/iconoir';
 import { BluIconName, BluToIconMap } from '../common/constants';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
@@ -97,6 +100,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
       heroArrowLeftOnRectangle,
       heroArrowRightOnRectangle,
       heroPower,
+      iconoirPiggyBank,
     }),
   ],
 })

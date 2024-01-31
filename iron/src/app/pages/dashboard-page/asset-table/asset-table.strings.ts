@@ -1,6 +1,5 @@
 export const TEXTS = {
     TABLE_TITLE: "Assets",
-    ACTION_CTA: "Add asset",
     BTN_DELETE: "Delete",
     TOTAL: "TOTAL",
     ASSET_TITLE: "Asset name",

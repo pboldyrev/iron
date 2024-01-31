@@ -16,6 +16,11 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
+.blu-button:hover {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
 .blu-button-icon-only {
   padding: var(--blu-padding-l);
 }
@@ -26,17 +31,20 @@
   align-items: center;
 }
 
-.blu-button-full-width {
-  width: var(--blu-width-full);
-}
-
 .blu-button-primary {
   background-color: var(--blu-color-brand);
+  border: 1px solid var(--blu-color-brand);
   color: var(--blu-color-primary);
 }
 
 .blu-button-primary:hover {
   border: 1px solid var(--blu-color-brand-highlight);
+}
+
+.blu-button-secondary {
+  background-color: var(--blu-background-secondary);
+  border: var(--blu-border-tertiary);
+  color: var(--blu-color-primary);
 }
 
 .blu-button-secondary:hover{
@@ -61,17 +69,6 @@
 
 .blu-button-info:hover {
   border: 1px solid var(--blu-color-info);
-}
-
-.blu-button:hover {
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.blu-button-secondary {
-  background-color: var(--blu-background-secondary);
-  border: var(--blu-border-tertiary);
-  color: var(--blu-color-primary);
 }
 
 .blu-button-tertiary {
