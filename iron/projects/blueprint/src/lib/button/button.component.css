@@ -45,6 +45,7 @@
 
 .blu-button-error {
   background-color: var(--blu-color-error-background);
+  border: 1px solid var(--blu-color-error-background);
   color: var(--blu-color-primary);
 }
 

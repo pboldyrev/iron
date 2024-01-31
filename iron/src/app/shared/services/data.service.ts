@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Asset, AssetType, AssetValue, ANALYTICS } from '../constants/constants';
-import { BehaviorSubject, Observable, combineLatest, concat, delay, map, merge, mergeMap, of, take, tap, toArray } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, concat, delay, map, merge, mergeMap, of, take, tap, throwError, toArray } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
@@ -9,6 +9,8 @@ import { AnalyticsService } from './analytics.service';
 import { environment } from 'src/environments';
 import { SYMBOLS } from 'src/assets/data/valid_symbols';
 import { PlanName } from 'src/app/pages/settings-page/billing/billing.constants';
+
+export const BATCH_SIZE = 9;
 
 @Injectable({
   providedIn: 'root'
@@ -228,6 +230,23 @@ export class DataService {
     )
   }
 
+  private batchAndExecute$(calls$: Observable<any>[]): Observable<any> {
+    const groupedResponses: Observable<Asset>[][] = [];
+    
+    while(calls$.length) {
+      groupedResponses.push(calls$.splice(0, BATCH_SIZE));
+    }
+    
+    return concat(
+      ...groupedResponses.map((group) => merge(...group))
+    ).pipe(
+      toArray(),
+      tap(() => {
+        this.dataChanged$.next(true);
+      })
+    );
+  }
+
   public putAssets$(assets: Asset[], tracker$: Observable<boolean>[] = []): Observable<Asset[]> {
     let assetsToImport$ = [] as Observable<Asset>[];
 
@@ -244,21 +263,8 @@ export class DataService {
         importObservable$, 
         false));
     });
-    const batchSize = 9;
-    const groupedResponses: Observable<Asset>[][] = [];
     
-    while(assetsToImport$.length) {
-      groupedResponses.push(assetsToImport$.splice(0, batchSize));
-    }
-    
-    return concat(
-      ...groupedResponses.map((group) => merge(...group))
-    ).pipe(
-      toArray(),
-      tap(() => {
-        this.dataChanged$.next(true);
-      })
-    );
+    return this.batchAndExecute$(assetsToImport$);
   }
 
   public putAsset$(asset: Asset, initialValue: AssetValue | null, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {
@@ -336,6 +342,18 @@ export class DataService {
         }
       })
     )
+  }
+
+  public deleteAssets$(assetIds: string[], tracker$: Observable<boolean>[] = []): Observable<Asset> {
+    let assetsToDelete$ = [] as Observable<Asset>[];
+
+    assetIds.forEach((id: string) => {
+      let importObservable$ = new BehaviorSubject<boolean>(false);
+      tracker$.push(importObservable$);
+      assetsToDelete$.push(this.deleteAsset$(id, importObservable$, false));
+    });
+    
+    return this.batchAndExecute$(assetsToDelete$);
   }
 
   public deleteAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {

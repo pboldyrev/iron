@@ -3,7 +3,7 @@ export const REGEX = {
   PASSWORD: new RegExp('^.{8,}$'),
   TEXT: new RegExp('^.+$'),
   NUMBER: new RegExp('^([0-9]*\.)?[0-9]+$'),
-  CURRENCY: new RegExp('^([0-9]*\.)?[0-9]+$'),
+  CURRENCY: new RegExp('^[-]?[$]?([0-9]*\.)?[0-9]+$'),
   VIN: new RegExp('[(A-H|J-N|P|R-Z|0-9)]{17,}'),
   PHONE: new RegExp('^[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$'),
   INTEGER: new RegExp('^[1-9]+[0-9]*$'),

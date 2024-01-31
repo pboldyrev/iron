@@ -12,11 +12,7 @@ export class DisplayCurrencyPipe implements PipeTransform {
 
     let valueAsString;
 
-    if(Math.abs(value) < 1) {
-      valueAsString = value.toFixed(2);
-    } else {
-      valueAsString = value.toFixed(0);
-    }
+    valueAsString = value.toFixed(2);
 
     if(valueAsString.charAt(0) === "-") {
       valueAsString = valueAsString.substring(1);

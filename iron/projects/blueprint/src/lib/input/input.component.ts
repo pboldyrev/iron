@@ -57,30 +57,49 @@ export class BluInput {
     this.isValid = true;
   }
 
-  public removeFormatting(value: string) {
+  private removeFormatting(): void {
     if(this.type === "INTEGER") {
-      value = value.replaceAll(/[^\d-]/g,'');
+      this.value = this.value.replaceAll(/[^\d-]/g,'');
     }
 
     if(this.type === "CURRENCY" || this.type === "NUMBER") {
-      value = value.replaceAll(/[^\d.-]/g,'');
+      this.value = this.value.replaceAll(/[^\d.-]/g,'');
     }
-
-    return value;
   }
 
   public validate(): string {
-      let value = this.removeFormatting(this.value);
-      if(!this.required && (value === "" || !value)) {
+      this.removeFormatting();
+      if(!this.required && (this.value === "" || !this.value)) {
         this.isValid = true;
-        return value;
+        return this.value;
       }
-      if(value && this.regexService.isValidString(value, this.type)) {
+      if(this.value && this.regexService.isValidString(this.value, this.type)) {
         this.isValid = true;
-        return value;
+        return this.value;
       }
       this.isValid = false
       return "";
+  }
+
+  onFocusOut(): void {
+    let pipe: DisplayCurrencyPipe | DisplayIntegerPipe | DisplayPercentPipe;
+    this.removeFormatting();
+    switch (this.type) {
+      case 'INTEGER':
+        pipe = new DisplayIntegerPipe();
+        this.value = pipe.transform(this.value);
+        break;
+      case 'CURRENCY':
+        pipe = new DisplayCurrencyPipe();
+        this.value = pipe.transform(parseFloat(this.value));
+        break;
+      case 'PERCENT':
+        pipe = new DisplayPercentPipe();
+        this.value = pipe.transform(parseFloat(this.value));
+        break;
+      default:
+        break;
+    }
   }
 
   public clearValueAndValidators(): void {

@@ -30,6 +30,7 @@ import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/pr
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
+import { cloneDeep } from 'lodash';
 
 export type AssetTableColumn = 
   "select" |
@@ -75,7 +76,6 @@ export class AssetTableComponent {
   @Input() columns!: AssetTableColumn[];
   @Input() footerColumns!: AssetTableColumn[];
   @Input() assets$!: Observable<Asset[]>;
-  @Input() loadingIndicator$!: BehaviorSubject<boolean>
   @Input() tableTitle = "";
   @Input() displayAssets: Asset[] = [];
 
@@ -95,13 +95,10 @@ export class AssetTableComponent {
     private dataService: DataService,
     private navigationService: NavigationService,
     private toastService: ToastService,
-    private preferencesService: PreferencesService,
   ){}
 
   ngOnInit() {
-    this.assets$.subscribe((assets: Asset[]) => {
-      this.updateTotals();
-    });
+    this.updateTotals();
   }
 
   public updateTotals(): void {
@@ -115,10 +112,24 @@ export class AssetTableComponent {
     this.initTotal = initTotal;
   }
 
-  public onDeleteAsset(asset: Asset): void {
-    this.dataService.deleteAsset$(asset.assetId ?? "", this.loadingIndicator$).subscribe(() => {
-      this.toastService.showToast("Successfully deleted " + asset.assetName, FeedbackType.SUCCESS);
+  public onDeleteAsset(assetToDelete: Asset): void {
+    const originalAssets = cloneDeep(this.displayAssets);
+    this.displayAssets = this.displayAssets.filter((asset: Asset) => {
+      return assetToDelete.assetId !== asset.assetId;
     });
+
+    this.dataService.deleteAsset$(assetToDelete.assetId ?? "", null)
+    .pipe(
+      tap({
+        next: () => {
+          this.toastService.showToast("Successfully deleted " + assetToDelete.assetName, FeedbackType.SUCCESS);
+          this.updateTotals();
+        },
+        error: () => {
+          this.displayAssets = originalAssets;
+        }
+      })
+    ).subscribe();
   }
 
   public onDetailsAsset(asset: Asset): void {
@@ -136,44 +147,30 @@ export class AssetTableComponent {
   }
 
   onDeleteSelected(): void {
-    let toBeDeleted$ = [] as Observable<Asset>[];
-    this.selection.selected.forEach((asset: Asset) => {
-      toBeDeleted$.push(this.dataService.deleteAsset$(asset.assetId ?? '', null, false))
-    });
-
     this.isDeleteSelectedLoading = true;
 
-    const batchSize = 9;
-    const groupedResponses: Observable<Asset>[][] = [];
-    
-    while(toBeDeleted$.length) {
-      groupedResponses.push(toBeDeleted$.splice(0, batchSize));
-    }
-    
-    concat(
-      ...groupedResponses.map((group) => merge(...group))
-    ).pipe(
-      toArray(),
+    this.dataService.deleteAssets$(this.selection.selected.map((asset: Asset) => asset.assetId ?? ''))
+    .pipe(
       tap({
-        error: () => {
-          this.isDeleteSelectedLoading = false;
-        },
         next: () => {
+          this.updateTotals();
           this.isDeleteSelectedLoading = false;
           this.dataService.dataChanged$.next(true);
+          this.toastService.showToast("Successfully deleted " + this.selection.selected.length + " asset" + ((this.selection.selected.length > 1) ? 's' : ''), FeedbackType.SUCCESS);
+        },
+        error: () => {
+          this.isDeleteSelectedLoading = false;
         }
       })
     ).subscribe();
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.displayAssets.length;
     return numSelected == numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
