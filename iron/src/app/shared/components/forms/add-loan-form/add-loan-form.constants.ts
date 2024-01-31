@@ -1,0 +1,1 @@
+export const FREQUENCY_OPTIONS = ["Weekly", "Bi-weekly", "Monthly", "Quarterly", "Semi-annually", "Annually"]

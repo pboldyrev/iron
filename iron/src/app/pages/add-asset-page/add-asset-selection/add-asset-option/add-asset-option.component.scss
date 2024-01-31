@@ -11,15 +11,11 @@
 .add-asset-option-wrapper:hover {
     transition: 0.2s;
     background-color: var(--blu-color-brand);
+    border: var(--blu-border-brand);
 
     .add-asset-option-icon {
         color: var(--blu-color-primary);
     }
-}
-
-.add-asset-option-wrapper:active {
-    transition: 0.5s;
-    scale: 0.9;
 }
 
 .add-asset-option-wrapper-primary {

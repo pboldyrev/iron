@@ -1,0 +1,45 @@
+<div class="row g-3 mb-3">
+    <div class="col-7">
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.LABEL_NAME"
+            [required]="true"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="TEXT"
+            #loanName
+        ></blu-input>
+    </div>
+    <div class="col-5">
+        <blu-select 
+            [label]="TEXTS.LABEL_FREQ"
+            [required]="true"
+            [disabled]="(isLoading$ | async) ?? false"
+            [options]="FREQUENCY_OPTIONS"
+            [selected]="FREQUENCY_OPTIONS[0]"
+            #paymentFrequency
+        ></blu-select>
+    </div>
+    <div class="col-5">
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.LABEL_PAYMENT_AMT"
+            [required]="true"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="CURRENCY"
+            #paymentAmount
+        ></blu-input>
+    </div>
+    <div class="col-7">
+        <blu-input 
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR" 
+            [label]="TEXTS.LABEL_TOTAL_LOAN"
+            [required]="true"
+            [disabled]="(isLoading$ | async) ?? false"
+            type="CURRENCY"
+            #totalLoan
+        ></blu-input>
+    </div>
+</div>

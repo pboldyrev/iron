@@ -21,11 +21,12 @@ import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AddLoanFormComponent } from '../add-loan-form/add-loan-form.component';
 
 @Component({
   selector: 'app-add-asset-form',
   standalone: true,
-  imports: [CommonModule, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCashFormComponent, BluSelect, BluText, BluLink, BluPopup, BluModal],
+  imports: [CommonModule, AddLoanFormComponent, AddVehicleFormComponent, BluButton, BluSpinner, BluHeading, BluInput, MatTooltipModule, AddStockFormComponent, AddCashFormComponent, BluSelect, BluText, BluLink, BluPopup, BluModal],
   templateUrl: './add-asset-form.component.html',
   styleUrl: './add-asset-form.component.scss'
 })

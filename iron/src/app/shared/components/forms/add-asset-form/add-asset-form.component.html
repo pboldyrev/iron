@@ -33,6 +33,13 @@
     [isAdd]="isAdd"
     #customForm
 ></app-add-cash-form>
+<add-loan-form
+    *ngIf="assetType === AssetType.Loan"
+    [asset$]="asset$"
+    [isLoading$]="isLoading$"
+    [isAdd]="isAdd"
+    #customForm
+></add-loan-form>
 <div class="row g-3">
     <ng-container *ngIf="isAdd else isUpdate">
         <div class="col-md-4 order-md-1 order-2">
