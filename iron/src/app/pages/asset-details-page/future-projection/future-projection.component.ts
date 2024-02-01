@@ -72,7 +72,7 @@ export class FutureProjectionComponent {
     const timeframe = this.timeframeInput.selected;
     const timeframeAsNum = parseInt(timeframe.split(' ')[0]);
     this.selectedTimeframe = timeframe;
-    this.selectedRate = (rate * 100) + "%";
+    this.selectedRate = (rate * 100).toFixed(2) + "%";
     let projections = this.getValueProjections(rate, timeframeAsNum);
 
     if(this.projectionChart) {
