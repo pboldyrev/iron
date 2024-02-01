@@ -22,7 +22,9 @@ export class FutureProjectionComponent {
   @ViewChild("depreciationRateInput") depreciationRateInput!: BluInput;
   @ViewChild("timeframeInput") timeframeInput!: BluSelect;
   
+  @Input() asset$ = new Observable<Asset>();
   @Input() assetName = "";
+  @Input() assetType = AssetType.Vehicle;
   @Input() assetValues = [] as AssetValue[];
   projectionChart: Chart | null = null;
 
@@ -37,6 +39,22 @@ export class FutureProjectionComponent {
   valueProjection = "";
   selectedTimeframe = "";
   selectedRate = "";
+  isDepreciation = true;
+
+  ngAfterContentChecked() {
+    this.asset$.subscribe((asset: Asset) => {
+      if(!this.depreciationRateInput) {
+        return;
+      }
+      this.isDepreciation = asset.assetType === AssetType.Vehicle;
+      if(asset.assetType === AssetType.Cash) {
+        this.depreciationRateInput.value = (asset.appreciationRate ?? 0).toString();
+        this.depreciationRateInput.formatValue();
+      } else {
+        this.depreciationRateInput.value = "0.15";
+      }
+    });
+  }
 
   updateChart(): void {
     if(!this.depreciationRateInput.validate() || 
@@ -44,9 +62,9 @@ export class FutureProjectionComponent {
       return;
     }
 
-    const rate = parseFloat(this.depreciationRateInput.value);
+    const rate = parseFloat(this.depreciationRateInput.value) / 100;
     if(Math.abs(rate) > 1) {
-      this.depreciationRateInput.customFeedback = "The depreciation rate must be between 0 and 1."
+      this.depreciationRateInput.customFeedback = "The " + this.isDepreciation ? "depreciation rate" : "APY" + " must be between 0% and 100%."
       this.depreciationRateInput.isValid = false;
       return;
     }
@@ -78,7 +96,11 @@ export class FutureProjectionComponent {
     const monthInMs = 2629800000;
 
     for(let i = 1; i < 12 * years; ++i) {
-      latestValue = latestValue * (1-(appreciationRate/12));
+      if(this.isDepreciation) {
+        latestValue = latestValue * (1-(appreciationRate/12));
+      } else {
+        latestValue = latestValue * (1+(appreciationRate/12));
+      }
       projection.push({
         timestamp: latestDate + i * monthInMs,
         totalValue: latestValue,

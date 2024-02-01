@@ -4,19 +4,19 @@
 <blu-modal>
     <div class="future-projection-summary">
         <blu-text type="primary">
-            After {{selectedTimeframe}}, at a {{selectedRate}} depreciation rate, your {{assetName}} will likely be worth ${{valueProjection}}.
+            After {{selectedTimeframe}}, at a {{selectedRate}} {{isDepreciation ? 'depreciation rate' : 'APY'}}, {{assetName}} will likely be worth ${{valueProjection}}.
         </blu-text>
     </div>
 <div class="row g-3">
     <div class="col-sm-6">
         <blu-input 
+            [disabled]="!isDepreciation"
             [fullWidth]="true"
             [feedbackType]="FeedbackType.ERROR" 
             [required]="true"
-            tooltip="The rate at which you expect the vehicle to lose value. The industry average is 0.15."
-            label="Depreciation rate"
-            type="NUMBER"
-            initValue="0.15"
+            [tooltip]="isDepreciation ? 'The rate at which you expect the vehicle to lose value. The industry average is 0.15.' : 'You can modify this in asset details.'"
+            [label]="isDepreciation ? 'Depreciation rate' : 'Annual Percentage Yield (APY)'"
+            type="PERCENT"
             #depreciationRateInput
         ></blu-input>
     </div>

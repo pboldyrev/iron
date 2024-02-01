@@ -57,7 +57,7 @@ export class AddCashFormComponent implements AfterContentChecked {
       return {};
     }
 
-    if(!assetName || !appreciationRate || !curValue) {
+    if(!assetName || !appreciationRate || (!curValue && this.isAdd)) {
       return {};
     }
 

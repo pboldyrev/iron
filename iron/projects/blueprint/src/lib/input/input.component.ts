@@ -63,7 +63,7 @@ export class BluInput {
       this.value = this.value.replaceAll(/[^\d-]/g,'');
     }
 
-    if(this.type === "CURRENCY" || this.type === "NUMBER") {
+    if(this.type === "CURRENCY" || this.type === "NUMBER" || this.type === "PERCENT") {
       this.value = this.value.replaceAll(/[^\d.-]/g,'');
     }
   }
