@@ -36,6 +36,13 @@ export type CashAttributes = {
   appreciationRate?: number;
 }
 
+export type LoanAttributes = {
+  loanName?: string;
+  paymentAmount?: number;
+  paymentFrequency?: string;
+  totalLoanAmount?: number;
+}
+
 export type BaseAsset = {
   assetId?: string,
   userId?: string,
@@ -48,7 +55,7 @@ export type BaseAsset = {
   isArchived?: boolean,
 }
 
-export type Asset = BaseAsset & VehicleAttributes & StockAttributes & CashAttributes;
+export type Asset = BaseAsset & VehicleAttributes & StockAttributes & CashAttributes & LoanAttributes;
 
 export enum AssetType {
   Stock = 'stock',

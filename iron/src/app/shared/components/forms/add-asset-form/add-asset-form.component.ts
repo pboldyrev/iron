@@ -36,6 +36,7 @@ export class AddAssetFormComponent {
   @ViewChild('vehicleForm') vehicleForm!: AddVehicleFormComponent;
   @ViewChild('customForm') customForm!: AddCashFormComponent;
   @ViewChild('stockForm') stockForm!: AddStockFormComponent;
+  @ViewChild('loanForm') loanForm!: AddLoanFormComponent;
 
   @Input() assetType!: AssetType;
   @Input() isAdd!: boolean;
@@ -98,34 +99,12 @@ export class AddAssetFormComponent {
           return this.dataService.updateAsset$({assetId: asset.assetId, ...assetPayload}, this.isLoading$);
         }
 
-        if (this.assetType === AssetType.Vehicle) {
-          const initValue: AssetValue = {
-            timestamp: customAttributes.initTimestamp ?? 0,
-            totalValue: customAttributes.initTotalValue ?? 0,
-            units: 1,
-          };
-          return this.dataService.putAsset$(assetPayload, initValue, this.isLoading$);
-        }
-
-        if (this.assetType === AssetType.Stock) {
-          const initValue: AssetValue = {
-            timestamp: customAttributes.initTimestamp ?? 0,
-            totalValue: 0,
-            units: customAttributes.initUnits ?? 1,
-          };
-          return this.dataService.putAsset$(assetPayload, initValue, this.isLoading$);
-        }
-
-        if (this.assetType === AssetType.Cash) {
-          const initValue: AssetValue = {
-            timestamp: customAttributes.initTimestamp ?? 0,
-            totalValue: customAttributes.initTotalValue ?? 0,
-            units: 1,
-          };
-          return this.dataService.putAsset$(assetPayload, initValue, this.isLoading$);
-        }
-
-        return this.dataService.putAsset$(assetPayload, null, this.isLoading$);
+        const initValue: AssetValue = {
+          timestamp: customAttributes.initTimestamp ?? 0,
+          totalValue: customAttributes.initTotalValue ?? 0,
+          units: customAttributes.initUnits ?? 1,
+        };
+        return this.dataService.putAsset$(assetPayload, initValue, this.isLoading$);
       
       }),
     ).subscribe({
@@ -138,7 +117,7 @@ export class AddAssetFormComponent {
     });
   }
 
-  private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | AddCashFormComponent | null {
+  private getSubForm(): AddVehicleFormComponent | AddStockFormComponent | AddCashFormComponent | AddLoanFormComponent | null {
     switch (this.assetType) {
       case AssetType.Vehicle:
         return this.vehicleForm;
@@ -146,6 +125,8 @@ export class AddAssetFormComponent {
         return this.customForm;
       case AssetType.Stock:
         return this.stockForm;
+      case AssetType.Loan:
+        return this.loanForm;
       default:
         return null;
     }

@@ -36,15 +36,45 @@ export class AddLoanFormComponent implements AfterContentChecked {
       return;
     }
 
-    // this.asset$.subscribe((asset: Asset) => {
-    //   if(asset.ticker && this.tickerInput) {
-    //     this.tickerInput.value = asset.ticker;
-    //     this.isContentSet = true;
-    //   }
-    //   if(asset.initTimestamp && this.purchaseDateInput) {
-    //     this.purchaseDateInput.value = asset.initTimestamp.toString();
-    //     this.isContentSet = true;
-    //   }
-    // });
+    this.asset$.subscribe((asset: Asset) => {
+      if(asset.loanName && this.loanNameInput) {
+        this.loanNameInput.value = asset.loanName;
+        this.isContentSet = true;
+      }
+      if(asset.totalLoanAmount && this.totalLoanInput) {
+        this.totalLoanInput.value = asset.totalLoanAmount.toString();
+        this.isContentSet = true;
+      }
+      if(asset.paymentAmount && this.paymentAmountInput) {
+        this.paymentAmountInput.value = asset.paymentAmount.toString();
+        this.isContentSet = true;
+      }
+      if(asset.paymentFrequency && this.paymentFrequencyInput) {
+        this.paymentFrequencyInput.selected = asset.paymentFrequency.toString();
+        this.isContentSet = true;
+      }
+    });
+  }
+
+  public onSubmit(): Asset {
+    const loanName = this.loanNameInput.validate();
+    const totalLoan = this.totalLoanInput.validate();
+    const paymentAmount = this.paymentAmountInput.validate();
+    const paymentFrequency = this.paymentFrequencyInput.validate();
+
+    if(!loanName || !totalLoan || !paymentAmount || !paymentFrequency) {
+      return {};
+    }
+
+    let assetObj: Asset = {
+      loanName: loanName,
+      totalLoanAmount: parseFloat(totalLoan),
+      paymentAmount: parseFloat(paymentAmount),
+      paymentFrequency: paymentFrequency,
+      initTotalValue: -parseFloat(totalLoan),
+      initTimestamp: new Date(new Date().toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf(),
+    };
+
+    return assetObj;
   }
 }

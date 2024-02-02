@@ -3,7 +3,6 @@
         <div class="col">
             <blu-select
                 [label]="TEXTS.LABEL_ACCOUNT"
-                [selected]="accountOptions[0]"
                 [required]="true"
                 [options]="accountOptions"
                 [disabled]="(isLoading$ | async) ?? false"
@@ -38,7 +37,7 @@
     [asset$]="asset$"
     [isLoading$]="isLoading$"
     [isAdd]="isAdd"
-    #customForm
+    #loanForm
 ></add-loan-form>
 <div class="row g-3">
     <ng-container *ngIf="isAdd else isUpdate">

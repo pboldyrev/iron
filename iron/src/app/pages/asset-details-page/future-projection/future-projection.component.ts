@@ -51,7 +51,7 @@ export class FutureProjectionComponent {
         this.depreciationRateInput.value = (asset.appreciationRate ?? 0).toString();
         this.depreciationRateInput.formatValue();
       } else {
-        this.depreciationRateInput.value = "0.15";
+        this.depreciationRateInput.value = "15%";
       }
     });
   }
