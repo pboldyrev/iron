@@ -31,6 +31,7 @@ export type GroupSummary = {
 export class AccountSummaryComponent {
   @ViewChild('assetSummaryChart') assetSummaryChart!: Chart;
   @ViewChild('accountSummaryChart') accountSummaryChart!: Chart;
+  @ViewChild('typeSummaryChart') typeSummaryChart!: Chart;
   @Input() assets$!: Observable<Asset[]>;
   @Input() renderChart$!: Observable<boolean>;
   
@@ -48,6 +49,7 @@ export class AccountSummaryComponent {
       tap(([data, renderChart]: [Asset[], boolean]) => {
         let assetSummaryChartData = this.getAssetSummaryChartData(data);
         let accountSummaryChartData = this.getAccountSummaryChartData(data);
+        let typeSummaryChartData = this.getTypeSummaryChartData(data);
 
         if(this.assetSummaryChart) {
           this.assetSummaryChart.data = this.chartService.getDataSetPie(assetSummaryChartData);
@@ -57,10 +59,17 @@ export class AccountSummaryComponent {
         }
 
         if(this.accountSummaryChart) {
-          this.assetSummaryChart.data = this.chartService.getDataSetPie(accountSummaryChartData);
-          this.assetSummaryChart.update();
+          this.accountSummaryChart.data = this.chartService.getDataSetPie(accountSummaryChartData);
+          this.accountSummaryChart.update();
         } else {
-          this.assetSummaryChart = new Chart('accountSummaryChart', this.chartService.getPieOptions(accountSummaryChartData));
+          this.accountSummaryChart = new Chart('accountSummaryChart', this.chartService.getPieOptions(accountSummaryChartData));
+        }
+
+        if(this.typeSummaryChart) {
+          this.typeSummaryChart.data = this.chartService.getDataSetPie(typeSummaryChartData);
+          this.typeSummaryChart.update();
+        } else {
+          this.typeSummaryChart = new Chart('typeSummaryChart', this.chartService.getPieOptions(typeSummaryChartData));
         }
       })
     ).subscribe();
@@ -171,5 +180,54 @@ export class AccountSummaryComponent {
     topAccounts.sort((a, b) => { return b.assetValue - a.assetValue });
     
     return topAccounts.slice(0, 5);
+  }
+
+  private getTypeSummaryChartData(assets: Asset[]): GroupSummary[] {
+    let topTypes = [] as GroupSummary[];
+
+    let totalValue = this.getTotalValue(assets);
+
+    assets.sort((a, b) => {return (b.curTotalValue ?? 0) - (a.curTotalValue ?? 0)});
+    assets.forEach((asset: Asset) => {
+      let existingSummary = topTypes.find((group: GroupSummary) => group.name === this.capitalizeFirstLetter(asset.assetType));
+      if(existingSummary) {
+        existingSummary.assetValue += asset.curTotalValue ?? 0;
+      } else {
+        topTypes.push({
+          name: this.capitalizeFirstLetter(asset.assetType),
+          assetValue: asset.curTotalValue ?? 0,
+          percentageAssets: (asset.curTotalValue ?? 0)/totalValue * 100,
+        });
+      }
+    });
+
+    topTypes.sort((a, b) => {return (b.assetValue ?? 0) - (a.assetValue ?? 0)});
+
+    if(topTypes.length > 5) {
+      let otherAccounts: GroupSummary = {
+        name: "Other accounts",
+        assetValue: 0,
+        percentageAssets: 0,
+      }
+
+      topTypes.slice(4).forEach((summary: GroupSummary) => {
+        otherAccounts.assetValue += summary.assetValue;
+      });
+
+      otherAccounts.percentageAssets = otherAccounts.assetValue / totalValue * 100;
+
+      topTypes.push(otherAccounts);
+    }
+
+    topTypes.sort((a, b) => { return b.assetValue - a.assetValue });
+    
+    return topTypes.slice(0, 5);
+  }
+
+  private capitalizeFirstLetter(str: string | undefined) {
+    if(!str) {
+      return "";
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }

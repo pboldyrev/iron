@@ -1,13 +1,27 @@
 <blu-modal>
-    <div class="row">
+    <div class="row g-3">
         <div class="col-12 col-md-6">
             <div class="account-summary-chart">
                 <canvas id="assetSummaryChart">{{ assetSummaryChart }}</canvas>
+            </div>
+            <div class="account-summary-text-wrapper">
+                <blu-heading size="s" type="secondary">Summary by asset</blu-heading>
             </div>
         </div>
         <div class="col-12 col-md-6">
             <div class="account-summary-chart">
                 <canvas id="accountSummaryChart">{{ accountSummaryChart }}</canvas>
+            </div>
+            <div class="account-summary-text-wrapper">
+                <blu-heading size="s" type="secondary">Summary by account</blu-heading>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="account-summary-chart">
+                <canvas id="typeSummaryChart">{{ typeSummaryChart }}</canvas>
+            </div>
+            <div class="account-summary-text-wrapper">
+                <blu-heading size="s" type="secondary">Summary by asset type</blu-heading>
             </div>
         </div>
     </div>

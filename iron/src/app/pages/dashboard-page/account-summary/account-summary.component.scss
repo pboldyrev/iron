@@ -1,3 +1,8 @@
 .account-summary-chart {
-    padding: var(--blu-padding-xxl);
+    position: relative;
+}
+
+.account-summary-text-wrapper {
+    width: fit-content;
+    margin: var(--blu-margin-m) auto 0;
 }
