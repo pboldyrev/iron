@@ -35,7 +35,7 @@
                 </blu-button>
                 <blu-button *ngIf="plan.selected && plan.price !== 'Free'" type="secondary" [fullWidth]="true" class="mt-3" (click)="cancelClicked ? null : onCancelClicked()">
                     <blu-spinner *ngIf="upgradeClicked" [inlineSpace]="true"></blu-spinner>
-                    {{ TEXTS.BTN_CANCEL }}
+                    {{ TEXTS.BTN_MANAGE }}
                 </blu-button>
             </div>
     </blu-modal>
