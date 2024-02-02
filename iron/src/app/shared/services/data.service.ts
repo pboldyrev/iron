@@ -7,7 +7,6 @@ import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { AnalyticsService } from './analytics.service';
 import { environment } from 'src/environments';
-import { SYMBOLS } from 'src/assets/data/valid_symbols';
 import { PlanName } from 'src/app/pages/settings-page/billing/billing.constants';
 
 export const BATCH_SIZE = 9;
@@ -56,7 +55,6 @@ export class DataService {
             units: -1,
           } as AssetValue
         });
-        totalValues = this.addTodaysValueIfMissing(totalValues);
         return totalValues;
       }),
       tap({
@@ -69,6 +67,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to get user networth values", { options: options });
         }
       })
     );
@@ -93,6 +92,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to get assets for user");
         }
       })
     );
@@ -125,6 +125,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to get asset values", { assetId: assetId });
         }
       })
     );
@@ -156,6 +157,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to get asset by ID", { assetId: assetId });
         }
       })
     );
@@ -194,6 +196,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to put asset value", { assetId: assetId, options: options });
         }
       })
     );
@@ -225,26 +228,10 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to delete asset value", { assetId: assetId, options: options });
         }
       })
     )
-  }
-
-  private batchAndExecute$(calls$: Observable<any>[]): Observable<any> {
-    const groupedResponses: Observable<Asset>[][] = [];
-    
-    while(calls$.length) {
-      groupedResponses.push(calls$.splice(0, BATCH_SIZE));
-    }
-    
-    return concat(
-      ...groupedResponses.map((group) => merge(...group))
-    ).pipe(
-      toArray(),
-      tap(() => {
-        this.dataChanged$.next(true);
-      })
-    );
   }
 
   public putAssets$(assets: Asset[], tracker$: Observable<boolean>[] = []): Observable<Asset[]> {
@@ -264,7 +251,13 @@ export class DataService {
         false));
     });
     
-    return this.batchAndExecute$(assetsToImport$);
+    return this.batchAndExecute$(assetsToImport$).pipe(
+      tap({
+        error: () => {
+          this.analyticsService.track("Failed to create multiple assets", { assets: assets });
+        }
+      })
+    );
   }
 
   public putAsset$(asset: Asset, initialValue: AssetValue | null, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {
@@ -272,7 +265,7 @@ export class DataService {
       loadingIndicator.next(true);
     }
 
-    let assetPayload;
+    let assetPayload: any;
 
     if(initialValue) {
       assetPayload = {
@@ -308,6 +301,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to create asset", { assetPayload: assetPayload });
         }
       })
     )
@@ -339,6 +333,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to update asset", { asset: asset });
         }
       })
     )
@@ -353,7 +348,14 @@ export class DataService {
       assetsToDelete$.push(this.deleteAsset$(id, importObservable$, false));
     });
     
-    return this.batchAndExecute$(assetsToDelete$);
+    return this.batchAndExecute$(assetsToDelete$)
+    .pipe(
+      tap({
+        error: () => {
+          this.analyticsService.track("Failed to bulk delete assets", { assetIds: assetIds });
+        }
+      })
+    );
   }
 
   public deleteAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {
@@ -378,6 +380,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to delete asset", { assetId: assetId });
         }
       })
     )
@@ -399,13 +402,21 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to get user");
         }
       })
     )
   }
 
   public removeUser$(): Observable<void> {
-    return this.httpPost("removeUser");
+    return this.httpPost("removeUser")
+    .pipe(
+      tap({
+        error: () => {
+          this.analyticsService.track("Failed to delete user");
+        }
+      })
+    );
   }
 
   public createStripeCheckoutSession$(planName: PlanName): Observable<Asset> {
@@ -415,7 +426,14 @@ export class DataService {
       cancelUrl: "https://finacle.app/settings",
     }
 
-    return this.httpPost("createStripeCheckoutSession", payload);
+    return this.httpPost("createStripeCheckoutSession", payload)
+    .pipe(
+      tap({
+        error: () => {
+          this.analyticsService.track("Failed to create stripe checkout session", { payload: payload });
+        }
+      })
+    );
   }
 
   private fetchUserAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
@@ -437,6 +455,7 @@ export class DataService {
           if (loadingIndicator) {
             loadingIndicator.next(false);
           }
+          this.analyticsService.track("Failed to fetch user assets");
         }
       })
     )
@@ -478,21 +497,20 @@ export class DataService {
     )
   }
 
-  private addTodaysValueIfMissing(totalValues: AssetValue[]): AssetValue[] {
-    if(totalValues.length === 0) {
-      return [];
+  private batchAndExecute$(calls$: Observable<any>[]): Observable<any> {
+    const groupedResponses: Observable<Asset>[][] = [];
+    
+    while(calls$.length) {
+      groupedResponses.push(calls$.splice(0, BATCH_SIZE));
     }
-
-    const day = 86400000;
-
-    if(totalValues[totalValues.length-1].timestamp  < (new Date()).valueOf() - day) {
-      totalValues.push({
-        timestamp: (new Date()).valueOf(),
-        totalValue: totalValues[totalValues.length-1].totalValue,
-        units: totalValues[totalValues.length-1].units,
+    
+    return concat(
+      ...groupedResponses.map((group) => merge(...group))
+    ).pipe(
+      toArray(),
+      tap(() => {
+        this.dataChanged$.next(true);
       })
-    }
-   
-    return totalValues;
+    );
   }
 }
