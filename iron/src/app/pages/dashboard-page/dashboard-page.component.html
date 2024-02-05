@@ -60,15 +60,15 @@
                         </mat-tab>
                         <mat-tab label="Analytics" *ngIf="((assets$ | async) ?? []).length >= 3">
                             <div class="row g-0 gy-2">
-                                <app-ai-feedback
-                                    *ngIf="((assets$ | async) ?? []).length >= 10"
-                                    [assets$]="assets$"
-                                ></app-ai-feedback>
                                 <app-account-summary
                                     *ngIf="((assets$ | async) ?? []).length >= 3"
                                     [assets$]="assets$"
                                     [renderChart$]="analyticsTabClicked$"
                                 ></app-account-summary>
+                                <app-ai-feedback
+                                    *ngIf="((assets$ | async) ?? []).length >= 10"
+                                    [assets$]="assets$"
+                                ></app-ai-feedback>
                             </div>
                         </mat-tab>
                     </mat-tab-group>

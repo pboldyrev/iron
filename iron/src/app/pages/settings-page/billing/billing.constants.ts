@@ -31,7 +31,7 @@ export const PLAN_OPTIONS: PlanOption[] = [
         benefits: [
             "Unlimited assets",
             "Daily automatic asset value updates",
-            "AI-powered portfolio feedback",
+            "AI-powered portfolio feedback (coming Spring '24)",
             "No commitments, cancel any time"
         ],
         selected: false,
@@ -44,7 +44,7 @@ export const PLAN_OPTIONS: PlanOption[] = [
         benefits: [
             "Unlimited assets",
             "Daily automatic asset value updates",
-            "AI-powered portfolio feedback",
+            "AI-powered portfolio feedback (coming Spring '24)",
             "No commitments, cancel any time"
         ],
         selected: false,

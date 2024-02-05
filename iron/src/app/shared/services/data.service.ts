@@ -421,7 +421,7 @@ export class DataService {
 
   public createStripePortalSession$(): Observable<Asset> {
     const payload = {
-      url: "https://finacle.app/settings",
+      returnUrl: "https://finacle.app/settings",
     }
 
     return this.httpPost("createStripePortalSession", payload)
