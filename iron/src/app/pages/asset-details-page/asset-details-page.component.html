@@ -63,7 +63,7 @@
                 <mat-tab [label]="TEXTS.TAB_MORE_DETAILS" [disabled]="(isValuesLoading$ | async) || (isAssetLoading$ | async)">
                     <app-loading-state *ngIf="isValuesLoading$ | async" class="asset-details-loading-wrapper"></app-loading-state>
                     <app-asset-more-details
-                        *ngIf="!(isValuesLoading$ | async)"
+                        [hidden]="isValuesLoading$ | async"
                         [asset$]="asset$"
                     ></app-asset-more-details>
                 </mat-tab>

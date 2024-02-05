@@ -35,10 +35,6 @@ export class AssetMoreDetailsComponent {
 
   public AssetType = AssetType;
 
-  constructor(
-    private toastService: ToastService,
-  ){}
-
   public onSaveInit(): void {
     this.addAssetForm.onSubmit();
   }
