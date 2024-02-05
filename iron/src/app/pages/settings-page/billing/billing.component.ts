@@ -54,4 +54,10 @@ export class BillingComponent {
       location.href = data.url;
     });
   }
+
+  onManageSelected(): void {
+    this.dataService.createStripePortalSession$().subscribe((data: any) => {
+      location.href = data.url;
+    });
+  }
 }

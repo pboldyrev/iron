@@ -419,6 +419,21 @@ export class DataService {
     );
   }
 
+  public createStripePortalSession$(): Observable<Asset> {
+    const payload = {
+      url: "https://finacle.app/settings",
+    }
+
+    return this.httpPost("createStripePortalSession", payload)
+    .pipe(
+      tap({
+        error: () => {
+          this.analyticsService.track("Failed to create stripe portal session", { payload: payload });
+        }
+      })
+    );
+  }
+
   public createStripeCheckoutSession$(planName: PlanName): Observable<Asset> {
     const payload = {
       plan: planName,

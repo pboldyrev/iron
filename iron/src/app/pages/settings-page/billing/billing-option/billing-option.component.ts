@@ -33,21 +33,21 @@ export class BillingOptionComponent {
   @Input() plan!: PlanOption;
   @Input() isLoading: boolean | null = false;
   @Output() optionSelected = new EventEmitter();
-  @Output() cancelPlan = new EventEmitter();
+  @Output() manageSelected = new EventEmitter();
 
   TEXTS = TEXTS;
   PlanNameToDisplay = PlanNameToDisplay;
 
   upgradeClicked = false;
-  cancelClicked = false;
+  manageClicked = false;
 
   onUpgradeClicked(): void {
     this.upgradeClicked = true;
     this.optionSelected.emit();
   }
 
-  onCancelClicked(): void {
-    this.cancelClicked = true;
-    this.cancelPlan.emit();
+  onManageClicked(): void {
+    this.manageClicked = true;
+    this.manageSelected.emit();
   }
 }
