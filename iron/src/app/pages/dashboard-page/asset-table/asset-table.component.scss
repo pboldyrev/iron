@@ -2,6 +2,7 @@
 .mat-mdc-header-cell,
 .mat-mdc-footer-row {
     padding-left: var(--blu-padding-xs);
+    overflow-x: auto;
 }
 
 .mat-mdc-footer-cell {
@@ -10,9 +11,9 @@
 }
 
 .mat-column-select {
-    min-width: 50px;
-    width: 50px;
-    max-width: 50px;
+    min-width: 60px;
+    width: 60px;
+    max-width: 60px;
 
     --mdc-checkbox-unselected-hover-state-layer-color: rgba(0,0,0,0);
     --mdc-checkbox-unselected-pressed-state-layer-color: rgba(0,0,0,0);
@@ -30,9 +31,7 @@
 }
 
 .mat-column-initValue,
-.mat-column-curValue,
-.mat-column-edit,
-.mat-column-units {
+.mat-column-curValue {
     justify-content: right;
     text-align: right;
     max-width: 160px;
@@ -52,9 +51,15 @@
 }
 
 .mat-column-edit {
-    min-width: 42px;
-    width: 42px;
-    max-width: 42px;
+    min-width: 55px;
+    width: 55px;
+    max-width: 55px;
+}
+
+.mat-column-units {
+    min-width: 75px;
+    width: 75px;
+    max-width: 75px;
 }
 
 .mat-column-type {

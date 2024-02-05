@@ -2,7 +2,7 @@ import { Component, Input, Output, ViewChild, ViewEncapsulation } from '@angular
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
-import { Asset } from '../../../shared/constants/constants';
+import { Asset, AssetType } from '../../../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
@@ -87,6 +87,7 @@ export class AssetTableComponent {
   public TEXTS = TEXTS;
   public TIMEFRAMES = TIMEFRAMES;
   public FeedbackType = FeedbackType;
+  public AssetType = AssetType;
 
   selection = new SelectionModel<Asset>(true, []);
   isDeleteSelectedLoading = false;
