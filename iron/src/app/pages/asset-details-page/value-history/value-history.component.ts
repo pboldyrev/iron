@@ -189,11 +189,20 @@ export class ValueHistoryComponent {
         finalUnits = unitsToSet;
       }),
       filter(() => {
+        let isValid = true;
         if(finalUnits < 0) {
-          this.toastService.showToast("You may not own negative units", FeedbackType.ERROR);
-          return false;
+          this.stockUnitsInput.customFeedback = "You may not purchase negative units, please sell units instead";
+          this.stockUnitsInput.isValid = false;
+          isValid = false;
         }
-        return true;
+
+        if(finalTimestamp >= new Date().setDate(new Date().getDate() - 1).valueOf()) {
+          this.stockDateInput.customFeedback = "Please enter a date in the past";
+          this.stockDateInput.isValid = false;
+          isValid = false;
+        }
+
+        return isValid;
       }),
       mergeMap(() => {
         return this.asset$;
