@@ -46,6 +46,7 @@
     [type]="(type === 'NUMBER' || type === 'VIN' || type === 'PHONE' || type === 'INTEGER') ? 'TEXT' : type === 'DATE' ? null : type"
     placeholder="mm/dd/yyyy"
     [disabled]="disabled"
+    [max]="maxDate"
     [value]="
       (type === 'INTEGER') ? 
         (value | displayInteger) : 

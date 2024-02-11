@@ -28,6 +28,7 @@ import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 import { DisplayIntegerPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-integer";
 import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
+import { DateService } from 'src/app/shared/services/date.service';
 
 export type ValueChange = {
   amount?: number,
@@ -43,8 +44,8 @@ export type ValueChange = {
     imports: [CommonModule, BluModal, MatTableModule, BluButton, BluInput, BluLabel, BluText, BluValidationFeedback, BluSpinner, MatProgressBarModule, MatTooltipModule, MatMenuModule, BluHeading, BluTag, BluLink, BluSelect, DisplayIntegerPipe, DisplayCurrencyPipe]
 })
 export class ValueHistoryComponent {
-  @ViewChild('value') valueInput!: BluInput;
-  @ViewChild('date') dateInput!: BluInput;
+  @ViewChild('valueInput') valueInput!: BluInput;
+  @ViewChild('dateInput') dateInput!: BluInput;
   @ViewChild('stockActionDate') stockDateInput!: BluInput;
   @ViewChild('stockActionUnits') stockUnitsInput!: BluInput;
   @ViewChild('stockActionType') stockActionTypeInput!: BluInput;
@@ -73,6 +74,7 @@ export class ValueHistoryComponent {
     private toastService: ToastService,
     private chartService: ChartService,
     private preferencesService: PreferencesService,
+    private dateService: DateService,
   ) {}
 
   ngOnInit() {
@@ -143,14 +145,14 @@ export class ValueHistoryComponent {
       return;
     }
 
-    let dateInputTimestamp = new Date((new Date(dateInput)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf();
+    let dateInputTimestamp = this.dateService.getDateAsUTC(dateInput);
     this.getMatchingTimestampIfExists$(dateInputTimestamp).pipe(
       mergeMap((finalTimestamp: number) => {
         return this.addEntry$(valueInput, finalTimestamp);
       })
     ).subscribe({
       next: (timestamp: string) => {
-        this.toastService.showToast("Successfully added the entry for " + new Date(timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
+        this.toastService.showToast("Successfully added the entry for " + this.dateService.getDisplayTimestamp(timestamp), FeedbackType.SUCCESS);
         this.valueInput.clearValueAndValidators();
         this.dateInput.clearValueAndValidators();
       },
@@ -258,7 +260,7 @@ export class ValueHistoryComponent {
     const curDate = new Date();
     curDate.setDate(curDate.getDate() - 1);
     const selectedDate = new Date(date);
-    const minDate = new Date("1950-1-1");
+    const minDate = new Date(-631152000000);
     if (selectedDate > curDate) {
       this.toastService.showToast("Please select a date in the past.", FeedbackType.ERROR);
     }

@@ -137,7 +137,7 @@
                     appearance="cell"
                     [feedbackType]="FeedbackType.ERROR"
                     type="DATE"
-                    #date
+                    #dateInput
                     (keydown.enter)="onAddEntry()"
                 ></blu-input>
             </mat-footer-cell>
@@ -160,7 +160,7 @@
                     [placeholder]="TEXTS.PLACEHOLDER_VALUE" 
                     type="CURRENCY"
                     direction="rtl"
-                    #value
+                    #valueInput
                     (keydown.enter)="onAddEntry()"
                 ></blu-input>
             </mat-footer-cell>

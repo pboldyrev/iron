@@ -24,7 +24,7 @@ $iron-theme: mat.define-dark-theme((
   color: var(--blu-color-secondary);
 }
 
-html {
+html, body {
   background-color: var(--blu-background-primary);
   font: var(--blu-font-primary);
 }

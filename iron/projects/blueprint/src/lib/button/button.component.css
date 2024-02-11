@@ -109,7 +109,6 @@
 .blu-button-disabled:hover {
   cursor: auto;
   scale: 1;
-  border: none;
 }
 
 .blu-button-disabled:active {

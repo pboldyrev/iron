@@ -13,6 +13,7 @@ import { DisplayCurrencyPipe } from "../common/pipes/display-currency.pipe";
 import { DisplayPercentPipe } from "../common/pipes/display-percent.pipe";
 import { MatDatepickerModule, } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { DateService } from 'src/app/shared/services/date.service';
 
 @Component({
     selector: 'blu-input',
@@ -43,8 +44,12 @@ export class BluInput {
   public isValid = true;
   public FEEDBACK_STRINGS = FEEDBACK_STRINGS;
   public customFeedback = "";
+  readonly maxDate = new Date(this.dateService.getLatestValidDate());
 
-  constructor(private regexService: RegexService) {}
+  constructor(
+    private regexService: RegexService, 
+    private dateService: DateService,
+  ) {}
 
   ngOnInit() {
     if(this.initValue) {
