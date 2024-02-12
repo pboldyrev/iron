@@ -77,7 +77,7 @@ export class LoginPageComponent {
     this.isSendCodeSubmitting = true;
 
     const email = this.emailInput.validate();
-    const inviteCode = this.inviteCodeInput.validate();
+    // const inviteCode = this.inviteCodeInput.validate();
 
     if (!email) {
       this.isSendCodeSubmitting = false;
