@@ -84,11 +84,11 @@ export class LoginPageComponent {
       return;
     }
 
-    if(inviteCode !== '42096') {
-      this.isSendCodeSubmitting = false;
-      this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
-      return;
-    }
+    // if(inviteCode !== '42096') {
+    //   this.isSendCodeSubmitting = false;
+    //   this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
+    //   return;
+    // }
 
     this.email = email;
 

@@ -23,7 +23,7 @@
               (keydown.enter)='onSendCode()'
               #emailInput
             ></blu-input>
-            <blu-input
+            <!-- <blu-input
               [label]="LABELS.BETA"
               [required]="true"
               [fullWidth]="true"
@@ -33,7 +33,7 @@
               type="NUMBER"
               (keydown.enter)='onSendCode()'
               #inviteCodeInput
-            ></blu-input>
+            ></blu-input> -->
             <blu-button type="primary" [fullWidth]="true" (click)="isSendCodeSubmitting ? null : onSendCode()" [disabled]="isSendCodeSubmitting">
               <blu-spinner *ngIf="isSendCodeSubmitting" [inlineSpace]="true"></blu-spinner>
               {{ BTN_TEXTS.LOGIN }}

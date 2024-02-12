@@ -54,7 +54,7 @@
           (parseCurrency(value) | displayCurrency) :
           (type === 'PERCENT') ?
             (parseCurrency(value) | displayPercent) : 
-            (value)"
+            (type === 'DATE')"
     [maxLength]="maxChars"
     (dateChange)="updateValue($event)"
   />

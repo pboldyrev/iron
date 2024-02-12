@@ -145,14 +145,14 @@ export class ValueHistoryComponent {
       return;
     }
 
-    let dateInputTimestamp = this.dateService.getDateAsUTC(dateInput);
+    let dateInputTimestamp = new Date(dateInput).getTime();
     this.getMatchingTimestampIfExists$(dateInputTimestamp).pipe(
       mergeMap((finalTimestamp: number) => {
         return this.addEntry$(valueInput, finalTimestamp);
       })
     ).subscribe({
       next: (timestamp: string) => {
-        this.toastService.showToast("Successfully added the entry for " + this.dateService.getDisplayTimestamp(timestamp), FeedbackType.SUCCESS);
+        this.toastService.showToast("Successfully added the entry for " + new Date(timestamp).toDateString(), FeedbackType.SUCCESS);
         this.valueInput.clearValueAndValidators();
         this.dateInput.clearValueAndValidators();
       },
@@ -172,7 +172,7 @@ export class ValueHistoryComponent {
       return;
     }
 
-    let dateInputTimestamp = new Date((new Date(date)).toLocaleDateString('en-US', {timeZone: 'UTC'})).valueOf();
+    let dateInputTimestamp = new Date(date).getTime();
     let finalTimestamp: number;
     let finalUnits: number;
 
@@ -198,7 +198,7 @@ export class ValueHistoryComponent {
           isValid = false;
         }
 
-        if(finalTimestamp >= new Date().setDate(new Date().getDate() - 1).valueOf()) {
+        if(finalTimestamp >= this.dateService.getLatestValidDate().getTime()) {
           this.stockDateInput.customFeedback = "Please enter a date in the past";
           this.stockDateInput.isValid = false;
           isValid = false;
@@ -225,7 +225,7 @@ export class ValueHistoryComponent {
 
   public onDeleteEntry(entryToDelete: AssetValue): void {
     this.dataService.deleteAssetValue$(this.assetId, entryToDelete.timestamp ?? 0, this.isLoading$).subscribe(() => {
-        this.toastService.showToast("Successfully removed the entry for " + new Date(entryToDelete.timestamp ?? 0).toLocaleDateString('en-US', {timeZone: 'UTC'}), FeedbackType.SUCCESS);
+        this.toastService.showToast("Successfully removed the entry for " + new Date(entryToDelete.timestamp).toDateString(), FeedbackType.SUCCESS);
       }
     );
   }
