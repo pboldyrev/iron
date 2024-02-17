@@ -1,78 +1,107 @@
 <div class="dashboard-wrapper row m-0">
-    <div class="dashboard-side-wrapper col-12"
-        [ngClass]="{
-            'col-lg-5': showSidebar,
-            'col-lg-4 col-xl-3': !showSidebar,
-        }"
-    >
-        <div class="p-4 p-md-5">
-            <app-networth
-                [totalNetworth]="totalNetworth"
-                [isLoading]="isNetworthLoading$ | async"
-            ></app-networth>
-            <app-value-change
-                [ngClass]="{
-                    'd-block d-lg-none': !showSidebar
-                }"
-                [timeframes]="networthTimeframes"
-                [isLoading]="isNetworthLoading$ | async"
-            ></app-value-change>
-        </div>
-        <div class="dashboard-networth-chart" [hidden]="(isNetworthLoading$ | async)">
-            <empty-state 
-                *ngIf="((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)" 
-                [variation]="1"
-                (addBtnClicked)="onAddAsset()"
-            ></empty-state>
-            <canvas 
-                [hidden]="((assets$ | async) ?? []).length < 1" 
-                id="dashboardChart"
-            >{{ dashboardChart }}</canvas>
-        </div>
-    </div>
-    <div class="dashboard-content-wrapper col-12 px-2 px-md-5 py-4"
+  <div
+    class="dashboard-side-wrapper col-12"
     [ngClass]="{
-        'col-lg-7': showSidebar,
-        'col-lg-8 col-xl-9': !showSidebar,
-    }">
-        <dashboard-top-bar
-            (showSidebar)="onShowSidebar($event)"
-            #topBar
-        ></dashboard-top-bar>
-        <app-error-state *ngIf="loadingFailed; else mainContent"></app-error-state>
-        <ng-template #mainContent>
-                <app-loading-state *ngIf="(isNetworthLoading$ | async) && !(assets$ | async); else loadedContent" class="dashboard-loader-wrapper"></app-loading-state>
-                <ng-template #loadedContent>
-                    <mat-tab-group (selectedTabChange)="onTabChange($event)" *ngIf="((assets$ | async) ?? []).length > 0">
-                        <mat-tab label="Assets">
-                            <div class="row g-0 gy-2">
-                                <ng-container *ngFor="let accountAssets of (assetsByAccount$ | async)">
-                                    <app-asset-table
-                                        [tableTitle]="accountAssets.key"
-                                        [columns]="assetTableColumns"
-                                        [footerColumns]="assetTableFooterColumns"
-                                        [assets$]="assets$"
-                                        [displayAssets]="accountAssets.values"
-                                        #assetTable
-                                    ></app-asset-table>
-                                </ng-container>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Analytics" *ngIf="((assets$ | async) ?? []).length >= 3">
-                            <div class="row g-0 gy-2">
-                                <app-account-summary
-                                    *ngIf="((assets$ | async) ?? []).length >= 3"
-                                    [assets$]="assets$"
-                                    [renderChart$]="analyticsTabClicked$"
-                                ></app-account-summary>
-                                <app-ai-feedback
-                                    *ngIf="((assets$ | async) ?? []).length >= 10"
-                                    [assets$]="assets$"
-                                ></app-ai-feedback>
-                            </div>
-                        </mat-tab>
-                    </mat-tab-group>
-                </ng-template>
-        </ng-template>
+      'col-lg-5': showSidebar,
+      'col-lg-4 col-xl-3': !showSidebar
+    }"
+  >
+    <div class="p-4 p-md-5">
+      <app-networth
+        [totalNetworth]="totalNetworth"
+        [isLoading]="isNetworthLoading$ | async"
+      ></app-networth>
+      <app-value-change
+        [ngClass]="{
+          'd-block d-lg-none': !showSidebar
+        }"
+        [timeframes]="networthTimeframes"
+        [isLoading]="isNetworthLoading$ | async"
+      ></app-value-change>
     </div>
+    <div class="dashboard-networth-chart" [hidden]="isNetworthLoading$ | async">
+      <empty-state
+        *ngIf="
+          ((assets$ | async) ?? []).length < 1 && !(isAssetsLoading$ | async)
+        "
+        [variation]="1"
+        (addBtnClicked)="onAddAsset()"
+      ></empty-state>
+      <canvas
+        [hidden]="((assets$ | async) ?? []).length < 1"
+        id="dashboardChart"
+        >{{ dashboardChart }}</canvas
+      >
+    </div>
+  </div>
+  <div
+    class="dashboard-content-wrapper col-12 px-2 px-md-5 py-4"
+    [ngClass]="{
+      'col-lg-7': showSidebar,
+      'col-lg-8 col-xl-9': !showSidebar
+    }"
+  >
+    <dashboard-top-bar
+      (showSidebar)="onShowSidebar($event)"
+      #topBar
+    ></dashboard-top-bar>
+    <app-error-state *ngIf="loadingFailed; else mainContent"></app-error-state>
+    <ng-template #mainContent>
+      <app-loading-state
+        *ngIf="
+          (isNetworthLoading$ | async) && !(assets$ | async);
+          else loadedContent
+        "
+        class="dashboard-loader-wrapper"
+      ></app-loading-state>
+      <ng-template #loadedContent>
+        <mat-tab-group
+          (selectedTabChange)="onTabChange($event)"
+          *ngIf="((assets$ | async) ?? []).length > 0"
+        >
+          <mat-tab label="Assets">
+            <div class="row g-0 gy-2">
+              <ng-container
+                *ngFor="let accountAssets of assetsByAccount$ | async"
+              >
+                <app-asset-table
+                  [tableTitle]="accountAssets.key"
+                  [columns]="assetTableColumns"
+                  [footerColumns]="assetTableFooterColumns"
+                  [assets$]="assets$"
+                  [displayAssets]="accountAssets.values"
+                  #assetTable
+                ></app-asset-table>
+              </ng-container>
+            </div>
+          </mat-tab>
+          <mat-tab
+            label="Analytics"
+            *ngIf="((assets$ | async) ?? []).length >= 3"
+          >
+            <div class="row g-0 gy-2">
+              <app-account-summary
+                *ngIf="((assets$ | async) ?? []).length >= 3"
+                [assets$]="assets$"
+                [renderChart$]="analyticsTabClicked$"
+              ></app-account-summary>
+              <app-ai-feedback
+                *ngIf="((assets$ | async) ?? []).length >= 10"
+                [assets$]="assets$"
+              ></app-ai-feedback>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </ng-template>
+    </ng-template>
+    <div class="dashboard-page-footer mt-3 py-2">
+      <blu-text type="secondary">
+        <blu-link>Privacy policy</blu-link>
+      </blu-text>
+      <blu-text type="secondary" class="px-3">|</blu-text>
+      <blu-text type="secondary"
+        ><blu-link>Terms and conditions</blu-link></blu-text
+      >
+    </div>
+  </div>
 </div>

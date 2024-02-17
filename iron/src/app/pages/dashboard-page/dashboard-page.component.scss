@@ -1,63 +1,79 @@
 .dashboard-wrapper {
-    min-height: var(--blu-height-full);
-    overflow-x: hidden;
+  min-height: var(--blu-height-full);
+  overflow-x: hidden;
 }
 
 .dashboard-side-wrapper {
-    background-color: var(--blu-background-secondary);
-    height: 100vh;
-    border-right: var(--blu-border-tertiary);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  background-color: var(--blu-background-secondary);
+  height: 100vh;
+  border-right: var(--blu-border-tertiary);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-networth-chart {
-    height: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard-loader-full-page {
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 .dashboard-content-wrapper {
-    height: 100vh;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.dashboard-page-footer {
+  position: sticky;
+  bottom: 0px;
+  left: 0px;
+  z-index: 2;
+  width: 100%;
+  border-radius: 250px;
+  border: var(--blu-border-tertiary);
+  background-color: rgba(var(--blu-background-secondary), 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard-networth-chart-wrapper {
-    width: var(--blu-width-full);
-    min-height: 40vh;
-    height: var(--blu-height-full);
+  width: var(--blu-width-full);
+  min-height: 40vh;
+  height: var(--blu-height-full);
 }
 
 .dashboard-loader-wrapper {
-    width: var(--blu-height-full);
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: var(--blu-height-full);
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 991px) {
-    .dashboard-wrapper {
-        height: fit-content;
-        overflow-y: hidden;
-    }
-    .dashboard-side-wrapper {
-        border: none;
-        height: 75vh;
-        overflow-y: hidden;
-    }
-    .dashboard-content-wrapper {
-        min-height: 100vh;
-        height: fit-content;
-        overflow-y: hidden;
-    }
+  .dashboard-wrapper {
+    height: fit-content;
+    overflow-y: hidden;
+  }
+  .dashboard-side-wrapper {
+    border: none;
+    height: 75vh;
+    overflow-y: hidden;
+  }
+  .dashboard-content-wrapper {
+    min-height: 100vh;
+    height: fit-content;
+    overflow-y: hidden;
+  }
 }

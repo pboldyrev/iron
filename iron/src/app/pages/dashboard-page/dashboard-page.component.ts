@@ -32,11 +32,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { Dictionary, groupBy } from 'lodash';
 import { MatTabsModule } from '@angular/material/tabs';
+import { BluLink } from 'projects/blueprint/src/lib/link/link.component';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent, DashboardTopBarComponent, EmptyStateComponent, OnboardingComponent],
+  imports: [CommonModule, MatTabsModule, BluLink, SkeletonLoaderTextComponent, NetworthComponent, BluButton, BluIcon, ValueChangeComponent, BluPopup, AssetTableComponent, ConfirmationPopupComponent, AddAssetPopupComponent, BluText, BluSpinner, LoadingStateComponent, AiFeedbackComponent, AccountSummaryComponent, BluHeading, ErrorStateComponent, DashboardTopBarComponent, EmptyStateComponent, OnboardingComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',
   encapsulation: ViewEncapsulation.None,
