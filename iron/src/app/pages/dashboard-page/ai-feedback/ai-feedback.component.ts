@@ -14,16 +14,18 @@ import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AiFeedbackPopupComponent } from 'src/app/ai-feedback-popup/ai-feedback-popup.component';
 
 @Component({
   selector: 'app-ai-feedback',
   standalone: true,
-  imports: [CommonModule, BluModal, BluLink, BluButton, BluText, BluLabel, BluHeading, BluTag, MatProgressSpinnerModule, BluPopup, MatProgressBarModule],
+  imports: [CommonModule, AiFeedbackPopupComponent, BluModal, BluLink, BluButton, BluText, BluLabel, BluHeading, BluTag, MatProgressSpinnerModule, BluPopup, MatProgressBarModule],
   templateUrl: './ai-feedback.component.html',
   styleUrl: './ai-feedback.component.scss'
 })
 export class AiFeedbackComponent {
   @ViewChild("legalDisclaimer") legalDisclaimer!: BluPopup;
+  @ViewChild("feedbackPopup") feedbackPopup!: AiFeedbackPopupComponent;
   @Input() assets$ = new Observable<Asset[]>();
 
   ASSETS_TO_QUALIFY = ASSETS_TO_QUALIFY;
@@ -49,6 +51,6 @@ export class AiFeedbackComponent {
   }
 
   onGetFeedback(): void {
-    alert("This hasn't been implemented yet!");
+    this.feedbackPopup.show();
   }
 }

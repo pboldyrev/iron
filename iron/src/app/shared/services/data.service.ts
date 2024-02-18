@@ -480,6 +480,17 @@ export class DataService {
     );
   }
 
+  public getAIFeedback$(): Observable<Asset> {
+    return this.httpPost("getAIFeedback")
+    .pipe(
+      tap({
+        error: () => {
+          this.analyticsService.track("Unable to get AI feedback at this time.");
+        }
+      })
+    );
+  }
+
   private fetchUserAssets$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset[]> {
     if (loadingIndicator) {
       loadingIndicator.next(true);

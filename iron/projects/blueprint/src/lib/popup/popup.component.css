@@ -50,3 +50,7 @@
 .blu-popup-l {
   width: var(--blu-width-4xl);
 }
+
+.blu-popup-xl {
+  width: var(--blu-width-5xl);
+}

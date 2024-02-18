@@ -1,0 +1,17 @@
+.ai-feedback-popup-wrapper {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+}
+
+.feedback-loading-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+}
+
+.feedback-content {
+  width: var(--blu-width-full);
+}

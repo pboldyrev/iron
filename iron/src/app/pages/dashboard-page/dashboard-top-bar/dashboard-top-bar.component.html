@@ -22,7 +22,12 @@
         {{ TEXTS.BTN_PRIMARY_CTA }}
       </blu-button>
       <div class="d-flex">
-        <blu-button *ngIf="isFree$ | async" class="pe-2" type="special" (click)="onSettings()">
+        <blu-button
+          *ngIf="isFree$ | async"
+          class="pe-2"
+          type="special"
+          (click)="onSettings()"
+        >
           {{ TEXTS.BTN_SECONDARY_CTA }}
         </blu-button>
         <blu-button
@@ -49,6 +54,7 @@
             <div class="d-flex align-items-center">
               <blu-icon name="upload" class="me-2"></blu-icon>
               <blu-text>{{ TEXTS.IMPORT_CTA }}</blu-text>
+              <blu-tag class="ms-2">Beta</blu-tag>
             </div>
           </div>
           <div mat-menu-item [disableRipple]="true" (click)="onSettings()">

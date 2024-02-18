@@ -13,11 +13,12 @@ import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
 import { DataService } from 'src/app/shared/services/data.service';
 import { map } from 'rxjs';
+import { BluTag } from 'projects/blueprint/src/lib/tag/tag.component';
 
 @Component({
   selector: 'dashboard-top-bar',
   standalone: true,
-  imports: [CommonModule, BluIcon, MatMenuModule, BluText, BluButton, ConfirmationPopupComponent, AddAssetPopupComponent, ImportAssetsPopupComponent],
+  imports: [CommonModule, BluTag, BluIcon, MatMenuModule, BluText, BluButton, ConfirmationPopupComponent, AddAssetPopupComponent, ImportAssetsPopupComponent],
   templateUrl: './dashboard-top-bar.component.html',
   styleUrl: './dashboard-top-bar.component.scss'
 })

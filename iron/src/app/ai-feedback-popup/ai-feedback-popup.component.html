@@ -1,0 +1,20 @@
+<blu-popup title="AI Feedback" size="xl" #feedbackPopup>
+  <div class="ai-feedback-popup-wrapper">
+    <div class="feedback-loading-state" *ngIf="!(aiFeedback$ | async) else displayFeedback">
+      <mat-progress-bar
+        class="mb-2"
+        mode="indeterminate"
+        strokeWidth="5"
+        diameter="75"
+      ></mat-progress-bar>
+      <blu-text class="mt-2">Gathering AI feedback...</blu-text>
+    </div>
+    <ng-template #displayFeedback>
+      <div class="feedback-content">
+        <blu-text type="primary">
+          {{aiFeedback$ | async}}
+        </blu-text>
+      </div>
+    </ng-template>
+  </div>
+</blu-popup>
