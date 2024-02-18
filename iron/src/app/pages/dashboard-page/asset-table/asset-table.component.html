@@ -1,141 +1,219 @@
 <blu-modal [fullWidth]="true" [fullHeight]="true" [outline]="true">
-    <div class="asset-table-heading px-3 px-sm-4 py-3">
-        <blu-heading size="s">
-            {{ tableTitle }}
-        </blu-heading>
-        <blu-button 
-                *ngIf="selection.hasValue()" 
-                type="error"  
-                (click)="isDeleteSelectedLoading ? null : onDeleteSelected()" 
-                [disabled]="isDeleteSelectedLoading"
-                [slim]="true"
-            >
-                <blu-spinner 
-                    *ngIf="isDeleteSelectedLoading" 
-                    [inlineSpace]="true"
-                ></blu-spinner>
-                Delete ({{selection.selected.length}})
-            </blu-button>
-    </div>
-    <div class="asset-table-data">
-        <table
-            mat-table
-            *ngIf="displayAssets.length > 0" 
-            #table 
-            [dataSource]="displayAssets"
+  <div class="asset-table-heading px-3 px-sm-4 py-3">
+    <blu-heading size="s">
+      {{ tableTitle }}
+    </blu-heading>
+    <blu-button
+      *ngIf="selection.hasValue()"
+      type="error"
+      (click)="isDeleteSelectedLoading ? null : onDeleteSelected()"
+      [disabled]="isDeleteSelectedLoading"
+      [slim]="true"
+      [tooltip]="TEXTS.DELETE_POPUP_SUBTITLE_BULK"
+    >
+      <blu-spinner
+        *ngIf="isDeleteSelectedLoading"
+        [inlineSpace]="true"
+      ></blu-spinner>
+      Delete ({{ selection.selected.length }})
+    </blu-button>
+  </div>
+  <div class="asset-table-data">
+    <table
+      mat-table
+      *ngIf="displayAssets.length > 0"
+      #table
+      [dataSource]="displayAssets"
+    >
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            [disableRipple]="true"
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let asset">
+          <mat-checkbox
+            [disableRipple]="true"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(asset) : null"
+            [checked]="selection.isSelected(asset)"
+          >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="account">
+        <mat-header-cell *matHeaderCellDef>
+          {{ TEXTS.ACCOUNT_TITLE }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let asset">
+          <blu-text type="primary">{{ asset.account }}</blu-text>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>
+          {{ TEXTS.TYPE_TITLE }}
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let asset"
+          (click)="onDetailsAsset(asset)"
+          class="asset-table-cell-clickable"
         >
-            <ng-container matColumnDef="select">
-                <mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox
-                        [disableRipple]="true"
-                        (change)="$event ? masterToggle() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()">
-                    </mat-checkbox>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset">
-                    <mat-checkbox 
-                        [disableRipple]="true"
-                        (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(asset) : null"
-                        [checked]="selection.isSelected(asset)">
-                    </mat-checkbox>
-                </mat-cell>
-            </ng-container>
+          <blu-icon [name]="asset.assetType" class="me-2" size="20"></blu-icon
+          ><blu-text type="primary" [capitalize]="true">{{
+            asset.assetType
+          }}</blu-text>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="account">
-                <mat-header-cell *matHeaderCellDef>
-                    {{ TEXTS.ACCOUNT_TITLE }}
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset">
-                    <blu-text type="primary">{{asset.account}}</blu-text>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="asset">
+        <mat-header-cell *matHeaderCellDef>
+          {{ TEXTS.ASSET_TITLE }}
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let asset"
+          (click)="onDetailsAsset(asset)"
+          class="asset-table-cell-clickable"
+        >
+          <blu-text type="primary"
+            >{{ asset.assetName }}
+            {{ asset.nickName ? " (" + asset.nickName + ")" : "" }}</blu-text
+          >
+          <blu-tag type="error" class="ms-2" *ngIf="asset.isArchived"
+            >Archived</blu-tag
+          >
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <blu-text type="secondary" class="me-2" size="xs">Count</blu-text>
+          <blu-text [isNumber]="true" weight="bold">{{
+            displayAssets.length
+          }}</blu-text>
+        </mat-footer-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="type">
-                <mat-header-cell *matHeaderCellDef>
-                    {{ TEXTS.TYPE_TITLE }}
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                    <blu-icon [name]="asset.assetType" class="me-2" size="20"></blu-icon><blu-text type="primary" [capitalize]="true">{{asset.assetType}}</blu-text>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="units">
+        <mat-header-cell *matHeaderCellDef>
+          {{ TEXTS.UNITS_TITLE }}
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let asset"
+          (click)="onDetailsAsset(asset)"
+          class="asset-table-cell-clickable"
+        >
+          <blu-text [isNumber]="true">{{
+            asset.assetType === AssetType.Stock
+              ? (asset.curUnits.toString() | displayInteger)
+              : "-"
+          }}</blu-text>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="asset">
-                <mat-header-cell *matHeaderCellDef>
-                    {{ TEXTS.ASSET_TITLE }}
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                    <blu-text type="primary">{{asset.assetName}} {{asset.nickName ? ' (' + asset.nickName + ')' : ''}}</blu-text>
-                    <blu-tag type="error" class="ms-2" *ngIf="asset.isArchived">Archived</blu-tag>
-                </mat-cell>
-                <mat-footer-cell *matFooterCellDef>
-                    <blu-text type="secondary" class="me-2" size="xs">Count</blu-text>
-                    <blu-text [isNumber]="true" weight="bold">{{ displayAssets.length }}</blu-text>
-                </mat-footer-cell>
-            </ng-container>
+      <ng-container matColumnDef="initValue">
+        <mat-header-cell *matHeaderCellDef>
+          {{ TEXTS.INIT_VALUE_TITLE }}
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let asset"
+          class="asset-table-value-cell asset-table-cell-clickable"
+          (click)="onDetailsAsset(asset)"
+        >
+          <blu-text [isNumber]="true">{{
+            asset.initTotalValue | displayCurrency
+          }}</blu-text>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="units">
-                <mat-header-cell *matHeaderCellDef>
-                    {{ TEXTS.UNITS_TITLE }}
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset" (click)="onDetailsAsset(asset)" class="asset-table-cell-clickable">
-                    <blu-text [isNumber]="true">{{ (asset.assetType === AssetType.Stock) ? (asset.curUnits.toString() | displayInteger) : '-' }}</blu-text>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="curValue">
+        <mat-header-cell *matHeaderCellDef>
+          {{ TEXTS.VALUE_TITLE }}
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let asset"
+          class="asset-table-value-cell asset-table-cell-clickable"
+          (click)="onDetailsAsset(asset)"
+        >
+          <blu-text [isNumber]="true">{{
+            asset.curTotalValue | displayCurrency
+          }}</blu-text>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <blu-text type="secondary" class="me-2" size="xs">Total</blu-text>
+          <blu-text [isNumber]="true" weight="bold">{{
+            curTotal | displayCurrency
+          }}</blu-text>
+        </mat-footer-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="initValue">
-                <mat-header-cell *matHeaderCellDef>
-                    {{ TEXTS.INIT_VALUE_TITLE }}
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                    <blu-text [isNumber]="true">{{ asset.initTotalValue | displayCurrency }}</blu-text>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="change">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let asset" class="asset-table-align-left">
+          <blu-tag
+            [type]="
+              asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'
+            "
+          >
+            <blu-text
+              [type]="
+                asset.curTotalValue >= asset.initTotalValue
+                  ? 'success'
+                  : 'error'
+              "
+              size="s"
+              [isNumber]="true"
+            >
+              {{
+                getPercentChange(asset.initTotalValue, asset.curTotalValue)
+                  | displayPercent
+              }}
+            </blu-text>
+          </blu-tag>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="curValue">
-                <mat-header-cell *matHeaderCellDef>
-                    {{ TEXTS.VALUE_TITLE }}
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset" class="asset-table-value-cell asset-table-cell-clickable" (click)="onDetailsAsset(asset)">
-                    <blu-text [isNumber]="true">{{ asset.curTotalValue | displayCurrency }}</blu-text>
-                </mat-cell>
-                <mat-footer-cell *matFooterCellDef>
-                    <blu-text type="secondary" class="me-2" size="xs">Total</blu-text>
-                    <blu-text [isNumber]="true" weight="bold">{{ curTotal | displayCurrency }}</blu-text>
-                </mat-footer-cell>
-            </ng-container>
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
+          <blu-button
+            [iconOnly]="true"
+            iconName="kebab"
+            type="tertiary"
+            class="asset-table-edit-menu"
+            [matMenuTriggerFor]="appMenu"
+          ></blu-button>
+          <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
+            <div
+              mat-menu-item
+              [disableRipple]="true"
+              (click)="onDetailsAsset(asset)"
+            >
+              <blu-text type="primary" size="s">{{
+                TEXTS.ENTRY_BUTTON_DETAILS
+              }}</blu-text>
+            </div>
+            <div
+              mat-menu-item
+              [disableRipple]="true"
+              (click)="onDeleteAsset(asset)"
+            >
+              <blu-text
+                type="error"
+                size="s"
+                [tooltip]="TEXTS.DELETE_POPUP_SUBTITLE"
+                >Delete</blu-text
+              >
+            </div>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="change">
-                <mat-header-cell *matHeaderCellDef>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset" class="asset-table-align-left">
-                    <blu-tag [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'">
-                        <blu-text 
-                            [type]="asset.curTotalValue >= asset.initTotalValue ? 'success' : 'error'" size="s" 
-                            [isNumber]="true"
-                        >
-                            {{ getPercentChange(asset.initTotalValue, asset.curTotalValue) | displayPercent }}
-                        </blu-text>
-                    </blu-tag>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="edit">
-                <mat-header-cell *matHeaderCellDef>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let asset" class="asset-table-value-cell">
-                    <blu-button [iconOnly]="true" iconName="kebab" type="tertiary" class="asset-table-edit-menu" [matMenuTriggerFor]="appMenu"></blu-button>
-                    <mat-menu #appMenu="matMenu" xPosition="before" yPosition="below">
-                        <div mat-menu-item [disableRipple]="true" (click)="onDetailsAsset(asset)"><blu-text type="primary" size="s">{{ TEXTS.ENTRY_BUTTON_DETAILS }}</blu-text></div>
-                        <div mat-menu-item [disableRipple]="true" (click)="onDeleteAsset(asset)"><blu-text type="error" size="s">Permanently delete</blu-text></div>
-                    </mat-menu>
-                </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="columns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: columns;"></mat-row>
-            <mat-row *matFooterRowDef="footerColumns; sticky: true"></mat-row>
-        </table>
-    </div>
+      <mat-header-row *matHeaderRowDef="columns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columns"></mat-row>
+      <mat-row *matFooterRowDef="footerColumns; sticky: true"></mat-row>
+    </table>
+  </div>
 </blu-modal>
