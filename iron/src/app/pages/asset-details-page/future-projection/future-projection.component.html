@@ -11,6 +11,7 @@
     <div class="col-sm-6">
         <blu-input 
             [disabled]="!isDepreciation"
+            [initValue]="(asset$ | async)?.assetType === AssetType.Cash ? (asset$ | async)?.appreciationRate?.toString() ?? '' : '15%'"
             [fullWidth]="true"
             [feedbackType]="FeedbackType.ERROR" 
             [required]="true"

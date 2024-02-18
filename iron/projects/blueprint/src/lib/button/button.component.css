@@ -41,6 +41,16 @@
   border: 1px solid var(--blu-color-brand-highlight);
 }
 
+.blu-button-primary {
+  background-color: var(--blu-color-brand);
+  border: 1px solid var(--blu-color-brand);
+  color: var(--blu-color-primary);
+}
+
+.blu-button-primary:hover {
+  border: 1px solid var(--blu-color-brand-highlight);
+}
+
 .blu-button-secondary {
   background-color: var(--blu-background-secondary);
   border: var(--blu-border-tertiary);

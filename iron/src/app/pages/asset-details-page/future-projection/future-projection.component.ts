@@ -58,14 +58,6 @@ export class FutureProjectionComponent {
         return;
       }
       this.isDepreciation = asset.assetType === AssetType.Vehicle;
-      if (asset.assetType === AssetType.Cash) {
-        this.depreciationRateInput.value = (
-          asset.appreciationRate ?? 0
-        ).toString();
-        this.depreciationRateInput.formatValue();
-      } else {
-        this.depreciationRateInput.value = '15%';
-      }
     });
   }
 
@@ -77,7 +69,7 @@ export class FutureProjectionComponent {
       return;
     }
 
-    const rate = parseFloat(this.depreciationRateInput.value) / 100;
+    const rate = parseFloat(this.depreciationRateInput.validate()) / 100;
     if (Math.abs(rate) > 1) {
       this.depreciationRateInput.customFeedback =
         'The ' + this.isDepreciation

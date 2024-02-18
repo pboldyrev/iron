@@ -12,7 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['./button.component.css'],
 })
 export class BluButton {
-  @Input() type: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'none' | 'error' | 'inverse' | 'info' = 'primary';
+  @Input() type: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'none' | 'error' | 'inverse' | 'info' | 'special' = 'primary';
   @Input() iconName: BluIconName | null = null;
   @Input() iconOnly = false;
   @Input() iconSize = "18";
