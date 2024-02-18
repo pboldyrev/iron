@@ -32,16 +32,6 @@
   position: relative;
 }
 
-.dashboard-page-footer {
-  width: 100%;
-  border-radius: var(--blu-radius-m);
-  border: var(--blu-border-tertiary);
-  background-color: var(--blu-background-secondary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .dashboard-networth-chart-wrapper {
   width: var(--blu-width-full);
   min-height: 40vh;

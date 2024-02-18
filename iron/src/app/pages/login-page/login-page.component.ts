@@ -4,7 +4,17 @@ import { AuthService } from '../../shared/services/auth.service';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
 import { BTN_TEXTS, LABELS, TEXTS, TOOLTIPS } from './login-page.strings';
-import { BehaviorSubject, Observable, combineLatest, flatMap, map, mergeMap, of, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  flatMap,
+  map,
+  mergeMap,
+  of,
+  take,
+  tap,
+} from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { FEEDBACK_STRINGS } from '../../shared/constants/strings';
@@ -94,13 +104,14 @@ export class LoginPageComponent {
 
     this.authService.submitEmail$(this.email).subscribe({
       next: (methodId: string) => {
-        if(methodId === 'invalidInviteCode') {
+        if (methodId === 'invalidInviteCode') {
           this.inviteCodeInput.isValid = false;
-          this.inviteCodeInput.customFeedback = "This invite code is incorrect.";
+          this.inviteCodeInput.customFeedback =
+            'This invite code is incorrect.';
           this.isSendCodeSubmitting = false;
           return;
         }
-        if(!methodId) {
+        if (!methodId) {
           this.isSendCodeSubmitting = false;
           return;
         }
@@ -108,7 +119,10 @@ export class LoginPageComponent {
         this.showOTPDialog = true;
         this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_PHONE);
         this.isSendCodeSubmitting = false;
-        this.toastService.showToast("Code sent successfully", FeedbackType.SUCCESS);
+        this.toastService.showToast(
+          'Code sent successfully',
+          FeedbackType.SUCCESS,
+        );
       },
       error: () => {
         this.emailInput.customFeedback = TEXTS.UNKNWON_LOGIN_ERROR;
@@ -119,7 +133,7 @@ export class LoginPageComponent {
   }
 
   public onConfirmCode(): void {
-    if(this.isCheckTokenSubmitting) {
+    if (this.isCheckTokenSubmitting) {
       return;
     }
 
@@ -128,31 +142,31 @@ export class LoginPageComponent {
 
     const code = this.getCode();
 
-    if(!code){
+    if (!code) {
       this.isCheckTokenSubmitting = false;
       this.error$.next(TEXTS.INCORRECT_CODE);
       return;
     }
 
-    this.authService.checkEmailCode$(
-      this.methodId, this.email, code
-    ).subscribe({
-      next: () => {
-        this.navigationService.navigate('/dashboard');
-        this.toastService.showToast("Login successful", FeedbackType.SUCCESS);
-        this.isCheckTokenSubmitting = false;
-        this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_CODE);
-      },
-      error: (error: HttpErrorResponse) => {
-        if(error.status === 404) {
-          this.error$.next(TEXTS.INCORRECT_CODE);
-        } else {
-          this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
-        }
-        this.isCheckTokenSubmitting = false;
-        this.analyticsService.track(ANALYTICS.LOGIN_CODE_FAILED);
-      },
-    });
+    this.authService
+      .checkEmailCode$(this.methodId, this.email, code)
+      .subscribe({
+        next: () => {
+          this.navigationService.navigate('/dashboard');
+          this.toastService.showToast('Login successful', FeedbackType.SUCCESS);
+          this.isCheckTokenSubmitting = false;
+          this.analyticsService.track(ANALYTICS.LOGIN_ENTERED_CODE);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            this.error$.next(TEXTS.INCORRECT_CODE);
+          } else {
+            this.error$.next(TEXTS.UNKNWON_LOGIN_ERROR);
+          }
+          this.isCheckTokenSubmitting = false;
+          this.analyticsService.track(ANALYTICS.LOGIN_CODE_FAILED);
+        },
+      });
   }
 
   private getCode(): string {
@@ -170,6 +184,14 @@ export class LoginPageComponent {
   }
 
   onViewFeatures(): void {
-    alert("Not implemented yet!");
+    alert('Not implemented yet!');
+  }
+
+  onPrivacyPolicy(): void {
+    this.navigationService.navigate('/privacy-policy');
+  }
+
+  onTermsConditions(): void {
+    this.navigationService.navigate('/tos');
   }
 }
