@@ -11,6 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
+import { DataService } from 'src/app/shared/services/data.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'dashboard-top-bar',
@@ -25,6 +27,8 @@ export class DashboardTopBarComponent {
 
   @Output() showSidebar = new EventEmitter<boolean>();
 
+  isFree$ = this.dataService.getUser$().pipe(map((user) => user.user.plan === "free"));
+
   TEXTS = TEXTS;
 
   isSidebarShown = (this.preferencesService.getPreference(USER_PREFERENCES.ShowSidebar) ?? 'true') === 'true';
@@ -33,6 +37,7 @@ export class DashboardTopBarComponent {
     private navigationService: NavigationService,
     private authService: AuthService,
     private preferencesService: PreferencesService,
+    private dataService: DataService,
   ){}
 
   onCollapseSidebar(): void {

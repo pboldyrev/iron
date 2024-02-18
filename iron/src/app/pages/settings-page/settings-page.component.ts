@@ -24,7 +24,7 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 })
 export class SettingsPageComponent {
   public accounts = [];
-
+  
   constructor(
     private navigationService: NavigationService,
   ){}

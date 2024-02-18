@@ -8,6 +8,7 @@ import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { AnalyticsService } from './analytics.service';
 import { environment } from 'src/environments';
 import { PlanName } from 'src/app/pages/settings-page/billing/billing.constants';
+import { User } from '../interfaces/interfaces';
 
 export const BATCH_SIZE = 9;
 
@@ -414,7 +415,7 @@ export class DataService {
     )
   }
 
-  public getUser$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
+  public getUser$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<any> {
     if(loadingIndicator) {
       loadingIndicator.next(true);
     }

@@ -1,22 +1,18 @@
 <div class="row justify-content-center px-2 px-sm-0 py-4">
-    <div class="col-12 col-sm-10 col-xl-8 settings-page-wrapper">
-        <blu-modal>
-            <blu-button 
-                type="primary" 
-                iconName="backArrow" 
-                (click)="onBack()"
-            >Back</blu-button>
-            <blu-heading class="my-3">
-                Settings
-            </blu-heading>
-            <mat-tab-group [dynamicHeight]="true">
-                <mat-tab label="Account">
-                    <app-account-details></app-account-details>
-                </mat-tab>
-                <mat-tab label="Billing">
-                    <app-billing></app-billing>
-                </mat-tab>
-            </mat-tab-group>
-        </blu-modal>
-    </div>
+  <div class="col-12 col-sm-10 col-xl-8 settings-page-wrapper">
+    <blu-modal>
+      <blu-button type="primary" iconName="backArrow" (click)="onBack()"
+        >Back</blu-button
+      >
+      <blu-heading class="my-3"> Settings </blu-heading>
+      <mat-tab-group [dynamicHeight]="true">
+        <mat-tab label="Billing">
+          <app-billing></app-billing>
+        </mat-tab>
+        <mat-tab label="Account">
+          <app-account-details></app-account-details>
+        </mat-tab>
+      </mat-tab-group>
+    </blu-modal>
+  </div>
 </div>

@@ -41,14 +41,14 @@
   border: 1px solid var(--blu-color-brand-highlight);
 }
 
-.blu-button-primary {
-  background-color: var(--blu-color-brand);
-  border: 1px solid var(--blu-color-brand);
-  color: var(--blu-color-primary);
+.blu-button-special {
+  border: 1px solid var(--blu-color-info);
+  color: var(--blu-color-info);
 }
 
-.blu-button-primary:hover {
-  border: 1px solid var(--blu-color-brand-highlight);
+.blu-button-special:hover {
+  background-color: var(--blu-color-info);
+  color: var(--blu-color-primary);
 }
 
 .blu-button-secondary {
