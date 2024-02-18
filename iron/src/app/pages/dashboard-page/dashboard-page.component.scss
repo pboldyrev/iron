@@ -33,15 +33,10 @@
 }
 
 .dashboard-page-footer {
-  position: sticky;
-  bottom: 0px;
-  left: 0px;
-  z-index: 2;
   width: 100%;
-  border-radius: 250px;
+  border-radius: var(--blu-radius-m);
   border: var(--blu-border-tertiary);
-  background-color: rgba(var(--blu-background-secondary), 0.75);
-  backdrop-filter: blur(5px);
+  background-color: var(--blu-background-secondary);
   display: flex;
   justify-content: center;
   align-items: center;
