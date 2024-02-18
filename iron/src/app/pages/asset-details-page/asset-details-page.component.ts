@@ -169,9 +169,11 @@ export class AssetDetailsPageComponent implements AfterContentInit {
 
   onArchiveAsset(): void {
     this.isArchiving$.next(true);
+    let lastDate = this.dateService.getLatestValidDate();
+    lastDate.setDate(lastDate.getDate() - 1);
     this.dataService
       .putAssetValue$(this.assetId, {
-        timestamp: this.dateService.getLatestValidDate().getTime(),
+        timestamp: lastDate.getTime(),
         units: 0,
         totalValue: 0,
       })
