@@ -77,7 +77,7 @@
           <mat-tab label="Analytics">
             <div class="row g-0 gy-2">
               <onboarding
-                [assets$]="assets$"
+                [assets]="(assets$ | async) ?? []"
                 *ngIf="((assets$ | async) ?? []).length <= 10"
               ></onboarding>
               <app-ai-feedback

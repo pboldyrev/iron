@@ -28,7 +28,7 @@ import {
   styleUrl: './onboarding.component.scss',
 })
 export class OnboardingComponent {
-  @Input() assets$: Observable<Asset[]> = of([]);
+  @Input() assets: Asset[] = [];
 
   TEXTS = TEXTS;
 
@@ -50,22 +50,21 @@ export class OnboardingComponent {
       return;
     }
 
-    this.assets$
-      .subscribe((assets: Asset[]) => {
-        assets = assets.filter((asset) => !asset.isArchived);
-        if (assets.length === 0) {
-          this.showStep = 1;
-        } else if (assets.length >= 1 && assets.length < 3) {
-          this.showStep = 2;
-        } else if (assets.length >= 3 && assets.length <= 10) {
-          this.showStep = 3;
-        } else if (assets.length > 10) {
-          this.preferencesService.setPreference(
-            USER_PREFERENCES.CompletedOnboarding,
-            'true',
-          );
-        }
-      });
+    if (this.assets.length >= 0) {
+      this.showStep = 1;
+    }
+    if (this.assets.length >= 1) {
+      this.showStep = 2;
+    }
+    if (this.assets.length >= 2) {
+      this.showStep = 3;
+    }
+    if (this.assets.length >= 10) {
+      this.preferencesService.setPreference(
+        USER_PREFERENCES.CompletedOnboarding,
+        'true',
+      );
+    }
   }
 
   onToggleDetails(): void {

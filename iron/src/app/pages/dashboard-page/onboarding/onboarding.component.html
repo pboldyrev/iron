@@ -24,7 +24,7 @@
       <mat-progress-bar
         class="mt-5"
         mode="determinate"
-        [value]="(((assets$ | async) ?? []).length / 20) * 100"
+        [value]="(assets.length / 20) * 100"
       ></mat-progress-bar>
       <span
         *ngIf="showStep === 1"
