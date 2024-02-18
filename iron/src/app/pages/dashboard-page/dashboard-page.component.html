@@ -96,11 +96,13 @@
     </ng-template>
     <div class="dashboard-page-footer mt-3 py-2">
       <blu-text type="secondary">
-        <blu-link>Privacy policy</blu-link>
+        <blu-link (click)="onPrivacyPolicy()">Privacy policy</blu-link>
       </blu-text>
       <blu-text type="secondary" class="px-3">|</blu-text>
       <blu-text type="secondary"
-        ><blu-link>Terms and conditions</blu-link></blu-text
+        ><blu-link (click)="onTermsConditions()"
+          >Terms and conditions</blu-link
+        ></blu-text
       >
     </div>
   </div>

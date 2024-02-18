@@ -9,6 +9,8 @@ import { hasAssetGuard } from './guards/has-asset.guard';
 import { AssetDetailsPageComponent } from './pages/asset-details-page/asset-details-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 
 const routes: Routes = [
   {
@@ -40,6 +42,16 @@ const routes: Routes = [
     path: 'login',
     component: LoginPageComponent,
     canActivate: [unauthenticatedGuard],
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+    canActivate: [],
+  },
+  {
+    path: 'tos',
+    component: TermsConditionsComponent,
+    canActivate: [],
   },
   {
     path: '**',
