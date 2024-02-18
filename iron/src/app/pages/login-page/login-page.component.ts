@@ -184,7 +184,7 @@ export class LoginPageComponent {
   }
 
   onViewFeatures(): void {
-    alert('Not implemented yet!');
+    this.navigationService.navigate('/features');
   }
 
   onPrivacyPolicy(): void {

@@ -1,29 +1,33 @@
 <div class="row g-0">
   <div class="col-lg-5 col-sm-12">
-      <div class="login-side-wrapper">
-        <div class="login-branding">
-            <img src="./../../../assets/logo/android-chrome-512x512.png" width="50px" matTooltip="Beep boop beep">
-        </div>
-        <div class="login-side-content">
-          <blu-heading
-            [subheading]="TEXTS.SUBTITLE"
-            class="login-heading-wrapper"
-          >
-            {{ TEXTS.TITLE }}
-          </blu-heading>
-          <ng-container *ngIf="!showOTPDialog else OTPDialog">
-            <blu-input
-              [label]="LABELS.EMAIL"
-              [required]="true"
-              [fullWidth]="true"
-              [feedbackType]="FeedbackType.ERROR"
-              [tooltip]="TOOLTIPS.EMAIL"
-              [maxChars]="100"
-              type="EMAIL"
-              (keydown.enter)='onSendCode()'
-              #emailInput
-            ></blu-input>
-            <!-- <blu-input
+    <div class="login-side-wrapper">
+      <div class="login-branding">
+        <img
+          src="./../../../assets/logo/android-chrome-512x512.png"
+          width="50px"
+          matTooltip="Beep boop beep"
+        />
+      </div>
+      <div class="login-side-content">
+        <blu-heading
+          [subheading]="TEXTS.SUBTITLE"
+          class="login-heading-wrapper"
+        >
+          {{ TEXTS.TITLE }}
+        </blu-heading>
+        <ng-container *ngIf="!showOTPDialog; else OTPDialog">
+          <blu-input
+            [label]="LABELS.EMAIL"
+            [required]="true"
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR"
+            [tooltip]="TOOLTIPS.EMAIL"
+            [maxChars]="100"
+            type="EMAIL"
+            (keydown.enter)="onSendCode()"
+            #emailInput
+          ></blu-input>
+          <!-- <blu-input
               [label]="LABELS.BETA"
               [required]="true"
               [fullWidth]="true"
@@ -34,38 +38,59 @@
               (keydown.enter)='onSendCode()'
               #inviteCodeInput
             ></blu-input> -->
-            <blu-button type="primary" [fullWidth]="true" (click)="isSendCodeSubmitting ? null : onSendCode()" [disabled]="isSendCodeSubmitting">
-              <blu-spinner *ngIf="isSendCodeSubmitting" [inlineSpace]="true"></blu-spinner>
-              {{ BTN_TEXTS.LOGIN }}
-            </blu-button>
-          </ng-container>
-      
-          <ng-template #OTPDialog>
-            <blu-input
-              [label]="LABELS.OTP"
-              [required]="true"
-              [fullWidth]="true"
-              [feedbackType]="FeedbackType.ERROR"
-              [tooltip]="TOOLTIPS.OTP"
-              [maxChars]="6"
-              type="NUMBER"
-              (keydown.enter)="onConfirmCode()"
-              #codeInput
-            ></blu-input>
-            <blu-validation-feedback
-              *ngIf="error$ | async"
-              [type]="FeedbackType.ERROR"
-            >
-              {{ error$ | async }}
-            </blu-validation-feedback>
-            <blu-button type="primary" [fullWidth]="true" (click)="isCheckTokenSubmitting ? null : onConfirmCode()" [disabled]="isCheckTokenSubmitting">
-              <blu-spinner *ngIf="isCheckTokenSubmitting" [inlineSpace]="true"></blu-spinner>
-              {{ BTN_TEXTS.SUBMIT_CODE }}
-            </blu-button>
-            <blu-button type="secondary" iconName="backArrow" [fullWidth]="true" (click)="onBack()">
-              {{ BTN_TEXTS.BACK }}
-            </blu-button>
-          </ng-template>
+          <blu-button
+            type="primary"
+            [fullWidth]="true"
+            (click)="isSendCodeSubmitting ? null : onSendCode()"
+            [disabled]="isSendCodeSubmitting"
+          >
+            <blu-spinner
+              *ngIf="isSendCodeSubmitting"
+              [inlineSpace]="true"
+            ></blu-spinner>
+            {{ BTN_TEXTS.LOGIN }}
+          </blu-button>
+        </ng-container>
+
+        <ng-template #OTPDialog>
+          <blu-input
+            [label]="LABELS.OTP"
+            [required]="true"
+            [fullWidth]="true"
+            [feedbackType]="FeedbackType.ERROR"
+            [tooltip]="TOOLTIPS.OTP"
+            [maxChars]="6"
+            type="NUMBER"
+            (keydown.enter)="onConfirmCode()"
+            #codeInput
+          ></blu-input>
+          <blu-validation-feedback
+            *ngIf="error$ | async"
+            [type]="FeedbackType.ERROR"
+          >
+            {{ error$ | async }}
+          </blu-validation-feedback>
+          <blu-button
+            type="primary"
+            [fullWidth]="true"
+            (click)="isCheckTokenSubmitting ? null : onConfirmCode()"
+            [disabled]="isCheckTokenSubmitting"
+          >
+            <blu-spinner
+              *ngIf="isCheckTokenSubmitting"
+              [inlineSpace]="true"
+            ></blu-spinner>
+            {{ BTN_TEXTS.SUBMIT_CODE }}
+          </blu-button>
+          <blu-button
+            type="secondary"
+            iconName="backArrow"
+            [fullWidth]="true"
+            (click)="onBack()"
+          >
+            {{ BTN_TEXTS.BACK }}
+          </blu-button>
+        </ng-template>
       </div>
       <div class="d-flex justify-content-center align-items-center mt-3 py-2">
         <blu-text type="tertiary" class="me-3">
@@ -87,9 +112,6 @@
       <blu-text type="primary" class="mt-3" size="l">
         {{ TEXTS.SUBHEADLINE }}
       </blu-text>
-      <blu-button type="inverse" class="mt-3" (click)="onViewFeatures()">
-        View features
-      </blu-button>
     </div>
   </div>
 </div>
