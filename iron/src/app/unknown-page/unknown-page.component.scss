@@ -1,0 +1,15 @@
+.unknown-wrapper {
+  width: 100%;
+  max-width: var(--blu-width-4xl);
+  display: flex;
+  justify-content: center;
+}
+
+.unknown-content {
+  width: 90%;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

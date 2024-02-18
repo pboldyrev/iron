@@ -1,1 +1,22 @@
-<p>unknown-page works!</p>
+<div class="row justify-content-center px-2 px-sm-0 py-4">
+  <div class="col-12 col-sm-10 col-xl-8 settings-page-wrapper">
+    <blu-modal class="d-flex justify-content-center">
+      <div class="unknown-wrapper p-4">
+        <div class="unknown-content">
+          <img class="w-100" src="../../../assets/images/404.svg" />
+          <blu-heading size="s" class="mt-3">Unknown page!</blu-heading>
+          <blu-text class="mt-2 mb-3" type="secondary"
+            >Looks like you stumbled onto a page we don't have. Don't worry, the
+            button below will take you back to the overview page!</blu-text
+          >
+          <blu-button
+            type="primary"
+            iconName="home"
+            (click)="onOverviewClicked()"
+            >Go to overview</blu-button
+          >
+        </div>
+      </div>
+    </blu-modal>
+  </div>
+</div>
