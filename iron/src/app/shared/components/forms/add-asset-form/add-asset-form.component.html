@@ -1,75 +1,87 @@
 <div class="add-asset-form-section-wrapper">
-    <div class="row">
-        <div class="col">
-            <blu-select
-                [label]="TEXTS.LABEL_ACCOUNT"
-                [required]="true"
-                [options]="accountOptions"
-                [disabled]="(isLoading$ | async) ?? false"
-                #account
-            ></blu-select>
-        </div>
+  <div class="row">
+    <div class="col">
+      <blu-select
+        [label]="TEXTS.LABEL_ACCOUNT"
+        [required]="true"
+        [options]="accountOptions"
+        [disabled]="(isLoading$ | async) ?? false"
+        #account
+      ></blu-select>
     </div>
+  </div>
 </div>
 <app-add-vehicle-form
-    *ngIf="assetType === AssetType.Vehicle"
-    [asset$]="asset$"
-    [isLoading$]="isLoading$"
-    [isAdd]="isAdd"
-    #vehicleForm
+  *ngIf="assetType === AssetType.Vehicle"
+  [asset$]="asset$"
+  [isLoading$]="isLoading$"
+  [isAdd]="isAdd"
+  #vehicleForm
 ></app-add-vehicle-form>
 <app-add-stock-form
-    *ngIf="assetType === AssetType.Stock"
-    [asset$]="asset$"
-    [isLoading$]="isLoading$"
-    [isAdd]="isAdd"
-    #stockForm
+  *ngIf="assetType === AssetType.Stock"
+  [asset$]="asset$"
+  [isLoading$]="isLoading$"
+  [isAdd]="isAdd"
+  #stockForm
 ></app-add-stock-form>
 <app-add-cash-form
-    *ngIf="assetType === AssetType.Cash"
-    [asset$]="asset$"
-    [isLoading$]="isLoading$"
-    [isAdd]="isAdd"
-    #customForm
+  *ngIf="assetType === AssetType.Cash"
+  [asset$]="asset$"
+  [isLoading$]="isLoading$"
+  [isAdd]="isAdd"
+  #customForm
 ></app-add-cash-form>
 <add-loan-form
-    *ngIf="assetType === AssetType.Loan"
-    [asset$]="asset$"
-    [isLoading$]="isLoading$"
-    [isAdd]="isAdd"
-    #loanForm
+  *ngIf="assetType === AssetType.Loan"
+  [asset$]="asset$"
+  [isLoading$]="isLoading$"
+  [isAdd]="isAdd"
+  #loanForm
 ></add-loan-form>
 <div class="row g-3">
-    <ng-container *ngIf="isAdd else isUpdate">
-        <div class="col-md-4 order-md-1 order-2">
-            <blu-button 
-                [fullWidth]="true" 
-                type="secondary" 
-                (click)="onBack()"
-                iconName="backArrow"
-            >{{ TEXTS.BTN_BACK }}</blu-button>
-        </div>
-        <div class="col-md-8 order-md-2 order-1">
-            <blu-button
-                [fullWidth]="true" 
-                type="primary"
-                (click)="submitDisabled ? null : onSubmit()"
-                [disabled]="submitDisabled"
-            >
-                <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
-                {{ assetType === AssetType.Loan ? TEXTS.BTN_ADD_LOAN : TEXTS.BTN_ADD_ASSET }}
-            </blu-button>
-        </div>
-    </ng-container>
-    <ng-template #isUpdate>
-        <blu-button
-            [fullWidth]="true" 
-            type="primary"
-            [disabled]="submitDisabled"
-            (click)="submitDisabled ? null : onSubmit()"
-        >
-            <blu-spinner [inlineSpace]="true" *ngIf="isLoading$ | async"></blu-spinner>
-            {{ TEXTS.BTN_UPDATE }}
-        </blu-button>
-    </ng-template>
+  <ng-container *ngIf="isAdd; else isUpdate">
+    <div class="col-md-4 order-md-1 order-2">
+      <blu-button
+        [fullWidth]="true"
+        type="secondary"
+        (click)="onBack()"
+        iconName="backArrow"
+        >{{ TEXTS.BTN_BACK }}</blu-button
+      >
+    </div>
+    <div class="col-md-8 order-md-2 order-1">
+      <blu-button
+        [fullWidth]="true"
+        type="primary"
+        (click)="submitDisabled ? null : onSubmit()"
+        [disabled]="submitDisabled"
+      >
+        <blu-spinner
+          [inlineSpace]="true"
+          *ngIf="isLoading$ | async"
+        ></blu-spinner>
+        {{
+          assetType === AssetType.Loan
+            ? TEXTS.BTN_ADD_LOAN
+            : TEXTS.BTN_ADD_ASSET
+        }}
+      </blu-button>
+    </div>
+  </ng-container>
+  <ng-template #isUpdate>
+    <blu-button
+      *ngIf="!(asset$ | async)?.isArchived"
+      [fullWidth]="true"
+      type="primary"
+      [disabled]="submitDisabled"
+      (click)="submitDisabled ? null : onSubmit()"
+    >
+      <blu-spinner
+        [inlineSpace]="true"
+        *ngIf="isLoading$ | async"
+      ></blu-spinner>
+      {{ TEXTS.BTN_UPDATE }}
+    </blu-button>
+  </ng-template>
 </div>

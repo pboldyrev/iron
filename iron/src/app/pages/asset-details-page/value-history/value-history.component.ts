@@ -279,6 +279,12 @@ export class ValueHistoryComponent {
             this.stockUnitsInput.isValid = false;
             isValid = false;
           }
+          if (finalUnits === 0) {
+            this.stockUnitsInput.customFeedback =
+              'After this sale, you will have 0 units left. Please archive the asset instead.';
+            this.stockUnitsInput.isValid = false;
+            isValid = false;
+          }
 
           if (
             finalTimestamp >= this.dateService.getLatestValidDate().getTime()

@@ -5,6 +5,7 @@ import { BluInput } from 'projects/blueprint/src/lib/input/input.component';
 import { Observable, BehaviorSubject, take, map, combineLatest, of } from 'rxjs';
 import { Asset } from 'src/app/shared/constants/constants';
 import { TEXTS } from './add-cash-form.strings';
+import { DateService } from 'src/app/shared/services/date.service';
 
 @Component({
   selector: 'app-add-cash-form',
@@ -26,6 +27,8 @@ export class AddCashFormComponent implements AfterContentChecked {
   public TEXTS = TEXTS;
 
   private isContentSet = false;
+
+  constructor(private dateService: DateService){}
 
   ngAfterContentChecked() {
     if(this.isAdd === false || this.isContentSet) {
@@ -68,7 +71,7 @@ export class AddCashFormComponent implements AfterContentChecked {
 
     if(this.isAdd) {
       assetObj.initTotalValue = parseFloat(curValue);
-      assetObj.initTimestamp = new Date().setDate(new Date().getDate() - 1).valueOf();
+      assetObj.initTimestamp = this.dateService.getLatestValidDate().valueOf();
     }
     
     return assetObj;

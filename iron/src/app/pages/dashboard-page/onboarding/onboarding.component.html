@@ -1,46 +1,64 @@
-<blu-modal [fullHeight]="true" *ngIf="showStep !== -1" [outline]="true" type="info">
-    <div class="onboarding-wrapper py-2">
-            <div class="onboarding-heading" (click)="onToggleDetails()">
-                <blu-heading size="s">
-                    {{ TEXTS.TITLE }}
-                </blu-heading>
-                <blu-button [iconOnly]="true" iconName="collapse" type="none" *ngIf="showDetails"></blu-button>
-                <blu-button [iconOnly]="true" iconName="show" type="none" *ngIf="!showDetails"></blu-button>
-            </div>
-            <blu-text *ngIf="showDetails" type="secondary">{{ TEXTS.SUBTITLE }}</blu-text>
-            <div class="onboarding-progress-bar-wrapper pt-4 pb-3" *ngIf="showDetails">
-                <mat-progress-bar
-                    class="mt-5"
-                    mode="determinate"
-                    [value]="((assets$ | async) ?? []).length / 20 * 100"
-                ></mat-progress-bar>
-                <span 
-                    *ngIf="showStep === 1"
-                    class="onboarding-progress-tick-wrapper first-tick ps-2 pb-3"
-                >
-                    <span class="onboarding-progress-tick">
-                        {{ TEXTS.GOAL_1 }}
-                        <blu-text type="secondary" size="s">{{ TEXTS.GOAL_1_COUNT }}</blu-text>
-                    </span>
-                </span>
-                <span 
-                    *ngIf="showStep === 2"
-                    class="onboarding-progress-tick-wrapper second-tick ps-2 pb-3"
-                >
-                    <span class="onboarding-progress-tick">
-                        {{ TEXTS.GOAL_2 }}
-                        <blu-text type="secondary" size="s">{{ TEXTS.GOAL_2_COUNT }}</blu-text>
-                    </span>
-                </span>
-                <span 
-                    *ngIf="showStep === 3"
-                    class="onboarding-progress-tick-wrapper third-tick ps-2 pb-3"
-                >
-                    <span class="onboarding-progress-tick">
-                        {{ TEXTS.GOAL_3 }}
-                        <blu-text type="secondary" size="s">{{ TEXTS.GOAL_3_COUNT }}</blu-text>
-                    </span>
-                </span>
-            </div>
+<blu-modal [fullHeight]="true" *ngIf="showStep !== -1" [outline]="true">
+  <div class="onboarding-wrapper py-2">
+    <div class="onboarding-heading" (click)="onToggleDetails()">
+      <blu-heading size="s">
+        {{ TEXTS.TITLE }}
+      </blu-heading>
+      <blu-button
+        [iconOnly]="true"
+        iconName="collapse"
+        type="none"
+        *ngIf="showDetails"
+      ></blu-button>
+      <blu-button
+        [iconOnly]="true"
+        iconName="show"
+        type="none"
+        *ngIf="!showDetails"
+      ></blu-button>
     </div>
+    <blu-text *ngIf="showDetails" type="secondary">{{
+      TEXTS.SUBTITLE
+    }}</blu-text>
+    <div class="onboarding-progress-bar-wrapper pt-4 pb-3" *ngIf="showDetails">
+      <mat-progress-bar
+        class="mt-5"
+        mode="determinate"
+        [value]="(((assets$ | async) ?? []).length / 20) * 100"
+      ></mat-progress-bar>
+      <span
+        *ngIf="showStep === 1"
+        class="onboarding-progress-tick-wrapper first-tick ps-2 pb-3"
+      >
+        <span class="onboarding-progress-tick">
+          {{ TEXTS.GOAL_1 }}
+          <blu-text type="secondary" size="s">{{
+            TEXTS.GOAL_1_COUNT
+          }}</blu-text>
+        </span>
+      </span>
+      <span
+        *ngIf="showStep === 2"
+        class="onboarding-progress-tick-wrapper second-tick ps-2 pb-3"
+      >
+        <span class="onboarding-progress-tick">
+          {{ TEXTS.GOAL_2 }}
+          <blu-text type="secondary" size="s">{{
+            TEXTS.GOAL_2_COUNT
+          }}</blu-text>
+        </span>
+      </span>
+      <span
+        *ngIf="showStep === 3"
+        class="onboarding-progress-tick-wrapper third-tick ps-2 pb-3"
+      >
+        <span class="onboarding-progress-tick">
+          {{ TEXTS.GOAL_3 }}
+          <blu-text type="secondary" size="s">{{
+            TEXTS.GOAL_3_COUNT
+          }}</blu-text>
+        </span>
+      </span>
+    </div>
+  </div>
 </blu-modal>

@@ -386,6 +386,34 @@ export class DataService {
     )
   }
 
+  public archiveAsset$(assetId: string, loadingIndicator: BehaviorSubject<boolean> | null = null, updateData = true): Observable<Asset> {
+    if(loadingIndicator) {
+      loadingIndicator.next(true);
+    }
+
+    return this.httpPost("archiveAsset", {assetId: assetId}).pipe(
+      map((data: any) => {
+        if(updateData) {
+          this.dataChanged$.next(true);
+        }
+        return data?.asset ?? {} as Asset;
+      }),
+      tap({
+        next: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+        },
+        error: () => {
+          if (loadingIndicator) {
+            loadingIndicator.next(false);
+          }
+          this.analyticsService.track("Failed to archive asset", { assetId: assetId });
+        }
+      })
+    )
+  }
+
   public getUser$(loadingIndicator: BehaviorSubject<boolean> | null = null): Observable<Asset> {
     if(loadingIndicator) {
       loadingIndicator.next(true);

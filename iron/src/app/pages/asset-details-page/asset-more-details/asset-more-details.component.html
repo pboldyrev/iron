@@ -1,8 +1,22 @@
 <div class="row asset-more-details-wrapper mt-2">
-    <app-add-asset-form
-        [asset$]="asset$"
-        [assetType]="(asset$ | async)?.assetType ?? AssetType.Cash"
-        [isLoading$]="isLoading$"
-        #addAssetForm
-    ></app-add-asset-form>
+  <app-add-asset-form
+    [asset$]="asset$"
+    [assetType]="(asset$ | async)?.assetType ?? AssetType.Cash"
+    [isLoading$]="isLoading$"
+    #addAssetForm
+  ></app-add-asset-form>
+  <blu-button
+    *ngIf="!(asset$ | async)?.isArchived"
+    [fullWidth]="true"
+    type="error"
+    tooltip="Archiving an asset will maintain its historical value. It will no longer be shown in the asset table and its value moving forward will be $0."
+    (click)="onArchiveAsset()"
+    ><blu-spinner
+      *ngIf="isArchiving$ | async"
+      [inlineSpace]="true"
+    ></blu-spinner
+    >{{
+      archiveClicked ? "Are you sure? This can't be undone." : "Archive asset"
+    }}</blu-button
+  >
 </div>

@@ -7,6 +7,8 @@ export class DateService {
   constructor() { }
 
   public getLatestValidDate(): Date {
-    return new Date(new Date().setDate(new Date().getDate() - 1));
+    let d = new Date(new Date().setUTCDate(new Date().getUTCDate() - 1));
+    d.setUTCHours(0,0,0,0)
+    return d;
   }
 }

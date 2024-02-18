@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component';
@@ -22,7 +22,7 @@ export type Attributes = {
 @Component({
   selector: 'app-asset-more-details',
   standalone: true,
-  imports: [CommonModule, BluInput, BluButton, AddAssetFormComponent, BluSpinner, BluHeading],
+  imports: [CommonModule, BluInput, BluSpinner, BluButton, AddAssetFormComponent, BluSpinner, BluHeading],
   templateUrl: './asset-more-details.component.html',
   styleUrl: './asset-more-details.component.scss'
 })
@@ -30,12 +30,23 @@ export class AssetMoreDetailsComponent {
   @ViewChild("addAssetForm") addAssetForm!: AddAssetFormComponent;
   
   @Input() asset$!: Observable<Asset>;
+  @Input() isArchiving$ = new BehaviorSubject<boolean>(false);
+  @Output() archiveAsset = new EventEmitter();
 
   public isLoading$ = new BehaviorSubject<boolean>(false);
+  public archiveClicked = false;
 
   public AssetType = AssetType;
 
   public onSaveInit(): void {
     this.addAssetForm.onSubmit();
+  }
+
+  onArchiveAsset(): void {
+    if(!this.archiveClicked) {
+      this.archiveClicked = true;
+      return;
+    }
+    this.archiveAsset.emit();
   }
 }

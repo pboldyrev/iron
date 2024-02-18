@@ -1,73 +1,103 @@
 <div class="row justify-content-center px-2 px-sm-0 py-4">
-    <div class="col-12 col-sm-10 col-xl-8 asset-details-page-wrapper">
-        <blu-modal>
-            <div class="asset-details-page-button-wrapper mb-4">
-                <blu-button
-                    type="primary" 
-                    iconName="backArrow" 
-                    (click)="onBack()"
-                >
-                        {{ TEXTS.BTN_BACK }}
-                </blu-button>
-                <blu-button 
-                    *ngIf="!(isValuesLoading$ | async) && (asset$ | async)?.assetType !== AssetType.Cash"
-                    type="secondary" 
-                    [iconOnly]="true" 
-                    iconName="spinner" 
-                    (click)="onRefresh()" 
-                    [tooltip]="TEXTS.TOOLTIP_REFRESH"
-                ></blu-button>
-            </div>
-            <div class="d-flex flex-column mb-4" *ngIf="isAssetLoading$ | async">
-                <app-skeleton-loader-text size="m"></app-skeleton-loader-text>
-                <app-skeleton-loader-text size="l" curved="l" [height]="50" class="mt-2"></app-skeleton-loader-text>
-            </div>
-            <blu-heading
-                *ngIf="!(isAssetLoading$ | async)"
-                class="mb-4"
-                size="m"
-                [bold]="true"
-                [subheading]="displayAssetName"
-                subheadingPosition="top"
-                [isNumber]="true"
-            >
-                {{ ((asset$ | async) ?? {}).curTotalValue | displayCurrency }}
-            </blu-heading>
-            <mat-tab-group 
-                [dynamicHeight]="true"
-                (selectedTabChange)="onTabClick($event)"
-            >
-                <mat-tab [label]="TEXTS.TAB_HISTORICAL" [disabled]="(isValuesLoading$ | async) || (isAssetLoading$ | async)">
-                    <app-loading-state *ngIf="isValuesLoading$ | async" class="asset-details-loading-wrapper"></app-loading-state>
-                    <app-value-history
-                        [hidden]="(isValuesLoading$ | async)"
-                        [asset$]="asset$"
-                        [assetValues$]="assetValues$"
-                        [assetId]="assetId"
-                        [isLoading$]="isValuesLoading$"
-                        #valueHistory
-                    ></app-value-history>
-                </mat-tab>
-                <mat-tab [label]="TEXTS.TAB_PROJECTION" [disabled]="(isValuesLoading$ | async) || (isAssetLoading$ | async)"
-                    *ngIf="!(isValuesLoading$ | async) && 
-                        ((asset$ | async)?.assetType === AssetType.Vehicle || (asset$ | async)?.assetType === AssetType.Cash)"
-                    >
-                    <app-future-projection
-                        [asset$]="asset$"
-                        [assetName]="(asset$ | async)?.assetName ?? ''"
-                        [assetValues]="(assetValues$ | async) ?? []"
-                        [assetType]="(asset$ | async)?.assetType ?? AssetType.Vehicle"
-                        #futureProjection
-                    ></app-future-projection>
-                </mat-tab>
-                <mat-tab [label]="TEXTS.TAB_MORE_DETAILS" [disabled]="(isValuesLoading$ | async) || (isAssetLoading$ | async)">
-                    <app-loading-state *ngIf="isValuesLoading$ | async" class="asset-details-loading-wrapper"></app-loading-state>
-                    <app-asset-more-details
-                        [hidden]="isValuesLoading$ | async"
-                        [asset$]="asset$"
-                    ></app-asset-more-details>
-                </mat-tab>
-            </mat-tab-group>
-        </blu-modal>
-    </div>
+  <div class="col-12 col-sm-10 col-xl-8 asset-details-page-wrapper">
+    <blu-modal>
+      <div class="asset-details-page-button-wrapper mb-4">
+        <blu-button type="primary" iconName="backArrow" (click)="onBack()">
+          {{ TEXTS.BTN_BACK }}
+        </blu-button>
+        <blu-button
+          *ngIf="
+            !(isValuesLoading$ | async) &&
+            (asset$ | async)?.assetType !== AssetType.Cash
+          "
+          type="secondary"
+          [iconOnly]="true"
+          iconName="spinner"
+          (click)="onRefresh()"
+          [tooltip]="TEXTS.TOOLTIP_REFRESH"
+        ></blu-button>
+      </div>
+      <div class="d-flex flex-column mb-4" *ngIf="isAssetLoading$ | async">
+        <app-skeleton-loader-text size="m"></app-skeleton-loader-text>
+        <app-skeleton-loader-text
+          size="l"
+          curved="l"
+          [height]="50"
+          class="mt-2"
+        ></app-skeleton-loader-text>
+      </div>
+      <blu-tag
+        *ngIf="!(isAssetLoading$ | async) && (asset$ | async)?.isArchived"
+        type="error"
+        class="mb-2"
+        >Archived</blu-tag
+      >
+      <blu-heading
+        *ngIf="!(isAssetLoading$ | async)"
+        class="mb-4"
+        size="m"
+        [bold]="true"
+        [subheading]="displayAssetName"
+        subheadingPosition="top"
+        [isNumber]="true"
+      >
+        {{ ((asset$ | async) ?? {}).curTotalValue | displayCurrency }}
+      </blu-heading>
+      <mat-tab-group
+        [dynamicHeight]="true"
+        (selectedTabChange)="onTabClick($event)"
+      >
+        <mat-tab
+          [label]="TEXTS.TAB_HISTORICAL"
+          [disabled]="(isValuesLoading$ | async) || (isAssetLoading$ | async)"
+        >
+          <app-loading-state
+            *ngIf="isValuesLoading$ | async"
+            class="asset-details-loading-wrapper"
+          ></app-loading-state>
+          <app-value-history
+            [hidden]="isValuesLoading$ | async"
+            [asset$]="asset$"
+            [assetValues$]="assetValues$"
+            [assetId]="assetId"
+            [isLoading$]="isValuesLoading$"
+            #valueHistory
+          ></app-value-history>
+        </mat-tab>
+        <mat-tab
+          [label]="TEXTS.TAB_PROJECTION"
+          [disabled]="(isValuesLoading$ | async) || (isAssetLoading$ | async)"
+          *ngIf="
+            !(asset$ | async)?.isArchived &&
+            !(isValuesLoading$ | async) &&
+            ((asset$ | async)?.assetType === AssetType.Vehicle ||
+              (asset$ | async)?.assetType === AssetType.Cash)
+          "
+        >
+          <app-future-projection
+            [asset$]="asset$"
+            [assetName]="(asset$ | async)?.assetName ?? ''"
+            [assetValues]="(assetValues$ | async) ?? []"
+            [assetType]="(asset$ | async)?.assetType ?? AssetType.Vehicle"
+            #futureProjection
+          ></app-future-projection>
+        </mat-tab>
+        <mat-tab
+          [label]="TEXTS.TAB_MORE_DETAILS"
+          [disabled]="(isValuesLoading$ | async) || (isAssetLoading$ | async)"
+        >
+          <app-loading-state
+            *ngIf="isValuesLoading$ | async"
+            class="asset-details-loading-wrapper"
+          ></app-loading-state>
+          <app-asset-more-details
+            [hidden]="isValuesLoading$ | async"
+            [asset$]="asset$"
+            [isArchiving$]="isArchiving$"
+            (archiveAsset)="onArchiveAsset()"
+          ></app-asset-more-details>
+        </mat-tab>
+      </mat-tab-group>
+    </blu-modal>
+  </div>
 </div>
