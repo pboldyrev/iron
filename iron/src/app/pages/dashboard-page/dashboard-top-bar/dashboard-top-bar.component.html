@@ -17,10 +17,30 @@
         class="pe-2"
         type="primary"
         iconName="plus"
-        (click)="onAddAsset()"
+        [matMenuTriggerFor]="addMenu"
       >
         {{ TEXTS.BTN_PRIMARY_CTA }}
       </blu-button>
+      <mat-menu #addMenu="matMenu" xPosition="before" yPosition="below">
+        <div
+          mat-menu-item
+          class="d-flex"
+          [disableRipple]="true"
+          (click)="onAddAsset()"
+        >
+          <div class="d-flex align-items-center">
+            <blu-icon name="plus" class="me-2"></blu-icon>
+            <blu-text>{{ TEXTS.MANUAL_CTA }}</blu-text>
+          </div>
+        </div>
+        <div mat-menu-item [disableRipple]="true" (click)="onImportAsset()">
+          <div class="d-flex align-items-center">
+            <blu-icon name="upload" class="me-2"></blu-icon>
+            <blu-text>{{ TEXTS.IMPORT_CTA }}</blu-text>
+            <blu-tag class="ms-2">Beta</blu-tag>
+          </div>
+        </div>
+      </mat-menu>
       <div class="d-flex">
         <blu-button
           *ngIf="isFree$ | async"
@@ -48,13 +68,6 @@
             <div class="d-flex align-items-center">
               <blu-icon name="help" class="me-2"></blu-icon>
               <blu-text>{{ TEXTS.FEEDBACK_CTA }}</blu-text>
-            </div>
-          </div>
-          <div mat-menu-item [disableRipple]="true" (click)="onImportAsset()">
-            <div class="d-flex align-items-center">
-              <blu-icon name="upload" class="me-2"></blu-icon>
-              <blu-text>{{ TEXTS.IMPORT_CTA }}</blu-text>
-              <blu-tag class="ms-2">Beta</blu-tag>
             </div>
           </div>
           <div mat-menu-item [disableRipple]="true" (click)="onSettings()">

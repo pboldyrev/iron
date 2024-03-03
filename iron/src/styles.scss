@@ -1,16 +1,18 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @include mat.core();
 $iron-primary: mat.define-palette(mat.$green-palette);
 $iron-accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
 $iron-warn: mat.define-palette(mat.$red-palette);
 
-$iron-theme: mat.define-dark-theme((
-  color: (
-    primary: $iron-primary,
-    accent: $iron-accent,
-    warn: $iron-warn,
+$iron-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $iron-primary,
+      accent: $iron-accent,
+      warn: $iron-warn,
+    ),
   )
-));
+);
 
 @include mat.all-component-themes($iron-theme);
 
@@ -24,7 +26,8 @@ $iron-theme: mat.define-dark-theme((
   color: var(--blu-color-secondary);
 }
 
-html, body {
+html,
+body {
   background-color: var(--blu-background-primary);
   font: var(--blu-font-primary);
 }
@@ -193,13 +196,16 @@ html, body {
     background-color: rgba(0, 0, 0, 0);
     margin-bottom: var(--blu-margin-l);
     max-width: 75vw;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    box-shadow:
+      rgba(17, 17, 26, 0.1) 0px 1px 0px,
+      rgba(17, 17, 26, 0.1) 0px 8px 24px,
+      rgba(17, 17, 26, 0.1) 0px 16px 48px;
   }
 
   .cdk-overlay-pane {
     max-width: 90%;
   }
-  
+
   .mat-mdc-snack-bar-label,
   .mdc-snackbar__surface {
     padding: 0;
@@ -207,19 +213,21 @@ html, body {
 
   // FONT
   --blu-font-primary: normal var(--blu-font-weight-normal)
-      var(--blu-font-size-m) 'Outfit',
+      var(--blu-font-size-m) "Outfit",
     sans-serif;
   --blu-font-heading: normal var(--blu-font-weight-normal)
-      var(--blu-font-size-heading-m) 'Outfit',
+      var(--blu-font-size-heading-m) "Outfit",
     sans-serif;
 
   --mat-table-background-color: var(--blu-background-secondary);
-  --mat-menu-item-hover-state-layer-color: var(--blu-background-secondary);
+  --mat-menu-item-hover-state-layer-color: var(--blu-background-tertiary);
   --mat-tab-header-inactive-label-text-color: var(--blu-color-secondary);
 
   .mat-mdc-tab-group {
     --mdc-tab-indicator-active-indicator-color: var(--blu-color-primary);
-    --mat-tab-header-active-focus-indicator-color: var(--blu-color-text-primary);
+    --mat-tab-header-active-focus-indicator-color: var(
+      --blu-color-text-primary
+    );
     --mat-tab-header-active-label-text-color: var(--blu-color-text-primary);
     --mat-tab-header-active-ripple-color: none;
     --mat-tab-header-active-hover-indicator-color: var(--blu-color-primary);
@@ -231,7 +239,7 @@ html, body {
   .mat-mdc-menu-content {
     font: var(--blu-font-primary);
     padding: 0px !important;
-    background-color: var(--blu-background-primary);
+    background-color: var(--blu-background-secondary);
   }
 
   .mat-mdc-tab {
@@ -243,8 +251,8 @@ html, body {
   }
 
   .mdc-tab {
-    padding: 0 var(--blu-padding-xxl)!important;
-    font: var(--blu-font-primary)!important;
+    padding: 0 var(--blu-padding-xxl) !important;
+    font: var(--blu-font-primary) !important;
   }
 
   .mdc-linear-progress {
@@ -252,7 +260,7 @@ html, body {
   }
 
   .mat-mdc-progress-bar {
-      --mdc-linear-progress-active-indicator-color: var(--blu-color-brand);
+    --mdc-linear-progress-active-indicator-color: var(--blu-color-brand);
   }
 
   --mdc-linear-progress-active-indicator-height: 7px;
@@ -264,17 +272,20 @@ html, body {
     font: var(--blu-font-primary);
     color: var(--blu-color-primary);
     font-size: var(--blu-font-size-s);
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    box-shadow:
+      rgba(17, 17, 26, 0.1) 0px 1px 0px,
+      rgba(17, 17, 26, 0.1) 0px 8px 24px,
+      rgba(17, 17, 26, 0.1) 0px 16px 48px;
   }
 
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
   }
 
-  input[type=number] {
-      appearance: textfield;
+  input[type="number"] {
+    appearance: textfield;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {
@@ -315,14 +326,14 @@ html, body {
   }
 
   .mat-mdc-tab.mdc-tab--active {
-      border-color: var(--blu-color-brand) !important;
+    border-color: var(--blu-color-brand) !important;
   }
 
   .mat-mdc-tab .mdc-tab-indicator__content--underline {
-      border: none !important;
+    border: none !important;
   }
 
   .mat-mdc-tab-body-wrapper {
-      margin-top: var(--blu-margin-xl);
+    margin-top: var(--blu-margin-xl);
   }
 }
