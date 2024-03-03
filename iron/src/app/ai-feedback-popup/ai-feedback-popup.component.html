@@ -20,9 +20,9 @@
     <ng-template #displayFeedback>
       <div class="feedback-content">
         <blu-text type="secondary">
-          {{ aiFeedback$ | async }}
+          <markdown [data]="aiFeedback$ | async"> </markdown>
         </blu-text>
-        <blu-button class="mt-3" type="info"
+        <blu-button class="mt-3" type="info" (click)="onFeedback()"
           ><blu-icon name="help" class="me-2"></blu-icon>Provide response
           feedback</blu-button
         >

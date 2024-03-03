@@ -8,6 +8,7 @@ import { BehaviorSubject, timer } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
+import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 
 @Component({
   selector: 'ai-feedback-popup',
@@ -20,7 +21,9 @@ import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
     BluHeading,
     BluText,
     MatProgressBarModule,
+    MarkdownModule,
   ],
+  providers: [MarkdownService],
   templateUrl: './ai-feedback-popup.component.html',
   styleUrl: './ai-feedback-popup.component.scss',
 })
@@ -35,7 +38,11 @@ export class AiFeedbackPopupComponent {
     this.feedbackPopup.show();
     this.dataService.getAIFeedback$().subscribe((response: string) => {
       this.aiFeedback$.next(response);
-      console.log(response);
     });
+  }
+
+  onFeedback(): void {
+    location.href =
+      'mailto:feedback@finacle.app?subject=Finacle AI feedback';
   }
 }
