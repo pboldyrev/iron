@@ -10,6 +10,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { DefaultRouteReuseStrategy } from './route-reuse-strategy';
 import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     NgChartsModule,
     MatSnackBarModule,
     FormsModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MarkdownModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [
