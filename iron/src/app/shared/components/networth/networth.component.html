@@ -1,18 +1,18 @@
-<blu-heading 
-    [isNumber]="true" 
-    size="l" 
-    [bold]="true" 
-    [subheading]="TEXTS.SUBHEADING" 
-    subheadingPosition="top"
+<blu-heading
+  [isNumber]="true"
+  [size]="minimized ? 'm' : 'l'"
+  [bold]="true"
+  [subheading]="TEXTS.SUBHEADING"
+  subheadingPosition="top"
 >
-        <app-skeleton-loader-text 
-            *ngIf="isLoading; else netWorth"
-            size="l"
-            curved="l"
-            class="d-flex my-2"
-            [height]="50"
-        ></app-skeleton-loader-text>
-        <ng-template #netWorth>
-            {{ totalNetworth | displayCurrency }} 
-        </ng-template>
+  <app-skeleton-loader-text
+    *ngIf="isLoading; else netWorth"
+    size="l"
+    curved="l"
+    class="d-flex my-2"
+    [height]="50"
+  ></app-skeleton-loader-text>
+  <ng-template #netWorth>
+    {{ totalNetworth | displayCurrency }}
+  </ng-template>
 </blu-heading>

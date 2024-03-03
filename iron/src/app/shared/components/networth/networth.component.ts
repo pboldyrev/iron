@@ -29,6 +29,7 @@ export type TimeRangeOption = {
 export class NetworthComponent {
   @Input() totalNetworth!: number;
   @Input() isLoading: boolean | null = false;
+  @Input() minimized: boolean | null = false;
 
   TEXTS = TEXTS;
 }
