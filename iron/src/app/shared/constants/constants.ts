@@ -9,7 +9,7 @@ export const REGEX = {
   INTEGER: new RegExp('^[1-9]+[0-9]*$'),
   DATE: new RegExp('^.+$'),
   NOT_REQUIRED: new RegExp(''),
-  PERCENT: new RegExp('^([0-9]*\.)?[0-9]+[%]?$'),
+  PERCENT: new RegExp('^[-]?([0-9]*\.)?[0-9]+[%]?$'),
 };
 
 export type AssetValue = {

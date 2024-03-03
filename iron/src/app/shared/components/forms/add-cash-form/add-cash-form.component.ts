@@ -53,13 +53,7 @@ export class AddCashFormComponent implements AfterContentChecked {
     const assetName = this.assetNameInput.validate();
     const appreciationRate = this.appreciationRateInput.validate();
     const curValue = this.isAdd ? this.curValueInput.validate() : ''
-
-    if(parseFloat(appreciationRate) < 0) {
-      this.appreciationRateInput.isValid = false;
-      this.appreciationRateInput.customFeedback = "Appreciation rate may not be negative.";
-      return {};
-    }
-
+    
     if(!assetName || !appreciationRate || (!curValue && this.isAdd)) {
       return {};
     }
