@@ -1,4 +1,10 @@
-import { Component, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -6,7 +12,20 @@ import { Asset, AssetType } from '../../../shared/constants/constants';
 import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
-import { BehaviorSubject, Observable, combineLatest, concat, filter, map, merge, mergeMap, of, take, tap, toArray } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  concat,
+  filter,
+  map,
+  merge,
+  mergeMap,
+  of,
+  take,
+  tap,
+  toArray,
+} from 'rxjs';
 import { DataService } from '../../../shared/services/data.service';
 import { CommonModule } from '@angular/common';
 import { TEXTS } from './asset-table.strings';
@@ -24,59 +43,63 @@ import { BluHeading } from 'projects/blueprint/src/lib/heading/heading.component
 import { BluSelect } from 'projects/blueprint/src/lib/select/select.component';
 import { TIMEFRAMES } from './asset-table.constants';
 import { BluModal } from 'projects/blueprint/src/lib/modal/modal.component';
-import { DisplayCurrencyPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe";
-import { DisplayPercentPipe } from "../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe";
-import { PreferencesService, USER_PREFERENCES } from 'src/app/shared/services/preferences.service';
+import { DisplayCurrencyPipe } from '../../../../../projects/blueprint/src/lib/common/pipes/display-currency.pipe';
+import { DisplayPercentPipe } from '../../../../../projects/blueprint/src/lib/common/pipes/display-percent.pipe';
+import {
+  PreferencesService,
+  USER_PREFERENCES,
+} from 'src/app/shared/services/preferences.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BluSpinner } from 'projects/blueprint/src/lib/spinner/spinner.component';
 import { cloneDeep } from 'lodash';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-export type AssetTableColumn = 
-  "select" |
-  "account" | 
-  "type" | 
-  "asset" | 
-  "units" | 
-  "initValue" | 
-  "curValue" | 
-  "edit" | 
-  "change";
+export type AssetTableColumn =
+  | 'select'
+  | 'account'
+  | 'type'
+  | 'asset'
+  | 'units'
+  | 'initValue'
+  | 'curValue'
+  | 'edit'
+  | 'change';
 
 @Component({
-    selector: 'app-asset-table',
-    standalone: true,
-    templateUrl: './asset-table.component.html',
-    styleUrl: './asset-table.component.scss',
-    imports: [
-        CommonModule,
-        MatTableModule,
-        BluIcon,
-        BluText,
-        BluButton,
-        MatProgressBarModule,
-        BluTag,
-        MatMenuModule,
-        ConfirmationPopupComponent,
-        BluValidationFeedback,
-        BluLink,
-        AddAssetPopupComponent,
-        DisplayIntegerPipe,
-        BluHeading,
-        BluSelect,
-        BluModal,
-        DisplayCurrencyPipe,
-        DisplayPercentPipe,
-        MatCheckboxModule,
-        BluSpinner,
-    ],
+  selector: 'app-asset-table',
+  standalone: true,
+  templateUrl: './asset-table.component.html',
+  styleUrl: './asset-table.component.scss',
+  imports: [
+    MatTooltipModule,
+    CommonModule,
+    MatTableModule,
+    BluIcon,
+    BluText,
+    BluButton,
+    MatProgressBarModule,
+    BluTag,
+    MatMenuModule,
+    ConfirmationPopupComponent,
+    BluValidationFeedback,
+    BluLink,
+    AddAssetPopupComponent,
+    DisplayIntegerPipe,
+    BluHeading,
+    BluSelect,
+    BluModal,
+    DisplayCurrencyPipe,
+    DisplayPercentPipe,
+    MatCheckboxModule,
+    BluSpinner,
+  ],
 })
-
 export class AssetTableComponent {
   @Input() columns!: AssetTableColumn[];
   @Input() footerColumns!: AssetTableColumn[];
   @Input() assets$!: Observable<Asset[]>;
-  @Input() tableTitle = "";
+  @Input() tableTitle = '';
   @Input() displayAssets: Asset[] = [];
 
   public preferenceName = '';
@@ -96,7 +119,7 @@ export class AssetTableComponent {
     private dataService: DataService,
     private navigationService: NavigationService,
     private toastService: ToastService,
-  ){}
+  ) {}
 
   ngOnInit() {
     this.updateTotals();
@@ -119,30 +142,40 @@ export class AssetTableComponent {
       return assetToDelete.assetId !== asset.assetId;
     });
 
-    this.dataService.deleteAsset$(assetToDelete.assetId ?? "", null)
-    .pipe(
-      tap({
-        next: () => {
-          this.toastService.showToast("Successfully deleted " + assetToDelete.assetName, FeedbackType.SUCCESS);
-          this.updateTotals();
-        },
-        error: () => {
-          this.displayAssets = originalAssets;
-        }
-      })
-    ).subscribe();
+    this.dataService
+      .deleteAsset$(assetToDelete.assetId ?? '', null)
+      .pipe(
+        tap({
+          next: () => {
+            this.toastService.showToast(
+              'Successfully deleted ' + assetToDelete.assetName,
+              FeedbackType.SUCCESS,
+            );
+            this.updateTotals();
+          },
+          error: () => {
+            this.displayAssets = originalAssets;
+          },
+        }),
+      )
+      .subscribe();
   }
 
   public onArchiveAsset(assetToDelete: Asset): void {
-    this.dataService.archiveAsset$(assetToDelete.assetId ?? "", null)
-    .pipe(
-      tap({
-        next: () => {
-          this.toastService.showToast("Successfully archived " + assetToDelete.assetName, FeedbackType.SUCCESS);
-          this.updateTotals();
-        },
-      })
-    ).subscribe();
+    this.dataService
+      .archiveAsset$(assetToDelete.assetId ?? '', null)
+      .pipe(
+        tap({
+          next: () => {
+            this.toastService.showToast(
+              'Successfully archived ' + assetToDelete.assetName,
+              FeedbackType.SUCCESS,
+            );
+            this.updateTotals();
+          },
+        }),
+      )
+      .subscribe();
   }
 
   public onDetailsAsset(asset: Asset): void {
@@ -150,32 +183,42 @@ export class AssetTableComponent {
   }
 
   public getPercentChange(init: number, cur: number): number {
-    if(!init || !cur) {
+    if (!init || !cur) {
       return 0;
     }
-    if(init === 0) {
+    if (init === 0) {
       return NaN;
     }
-    return ((cur-init) / init) * 100;
+    return ((cur - init) / init) * 100;
   }
 
   onDeleteSelected(): void {
     this.isDeleteSelectedLoading = true;
 
-    this.dataService.deleteAssets$(this.selection.selected.map((asset: Asset) => asset.assetId ?? ''))
-    .pipe(
-      tap({
-        next: () => {
-          this.updateTotals();
-          this.isDeleteSelectedLoading = false;
-          this.dataService.dataChanged$.next(true);
-          this.toastService.showToast("Successfully deleted " + this.selection.selected.length + " asset" + ((this.selection.selected.length > 1) ? 's' : ''), FeedbackType.SUCCESS);
-        },
-        error: () => {
-          this.isDeleteSelectedLoading = false;
-        }
-      })
-    ).subscribe();
+    this.dataService
+      .deleteAssets$(
+        this.selection.selected.map((asset: Asset) => asset.assetId ?? ''),
+      )
+      .pipe(
+        tap({
+          next: () => {
+            this.updateTotals();
+            this.isDeleteSelectedLoading = false;
+            this.dataService.dataChanged$.next(true);
+            this.toastService.showToast(
+              'Successfully deleted ' +
+                this.selection.selected.length +
+                ' asset' +
+                (this.selection.selected.length > 1 ? 's' : ''),
+              FeedbackType.SUCCESS,
+            );
+          },
+          error: () => {
+            this.isDeleteSelectedLoading = false;
+          },
+        }),
+      )
+      .subscribe();
   }
 
   isAllSelected() {
@@ -185,8 +228,8 @@ export class AssetTableComponent {
   }
 
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.displayAssets.forEach(row => this.selection.select(row));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.displayAssets.forEach((row) => this.selection.select(row));
   }
 }

@@ -25,7 +25,7 @@ import { AuthService } from './auth.service';
 import { ToastService } from './toast.service';
 import { FeedbackType } from 'projects/blueprint/src/lib/common/constants';
 import { AnalyticsService } from './analytics.service';
-import { environment } from 'src/environments';
+import { environment } from 'src/environments/environment';
 import { PlanName } from 'src/app/pages/settings-page/billing/billing.constants';
 import { User } from '../interfaces/interfaces';
 

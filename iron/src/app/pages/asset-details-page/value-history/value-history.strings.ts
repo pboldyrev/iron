@@ -23,7 +23,7 @@ export const TEXTS = {
     LABEL_DATE: "Date",
     LINK_HIDE: "Hide table",
     WANT_TO: "Want to ",
-    LINK_MODIFY: "modify the values",
+    LINK_MODIFY: "view individual values",
     SHOW: "Show",
     HIDE: "Hide",
     UNIT_CHANGES: "unit changes",

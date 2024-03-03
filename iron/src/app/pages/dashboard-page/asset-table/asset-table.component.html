@@ -84,7 +84,11 @@
             >{{ asset.assetName }}
             {{ asset.nickName ? " (" + asset.nickName + ")" : "" }}</blu-text
           >
-          <blu-tag type="error" class="ms-2" *ngIf="asset.isArchived"
+          <blu-tag
+            type="error"
+            matTooltip="Archived asset values are no longer tracked but their historical value still impacts your net worth."
+            class="ms-2"
+            *ngIf="asset.isArchived"
             >Archived</blu-tag
           >
         </mat-cell>
