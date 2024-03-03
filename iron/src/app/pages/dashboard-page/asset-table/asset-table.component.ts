@@ -133,6 +133,18 @@ export class AssetTableComponent {
     ).subscribe();
   }
 
+  public onArchiveAsset(assetToDelete: Asset): void {
+    this.dataService.archiveAsset$(assetToDelete.assetId ?? "", null)
+    .pipe(
+      tap({
+        next: () => {
+          this.toastService.showToast("Successfully archived " + assetToDelete.assetName, FeedbackType.SUCCESS);
+          this.updateTotals();
+        },
+      })
+    ).subscribe();
+  }
+
   public onDetailsAsset(asset: Asset): void {
     this.navigationService.navigate('/asset/' + asset.assetId);
   }

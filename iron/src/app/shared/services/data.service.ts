@@ -570,10 +570,11 @@ export class DataService {
     return this.httpPost('getFeedback').pipe(
       map((response: any) => response?.feedback),
       tap({
-        error: () => {
+        error: (err) => {
           this.analyticsService.track(
             'Unable to get AI feedback at this time.',
           );
+          this.toastService.showToast(err, FeedbackType.ERROR);
         },
       }),
     );

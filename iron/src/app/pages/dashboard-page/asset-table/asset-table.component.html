@@ -196,6 +196,19 @@
               }}</blu-text>
             </div>
             <div
+              *ngIf="!asset.isArchived"
+              mat-menu-item
+              [disableRipple]="true"
+              (click)="onArchiveAsset(asset)"
+            >
+              <blu-text
+                type="primary"
+                size="s"
+                [tooltip]="TEXTS.ARCHIVE_POPUP_SUBTITLE"
+                >Archive</blu-text
+              >
+            </div>
+            <div
               mat-menu-item
               [disableRipple]="true"
               (click)="onDeleteAsset(asset)"
