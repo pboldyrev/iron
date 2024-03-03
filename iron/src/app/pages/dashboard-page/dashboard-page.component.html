@@ -8,6 +8,7 @@
   >
     <div class="p-4 p-md-5">
       <app-networth
+        [minimized]="!showSidebar"
         [totalNetworth]="totalNetworth"
         [isLoading]="isNetworthLoading$ | async"
       ></app-networth>
@@ -55,9 +56,7 @@
         class="dashboard-loader-wrapper"
       ></app-loading-state>
       <ng-template #loadedContent>
-        <mat-tab-group
-          (selectedTabChange)="onTabChange($event)"
-        >
+        <mat-tab-group (selectedTabChange)="onTabChange($event)">
           <mat-tab label="Assets" *ngIf="(assets$ | async)?.length">
             <div class="row g-0 gy-2">
               <ng-container

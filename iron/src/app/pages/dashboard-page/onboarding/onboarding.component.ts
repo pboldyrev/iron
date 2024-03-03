@@ -41,14 +41,14 @@ export class OnboardingComponent {
   constructor(private preferencesService: PreferencesService) {}
 
   ngOnInit() {
-    if (
-      this.preferencesService.getPreference(
-        USER_PREFERENCES.CompletedOnboarding,
-      ) === 'true'
-    ) {
-      this.showStep = -1;
-      return;
-    }
+    // if (
+    //   this.preferencesService.getPreference(
+    //     USER_PREFERENCES.CompletedOnboarding,
+    //   ) === 'true'
+    // ) {
+    //   this.showStep = -1;
+    //   return;
+    // }
 
     if (this.assets.length >= 0) {
       this.showStep = 1;
