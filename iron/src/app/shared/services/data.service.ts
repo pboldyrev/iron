@@ -29,7 +29,7 @@ import { environment } from 'src/environments/environment';
 import { PlanName } from 'src/app/pages/settings-page/billing/billing.constants';
 import { User } from '../interfaces/interfaces';
 
-export const BATCH_SIZE = 9;
+export const BATCH_SIZE = 5;
 
 @Injectable({
   providedIn: 'root',
