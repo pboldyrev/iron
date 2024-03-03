@@ -138,6 +138,12 @@ export class ValueHistoryComponent {
       if (userHistoryOption) {
         this.showValueHistory = userHistoryOption === 'true';
       }
+
+      if (asset.isArchived) {
+        this.DISPLAYED_COLUMNS_VALUE_HISTORY = this.DISPLAYED_COLUMNS_VALUE_HISTORY.filter(
+          (col: string) => col !== 'action',
+        );
+      }
     });
     combineLatest([this.asset$, this.getChangesInUnits$()])
       .pipe(

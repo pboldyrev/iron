@@ -5,7 +5,7 @@
     [isLoading$]="isLoading$"
     #addAssetForm
   ></app-add-asset-form>
-  <blu-button
+  <!-- <blu-button
     *ngIf="!(asset$ | async)?.isArchived"
     [fullWidth]="true"
     type="error"
@@ -18,5 +18,5 @@
     >{{
       archiveClicked ? "Are you sure? This can't be undone." : "Archive asset"
     }}</blu-button
-  >
+  > -->
 </div>
