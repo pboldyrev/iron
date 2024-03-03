@@ -137,6 +137,8 @@ export class AssetTableComponent {
   }
 
   public onDeleteAsset(assetToDelete: Asset): void {
+    this.toastService.showToast('Deleting asset...', FeedbackType.INFO);
+
     const originalAssets = cloneDeep(this.displayAssets);
     this.displayAssets = this.displayAssets.filter((asset: Asset) => {
       return assetToDelete.assetId !== asset.assetId;

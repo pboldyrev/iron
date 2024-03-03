@@ -31,7 +31,10 @@
   </div>
   <div
     class="mt-3"
-    *ngIf="((asset$ | async) ?? {}).assetType === AssetType.Stock && !(asset$ | async)?.isArchived"
+    *ngIf="
+      ((asset$ | async) ?? {}).assetType === AssetType.Stock &&
+      !(asset$ | async)?.isArchived
+    "
   >
     <blu-modal [outline]="true">
       <div class="row g-3 py-2">
@@ -197,6 +200,7 @@
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let entry">
           <blu-button
+            *ngIf="!(asset$ | async)?.isArchived"
             [iconOnly]="true"
             iconName="kebab"
             type="tertiary"
