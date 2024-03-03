@@ -433,6 +433,8 @@ export class DataService {
     loadingIndicator: BehaviorSubject<boolean> | null = null,
     updateData = true,
   ): Observable<Asset> {
+    this.toastService.showToast('Deleting asset...', FeedbackType.INFO);
+
     if (loadingIndicator) {
       loadingIndicator.next(true);
     }
@@ -467,6 +469,8 @@ export class DataService {
     loadingIndicator: BehaviorSubject<boolean> | null = null,
     updateData = true,
   ): Observable<Asset> {
+    this.toastService.showToast('Archiving asset...', FeedbackType.INFO);
+
     if (loadingIndicator) {
       loadingIndicator.next(true);
     }
@@ -534,6 +538,7 @@ export class DataService {
     const payload = {
       returnUrl: 'https://finacle.app/settings',
     };
+    this.toastService.showToast('Working on it...', FeedbackType.INFO);
 
     return this.httpPost('createStripePortalSession', payload).pipe(
       tap({
