@@ -1,4 +1,4 @@
 export const environment = {
-  berry: process.env['BERRY_PROD'] || process.env['BERRY'],
+  berry: process.env['BERRY'],
   production: false,
 };
