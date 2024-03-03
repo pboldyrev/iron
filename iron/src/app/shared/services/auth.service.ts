@@ -21,6 +21,7 @@ export class AuthService {
 
   public submitPhoneNumber$(phoneNumber: number): Observable<string> {
     const formattedNumber = '+1' + phoneNumber.toString();
+    this.toastService.showToast('Working on it...', FeedbackType.INFO);
     return this.httpClient
       .post(
         environment.berry + 'sendPhoneCode',
@@ -39,6 +40,7 @@ export class AuthService {
   }
 
   public submitEmail$(email: string): Observable<string> {
+    this.toastService.showToast('Working on it...', FeedbackType.INFO);
     return this.httpClient
       .post(
         environment.berry + 'sendEmailCode',
@@ -61,6 +63,7 @@ export class AuthService {
     email: string,
     code: string,
   ): Observable<boolean> {
+    this.toastService.showToast('Working on it...', FeedbackType.INFO);
     return this.httpClient
       .post(
         environment.berry + 'checkEmailCode',
@@ -87,7 +90,7 @@ export class AuthService {
     code: string,
   ): Observable<boolean> {
     const formattedNumber = '+1' + phoneNumber.toString();
-
+    this.toastService.showToast('Working on it...', FeedbackType.INFO);
     return this.httpClient
       .post(
         environment.berry + 'checkPhoneCode',
