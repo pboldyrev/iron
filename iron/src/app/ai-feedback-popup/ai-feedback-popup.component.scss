@@ -1,5 +1,4 @@
 .ai-feedback-popup-wrapper {
-  min-height: 50vh;
   display: flex;
   justify-content: center;
 }
@@ -13,5 +12,7 @@
 }
 
 .feedback-content {
+  display: flex;
+  flex-direction: column;
   width: var(--blu-width-full);
 }

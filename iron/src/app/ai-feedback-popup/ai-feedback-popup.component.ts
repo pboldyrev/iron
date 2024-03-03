@@ -6,11 +6,21 @@ import { BluPopup } from 'projects/blueprint/src/lib/popup/popup.component';
 import { BluText } from 'projects/blueprint/src/lib/text/text.component';
 import { BehaviorSubject, timer } from 'rxjs';
 import { DataService } from '../shared/services/data.service';
+import { BluButton } from 'projects/blueprint/src/lib/button/button.component';
+import { BluIcon } from 'projects/blueprint/src/lib/icon/icon.component';
 
 @Component({
   selector: 'ai-feedback-popup',
   standalone: true,
-  imports: [CommonModule, BluPopup, BluHeading, BluText, MatProgressBarModule],
+  imports: [
+    CommonModule,
+    BluIcon,
+    BluButton,
+    BluPopup,
+    BluHeading,
+    BluText,
+    MatProgressBarModule,
+  ],
   templateUrl: './ai-feedback-popup.component.html',
   styleUrl: './ai-feedback-popup.component.scss',
 })
